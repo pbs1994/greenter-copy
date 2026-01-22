@@ -2,15 +2,15 @@ import { ArrowRight, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
 const benefits = [
-  "Audit énergétique gratuit",
+  "Audit énergétique offert",
   "Accompagnement MaPrimeRénov'",
   "Devis détaillé sous 48h",
-  "Garantie décennale",
+  "Contrats d'entretien sur mesure",
 ]
 
 export function Banner() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-teal-900 py-16 md:py-20 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-teal-900 py-12 md:py-16 px-4">
       {/* Subtle pattern overlay */}
       <div 
         className="absolute inset-0 opacity-10"
@@ -24,7 +24,7 @@ export function Banner() {
           {/* Left Content */}
           <div>
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
-              Votre projet mérite un accompagnement sur mesure
+              Réduisez vos factures d&apos;énergie dès maintenant
             </h2>
             
             <p className="text-green-100 text-lg leading-relaxed mb-8">

@@ -20,7 +20,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-green-200 text-sm leading-relaxed mb-6">
-              Spécialiste de la rénovation énergétique en Île-de-France. 
+              Spécialiste de la rénovation énergétique partout en France. 
               Pompes à chaleur, panneaux solaires, isolation et audit énergétique.
             </p>
             
@@ -28,7 +28,7 @@ export function Footer() {
             <div className="flex gap-3">
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden p-1">
                 <Image
-                  src="/certifications/rge.svg"
+                  src="/certifications/rge.webp"
                   alt="RGE"
                   width={40}
                   height={40}
@@ -37,7 +37,7 @@ export function Footer() {
               </div>
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden p-1">
                 <Image
-                  src="/certifications/qualibat.svg"
+                  src="/certifications/qualibat.jpg"
                   alt="Qualibat"
                   width={40}
                   height={40}
@@ -46,7 +46,16 @@ export function Footer() {
               </div>
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden p-1">
                 <Image
-                  src="/certifications/qualipac.svg"
+                  src="/certifications/qualipac.jpg"
+                  alt="QualiPAC"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden p-1">
+                <Image
+                  src="/certifications/qualipv.png"
                   alt="QualiPAC"
                   width={40}
                   height={40}

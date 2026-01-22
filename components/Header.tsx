@@ -19,25 +19,25 @@ const services = [
   {
     title: "Audit énergétique",
     href: "/services/audit",
-    description: "Analyse complète de votre logement",
+    description: "Diagnostic + plan d'économies",
     icon: Zap,
   },
   {
     title: "Pompes à chaleur",
     href: "/services/pompe-a-chaleur",
-    description: "Installation et maintenance",
+    description: "Jusqu'à -70% sur le chauffage",
     icon: Thermometer,
   },
   {
     title: "Panneaux solaires",
     href: "/services/panneaux-solaires",
-    description: "Production d'énergie propre",
+    description: "Autoconsommation rentable",
     icon: Sun,
   },
   {
     title: "Isolation thermique",
     href: "/services/isolation",
-    description: "Confort optimal toute l'année",
+    description: "Jusqu'à -30% de déperditions",
     icon: Home,
   },
 ]

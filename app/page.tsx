@@ -1,16 +1,18 @@
 import { Hero } from "@/components/Hero"
 import { Services } from "@/components/Services"
-import { Partners } from "@/components/Partners"
-import { Product } from "@/components/Product"
+import { ProductShowcase } from "@/components/ProductShowcase"
+import { Certifications } from "@/components/Certifications"
 import { Banner } from "@/components/Banner"
+import { FAQ } from "@/components/FAQ"
 
 export default function Home() {
   return (
     <main>
       <Hero />
       <Services />
-      <Partners />
-      <Product />
+      <ProductShowcase />
+      <Certifications />
+      <FAQ />
       <Banner />
     </main>
   )

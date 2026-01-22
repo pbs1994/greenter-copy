@@ -1,94 +1,209 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Sun, ShieldCheck, Wrench } from "lucide-react"
+import { ArrowRight, Sun, ShieldCheck, Wrench, ChevronLeft, ChevronRight, Fan } from "lucide-react"
+import useEmblaCarousel from "embla-carousel-react"
+import AutoScroll from "embla-carousel-auto-scroll"
+import { useCallback, useEffect, useState } from "react"
 
 const services = [
   {
+    image: "/solaire.jpg",
+    icon: Sun,
+    customIcon: null,
+    customIconSize: 28,
+    title: "Panneaux solaires",
+    description: "Produisez votre propre électricité et revendez le surplus. Installation certifiée RGE.",
+    href: "/services/panneaux-solaires",
+  },
+  {
+    image: "/pac.jpg",
+    icon: Fan,
+    customIcon: null,
+    customIconSize: 28,
+    title: "Pompes à chaleur",
+    description: "Divisez par 3 votre facture de chauffage. Confort été comme hiver garanti.",
+    href: "/services/pompes-a-chaleur",
+  },
+  {
     image: "/audit.png",
-    icon: "/audit-icon.svg",
-    iconSize: 40,
-    isCustomIcon: true,
-    title: "Audit énergétique & conseil",
-    description: "Analyse complète de votre logement ou bâtiment afin d'identifier les pertes d'énergie et définir les solutions les plus efficaces pour réduire vos consommations et vos factures.",
+    icon: null,
+    customIcon: "/audit-icon.svg",
+    customIconSize: 32,
+    title: "Audit énergétique",
+    description: "Identifiez vos sources de gaspillage. Recevez un plan d'action personnalisé.",
     href: "/services/audit",
   },
   {
-    image: "/installation.jpg",
-    icon: Sun,
-    iconSize: 28,
-    isCustomIcon: false,
-    title: "Installation de solutions énergétiques",
-    description: "Installation de panneaux solaires photovoltaïques et de pompes à chaleur performantes, adaptées à vos besoins, pour produire et consommer une énergie plus propre et plus économique.",
-    href: "/services/installation",
-  },
-  {
     image: "/isolation.jpg",
-    icon: "/isolation-icon.svg",
-    iconSize: 20,
-    isCustomIcon: true,
-    title: "Isolation & performance thermique",
-    description: "Travaux d'isolation des murs, combles, sols et toitures pour améliorer le confort thermique et limiter durablement les déperditions énergétiques.",
+    icon: null,
+    customIcon: "/isolation-icon.svg",
+    customIconSize: 20,
+    title: "Isolation thermique",
+    description: "Gagnez en confort et réduisez les déperditions. Murs, combles et toitures.",
     href: "/services/isolation",
   },
   {
     image: "/conformite.jpg",
     icon: ShieldCheck,
-    iconSize: 28,
-    isCustomIcon: false,
-    title: "Conformité & mise en service",
-    description: "Vérification, contrôle et mise en service des installations afin de garantir leur conformité, leur sécurité et leur performance selon les normes en vigueur.",
+    customIcon: null,
+    customIconSize: 28,
+    title: "Conformité",
+    description: "Mise en service selon les normes en vigueur. Sécurité et performance garanties.",
     href: "/services/conformite",
   },
   {
     image: "/maintenance.jpg",
     icon: Wrench,
-    iconSize: 28,
-    isCustomIcon: false,
-    title: "Maintenance & contrats d'entretien",
-    description: "Entretien et maintenance régulière de vos équipements énergétiques pour assurer leur bon fonctionnement, prolonger leur durée de vie et maintenir un rendement optimal.",
+    customIcon: null,
+    customIconSize: 28,
+    title: "Maintenance",
+    description: "Prolongez la durée de vie de vos équipements. Évitez les pannes coûteuses.",
     href: "/services/maintenance",
   },
 ]
 
+const partners = [
+  { name: "Daikin", logo: "/partners/daikin.svg" },
+  { name: "Atlantic", logo: "/partners/atlantic.svg" },
+  { name: "Mitsubishi Electric", logo: "/partners/mitsubishi.svg" },
+  { name: "Viessmann", logo: "/partners/viessmann.svg" },
+  { name: "Bosch", logo: "/partners/bosch.svg" },
+  { name: "Panasonic", logo: "/partners/panasonic.svg" },
+  { name: "Toshiba", logo: "/partners/toshiba.svg" },
+  { name: "LG", logo: "/partners/lg.svg" },
+  { name: "Saunier Duval", logo: "/partners/saunier-duval.svg" },
+  { name: "De Dietrich", logo: "/partners/de-dietrich.svg" },
+  { name: "Chaffoteaux", logo: "/partners/chaffoteaux.svg" },
+  { name: "Frisquet", logo: "/partners/frisquet.svg" },
+  { name: "SunPower", logo: "/partners/sunpower.svg" },
+  { name: "Enphase", logo: "/partners/enphase.svg" },
+]
+
 export function Services() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: false, 
+    align: "start",
+    containScroll: "trimSnaps"
+  })
+
+  const [partnersRef] = useEmblaCarousel(
+    { loop: true, dragFree: true, align: "start" },
+    [AutoScroll({ speed: 0.8, stopOnInteraction: false, stopOnMouseEnter: true })]
+  )
+  
+  const [canScrollPrev, setCanScrollPrev] = useState(false)
+  const [canScrollNext, setCanScrollNext] = useState(true)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setCanScrollPrev(emblaApi.canScrollPrev())
+    setCanScrollNext(emblaApi.canScrollNext())
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on("select", onSelect)
+    return () => { emblaApi.off("select", onSelect) }
+  }, [emblaApi, onSelect])
+
   return (
-    <section className="py-16 md:py-24 px-4 bg-white">
-      <div className="container mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+    <section className="py-8 md:py-12 bg-white">
+      {/* Header - centered */}
+      <div className="container mx-auto max-w-6xl px-4">
+        <div className="text-center mb-10 md:mb-14">
           <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
             Nos expertises
           </span>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 mb-4">
-            Nos services en efficacité énergétique
+            Des solutions adaptées à votre projet
           </h2>
-          <p className="text-neutral-600 text-lg max-w-4xl mx-auto">
-            Greenter accompagne particuliers et professionnels dans tous leurs projets de rénovation 
-            et d&apos;optimisation énergétique. De l&apos;analyse initiale à l&apos;entretien des installations, 
-            nous proposons des solutions complètes, performantes et durables.
+          <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+            De l&apos;audit à l&apos;installation, un accompagnement complet éligible aux aides.
           </p>
         </div>
+      </div>
 
-        {/* Services Grid - 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {services.slice(0, 3).map((service, index) => (
-            <ServiceCard key={index} service={service} />
-          ))}
+      {/* Carousel - Full width */}
+      <div className="relative">
+        <div className="overflow-hidden px-4 lg:px-8 pb-4" ref={emblaRef}>
+          <div className="flex gap-4 lg:gap-6">
+            {services.map((service, index) => (
+              <div key={index} className="flex-none w-[80%] sm:w-[45%] lg:w-[320px]">
+                <ServiceCard service={service} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Second row - 2 cards centered */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-6 lg:mt-8 max-w-4xl mx-auto">
-          {services.slice(3, 5).map((service, index) => (
-            <ServiceCard key={index + 3} service={service} />
+        {/* Navigation arrows - Desktop only */}
+        <button
+          onClick={scrollPrev}
+          disabled={!canScrollPrev}
+          className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg items-center justify-center text-neutral-700 hover:text-green-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          aria-label="Précédent"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={scrollNext}
+          disabled={!canScrollNext}
+          className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg items-center justify-center text-neutral-700 hover:text-green-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          aria-label="Suivant"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+
+        {/* Dots indicator */}
+        <div className="flex justify-center gap-2 mt-10">
+          {services.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => emblaApi?.scrollTo(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === selectedIndex 
+                  ? "bg-green-600 w-6" 
+                  : "bg-neutral-300 hover:bg-neutral-400"
+              }`}
+              aria-label={`Aller au service ${index + 1}`}
+            />
           ))}
         </div>
+      </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
-          <Link href="/contact" className="btn-primary text-base">
-            Demander un devis gratuit
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+      {/* Partners Carousel - intégré */}
+      <div className="mt-12 pt-10 border-t border-neutral-100">
+        <p className="text-center text-sm text-neutral-500 mb-6">
+          Nous installons les meilleures marques
+        </p>
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white to-transparent z-10" />
+          
+          <div className="overflow-hidden" ref={partnersRef}>
+            <div className="flex">
+              {[...partners, ...partners].map((partner, index) => (
+                <div key={index} className="flex-none mx-4 md:mx-5">
+                  <div className="flex items-center justify-center h-12 w-28 md:w-32">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      width={120}
+                      height={40}
+                      className="h-6 md:h-7 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -98,61 +213,54 @@ export function Services() {
 type ServiceType = typeof services[0]
 
 function ServiceCard({ service }: { service: ServiceType }) {
+  const IconComponent = service.icon
+  
   return (
     <Link 
       href={service.href}
-      className="group bg-gradient-to-b from-green-50 to-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 ring-1 ring-green-200 hover:ring-green-400"
+      className="group block h-[400px] bg-gradient-to-b from-green-50 to-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ring-1 ring-green-200 hover:ring-green-400"
     >
-      {/* Image */}
-      <div className="relative h-48 md:h-52 overflow-hidden">
+      <div className="relative h-44 overflow-hidden">
         <Image
           src={service.image}
           alt={service.title}
           fill
+          sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 33vw"
+          quality={100}
+          unoptimized
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       
-      {/* Content */}
-      <div className="px-6 pb-6 pt-10 text-center relative">
-        {/* Icon - positioned between image and content */}
+      <div className="px-5 pb-6 pt-9 text-center relative h-[224px] flex flex-col">
+        {/* Icon centered between image and content */}
         <div className="absolute -top-7 left-1/2 -translate-x-1/2">
           <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg ring-2 ring-green-500 group-hover:ring-teal-500 transition-colors">
-            {service.isCustomIcon ? (
+            {service.customIcon ? (
               <Image
-                src={service.icon as string}
+                src={service.customIcon}
                 alt=""
-                width={service.iconSize}
-                height={service.iconSize}
+                width={service.customIconSize}
+                height={service.customIconSize}
                 className="object-contain"
               />
-            ) : (
-              <ServiceIcon Icon={service.icon as typeof Sun} />
-            )}
+            ) : IconComponent ? (
+              <IconComponent className="w-7 h-7 text-green-600" />
+            ) : null}
           </div>
         </div>
         
-        {/* Title */}
-        <h3 className="font-heading text-lg font-bold text-neutral-900 group-hover:text-green-700 transition-colors mt-2 mb-3">
+        <h3 className="font-heading text-lg font-bold text-neutral-900 group-hover:text-green-700 transition-colors mb-2">
           {service.title}
         </h3>
-        
-        {/* Description */}
-        <p className="text-neutral-600 text-sm leading-relaxed mb-4">
+        <p className="text-neutral-600 text-sm leading-relaxed mb-3 flex-grow">
           {service.description}
         </p>
-
-        {/* Link */}
-        <span className="inline-flex items-center gap-1 text-green-700 font-semibold text-sm group-hover:text-teal-600 transition-colors">
+        <span className="inline-flex items-center justify-center gap-1 text-green-700 font-semibold text-sm group-hover:gap-2 transition-all">
           En savoir plus
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <ArrowRight className="w-4 h-4" />
         </span>
       </div>
     </Link>
   )
-}
-
-function ServiceIcon({ Icon }: { Icon: typeof Sun }) {
-  return <Icon className="w-7 h-7 text-green-600" />
 }
