@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <rect width="200" height="60" fill="transparent"/>
+  <circle cx="60" cy="30" r="25" fill="none" stroke="#A50034" stroke-width="4"/>
+  <text x="55" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#A50034">L</text>
+  <circle cx="68" cy="28" r="4" fill="#A50034"/>
+  <text x="130" y="40" font-family="Arial, sans-serif" font-size="16" fill="#A50034">Life's Good</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <rect width="200" height="60" fill="transparent"/>
+  <!-- Three diamonds logo -->
+  <g transform="translate(30, 10)">
+    <polygon points="20,0 40,35 0,35" fill="#E60012"/>
+    <polygon points="20,40 0,5 40,5" fill="#E60012" transform="translate(0, 0)"/>
+  </g>
+  <text x="120" y="38" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">MITSUBISHI</text>
+</svg>

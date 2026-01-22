@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <rect width="200" height="60" fill="transparent"/>
+  <!-- Orange E icon -->
+  <rect x="20" y="15" width="30" height="30" rx="5" fill="#FF6B00"/>
+  <text x="35" y="40" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">E</text>
+  <text x="120" y="38" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333" text-anchor="middle">enphase</text>
+</svg>

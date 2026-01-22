@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <rect width="200" height="60" fill="transparent"/>
+  <text x="100" y="32" font-family="Georgia, serif" font-size="14" font-weight="bold" fill="#1E3A5F" text-anchor="middle">DE DIETRICH</text>
+  <line x1="30" y1="42" x2="170" y2="42" stroke="#C4A35A" stroke-width="2"/>
+</svg>
