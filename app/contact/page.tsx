@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
-import { Phone, Mail, MapPin, Clock, CheckCircle, Send, ArrowRight, RefreshCw, User, MessageSquare, Tag } from "lucide-react"
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from "react-simple-captcha"
+import { Phone, Mail, MapPin, Clock, CheckCircle, Send, ArrowRight, User, MessageSquare, Tag } from "lucide-react"
 import { useObfuscatedEmail } from "@/components/ObfuscatedEmail"
 
 const services = [
@@ -23,19 +22,18 @@ export default function ContactPage() {
     phone: "",
     service: "",
     message: "",
-    captcha: "",
+    website: "", // Honeypot field
   })
   const decodedEmail = useObfuscatedEmail()
-  const [captchaError, setCaptchaError] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setCaptchaError(false)
     
-    if (!validateCaptcha(formData.captcha)) {
-      setCaptchaError(true)
-      setFormData(prev => ({ ...prev, captcha: "" }))
+    // Honeypot check - si ce champ est rempli, c'est un bot
+    if (formData.website) {
+      // Fake success pour ne pas alerter le bot
+      setFormState("success")
       return
     }
 
@@ -68,31 +66,11 @@ export default function ContactPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
-    if (e.target.name === "captcha") setCaptchaError(false)
   }
 
   const resetForm = () => {
     setFormState("idle")
-    setFormData({ name: "", email: "", phone: "", service: "", message: "", captcha: "" })
-    setCaptchaError(false)
-    // Le captcha sera rechargé par le useEffect quand le formulaire sera re-rendu
-  }
-
-  // Recharger le captcha quand on revient au formulaire
-  useEffect(() => {
-    if (formState === "idle") {
-      // Petit délai pour laisser le DOM se mettre à jour
-      const timer = setTimeout(() => {
-        loadCaptchaEnginge(6)
-      }, 100)
-      return () => clearTimeout(timer)
-    }
-  }, [formState])
-
-  const reloadCaptcha = () => {
-    loadCaptchaEnginge(6)
-    setFormData(prev => ({ ...prev, captcha: "" }))
-    setCaptchaError(false)
+    setFormData({ name: "", email: "", phone: "", service: "", message: "", website: "" })
   }
 
   return (
@@ -132,6 +110,20 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   
+                  {/* Honeypot - invisible pour les humains */}
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <label htmlFor="website">Ne pas remplir</label>
+                    <input 
+                      type="text" 
+                      id="website" 
+                      name="website" 
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   {/* Nom & Téléphone */}
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div className="relative group">
@@ -247,39 +239,6 @@ export default function ContactPage() {
                         className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 outline-none transition-all resize-none" 
                       />
                     </div>
-                  </div>
-
-                  {/* Captcha */}
-                  <div className="bg-neutral-50 rounded-2xl p-5">
-                    <label className="block text-sm font-medium text-neutral-700 mb-3">Vérification anti-spam</label>
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                      <div className="bg-white rounded-xl p-2 shadow-sm ring-1 ring-neutral-200">
-                        <LoadCanvasTemplate reloadText="" reloadColor="transparent" />
-                      </div>
-                      <button 
-                        type="button" 
-                        onClick={reloadCaptcha}
-                        className="p-2.5 text-neutral-500 hover:text-green-600 hover:bg-white rounded-xl transition-all hover:shadow-sm"
-                        title="Nouveau code"
-                      >
-                        <RefreshCw className="w-5 h-5" />
-                      </button>
-                      <input 
-                        type="text" 
-                        id="captcha" 
-                        name="captcha" 
-                        required 
-                        value={formData.captcha} 
-                        onChange={handleChange} 
-                        placeholder="Recopiez le code"
-                        className={`flex-1 w-full sm:w-auto px-4 py-3 rounded-xl border-2 bg-white outline-none transition-all ${
-                          captchaError 
-                            ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
-                            : "border-neutral-200 focus:border-green-500 focus:ring-4 focus:ring-green-500/10"
-                        }`} 
-                      />
-                    </div>
-                    {captchaError && <p className="text-red-500 text-sm mt-2">Code incorrect, réessayez.</p>}
                   </div>
 
                   {/* Submit */}

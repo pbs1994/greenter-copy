@@ -16,12 +16,19 @@ export function Banner() {
     name: "",
     phone: "",
     service: "",
+    website: "", // Honeypot
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!formData.name || !formData.phone) {
+      return
+    }
+
+    // Honeypot check - si ce champ est rempli, c'est un bot
+    if (formData.website) {
+      setFormState("success")
       return
     }
 
@@ -54,7 +61,7 @@ export function Banner() {
 
   const resetForm = () => {
     setFormState("idle")
-    setFormData({ name: "", phone: "", service: "" })
+    setFormData({ name: "", phone: "", service: "", website: "" })
   }
 
   return (
@@ -122,6 +129,17 @@ export function Banner() {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Honeypot - invisible pour les humains */}
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <input 
+                      type="text" 
+                      name="website" 
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   <div>
                     <input
                       type="text"
