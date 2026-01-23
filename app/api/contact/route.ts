@@ -9,10 +9,10 @@ export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, service, message } = await request.json()
 
-    // Validation basique
-    if (!name || !email || !phone || !message) {
+    // Validation basique - email optionnel pour le formulaire simplifié
+    if (!name || !phone) {
       return NextResponse.json(
-        { error: 'Tous les champs obligatoires doivent être remplis' },
+        { error: 'Le nom et le téléphone sont obligatoires' },
         { status: 400 }
       )
     }
@@ -21,9 +21,15 @@ export async function POST(request: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
-      replyTo: email,
+      replyTo: email || undefined,
       subject: `📩 Nouvelle demande de contact - ${name}`,
-      html: contactRequestTemplate({ name, email, phone, service, message }),
+      html: contactRequestTemplate({ 
+        name, 
+        email: email || 'Non renseigné', 
+        phone, 
+        service: service || '', 
+        message: message || 'Demande de devis' 
+      }),
     })
 
     if (error) {
