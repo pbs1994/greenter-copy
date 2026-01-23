@@ -259,7 +259,7 @@ export const orderConfirmationTemplate = (order: OrderData) => `
                 <tr>
                   <td>
                     <p style="margin: 0 0 4px; color: #ffffff; font-size: 16px; font-weight: 600;">Une question ?</p>
-                    <p style="margin: 0 0 20px; color: rgba(255,255,255,0.7); font-size: 14px;">Lun - Ven : 8h - 19h</p>
+                    <p style="margin: 0 0 20px; color: rgba(255,255,255,0.7); font-size: 14px;">Lun - Ven : 9h - 19h</p>
                   </td>
                 </tr>
                 <tr>

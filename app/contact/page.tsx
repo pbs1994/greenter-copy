@@ -306,7 +306,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-neutral-500 text-sm">Horaires</p>
-                <p className="font-semibold text-neutral-900">Lun - Ven : 8h - 19h</p>
+                <p className="font-semibold text-neutral-900">Lun - Ven : 9h - 19h</p>
               </div>
             </div>
 

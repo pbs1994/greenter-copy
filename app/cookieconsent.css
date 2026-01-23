@@ -1,107 +1,11 @@
 /* Cookie Consent - GREEN TER */
+/* On cache la bannière de la librairie, on utilise notre composant custom */
 
-/* BANNIÈRE */
 #cc-main .cm {
-  background: linear-gradient(to right, #0F4D2A, #145C32, #0F766E) !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#cc-main .cm__body {
-  max-width: 1400px !important;
-  margin: 0 auto !important;
-  padding: 14px 32px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 40px !important;
-}
-
-#cc-main .cm__texts {
-  flex: 1 !important;
-}
-
-#cc-main .cm__title {
   display: none !important;
 }
 
-#cc-main .cm__desc {
-  color: #D4ECDB !important;
-  font-size: 13px !important;
-  line-height: 1.5 !important;
-  margin: 0 !important;
-}
-
-#cc-main .cm__desc a {
-  color: #fff !important;
-  text-decoration: underline !important;
-}
-
-/* BOUTONS */
-#cc-main .cm__btns {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 8px !important;
-  flex-wrap: nowrap !important;
-  flex-shrink: 0 !important;
-}
-
-#cc-main .cm__btn-group {
-  display: contents !important;
-}
-
-#cc-main .cm__btn {
-  all: unset !important;
-  box-sizing: border-box !important;
-  height: 28px !important;
-  line-height: 24px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  border: 2px solid transparent !important;
-  text-align: center !important;
-  white-space: nowrap !important;
-}
-
-#cc-main .cm__btn[data-role="all"] {
-  background: #fff !important;
-  color: #0F4D2A !important;
-  border-color: #fff !important;
-}
-
-#cc-main .cm__btn[data-role="all"]:hover {
-  background: #D4ECDB !important;
-  border-color: #D4ECDB !important;
-}
-
-#cc-main .cm__btn[data-role="necessary"] {
-  background: transparent !important;
-  color: #fff !important;
-  border-color: rgba(255,255,255,0.5) !important;
-}
-
-#cc-main .cm__btn[data-role="necessary"]:hover {
-  border-color: #fff !important;
-}
-
-#cc-main .cm__btn[data-role="show"] {
-  background: transparent !important;
-  color: #fff !important;
-  border-color: rgba(255,255,255,0.5) !important;
-}
-
-#cc-main .cm__footer {
-  display: none !important;
-}
-
-/* MODAL */
+/* MODAL DE PRÉFÉRENCES */
 #cc-main .pm {
   border-radius: 16px !important;
   background: #fff !important;
@@ -177,19 +81,4 @@
   background: #fff !important;
   color: #1B6B3A !important;
   border-color: #1B6B3A !important;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  #cc-main .cm__body {
-    flex-direction: column !important;
-    padding: 14px 16px !important;
-    gap: 12px !important;
-    text-align: center !important;
-  }
-  
-  #cc-main .cm__btns {
-    width: 100% !important;
-    justify-content: center !important;
-  }
 }

@@ -5,7 +5,7 @@ import "./cookieconsent.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
-import { CookieConsentBanner } from "@/components/CookieConsent";
+import { CookieBanner } from "@/components/CookieBanner";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -83,7 +83,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
-        <CookieConsentBanner />
+        <CookieBanner />
       </body>
     </html>
   );

@@ -384,7 +384,7 @@ function SuccessContent() {
               <p className="font-medium mb-1">Une question ?</p>
               <p className="text-green-300 text-sm mb-4 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
-                Lun - Ven : 8h - 19h
+                Lun - Ven : 9h - 19h
               </p>
               
               <div className="space-y-2">
