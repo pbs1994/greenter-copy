@@ -29,10 +29,6 @@ export default function ContactPage() {
   const [captchaError, setCaptchaError] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadCaptchaEnginge(6)
-  }, [])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setCaptchaError(false)
@@ -78,9 +74,20 @@ export default function ContactPage() {
   const resetForm = () => {
     setFormState("idle")
     setFormData({ name: "", email: "", phone: "", service: "", message: "", captcha: "" })
-    loadCaptchaEnginge(6)
     setCaptchaError(false)
+    // Le captcha sera rechargé par le useEffect quand le formulaire sera re-rendu
   }
+
+  // Recharger le captcha quand on revient au formulaire
+  useEffect(() => {
+    if (formState === "idle") {
+      // Petit délai pour laisser le DOM se mettre à jour
+      const timer = setTimeout(() => {
+        loadCaptchaEnginge(6)
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [formState])
 
   const reloadCaptcha = () => {
     loadCaptchaEnginge(6)
