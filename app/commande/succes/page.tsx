@@ -77,7 +77,7 @@ function SuccessContent() {
         // Sauvegarder dans Supabase si pas déjà fait
         const { data: existing } = await supabase
           .from('orders')
-          .select('id')
+          .select('id, email_sent')
           .eq('stripe_session_id', sessionId)
           .single()
 
@@ -90,7 +90,48 @@ function SuccessContent() {
             customer_email: orderData.customerEmail,
             customer_name: orderData.customerName,
             created_at: orderData.createdAt,
+            email_sent: false,
           })
+        }
+
+        // Envoyer les emails si pas encore fait
+        if (!existing?.email_sent && orderData.customerEmail) {
+          try {
+            const orderDate = new Date(orderData.createdAt).toLocaleDateString('fr-FR', { 
+              day: 'numeric', 
+              month: 'long', 
+              year: 'numeric' 
+            })
+
+            const emailResponse = await fetch('/api/send-order-emails', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                sessionId,
+                orderData: {
+                  orderNumber: orderData.orderNumber,
+                  customerName: orderData.customerName || 'Client',
+                  customerEmail: orderData.customerEmail,
+                  customerPhone: orderData.customerPhone,
+                  shippingAddress: orderData.shippingAddress,
+                  productName: 'KSTAR BluE-S 6kW',
+                  amount: orderData.amount,
+                  orderDate,
+                },
+              }),
+            })
+
+            if (emailResponse.ok) {
+              // Marquer les emails comme envoyés
+              await supabase
+                .from('orders')
+                .update({ email_sent: true })
+                .eq('stripe_session_id', sessionId)
+            }
+          } catch (emailError) {
+            console.error('Error sending emails:', emailError)
+            // Ne pas bloquer la page si l'email échoue
+          }
         }
 
         setStatus('success')

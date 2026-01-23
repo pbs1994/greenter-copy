@@ -473,5 +473,186 @@ export const orderNotificationTemplate = (order: OrderData) => `
 </html>
 `
 
+// ============================================
+// 3. EMAIL DE DEMANDE DE CONTACT
+// ============================================
+interface ContactData {
+  name: string
+  email: string
+  phone: string
+  service: string
+  message: string
+}
+
+const serviceLabels: Record<string, string> = {
+  pac: "Pompe à chaleur",
+  solaire: "Panneaux solaires",
+  isolation: "Isolation thermique",
+  audit: "Audit énergétique",
+  maintenance: "Maintenance / SAV",
+  autre: "Autre",
+}
+
+export const contactRequestTemplate = (contact: ContactData) => `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nouvelle demande de contact - Greenter</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1B6B3A 0%, #0D9488 100%); border-radius: 16px 16px 0 0; padding: 32px 40px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>
+                    <img src="https://greenter.fr/logo.png" alt="Greenter" width="120" style="display: block;">
+                  </td>
+                  <td style="text-align: right;">
+                    <span style="display: inline-block; background-color: #F59E0B; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;">
+                      📩 NOUVEAU CONTACT
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Titre -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 32px 40px 24px; text-align: center; border-bottom: 1px solid #E5E5E5;">
+              <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EBF7EE 0%, #D4ECDB 100%); border-radius: 50%; margin: 0 auto 16px; line-height: 64px;">
+                <span style="font-size: 28px;">💬</span>
+              </div>
+              <h1 style="margin: 0 0 8px; color: #1A1A1A; font-size: 24px; font-weight: 700;">Nouvelle demande de contact</h1>
+              <p style="margin: 0; color: #737373; font-size: 14px;">
+                Reçue le ${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Contenu -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 32px 40px;">
+              
+              <!-- Infos contact -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #EBF7EE; border-radius: 12px; padding: 24px;">
+                    <h3 style="margin: 0 0 20px; color: #1B6B3A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">👤 Coordonnées</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(27, 107, 58, 0.1);">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="100" style="color: #525252; font-size: 14px;">Nom</td>
+                              <td style="color: #1A1A1A; font-size: 16px; font-weight: 600;">${contact.name}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(27, 107, 58, 0.1);">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="100" style="color: #525252; font-size: 14px;">Email</td>
+                              <td>
+                                <a href="mailto:${contact.email}" style="color: #0D9488; font-size: 14px; text-decoration: none; font-weight: 500;">${contact.email}</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 10px 0;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="100" style="color: #525252; font-size: 14px;">Téléphone</td>
+                              <td>
+                                <a href="tel:${contact.phone}" style="color: #0D9488; font-size: 14px; text-decoration: none; font-weight: 500;">${contact.phone}</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Sujet -->
+              ${contact.service ? `
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #f9fafb; border-radius: 12px; padding: 20px;">
+                    <h3 style="margin: 0 0 12px; color: #1A1A1A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🏷️ Sujet</h3>
+                    <span style="display: inline-block; background: linear-gradient(135deg, #1B6B3A 0%, #0D9488 100%); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500;">
+                      ${serviceLabels[contact.service] || contact.service}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+              ` : ''}
+
+              <!-- Message -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="background-color: #f9fafb; border-radius: 12px; padding: 24px;">
+                    <h3 style="margin: 0 0 16px; color: #1A1A1A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">💬 Message</h3>
+                    <div style="background-color: #ffffff; border-radius: 8px; padding: 20px; border-left: 4px solid #0D9488;">
+                      <p style="margin: 0; color: #1A1A1A; font-size: 15px; line-height: 1.7; white-space: pre-wrap;">${contact.message}</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Actions -->
+          <tr>
+            <td style="background-color: #1A1A1A; padding: 28px 40px; text-align: center;">
+              <p style="margin: 0 0 20px; color: #A3A3A3; font-size: 13px;">Répondre rapidement au prospect</p>
+              <table role="presentation" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+                <tr>
+                  <td style="padding-right: 12px;">
+                    <a href="mailto:${contact.email}?subject=Re: Votre demande - Greenter" style="display: inline-block; background-color: #1B6B3A; color: #ffffff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                      ✉️ Répondre par email
+                    </a>
+                  </td>
+                  <td>
+                    <a href="tel:${contact.phone}" style="display: inline-block; background-color: #0D9488; color: #ffffff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                      📞 Appeler
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #ffffff; border-radius: 0 0 16px 16px; padding: 20px 40px; text-align: center;">
+              <p style="margin: 0; color: #A3A3A3; font-size: 12px;">
+                Email automatique - Formulaire de contact greenter.fr
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+
 // Export des types
-export type { OrderData }
+export type { OrderData, ContactData }

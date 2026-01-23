@@ -44,8 +44,30 @@ export default function ContactPage() {
     }
 
     setFormState("loading")
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setFormState("success")
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'envoi')
+      }
+
+      setFormState("success")
+    } catch (error) {
+      console.error('Erreur:', error)
+      setFormState("idle")
+      alert("Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.")
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
