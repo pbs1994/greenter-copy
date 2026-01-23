@@ -39,7 +39,7 @@ export const orderConfirmationTemplate = (order: OrderData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
+                    <img src="https://greenter.fr/logo-white.svg" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
                   </td>
                 </tr>
                 <tr>
@@ -326,7 +326,7 @@ export const orderNotificationTemplate = (order: OrderData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
+                    <img src="https://greenter.fr/logo-white.svg" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
                   </td>
                   <td style="text-align: right;">
                     <span style="display: inline-block; background-color: #22C55E; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">
@@ -513,7 +513,7 @@ export const contactRequestTemplate = (contact: ContactData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo.png" alt="Greenter" width="120" style="display: block;">
+                    <img src="https://greenter.fr/logo-white.svg" alt="Greenter" width="120" style="display: block;">
                   </td>
                   <td style="text-align: right;">
                     <span style="display: inline-block; background-color: #F59E0B; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;">
