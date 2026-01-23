@@ -29,12 +29,22 @@ export function Hero() {
   )
 
   useEffect(() => {
-    async function fetchVideoUrl() {
+    let blobUrl: string | null = null
+    
+    async function fetchVideoAsBlob() {
       try {
+        // 1. Get the signed URL from our API
         const res = await fetch('/api/video-url')
         const data = await res.json()
+        
         if (data.url) {
-          setVideoUrl(data.url)
+          // 2. Fetch the video as a blob (hides the real URL)
+          const videoResponse = await fetch(data.url)
+          const videoBlob = await videoResponse.blob()
+          
+          // 3. Create a blob URL that masks the source
+          blobUrl = URL.createObjectURL(videoBlob)
+          setVideoUrl(blobUrl)
         }
       } catch {
         // Video fetch failed silently
@@ -42,7 +52,15 @@ export function Hero() {
         setIsLoading(false)
       }
     }
-    fetchVideoUrl()
+    
+    fetchVideoAsBlob()
+    
+    // Cleanup: revoke blob URL when component unmounts
+    return () => {
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl)
+      }
+    }
   }, [])
 
   const togglePlay = () => {
@@ -73,7 +91,7 @@ export function Hero() {
           <div className="text-center max-w-4xl mx-auto mb-8 md:mb-10">
             {/* Headline */}
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-5">
-              Baissez vos factures,
+              <span className="text-teal-600">Baissez vos factures,</span>
               <br />
               <span className="text-green-700">pas votre confort.</span>
             </h1>
@@ -176,6 +194,9 @@ export function Hero() {
                     preload="metadata"
                     onLoadedData={handleVideoLoaded}
                     onEnded={handleVideoEnded}
+                    controlsList="nodownload nofullscreen noremoteplayback"
+                    disablePictureInPicture
+                    onContextMenu={(e) => e.preventDefault()}
                   >
                     <source src={videoUrl} type="video/mp4" />
                   </video>

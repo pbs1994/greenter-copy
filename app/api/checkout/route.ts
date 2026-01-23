@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil',
+  apiVersion: '2025-12-15.clover',
 })
 
 export async function POST() {
@@ -11,7 +11,7 @@ export async function POST() {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: 'price_1SsRpCBhyu2ibrESaRH5VE7z',
+          price: process.env.STRIPE_PRICE_ID!,
           quantity: 1,
         },
       ],

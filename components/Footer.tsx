@@ -1,6 +1,10 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import { openCookiePreferences } from "./CookieConsent"
+import { ObfuscatedEmail } from "./ObfuscatedEmail"
 
 export function Footer() {
   return (
@@ -75,18 +79,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-green-200 hover:text-white transition-colors text-sm">
-                  À propos
-                </Link>
-              </li>
-              <li>
                 <Link href="/services" className="text-green-200 hover:text-white transition-colors text-sm">
                   Nos services
                 </Link>
               </li>
               <li>
-                <Link href="/realisations" className="text-green-200 hover:text-white transition-colors text-sm">
-                  Réalisations
+                <Link href="/produits" className="text-green-200 hover:text-white transition-colors text-sm">
+                  Nos produits
                 </Link>
               </li>
               <li>
@@ -136,7 +135,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                 <span className="text-green-200 text-sm">
-                  2 Av. du Général Leclerc<br />77330 Ozoir-la-Ferrière
+                  38 Rue de Ménilmontant<br />75020 Paris
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -147,9 +146,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-green-400 shrink-0" />
-                <a href="mailto:contact@greenter.fr" className="text-green-200 hover:text-white transition-colors text-sm">
-                  contact@greenter.fr
-                </a>
+                <ObfuscatedEmail className="text-green-200 hover:text-white transition-colors text-sm text-left" />
               </li>
             </ul>
 
@@ -172,13 +169,20 @@ export function Footer() {
             <p className="text-green-300 text-sm">
               © {new Date().getFullYear()} Greenter. Tous droits réservés.
             </p>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               <Link href="/mentions-legales" className="text-green-300 hover:text-white transition-colors text-sm">
                 Mentions légales
               </Link>
               <Link href="/confidentialite" className="text-green-300 hover:text-white transition-colors text-sm">
                 Politique de confidentialité
               </Link>
+              <button 
+                onClick={openCookiePreferences}
+                className="text-green-300 hover:text-white transition-colors text-sm cursor-pointer"
+                aria-label="Gérer vos préférences de cookies"
+              >
+                Gérer les cookies
+              </button>
             </div>
           </div>
         </div>

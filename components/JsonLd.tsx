@@ -12,9 +12,9 @@ export function JsonLd() {
     "email": "contact@greenter.fr",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "2 Av. du Général Leclerc",
-      "addressLocality": "Ozoir-la-Ferrière",
-      "postalCode": "77330",
+      "streetAddress": "38 Rue de Ménilmontant",
+      "addressLocality": "Paris",
+      "postalCode": "75020",
       "addressCountry": "FR"
     },
     "geo": {

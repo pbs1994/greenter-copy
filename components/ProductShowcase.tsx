@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer } from "lucide-react"
+import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, Truck, Wrench } from "lucide-react"
 import { BuyButton } from "./BuyButton"
 
 const features = [
@@ -47,11 +47,23 @@ export function ProductShowcase() {
               
               <Image
                 src="/kstar.png"
-                alt="KSTAR BluE-S 6000D"
+                alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4"
                 width={260}
                 height={320}
                 className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
               />
+              
+              {/* Badges Livraison + Pose - en bas, côte à côte */}
+              <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-center gap-2">
+                <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
+                  <Truck className="w-4 h-4 text-green-600" />
+                  <span className="text-xs font-medium text-neutral-700">Livraison incluse</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
+                  <Wrench className="w-4 h-4 text-teal-600" />
+                  <span className="text-xs font-medium text-neutral-700">Installation incluse</span>
+                </div>
+              </div>
             </div>
 
             {/* Specs badges - Hidden on mobile, shown on tablet+ */}
@@ -108,11 +120,10 @@ export function ProductShowcase() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
               <BuyButton />
               <a 
-                href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
-                target="_blank"
+                href="/produits/kstar-blue-s-6kw"
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
               >
-                Fiche technique
+                Détails techniques
               </a>
             </div>
 

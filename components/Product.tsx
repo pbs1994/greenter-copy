@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Heart, ArrowRight } from "lucide-react"
+import { Heart, ArrowRight, Truck, Wrench } from "lucide-react"
 
 export function Product() {
   return (
@@ -28,7 +28,7 @@ export function Product() {
         </div>
 
         {/* Product Card */}
-        <Link href="/produits/blue-s" className="block max-w-sm mx-auto group">
+        <Link href="/produits/kstar-blue-s-6kw" className="block max-w-sm mx-auto group">
           <div className="bg-white rounded-2xl overflow-hidden shadow-lg ring-1 ring-green-200 group-hover:shadow-xl group-hover:ring-green-400 transition-all duration-300">
             {/* Header with title and heart */}
             <div className="p-6 pb-0">
@@ -48,14 +48,26 @@ export function Product() {
             </div>
 
             {/* Product Image */}
-            <div className="bg-gradient-to-b from-green-100 to-green-50 p-6 mx-4 rounded-xl">
+            <div className="relative bg-gradient-to-b from-green-100 to-green-50 p-6 mx-4 rounded-xl">
               <Image
                 src="/kstar.png"
-                alt="Série BluE-S monophasée"
+                alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4"
                 width={300}
                 height={300}
                 className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500"
               />
+              
+              {/* Badges Livraison + Installation */}
+              <div className="absolute bottom-3 left-3 right-3 flex items-center justify-center gap-2">
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
+                  <Truck className="w-3.5 h-3.5 text-green-600" />
+                  <span className="text-[10px] font-medium text-neutral-700">Livraison incluse</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
+                  <Wrench className="w-3.5 h-3.5 text-teal-600" />
+                  <span className="text-[10px] font-medium text-neutral-700">Installation incluse</span>
+                </div>
+              </div>
             </div>
 
             {/* Price and CTA */}

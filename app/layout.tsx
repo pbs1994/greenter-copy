@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import "./cookieconsent.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { CookieConsentBanner } from "@/components/CookieConsent";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -81,6 +83,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <CookieConsentBanner />
       </body>
     </html>
   );

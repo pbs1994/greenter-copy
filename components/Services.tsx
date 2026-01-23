@@ -24,7 +24,7 @@ const services = [
     customIconSize: 28,
     title: "Pompes à chaleur",
     description: "Divisez par 3 votre facture de chauffage. Confort été comme hiver garanti.",
-    href: "/services/pompes-a-chaleur",
+    href: "/services/pompe-a-chaleur",
   },
   {
     image: "/audit.png",
@@ -51,7 +51,7 @@ const services = [
     customIconSize: 28,
     title: "Conformité",
     description: "Mise en service selon les normes en vigueur. Sécurité et performance garanties.",
-    href: "/services/conformite",
+    href: "/services/maintenance",
   },
   {
     image: "/maintenance.jpg",
@@ -227,7 +227,6 @@ function ServiceCard({ service }: { service: ServiceType }) {
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 33vw"
           quality={100}
-          unoptimized
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
