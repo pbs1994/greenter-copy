@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { resend } from '@/lib/resend'
 import { contactRequestTemplate } from '@/lib/email-templates'
 
-const ADMIN_EMAIL = 'contact@greenter.fr'
-const FROM_EMAIL = 'Greenter <contact@greenter.fr>'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@greenter.fr'
+const FROM_EMAIL = process.env.FROM_EMAIL ? `Greenter <${process.env.FROM_EMAIL}>` : 'Greenter <contact@greenter.fr>'
 
 export async function POST(request: NextRequest) {
   try {

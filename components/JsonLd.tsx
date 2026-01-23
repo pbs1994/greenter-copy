@@ -35,7 +35,9 @@ export function JsonLd() {
         "closes": "18:00"
       }
     ],
-    "sameAs": [],
+    "sameAs": [
+      "https://maps.app.goo.gl/7vZm1VSkB8YdpR2k7"
+    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Services de rénovation énergétique",
