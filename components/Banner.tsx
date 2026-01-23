@@ -1,5 +1,7 @@
-import { ArrowRight, CheckCircle } from "lucide-react"
-import Link from "next/link"
+"use client"
+
+import { useState } from "react"
+import { ArrowRight, CheckCircle, Loader2 } from "lucide-react"
 
 const benefits = [
   "Audit énergétique offert",
@@ -9,6 +11,52 @@ const benefits = [
 ]
 
 export function Banner() {
+  const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    service: "",
+  })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!formData.name || !formData.phone) {
+      return
+    }
+
+    setFormState("loading")
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: '', // Pas d'email dans ce formulaire simplifié
+          phone: formData.phone,
+          service: formData.service,
+          message: `Demande de devis depuis la page d'accueil - Projet: ${formData.service || 'Non précisé'}`,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Erreur')
+      
+      setFormState("success")
+    } catch {
+      setFormState("error")
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const resetForm = () => {
+    setFormState("idle")
+    setFormData({ name: "", phone: "", service: "" })
+  }
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-teal-900 py-12 md:py-16 px-4">
       {/* Subtle pattern overlay */}
@@ -46,53 +94,100 @@ export function Banner() {
 
           {/* Right CTA Card */}
           <div className="bg-white rounded-2xl p-8 shadow-2xl">
-            <h3 className="font-heading text-2xl font-bold text-neutral-900 mb-2">
-              Demandez votre devis gratuit
-            </h3>
-            <p className="text-neutral-600 mb-6">
-              Sans engagement, réponse sous 48h.
-            </p>
-
-            <form className="space-y-4">
-              <div>
-                <input
-                  type="text"
-                  placeholder="Votre nom"
-                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all"
-                />
-              </div>
-              <div>
-                <input
-                  type="tel"
-                  placeholder="Votre téléphone"
-                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all"
-                />
-              </div>
-              <div>
-                <select
-                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all text-neutral-600"
-                  defaultValue=""
+            {formState === "success" ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-2">
+                  Demande envoyée !
+                </h3>
+                <p className="text-neutral-600 mb-6">
+                  Nous vous recontactons sous 48h.
+                </p>
+                <button 
+                  onClick={resetForm}
+                  className="text-green-700 font-medium hover:text-green-800 transition-colors"
                 >
-                  <option value="" disabled>Type de projet</option>
-                  <option value="pac">Pompe à chaleur</option>
-                  <option value="solar">Panneaux solaires</option>
-                  <option value="isolation">Isolation</option>
-                  <option value="audit">Audit énergétique</option>
-                  <option value="other">Autre</option>
-                </select>
+                  Envoyer une autre demande
+                </button>
               </div>
-              <button
-                type="submit"
-                className="btn-primary w-full justify-center text-base py-4"
-              >
-                Recevoir mon devis gratuit
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </form>
+            ) : (
+              <>
+                <h3 className="font-heading text-2xl font-bold text-neutral-900 mb-2">
+                  Demandez votre devis gratuit
+                </h3>
+                <p className="text-neutral-600 mb-6">
+                  Sans engagement, réponse sous 48h.
+                </p>
 
-            <p className="text-xs text-neutral-500 mt-4 text-center">
-              En soumettant ce formulaire, vous acceptez d&apos;être contacté par Greenter.
-            </p>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Votre nom"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Votre téléphone"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <select
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:border-green-700 focus:ring-2 focus:ring-green-700/20 outline-none transition-all text-neutral-600"
+                    >
+                      <option value="">Type de projet</option>
+                      <option value="pac">Pompe à chaleur</option>
+                      <option value="solaire">Panneaux solaires</option>
+                      <option value="isolation">Isolation</option>
+                      <option value="audit">Audit énergétique</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </div>
+                  
+                  {formState === "error" && (
+                    <p className="text-red-500 text-sm">Une erreur est survenue. Réessayez ou appelez-nous.</p>
+                  )}
+                  
+                  <button
+                    type="submit"
+                    disabled={formState === "loading"}
+                    className="btn-primary w-full justify-center text-base py-4 disabled:opacity-70"
+                  >
+                    {formState === "loading" ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        Recevoir mon devis gratuit
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <p className="text-xs text-neutral-500 mt-4 text-center">
+                  En soumettant ce formulaire, vous acceptez d&apos;être contacté par Greenter.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
