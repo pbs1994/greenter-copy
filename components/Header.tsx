@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery } from "lucide-react"
+import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
   NavigationMenu,
@@ -63,7 +64,6 @@ const products = [
     title: "KSTAR BluE-S 6kW",
     href: "/produits/kstar-blue-s-6kw",
     description: "Onduleur hybride + stockage",
-    price: "2 500 €",
     image: "/kstar.png",
     badge: "Nouveau",
   },
@@ -78,6 +78,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
+  const { data: priceData } = useProductPrice()
 
   React.useEffect(() => {
     setMounted(true)
@@ -245,7 +246,7 @@ export function Header() {
                             {product.description}
                           </p>
                           <p className="text-sm font-bold text-green-700">
-                            {product.price}
+                            {priceData?.formatted || '...'}
                           </p>
                         </div>
                         
@@ -477,7 +478,7 @@ export function Header() {
                       {product.title}
                     </span>
                     <div className="text-sm text-neutral-500">{product.description}</div>
-                    <div className="text-sm font-bold text-teal-600">{product.price}</div>
+                    <div className="text-sm font-bold text-teal-600">{priceData?.formatted || '...'}</div>
                   </div>
                   <ChevronRight className="w-5 h-5 text-neutral-300 group-hover:text-teal-500 transition-all group-hover:translate-x-1" />
                 </Link>

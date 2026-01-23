@@ -1,8 +1,13 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { Heart, ArrowRight, Truck, Wrench } from "lucide-react"
+import { useProductPrice } from "@/lib/useProductPrice"
 
 export function Product() {
+  const { data: priceData, loading } = useProductPrice()
+  
   return (
     <section className="relative py-8 md:py-10 px-4 overflow-hidden bg-gradient-to-b from-white to-green-50">
       {/* Background decorative shape */}
@@ -74,7 +79,7 @@ export function Product() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold text-neutral-900">2 500 €</span>
+                  <span className="text-2xl font-bold text-neutral-900">{loading ? '...' : priceData?.formatted}</span>
                   <span className="text-sm text-neutral-500">TTC</span>
                 </div>
                 <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">

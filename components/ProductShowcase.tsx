@@ -1,6 +1,9 @@
+"use client"
+
 import Image from "next/image"
 import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, Truck, Wrench } from "lucide-react"
 import { BuyButton } from "./BuyButton"
+import { useProductPrice } from "@/lib/useProductPrice"
 
 const features = [
   { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
@@ -21,6 +24,8 @@ const specs = [
 ]
 
 export function ProductShowcase() {
+  const { data: priceData, loading } = useProductPrice()
+  
   return (
     <section id="produit" className="bg-gradient-to-b from-green-50/80 via-white to-white py-12 md:py-16 lg:py-20">
       <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
@@ -105,7 +110,7 @@ export function ProductShowcase() {
             {/* Price */}
             <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                2 500 €
+                {loading ? '...' : priceData?.formatted}
               </p>
               <span className="text-sm text-neutral-400">TTC</span>
             </div>
