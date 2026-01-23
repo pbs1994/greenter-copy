@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRight, Battery, Truck, Wrench, ChevronRight } from "lucide-react"
 import type { Metadata } from "next"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import Stripe from 'stripe'
 
 export const metadata: Metadata = {
   title: "Nos Produits | Batteries Solaires & Onduleurs | Greenter",
@@ -21,19 +22,32 @@ export const metadata: Metadata = {
   },
 }
 
-const products = [
-  {
-    id: "kstar-blue-s-6kw",
-    name: "KSTAR BluE-S 6kW",
-    description: "Onduleur hybride tout-en-un avec batteries LiFePO4 CATL intégrées. 10 000 cycles garantis.",
-    price: 2500,
-    image: "/kstar.png",
-    badge: "Populaire",
-    features: ["6 kW puissance", "10 000 cycles", "Garantie 10 ans batteries"],
-  },
-]
+async function getStripePrice() {
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-12-15.clover',
+    })
+    const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!)
+    return price.unit_amount ? price.unit_amount / 100 : 2500
+  } catch {
+    return 2500 // fallback
+  }
+}
 
-export default function ProduitsPage() {
+export default async function ProduitsPage() {
+  const stripePrice = await getStripePrice()
+  
+  const products = [
+    {
+      id: "kstar-blue-s-6kw",
+      name: "KSTAR BluE-S 6kW",
+      description: "Onduleur hybride tout-en-un avec batteries LiFePO4 CATL intégrées. 10 000 cycles garantis.",
+      price: stripePrice,
+      image: "/kstar.png",
+      badge: "Populaire",
+      features: ["6 kW puissance", "10 000 cycles", "Garantie 10 ans batteries"],
+    },
+  ]
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Produits", url: "https://greenter.fr/produits" }

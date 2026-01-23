@@ -5,81 +5,96 @@ import { BuyButton } from "@/components/BuyButton"
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import Stripe from 'stripe'
 
-const faqItems = [
-  {
-    question: "Qu'est-ce qui est inclus dans le prix de 2 500 € ?",
-    answer: "Le prix comprend l'onduleur hybride KSTAR BluE-S 6kW, la livraison à domicile et l'installation complète par nos techniciens certifiés. Si vous ne souhaitez pas l'installation, seule la livraison est effectuée au même tarif."
-  },
-  {
-    question: "Quelle est la durée de vie des batteries LiFePO4 ?",
-    answer: "Les cellules LiFePO4 CATL intégrées sont garanties pour 10 000 cycles de charge/décharge, soit environ 25-30 ans d'utilisation normale. KSTAR offre une garantie de 10 ans sur les batteries."
-  },
-  {
-    question: "Puis-je installer le système en extérieur ?",
-    answer: "Oui, le système est certifié IP65, ce qui signifie une protection totale contre la poussière et les jets d'eau. Cependant, il est recommandé de l'installer dans un local technique car les batteries ne doivent pas être chargées en dessous de 0°C."
-  },
-  {
-    question: "Quelle est la plage de température de fonctionnement ?",
-    answer: "L'onduleur fonctionne de -25°C à +60°C. Les batteries fonctionnent de 0°C à +50°C en charge et de -10°C à +50°C en décharge."
-  },
-  {
-    question: "Combien de panneaux solaires puis-je connecter ?",
-    answer: "Le KSTAR BluE-S 6kW accepte jusqu'à 6,5 kW de panneaux solaires avec une tension d'entrée maximale de 580V et un double tracker MPPT pour optimiser la production."
-  },
-  {
-    question: "Que se passe-t-il en cas de coupure de courant ?",
-    answer: "Le système bascule instantanément sur les batteries en cas de coupure réseau. Vous ne remarquerez même pas l'interruption - vos appareils continuent de fonctionner normalement."
-  },
-  {
-    question: "Comment surveiller ma production et consommation ?",
-    answer: "L'application Solarman Smart (disponible sur iOS et Android) permet de suivre en temps réel votre production solaire, consommation, état des batteries et historique. Une interface web est également disponible."
-  },
-  {
-    question: "Puis-je ajouter des batteries supplémentaires plus tard ?",
-    answer: "Oui, le système est évolutif. Vous pouvez ajouter jusqu'à 4 modules BluE-PACK5.1 (20,4 kWh au total) pour augmenter votre autonomie selon vos besoins."
-  },
-  {
-    question: "Quelle est la garantie du produit ?",
-    answer: "L'onduleur est garanti 5 ans par le fabricant KSTAR. Les batteries LiFePO4 CATL bénéficient d'une garantie de 10 ans. Notre installation est garantie 2 ans main d'œuvre."
-  },
-  {
-    question: "Le système est-il bruyant ?",
-    answer: "Non, le KSTAR BluE-S est remarquablement silencieux même sous forte charge. Un léger son haute fréquence peut être perçu à moins de 2-3 mètres, mais il est imperceptible au-delà."
-  },
-  {
-    question: "Quelle autonomie puis-je espérer ?",
-    answer: "Avec une consommation moyenne de 300-500 Wh (éclairage, réfrigérateur, box internet), une batterie de 10 kWh offre 20 à 30 heures d'autonomie. En mode économique, vous pouvez atteindre près de 3 jours."
-  },
-  {
-    question: "Le système est-il compatible avec mon installation existante ?",
-    answer: "Le KSTAR BluE-S 6kW est un onduleur hybride monophasé 230V compatible avec la plupart des installations résidentielles françaises. Nos techniciens évaluent la compatibilité lors de la visite préalable incluse."
+async function getStripePrice() {
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-12-15.clover',
+    })
+    const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!)
+    return price.unit_amount ? price.unit_amount / 100 : 2500
+  } catch {
+    return 2500 // fallback
   }
-]
+}
 
-const features = [
-  { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
-  { icon: Gauge, title: "6 kW", description: "Puissance nominale" },
-  { icon: Sun, title: "97%", description: "Rendement solaire" },
-  { icon: Shield, title: "IP65", description: "Usage extérieur" },
-  { icon: Thermometer, title: "-25° à +60°", description: "Plage de fonctionnement" },
-  { icon: Wifi, title: "Monitoring", description: "App Solarman Smart" },
-]
-
-const specs = [
-  "Onduleur hybride monophasé 230V",
-  "Compatible batteries LiFePO4 48V",
-  "Charge/décharge jusqu'à 100A",
-  "Basculement réseau instantané",
-  "Compatible panneaux jusqu'à 6.5 kW",
-  "Garantie 10 ans batteries",
-]
-
-export default function ProductPage() {
+export default async function ProductPage() {
+  const stripePrice = await getStripePrice()
+  
+  const faqItems = [
+    {
+      question: `Qu'est-ce qui est inclus dans le prix de ${stripePrice.toLocaleString('fr-FR')} € ?`,
+      answer: "Le prix comprend l'onduleur hybride KSTAR BluE-S 6kW, la livraison à domicile et l'installation complète par nos techniciens certifiés. Si vous ne souhaitez pas l'installation, seule la livraison est effectuée au même tarif."
+    },
+    {
+      question: "Quelle est la durée de vie des batteries LiFePO4 ?",
+      answer: "Les cellules LiFePO4 CATL intégrées sont garanties pour 10 000 cycles de charge/décharge, soit environ 25-30 ans d'utilisation normale. KSTAR offre une garantie de 10 ans sur les batteries."
+    },
+    {
+      question: "Puis-je installer le système en extérieur ?",
+      answer: "Oui, le système est certifié IP65, ce qui signifie une protection totale contre la poussière et les jets d'eau. Cependant, il est recommandé de l'installer dans un local technique car les batteries ne doivent pas être chargées en dessous de 0°C."
+    },
+    {
+      question: "Quelle est la plage de température de fonctionnement ?",
+      answer: "L'onduleur fonctionne de -25°C à +60°C. Les batteries fonctionnent de 0°C à +50°C en charge et de -10°C à +50°C en décharge."
+    },
+    {
+      question: "Combien de panneaux solaires puis-je connecter ?",
+      answer: "Le KSTAR BluE-S 6kW accepte jusqu'à 6,5 kW de panneaux solaires avec une tension d'entrée maximale de 580V et un double tracker MPPT pour optimiser la production."
+    },
+    {
+      question: "Que se passe-t-il en cas de coupure de courant ?",
+      answer: "Le système bascule instantanément sur les batteries en cas de coupure réseau. Vous ne remarquerez même pas l'interruption - vos appareils continuent de fonctionner normalement."
+    },
+    {
+      question: "Comment surveiller ma production et consommation ?",
+      answer: "L'application Solarman Smart (disponible sur iOS et Android) permet de suivre en temps réel votre production solaire, consommation, état des batteries et historique. Une interface web est également disponible."
+    },
+    {
+      question: "Puis-je ajouter des batteries supplémentaires plus tard ?",
+      answer: "Oui, le système est évolutif. Vous pouvez ajouter jusqu'à 4 modules BluE-PACK5.1 (20,4 kWh au total) pour augmenter votre autonomie selon vos besoins."
+    },
+    {
+      question: "Quelle est la garantie du produit ?",
+      answer: "L'onduleur est garanti 5 ans par le fabricant KSTAR. Les batteries LiFePO4 CATL bénéficient d'une garantie de 10 ans. Notre installation est garantie 2 ans main d'œuvre."
+    },
+    {
+      question: "Le système est-il bruyant ?",
+      answer: "Non, le KSTAR BluE-S est remarquablement silencieux même sous forte charge. Un léger son haute fréquence peut être perçu à moins de 2-3 mètres, mais il est imperceptible au-delà."
+    },
+    {
+      question: "Quelle autonomie puis-je espérer ?",
+      answer: "Avec une consommation moyenne de 300-500 Wh (éclairage, réfrigérateur, box internet), une batterie de 10 kWh offre 20 à 30 heures d'autonomie. En mode économique, vous pouvez atteindre près de 3 jours."
+    },
+    {
+      question: "Le système est-il compatible avec mon installation existante ?",
+      answer: "Le KSTAR BluE-S 6kW est un onduleur hybride monophasé 230V compatible avec la plupart des installations résidentielles françaises. Nos techniciens évaluent la compatibilité lors de la visite préalable incluse."
+    }
+  ]
+  
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Produits", url: "https://greenter.fr/produits" },
     { name: "KSTAR BluE-S 6kW", url: "https://greenter.fr/produits/kstar-blue-s-6kw" }
+  ]
+
+  const features = [
+    { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
+    { icon: Gauge, title: "6 kW", description: "Puissance nominale" },
+    { icon: Sun, title: "97%", description: "Rendement solaire" },
+    { icon: Shield, title: "IP65", description: "Usage extérieur" },
+    { icon: Thermometer, title: "-25° à +60°", description: "Plage de fonctionnement" },
+    { icon: Wifi, title: "Monitoring", description: "App Solarman Smart" },
+  ]
+
+  const specs = [
+    "Onduleur hybride monophasé 230V",
+    "Compatible batteries LiFePO4 48V",
+    "Charge/décharge jusqu'à 100A",
+    "Basculement réseau instantané",
+    "Compatible panneaux jusqu'à 6.5 kW",
+    "Garantie 10 ans batteries",
   ]
 
   return (
@@ -88,7 +103,7 @@ export default function ProductPage() {
         name="KSTAR BluE-S 6kW - Onduleur Hybride Batterie Solaire"
         description="Onduleur hybride tout-en-un avec batteries LiFePO4 CATL intégrées. 6kW de puissance nominale, 10 000 cycles garantis, rendement solaire 97%. Basculement instantané en cas de coupure. Livraison et installation incluses."
         image="https://greenter.fr/kstar.png"
-        price={2500}
+        price={stripePrice}
         currency="EUR"
         availability="InStock"
         brand="KSTAR"
@@ -183,7 +198,7 @@ export default function ProductPage() {
             {/* Price */}
             <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                2 500 €
+                {stripePrice.toLocaleString('fr-FR')} €
               </p>
               <span className="text-sm text-neutral-400">TTC</span>
             </div>
