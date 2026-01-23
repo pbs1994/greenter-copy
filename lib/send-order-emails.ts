@@ -1,8 +1,8 @@
 import { resend } from './resend'
 import { orderConfirmationTemplate, orderNotificationTemplate, OrderData } from './email-templates'
 
-const ADMIN_EMAIL = 'contact@greenter.fr' // Email pour recevoir les notifications
-const FROM_EMAIL = 'Greenter <contact@greenter.fr>' // Domaine vérifié sur Resend
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@greenter.fr'
+const FROM_EMAIL = process.env.FROM_EMAIL ? `Greenter <${process.env.FROM_EMAIL}>` : 'Greenter <contact@greenter.fr>'
 
 interface SendOrderEmailsParams {
   order: OrderData
