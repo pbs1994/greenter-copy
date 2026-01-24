@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { CookieBanner } from "@/components/CookieBanner";
+import { VideoPreloader } from "@/components/VideoPreloader";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     description: "Expert certifié RGE : pompe à chaleur, panneaux solaires, isolation. Économisez jusqu'à 70% sur vos factures. Devis gratuit.",
     images: [
       {
-        url: "https://greenter.fr/og-image.jpg",
+        url: "https://greenter.fr/twitter_card.jpg",
         width: 1200,
         height: 630,
         alt: "Greenter - Rénovation énergétique",
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Greenter | Rénovation énergétique partout en France",
     description: "Pompe à chaleur, panneaux solaires, isolation. Certifié RGE. Devis gratuit sous 48h.",
-    images: ["https://greenter.fr/og-image.jpg"],
+    images: ["https://greenter.fr/twitter_card.jpg"],
   },
   alternates: {
     canonical: "https://greenter.fr",
@@ -76,10 +77,14 @@ export default function RootLayout({
     <html lang="fr">
       <head>
         <JsonLd />
+        {/* Preconnect to Supabase for faster video loading */}
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
       </head>
       <body
         className={`${plusJakarta.variable} ${inter.variable} font-body antialiased`}
       >
+        <VideoPreloader />
         <Header />
         {children}
         <Footer />
