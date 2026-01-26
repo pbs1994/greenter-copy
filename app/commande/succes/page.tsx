@@ -11,6 +11,7 @@ import { useObfuscatedEmail } from '@/components/ObfuscatedEmail'
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void
+    dataLayer?: unknown[]
   }
 }
 
@@ -87,13 +88,19 @@ function SuccessContent() {
           .eq('stripe_session_id', sessionId)
           .single()
 
-        // Google Ads conversion tracking
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          window.gtag('event', 'conversion', {
-            'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
+        // Google Ads conversion tracking via dataLayer (GTM)
+        if (typeof window !== 'undefined') {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            'event': 'purchase',
+            'transaction_id': sessionId,
             'value': orderData.amount,
             'currency': 'EUR',
-            'transaction_id': sessionId
+            'items': [{
+              'item_name': 'KSTAR BluE-S 6kW',
+              'price': orderData.amount,
+              'quantity': 1
+            }]
           });
         }
 
