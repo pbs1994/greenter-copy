@@ -8,6 +8,12 @@ import { CheckCircle, Phone, Mail, Truck, Wrench, Shield, Clock, FileText, Chevr
 import { supabase } from '@/lib/supabase'
 import { useObfuscatedEmail } from '@/components/ObfuscatedEmail'
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+  }
+}
+
 interface OrderDetails {
   id: string
   orderNumber: string
@@ -80,6 +86,16 @@ function SuccessContent() {
           .select('id, email_sent')
           .eq('stripe_session_id', sessionId)
           .single()
+
+        // Google Ads conversion tracking
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
+            'value': orderData.amount,
+            'currency': 'EUR',
+            'transaction_id': sessionId
+          });
+        }
 
         if (!existing) {
           await supabase.from('orders').insert({
