@@ -176,6 +176,9 @@ export function Footer() {
               <Link href="/confidentialite" className="text-green-300 hover:text-white transition-colors text-sm">
                 Politique de confidentialité
               </Link>
+              <Link href="/retours" className="text-green-300 hover:text-white transition-colors text-sm">
+                Conditions de retour
+              </Link>
               <button 
                 onClick={openCookiePreferences}
                 className="text-green-300 hover:text-white transition-colors text-sm cursor-pointer"
