@@ -9,7 +9,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { CookieBanner } from "@/components/CookieBanner";
 import { VideoPreloader } from "@/components/VideoPreloader";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = "GTM-NQZQZT3S";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
