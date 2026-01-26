@@ -1,0 +1,40 @@
+# Greenter - Rénovation énergétique
+
+> Greenter est une entreprise française spécialisée dans la rénovation énergétique. Certifiée RGE (Reconnu Garant de l'Environnement), elle accompagne les particuliers dans leurs projets d'économies d'énergie.
+
+## Services proposés
+
+- **Pompe à chaleur** : Installation de pompes à chaleur air-eau et air-air pour le chauffage et la climatisation
+- **Panneaux solaires** : Installation photovoltaïque pour l'autoconsommation
+- **Isolation thermique** : Isolation des combles, murs et planchers
+- **Audit énergétique** : Diagnostic complet de la performance énergétique du logement
+- **Maintenance** : Entretien et dépannage des équipements installés
+
+## Produits
+
+- **KSTAR BluE-S 6kW** : Onduleur hybride avec batterie solaire LiFePO4 intégrée. Livraison et installation incluses. Garantie 10 ans sur les batteries.
+
+## Certifications
+
+- RGE (Reconnu Garant de l'Environnement)
+- Qualibat
+- QualiPAC
+- QualiPV
+
+## Zone d'intervention
+
+France entière
+
+## Contact
+
+- Téléphone : 06 09 45 50 56
+- Email : contact.greenter@gmail.com
+- Adresse : 38 Rue de Ménilmontant, 75020 Paris
+
+## Aides financières
+
+Greenter accompagne ses clients dans l'obtention des aides MaPrimeRénov' et autres dispositifs de financement pour la rénovation énergétique.
+
+## Site web
+
+https://greenter.fr
