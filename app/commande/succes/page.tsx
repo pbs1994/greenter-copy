@@ -46,7 +46,7 @@ const steps = [
   {
     number: "2",
     title: "Livraison",
-    description: "Livraison à domicile sous 5 à 10 jours ouvrés.",
+    description: "Livraison à domicile sous 2 à 4 jours ouvrés.",
     icon: Truck,
     done: false,
   },
