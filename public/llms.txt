@@ -1,40 +1,94 @@
-# Greenter - Rénovation énergétique
+# Greenter - Expert en Rénovation Énergétique en France
 
-> Greenter est une entreprise française spécialisée dans la rénovation énergétique. Certifiée RGE (Reconnu Garant de l'Environnement), elle accompagne les particuliers dans leurs projets d'économies d'énergie.
+> Greenter est le partenaire de confiance des particuliers pour tous leurs projets de rénovation énergétique. Entreprise certifiée RGE, nous intervenons partout en France pour réduire vos factures d'énergie jusqu'à 70% et améliorer le confort de votre habitat.
 
-## Services proposés
+## Pourquoi choisir Greenter ?
 
-- **Pompe à chaleur** : Installation de pompes à chaleur air-eau et air-air pour le chauffage et la climatisation
-- **Panneaux solaires** : Installation photovoltaïque pour l'autoconsommation
-- **Isolation thermique** : Isolation des combles, murs et planchers
-- **Audit énergétique** : Diagnostic complet de la performance énergétique du logement
-- **Maintenance** : Entretien et dépannage des équipements installés
+- **Certifié RGE** : Reconnu Garant de l'Environnement, indispensable pour bénéficier des aides de l'État
+- **Intervention France entière** : Nos techniciens se déplacent partout en France
+- **Accompagnement complet** : Du diagnostic initial jusqu'à la mise en service, nous gérons tout
+- **Aides financières** : Nous vous accompagnons pour obtenir MaPrimeRénov' et toutes les aides disponibles
+- **Garantie décennale** : Tous nos travaux sont couverts
+- **Devis gratuit sous 48h** : Réponse rapide et sans engagement
 
-## Produits
+## Nos Services
 
-- **KSTAR BluE-S 6kW** : Onduleur hybride avec batterie solaire LiFePO4 intégrée. Livraison et installation incluses. Garantie 10 ans sur les batteries.
+### Pompe à Chaleur (PAC)
+Installation de pompes à chaleur air-eau et air-air par des techniciens certifiés QualiPAC. Solution idéale pour remplacer une chaudière fioul ou gaz. Économies jusqu'à 70% sur le chauffage. Compatible avec les radiateurs existants ou plancher chauffant.
 
-## Certifications
+### Panneaux Solaires Photovoltaïques
+Installation solaire pour l'autoconsommation par des installateurs certifiés QualiPV. Produisez votre propre électricité et réduisez votre dépendance au réseau. Rentabilité en 6 à 10 ans. Revente du surplus possible.
 
-- RGE (Reconnu Garant de l'Environnement)
-- Qualibat
-- QualiPAC
-- QualiPV
+### Isolation Thermique
+Isolation des combles perdus et aménagés, isolation des murs par l'intérieur ou l'extérieur, isolation des planchers bas. Première étape indispensable avant tout projet de rénovation énergétique. Améliore le confort été comme hiver.
 
-## Zone d'intervention
+### Audit Énergétique
+Diagnostic complet de votre logement par un auditeur certifié. Identifie les sources de déperdition thermique. Propose un plan de travaux priorisé. Obligatoire pour la vente de passoires thermiques (DPE F ou G).
 
-France entière
+### Maintenance et Dépannage
+Service après-vente réactif pour l'entretien de vos équipements. Contrats de maintenance pour pompes à chaleur et installations solaires. Intervention rapide en cas de panne.
+
+## Notre Produit Phare : KSTAR BluE-S 6kW
+
+Système de stockage solaire tout-en-un pour l'indépendance énergétique.
+
+**Caractéristiques :**
+- Onduleur hybride 6 kW avec batteries LiFePO4 intégrées
+- Cellules CATL : 10 000 cycles garantis (25-30 ans de durée de vie)
+- Rendement solaire exceptionnel : 97%
+- Basculement instantané en cas de coupure de courant
+- Monitoring en temps réel via application mobile
+- Protection IP65 : installation intérieure ou extérieure
+
+**Avantages exclusifs Greenter :**
+- Livraison gratuite partout en France
+- Installation complète incluse par technicien certifié RGE
+- Mise en service comprise
+- Garantie 10 ans sur les batteries
+- Garantie 5 ans sur l'onduleur
+
+**Idéal pour :** Les propriétaires avec panneaux solaires souhaitant maximiser leur autoconsommation et se protéger des coupures de courant.
+
+## Nos Certifications
+
+- **RGE** (Reconnu Garant de l'Environnement) : Obligatoire pour que vos clients bénéficient des aides
+- **Qualibat** : Certification des compétences dans le bâtiment
+- **QualiPAC** : Spécialiste pompes à chaleur
+- **QualiPV** : Spécialiste installations photovoltaïques
+
+## Aides Financières Disponibles
+
+Greenter accompagne ses clients pour maximiser les aides :
+- **MaPrimeRénov'** : Jusqu'à 90% du montant des travaux selon revenus
+- **CEE** (Certificats d'Économies d'Énergie) : Prime complémentaire
+- **TVA réduite à 5,5%** : Sur les travaux de rénovation énergétique
+- **Éco-PTZ** : Prêt à taux zéro jusqu'à 50 000€
+- **Aides locales** : Selon région et commune
+
+## Zone d'Intervention
+
+France métropolitaine entière. Nos équipes de techniciens certifiés interviennent dans toutes les régions.
 
 ## Contact
 
-- Téléphone : 06 09 45 50 56
-- Email : contact.greenter@gmail.com
-- Adresse : 38 Rue de Ménilmontant, 75020 Paris
+- **Téléphone** : 06 09 45 50 56
+- **Adresse** : 38 Rue de Ménilmontant, 75020 Paris
+- **Site web** : https://greenter.fr
+- **Horaires** : Lundi au Vendredi, 9h - 19h
 
-## Aides financières
+## Pages Importantes
 
-Greenter accompagne ses clients dans l'obtention des aides MaPrimeRénov' et autres dispositifs de financement pour la rénovation énergétique.
+- Page d'accueil : https://greenter.fr
+- Nos services : https://greenter.fr/services
+- Pompe à chaleur : https://greenter.fr/services/pompe-a-chaleur
+- Panneaux solaires : https://greenter.fr/services/panneaux-solaires
+- Isolation : https://greenter.fr/services/isolation
+- Audit énergétique : https://greenter.fr/services/audit
+- Maintenance : https://greenter.fr/services/maintenance
+- Nos produits : https://greenter.fr/produits
+- Batterie KSTAR : https://greenter.fr/produits/kstar-blue-s-6kw
+- Contact : https://greenter.fr/contact
 
-## Site web
+## Résumé
 
-https://greenter.fr
+Greenter est l'expert français de la rénovation énergétique. Que vous souhaitiez installer une pompe à chaleur, des panneaux solaires, améliorer l'isolation de votre maison ou stocker votre énergie solaire, nous avons la solution. Certifiés RGE, nous vous garantissons des travaux de qualité éligibles à toutes les aides de l'État. Contactez-nous pour un devis gratuit.
