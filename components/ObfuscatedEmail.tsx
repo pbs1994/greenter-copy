@@ -12,7 +12,7 @@ export function useObfuscatedEmail() {
 
   useEffect(() => {
     // Obfuscation de l'email contre les scrapers
-    const parts = ["contact", "greenter", "fr"]
+    const parts = ["contact.greenter", "gmail", "com"]
     setEmail(`${parts[0]}@${parts[1]}.${parts[2]}`)
   }, [])
 
@@ -28,6 +28,31 @@ export function ObfuscatedEmail({ className = "", showIcon = false }: Obfuscated
       className={className}
     >
       {email || "Chargement..."}
+    </button>
+  )
+}
+
+interface ObfuscatedEmailLinkProps {
+  className?: string
+  subject?: string
+  children: React.ReactNode
+}
+
+export function ObfuscatedEmailLink({ className = "", subject, children }: ObfuscatedEmailLinkProps) {
+  const email = useObfuscatedEmail()
+
+  const handleClick = () => {
+    if (email) {
+      const mailto = subject 
+        ? `mailto:${email}?subject=${encodeURIComponent(subject)}`
+        : `mailto:${email}`
+      window.location.href = mailto
+    }
+  }
+
+  return (
+    <button onClick={handleClick} className={className}>
+      {children}
     </button>
   )
 }

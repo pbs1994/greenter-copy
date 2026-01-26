@@ -1,12 +1,8 @@
-import type { Metadata } from "next"
+"use client"
+
 import Link from "next/link"
 import { ArrowLeft, Package, Wrench, Clock, AlertTriangle, CheckCircle, Phone, Mail } from "lucide-react"
-
-export const metadata: Metadata = {
-  title: "Conditions de retour et rétractation | Greenter",
-  description: "Politique de retour et droit de rétractation pour vos achats chez Greenter. Délai de 14 jours avant installation.",
-  robots: { index: true, follow: true },
-}
+import { ObfuscatedEmailLink } from "@/components/ObfuscatedEmail"
 
 export default function RetoursPage() {
   return (
@@ -167,13 +163,13 @@ export default function RetoursPage() {
                     <Phone className="w-4 h-4" />
                     06 09 45 50 56
                   </a>
-                  <a 
-                    href="mailto:contact@greenter.fr?subject=Demande de rétractation"
+                  <ObfuscatedEmailLink 
+                    subject="Demande de rétractation"
                     className="inline-flex items-center justify-center gap-2 bg-neutral-100 text-neutral-700 px-5 py-2.5 rounded-lg hover:bg-neutral-200 transition-colors"
                   >
                     <Mail className="w-4 h-4" />
-                    contact@greenter.fr
-                  </a>
+                    contact.greenter@gmail.com
+                  </ObfuscatedEmailLink>
                 </div>
                 <p className="text-sm text-neutral-500 mt-4">
                   Votre demande doit être envoyée avant l'expiration du délai de 14 jours suivant la réception du produit et avant toute intervention d'installation.
