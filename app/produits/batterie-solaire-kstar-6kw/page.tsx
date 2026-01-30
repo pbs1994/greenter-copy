@@ -159,15 +159,15 @@ export default async function ProductPage() {
               <div className="absolute bottom-8 left-6 md:bottom-12 md:left-8 w-32 md:w-40 h-32 md:h-40 bg-teal-100/40 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 md:h-20 bg-green-300/20 blur-2xl" />
               
-              {/* Badges Livraison + Installation - en bas, côte à côte */}
-              <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-center gap-2">
-                <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
-                  <Truck className="w-4 h-4 text-green-600" />
-                  <span className="text-xs font-medium text-neutral-700">Livraison offerte</span>
+              {/* Badges Livraison + Installation - en bas, style pill */}
+              <div className="absolute bottom-4 left-0 right-0 z-20 flex items-center justify-center gap-2">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded-full shadow-md">
+                  <Truck className="w-3.5 h-3.5 text-white" />
+                  <span className="text-[11px] font-semibold text-white">Livraison offerte</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
-                  <Wrench className="w-4 h-4 text-teal-600" />
-                  <span className="text-xs font-medium text-neutral-700">Installation offerte</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 rounded-full shadow-md">
+                  <Wrench className="w-3.5 h-3.5 text-white" />
+                  <span className="text-[11px] font-semibold text-white">Installation offerte</span>
                 </div>
               </div>
               
