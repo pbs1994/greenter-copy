@@ -97,10 +97,27 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Google tag (gtag.js) for Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17839863014"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-ads-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17839863014');
+            `,
+          }}
+        />
         {/* Microsoft Clarity Analytics */}
         <Script
           id="microsoft-clarity"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(c,l,a,r,i,t,y){

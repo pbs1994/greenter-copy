@@ -102,6 +102,16 @@ function SuccessContent() {
               'quantity': 1
             }]
           });
+          
+          // Google Ads conversion tracking direct (gtag)
+          if (window.gtag) {
+            window.gtag('event', 'conversion', {
+              'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
+              'value': orderData.amount,
+              'currency': 'EUR',
+              'transaction_id': sessionId
+            });
+          }
         }
 
         if (!existing) {
