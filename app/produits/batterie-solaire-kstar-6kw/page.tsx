@@ -128,11 +128,11 @@ export default async function ProductPage() {
           <span className="text-neutral-900 font-medium">Batterie Solaire KSTAR 6kW</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           
           {/* Left - Product Image */}
-          <div className="relative order-1 lg:sticky lg:top-24">
-            <div className="relative aspect-square max-w-md mx-auto lg:max-w-none bg-gradient-to-br from-green-50 to-white rounded-2xl md:rounded-[2rem] flex items-center justify-center overflow-hidden ring-1 ring-green-100/50 group">
+          <div className="relative order-1">
+            <div className="relative aspect-square md:aspect-[4/5] max-h-[50vh] md:max-h-[60vh] bg-gradient-to-br from-green-50 to-white rounded-2xl md:rounded-[2rem] flex items-center justify-center overflow-hidden ring-1 ring-green-100/50 group mx-auto max-w-sm lg:max-w-none">
               {/* Decorative blurs */}
               <div className="absolute top-6 right-6 md:top-8 md:right-8 w-24 md:w-32 h-24 md:h-32 bg-green-200/30 rounded-full blur-3xl" />
               <div className="absolute bottom-8 left-6 md:bottom-12 md:left-8 w-32 md:w-40 h-32 md:h-40 bg-teal-100/40 rounded-full blur-3xl" />
@@ -155,7 +155,7 @@ export default async function ProductPage() {
                 alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4 pour autoconsommation"
                 width={260}
                 height={320}
-                className="relative z-10 w-auto h-auto max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
+                className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
                 priority
               />
               
@@ -165,7 +165,7 @@ export default async function ProductPage() {
               </p>
             </div>
 
-            {/* Specs badges - Hidden on mobile, shown on tablet and desktop */}
+            {/* Specs badges - Hidden on mobile */}
             <div className="hidden md:flex mt-4 flex-wrap gap-2 justify-center lg:justify-start">
               {specs.map((spec, index) => (
                 <span 
@@ -180,7 +180,7 @@ export default async function ProductPage() {
           </div>
 
           {/* Right - Product Info */}
-          <div className="order-2">
+          <div className="order-2 text-center lg:text-left">
             {/* Category Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
@@ -190,7 +190,7 @@ export default async function ProductPage() {
             </div>
 
             {/* Title */}
-            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
+            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
               Batterie Solaire<br />
               <span className="text-teal-600">KSTAR BluE-S</span> 6kW
             </h1>
