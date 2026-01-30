@@ -12,7 +12,8 @@ export function useObfuscatedEmail() {
 
   useEffect(() => {
     // Obfuscation de l'email contre les scrapers
-    const parts = ["contact", "greenter", "fr"]
+    // L'email est assemblé côté client pour éviter le scraping
+    const parts = ["contact.greenter", "gmail", "com"]
     setEmail(`${parts[0]}@${parts[1]}.${parts[2]}`)
   }, [])
 

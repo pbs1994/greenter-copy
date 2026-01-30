@@ -8,6 +8,8 @@ import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 const solutions = [
   {
     title: "Autoconsommation",
@@ -17,15 +19,17 @@ const solutions = [
   },
   {
     title: "Autoconsommation + Batterie",
-    description: "Stockez le surplus pour l'utiliser le soir. Maximisez votre taux d'autoconsommation jusqu'à 80%.",
+    description: "Stockez le surplus pour l'utiliser le soir. Maximisez votre taux d'autoconsommation jusqu'à 80%. La solution la plus rentable depuis mars 2025.",
     icon: Battery,
     benefits: ["Autonomie renforcée", "Consommation le soir", "Protection coupures"],
+    recommended: true,
+    link: "/produits/batterie-solaire-kstar-6kw",
   },
   {
     title: "Revente surplus EDF OA",
-    description: "Revendez l'électricité non consommée à EDF. Un revenu complémentaire garanti pendant 20 ans.",
+    description: "Revendez l'électricité non consommée à EDF. Attention : tarif de rachat réduit à 0,04€/kWh depuis mars 2025.",
     icon: Euro,
-    benefits: ["Revenu garanti 20 ans", "Tarif fixe", "Rentabilité optimale"],
+    benefits: ["Revenu garanti 20 ans", "Tarif fixe", "Rentabilité limitée"],
   },
 ]
 
@@ -33,7 +37,7 @@ const stats = [
   { value: "30-70%", label: "d'économies sur votre facture" },
   { value: "6-10 ans", label: "retour sur investissement" },
   { value: "25-30 ans", label: "durée de vie des panneaux" },
-  { value: "0,1278€", label: "tarif rachat kWh (2024)" },
+  { value: "0,04€", label: `tarif rachat kWh (${CURRENT_YEAR})`, warning: true },
 ]
 
 const steps = [
@@ -73,16 +77,20 @@ const faqs = [
     answer: "La puissance dépend de votre consommation et de la surface disponible. Pour une maison de 100m², on recommande généralement 3 à 6 kWc (8 à 16 panneaux). Notre étude gratuite détermine le dimensionnement optimal.",
   },
   {
-    question: "Quelles sont les aides pour le solaire ?",
-    answer: "Vous bénéficiez de la prime à l'autoconsommation (jusqu'à 1 500€ pour 6kWc), de la TVA réduite à 10%, et du tarif de rachat garanti EDF OA. MaPrimeRénov' est disponible pour le solaire thermique (eau chaude).",
+    question: `Quelles sont les aides pour le solaire en ${CURRENT_YEAR} ?`,
+    answer: "Vous bénéficiez de la prime à l'autoconsommation de 80€/kWc (soit 480€ pour 6kWc), de la TVA réduite à 10%. Attention : la prime a été réduite (anciennement 160-220€/kWc) et le tarif de rachat est passé de 12,69 à 4 centimes/kWh depuis mars 2025.",
   },
   {
     question: "Faut-il une autorisation pour installer des panneaux ?",
     answer: "Une déclaration préalable de travaux en mairie est obligatoire. Nous nous chargeons de toutes les démarches administratives : mairie, Enedis, EDF OA, Consuel.",
   },
   {
+    question: `Revente ou stockage batterie : que choisir en ${CURRENT_YEAR} ?`,
+    answer: "Avec le tarif de rachat à 4 centimes/kWh (contre 12,69 centimes avant mars 2025), la revente n'est plus aussi intéressante. Le stockage batterie devient la solution la plus rentable : vous consommez votre propre électricité valorisée à ~25 centimes/kWh au lieu de la revendre à 4 centimes.",
+  },
+  {
     question: "Que se passe-t-il en cas de panne ou d'orage ?",
-    answer: "Les panneaux sont garantis 25 ans en production et l'onduleur 10 à 12 ans. Votre installation est couverte par votre assurance habitation. En cas de coupure réseau, l'installation se met en sécurité automatiquement.",
+    answer: "Les panneaux sont garantis 25 ans en production et l'onduleur 10 à 12 ans. Votre installation est couverte par votre assurance habitation. En cas de coupure réseau, l'installation se met en sécurité automatiquement (sauf si vous avez une batterie).",
   },
 ]
 
@@ -222,11 +230,20 @@ export default function PanneauxSolairesPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {solutions.map((solution, index) => {
               const Icon = solution.icon
+              const isRecommended = 'recommended' in solution && solution.recommended
+              const hasLink = 'link' in solution && solution.link
               return (
                 <div 
                   key={index}
-                  className="bg-gradient-to-b from-green-50 to-white rounded-2xl p-6 ring-1 ring-green-200 hover:ring-green-400 hover:shadow-lg transition-all"
+                  className={`relative bg-gradient-to-b from-green-50 to-white rounded-2xl p-6 ring-1 hover:shadow-lg transition-all ${
+                    isRecommended ? 'ring-green-500 ring-2' : 'ring-green-200 hover:ring-green-400'
+                  }`}
                 >
+                  {isRecommended && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      Recommandé {CURRENT_YEAR}
+                    </span>
+                  )}
                   <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center mb-5">
                     <Icon className="w-7 h-7 text-white" />
                   </div>
@@ -236,7 +253,7 @@ export default function PanneauxSolairesPage() {
                   <p className="text-neutral-600 text-sm mb-5">
                     {solution.description}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 mb-4">
                     {solution.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-neutral-700">
                         <CheckCircle className="w-4 h-4 text-green-600" />
@@ -244,6 +261,15 @@ export default function PanneauxSolairesPage() {
                       </li>
                     ))}
                   </ul>
+                  {hasLink && (
+                    <Link 
+                      href={solution.link as string}
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-green-800 transition-colors"
+                    >
+                      Voir notre batterie KSTAR
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  )}
                 </div>
               )
             })}
@@ -254,35 +280,60 @@ export default function PanneauxSolairesPage() {
       {/* Simulation / Rentabilité */}
       <section className="py-16 md:py-24 bg-neutral-50">
         <div className="container mx-auto max-w-6xl px-4">
+          {/* Alerte changement tarifs 2025 */}
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-12">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
+                <TrendingUp className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-amber-900 mb-2">Nouveaux tarifs depuis mars 2025</h3>
+                <p className="text-sm text-amber-800 leading-relaxed">
+                  Le tarif de rachat du surplus est passé de <strong>12,69 à 4 centimes/kWh</strong> et la prime d'autoconsommation 
+                  de 160-220€/kWc à <strong>80€/kWc</strong>. Conséquence : <strong>le stockage batterie devient la solution la plus rentable</strong> 
+                  pour maximiser vos économies. Vous consommez votre électricité à ~25 cts/kWh au lieu de la revendre à 4 cts.
+                </p>
+                <Link href="/produits/batterie-solaire-kstar-6kw" className="inline-flex items-center gap-2 text-amber-700 font-semibold text-sm mt-3 hover:text-amber-900">
+                  Découvrir notre batterie solaire KSTAR
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <div className="bg-white rounded-2xl p-8 shadow-xl">
                 <h3 className="font-heading text-xl font-bold text-neutral-900 mb-6">
-                  Exemple de rentabilité
+                  Exemple de rentabilité (tarifs {CURRENT_YEAR})
                 </h3>
                 <p className="text-neutral-600 text-sm mb-6">
-                  Installation 6 kWc (16 panneaux) en autoconsommation avec revente surplus
+                  Installation 6 kWc (16 panneaux) en autoconsommation avec batterie
                 </p>
 
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between items-center py-3 border-b border-neutral-100">
-                    <span className="text-neutral-600">Coût installation</span>
+                    <span className="text-neutral-600">Coût installation panneaux</span>
                     <span className="font-semibold text-neutral-900">12 500 €</span>
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-neutral-100">
-                    <span className="text-neutral-600">Prime autoconsommation</span>
-                    <span className="font-semibold text-green-600">- 1 500 €</span>
+                    <span className="text-neutral-600">Batterie solaire KSTAR 6kW</span>
+                    <span className="font-semibold text-neutral-900">2 500 €</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-neutral-100">
+                    <span className="text-neutral-600">Prime autoconsommation (80€/kWc)</span>
+                    <span className="font-semibold text-green-600">- 480 €</span>
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-neutral-100">
                     <span className="text-neutral-600">Coût net</span>
-                    <span className="font-bold text-neutral-900">11 000 €</span>
+                    <span className="font-bold text-neutral-900">14 520 €</span>
                   </div>
                 </div>
 
-                <div className="bg-amber-50 rounded-xl p-4 mb-6">
+                <div className="bg-green-50 rounded-xl p-4 mb-6">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-neutral-700">Économies annuelles</span>
-                    <span className="font-bold text-amber-700">~1 400 €/an</span>
+                    <span className="text-neutral-700">Économies annuelles (80% autoconso)</span>
+                    <span className="font-bold text-green-700">~1 800 €/an</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-neutral-700">Retour sur investissement</span>
@@ -291,24 +342,34 @@ export default function PanneauxSolairesPage() {
                 </div>
 
                 <p className="text-xs text-neutral-500">
-                  *Estimation basée sur une consommation de 8 000 kWh/an, ensoleillement moyen France.
+                  *Estimation basée sur 8 000 kWh/an, tarif électricité 0,25€/kWh, ensoleillement moyen France.
                 </p>
               </div>
             </div>
 
             <div className="order-1 lg:order-2">
               <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
-                Rentabilité garantie
+                Rentabilité {CURRENT_YEAR}
               </span>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
-                Un investissement rentable sur le long terme
+                Stockez plutôt que revendre : la nouvelle donne
               </h2>
               <p className="text-neutral-600 text-lg mb-6">
-                Avec la hausse continue du prix de l'électricité (+15% en 2023), 
-                produire sa propre énergie devient de plus en plus avantageux.
+                Avec le tarif de rachat à 4 cts/kWh, revendre votre surplus n'est plus rentable. 
+                La solution ? <strong>Stocker votre électricité</strong> pour la consommer le soir, 
+                quand vos panneaux ne produisent plus.
               </p>
 
               <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+                    <Battery className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-neutral-900">Autoconsommation maximisée</h4>
+                    <p className="text-sm text-neutral-600">Passez de 30% à 80% d'autoconsommation avec une batterie</p>
+                  </div>
+                </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
                     <TrendingUp className="w-5 h-5 text-green-600" />
@@ -320,23 +381,22 @@ export default function PanneauxSolairesPage() {
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
-                    <Euro className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-neutral-900">Revenu complémentaire</h4>
-                    <p className="text-sm text-neutral-600">Tarif de rachat garanti 20 ans par EDF OA</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
                     <Shield className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-neutral-900">Valorisation immobilière</h4>
-                    <p className="text-sm text-neutral-600">Un atout pour la revente de votre bien</p>
+                    <h4 className="font-semibold text-neutral-900">Autonomie en cas de coupure</h4>
+                    <p className="text-sm text-neutral-600">Continuez à avoir du courant même pendant les pannes réseau</p>
                   </div>
                 </div>
               </div>
+
+              <Link 
+                href="/produits/batterie-solaire-kstar-6kw" 
+                className="inline-flex items-center gap-2 mt-8 bg-green-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-green-700 transition-colors"
+              >
+                Voir notre batterie solaire
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
         </div>

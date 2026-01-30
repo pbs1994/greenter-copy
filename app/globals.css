@@ -105,6 +105,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -167,5 +170,19 @@
 
   .animate-scroll-infinite:hover {
     animation-play-state: paused;
+  }
+
+  /* Bounce slow animation for calculator CTA */
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 1.5s ease-in-out infinite;
   }
 }

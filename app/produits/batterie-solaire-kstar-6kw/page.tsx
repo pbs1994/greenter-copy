@@ -1,7 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench } from "lucide-react"
+import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, TrendingUp, Zap } from "lucide-react"
 import { BuyButton } from "@/components/BuyButton"
+import { BatteryCalculator } from "@/components/BatteryCalculator"
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
@@ -76,7 +77,7 @@ export default async function ProductPage() {
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Produits", url: "https://greenter.fr/produits" },
-    { name: "KSTAR BluE-S 6kW", url: "https://greenter.fr/produits/kstar-blue-s-6kw" }
+    { name: "Batterie Solaire KSTAR 6kW", url: "https://greenter.fr/produits/batterie-solaire-kstar-6kw" }
   ]
 
   const features = [
@@ -100,15 +101,15 @@ export default async function ProductPage() {
   return (
     <main className="min-h-[calc(100vh-80px)] bg-gradient-to-b from-green-50/80 via-white to-white py-6 md:py-8">
       <ProductSchema
-        name="KSTAR BluE-S 6kW - Onduleur Hybride Batterie Solaire"
-        description="Onduleur hybride tout-en-un avec batteries LiFePO4 CATL intégrées. 6kW de puissance nominale, 10 000 cycles garantis, rendement solaire 97%. Basculement instantané en cas de coupure. Livraison et installation incluses."
+        name="Batterie Solaire KSTAR BluE-S 6kW - Stockage Énergie Solaire"
+        description="Batterie solaire tout-en-un avec onduleur hybride et cellules LiFePO4 CATL intégrées. 6kW de puissance, 10 000 cycles garantis. Stockez votre production solaire et consommez-la le soir. Livraison et installation offertes."
         image="https://greenter.fr/kstar.png"
         price={stripePrice}
         currency="EUR"
         availability="InStock"
         brand="KSTAR"
         sku="KSTAR-BLUES-6KW"
-        url="https://greenter.fr/produits/kstar-blue-s-6kw"
+        url="https://greenter.fr/produits/batterie-solaire-kstar-6kw"
       />
       <FAQPageSchema items={faqItems} />
       <BreadcrumbSchema items={breadcrumbItems} />
@@ -124,7 +125,7 @@ export default async function ProductPage() {
             Produits
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-neutral-300" />
-          <span className="text-neutral-900 font-medium">KSTAR BluE-S 6kW</span>
+          <span className="text-neutral-900 font-medium">Batterie Solaire KSTAR 6kW</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -141,11 +142,11 @@ export default async function ProductPage() {
               <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-center gap-2">
                 <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
                   <Truck className="w-4 h-4 text-green-600" />
-                  <span className="text-xs font-medium text-neutral-700">Livraison incluse</span>
+                  <span className="text-xs font-medium text-neutral-700">Livraison offerte</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
                   <Wrench className="w-4 h-4 text-teal-600" />
-                  <span className="text-xs font-medium text-neutral-700">Installation incluse</span>
+                  <span className="text-xs font-medium text-neutral-700">Installation offerte</span>
                 </div>
               </div>
               
@@ -157,6 +158,11 @@ export default async function ProductPage() {
                 className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
                 priority
               />
+              
+              {/* Mention photo */}
+              <p className="absolute bottom-16 left-0 right-0 text-center text-[10px] text-neutral-400 z-20">
+                *Photo avec modules empilés · 1 module inclus
+              </p>
             </div>
 
             {/* Specs badges - Hidden on mobile */}
@@ -179,46 +185,72 @@ export default async function ProductPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
               <span className="text-xs font-medium text-green-700">
-                Onduleur hybride · Stockage tout-en-un
+                Batterie solaire · Stockage tout-en-un
               </span>
             </div>
 
             {/* Title */}
-            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-none mb-1">
-              <span className="sr-only">Onduleur Hybride Batterie Solaire - </span>
-              KSTAR <span className="text-teal-600">BluE-S</span> 6kW
-              <span className="sr-only"> - Système de stockage solaire tout-en-un avec batteries LiFePO4</span>
+            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
+              Batterie Solaire<br />
+              <span className="text-teal-600">KSTAR BluE-S</span> 6kW
             </h1>
             
             {/* Subtitle */}
-            <p className="text-base md:text-lg lg:text-xl text-neutral-500 mb-4 md:mb-5">
-              L'indépendance énergétique, <span className="italic">simplifiée.</span>
+            <p className="text-base md:text-lg text-neutral-500 mb-5">
+              Stockez votre surplus solaire, consommez-le le soir.
             </p>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
-              <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                {stripePrice.toLocaleString('fr-FR')} €
-              </p>
-              <span className="text-sm text-neutral-400">TTC</span>
+            {/* Price + CTA Block */}
+            <div className="bg-gradient-to-br from-green-50 to-teal-50/50 rounded-2xl p-5 mb-6 border border-green-100">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                <div>
+                  <p className="text-4xl font-bold text-neutral-900">
+                    {stripePrice.toLocaleString('fr-FR')} €
+                  </p>
+                  <p className="text-sm text-green-700 font-medium mt-0.5">
+                    Livraison + Installation offertes
+                  </p>
+                </div>
+                <BuyButton />
+              </div>
+              
+              {/* Mini reassurance */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-neutral-500">
+                <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> Paiement sécurisé</span>
+                <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> Garantie 10 ans</span>
+                <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> SAV France</span>
+              </div>
             </div>
 
-            {/* Description */}
-            <p className="text-neutral-500 text-sm md:text-base leading-relaxed mb-5 md:mb-6 max-w-md mx-auto lg:mx-0">
-              Onduleur, batteries LiFePO4 et gestion intelligente réunis dans un système premium. 
-              Cellules CATL garanties 10 000 cycles. Basculement instantané en cas de coupure.
-            </p>
+            {/* Hook calculateur */}
+            <a 
+              href="#calculateur"
+              className="group flex items-center justify-between gap-3 bg-white border border-green-200 rounded-xl px-4 py-3 mb-6 hover:bg-green-50 hover:border-green-300 transition-all duration-300"
+            >
+              <p className="text-sm text-neutral-700">
+                <strong className="text-green-700">Revendre à 4 cts ou stocker ?</strong> Calculez vos économies
+              </p>
+              <div className="flex items-center gap-1.5 text-green-600">
+                <svg className="w-5 h-5 animate-bounce-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+            </a>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
-              <BuyButton />
-              <a 
-                href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
-                target="_blank"
-                className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
-              >
-                Fiche technique
-              </a>
+            {/* Key benefits - compact */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <div className="flex items-center gap-2 text-sm text-neutral-600">
+                <Zap className="w-4 h-4 text-green-600 shrink-0" />
+                <span>Autonomie le soir</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-neutral-600">
+                <Shield className="w-4 h-4 text-green-600 shrink-0" />
+                <span>Secours coupures</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-neutral-600">
+                <TrendingUp className="w-4 h-4 text-green-600 shrink-0" />
+                <span>Amorti en ~5 ans</span>
+              </div>
             </div>
 
             {/* Features Grid */}
@@ -239,6 +271,18 @@ export default async function ProductPage() {
               ))}
             </div>
 
+            {/* Bouton fiche technique */}
+            <a 
+              href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
+              target="_blank"
+              className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-green-200 hover:border-green-300 hover:bg-green-50 text-green-700 font-medium py-3 px-6 rounded-xl transition-all duration-300"
+            >
+              <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Télécharger la fiche technique (PDF)
+            </a>
+
             {/* Mobile Specs */}
             <div className="md:hidden mt-6 p-4 bg-green-50/50 rounded-xl">
               <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-3">Spécifications</p>
@@ -255,6 +299,11 @@ export default async function ProductPage() {
 
         </div>
 
+        {/* Calculateur d'amortissement interactif */}
+        <div id="calculateur" className="mt-12 md:mt-16 scroll-mt-24">
+          <BatteryCalculator batteryPrice={stripePrice} />
+        </div>
+
         {/* Delivery & Installation Notice */}
         <div className="mt-12 md:mt-16 p-6 md:p-8 bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl border border-green-100">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
@@ -267,12 +316,36 @@ export default async function ProductPage() {
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-neutral-900 mb-1">Livraison et installation incluses</h3>
+              <h3 className="text-lg font-semibold text-neutral-900 mb-1">Livraison et installation offertes</h3>
               <p className="text-sm text-neutral-600 leading-relaxed">
                 Le prix affiché comprend la livraison à domicile et l'installation complète par nos techniciens certifiés RGE. 
                 Si vous ne souhaitez pas l'installation, seule la livraison est effectuée — le tarif reste identique.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Réassurance */}
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <Shield className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-neutral-900">Paiement sécurisé</p>
+            <p className="text-xs text-neutral-500">Stripe 3D Secure</p>
+          </div>
+          <div className="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <Truck className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-neutral-900">Livraison France</p>
+            <p className="text-xs text-neutral-500">Délai sur devis</p>
+          </div>
+          <div className="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-neutral-900">Garantie 10 ans</p>
+            <p className="text-xs text-neutral-500">Batteries LiFePO4</p>
+          </div>
+          <div className="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <HelpCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-neutral-900">SAV réactif</p>
+            <p className="text-xs text-neutral-500">Support technique inclus</p>
           </div>
         </div>
 

@@ -39,8 +39,8 @@ export default async function ProduitsPage() {
   
   const products = [
     {
-      id: "kstar-blue-s-6kw",
-      name: "KSTAR BluE-S 6kW",
+      id: "batterie-solaire-kstar-6kw",
+      name: "Batterie Solaire KSTAR BluE-S 6kW",
       description: "Onduleur hybride tout-en-un avec batteries LiFePO4 CATL intégrées. 10 000 cycles garantis.",
       price: stripePrice,
       image: "/kstar.png",

@@ -125,7 +125,7 @@ export function ProductShowcase() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
               <BuyButton />
               <a 
-                href="/produits/kstar-blue-s-6kw"
+                href="/produits/batterie-solaire-kstar-6kw"
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
               >
                 Détails techniques

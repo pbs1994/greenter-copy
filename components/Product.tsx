@@ -33,7 +33,7 @@ export function Product() {
         </div>
 
         {/* Product Card */}
-        <Link href="/produits/kstar-blue-s-6kw" className="block max-w-sm mx-auto group">
+        <Link href="/produits/batterie-solaire-kstar-6kw" className="block max-w-sm mx-auto group">
           <div className="bg-white rounded-2xl overflow-hidden shadow-lg ring-1 ring-green-200 group-hover:shadow-xl group-hover:ring-green-400 transition-all duration-300">
             {/* Header with title and heart */}
             <div className="p-6 pb-0">
