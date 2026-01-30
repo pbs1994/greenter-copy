@@ -1,8 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, TrendingUp, Zap } from "lucide-react"
+import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, TrendingUp, Zap, Phone, Star, ArrowRight } from "lucide-react"
 import { BuyButton } from "@/components/BuyButton"
 import { BatteryCalculator } from "@/components/BatteryCalculator"
+import { SavingsSummary } from "@/components/SavingsSummary"
+import { BenefitsCarousel } from "@/components/BenefitsCarousel"
+import { ProductPageClient } from "@/components/ProductPageClient"
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
@@ -99,6 +102,7 @@ export default async function ProductPage() {
   ]
 
   return (
+    <ProductPageClient batteryPrice={stripePrice}>
     <main className="min-h-[calc(100vh-80px)] bg-gradient-to-b from-green-50/80 via-white to-white py-6 md:py-8">
       <ProductSchema
         name="Batterie Solaire KSTAR BluE-S 6kW - Stockage Énergie Solaire"
@@ -128,11 +132,28 @@ export default async function ProductPage() {
           <span className="text-neutral-900 font-medium">Batterie Solaire KSTAR 6kW</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        {/* Mobile Header - Title first */}
+        <div className="md:hidden text-center mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3">
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+            <span className="text-xs font-medium text-green-700">
+              Batterie solaire · Stockage tout-en-un
+            </span>
+          </div>
+          <h1 className="font-heading text-3xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
+            Batterie Solaire<br />
+            <span className="text-teal-600">KSTAR BluE-S</span> 6kW
+          </h1>
+          <p className="text-base text-neutral-500">
+            Votre électricité gratuite, même la nuit.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
           
           {/* Left - Product Image */}
           <div className="relative order-1">
-            <div className="relative aspect-square md:aspect-[4/5] max-h-[50vh] md:max-h-[60vh] bg-gradient-to-br from-green-50 to-white rounded-2xl md:rounded-[2rem] flex items-center justify-center overflow-hidden ring-1 ring-green-100/50 group mx-auto max-w-sm lg:max-w-none">
+            <div className="relative aspect-square md:aspect-[4/5] max-h-[50vh] md:max-h-[55vh] lg:max-h-[60vh] bg-gradient-to-br from-green-50 to-white rounded-2xl md:rounded-[2rem] flex items-center justify-center overflow-hidden ring-1 ring-green-100/50 group mx-auto max-w-sm md:max-w-none">
               {/* Decorative blurs */}
               <div className="absolute top-6 right-6 md:top-8 md:right-8 w-24 md:w-32 h-24 md:h-32 bg-green-200/30 rounded-full blur-3xl" />
               <div className="absolute bottom-8 left-6 md:bottom-12 md:left-8 w-32 md:w-40 h-32 md:h-40 bg-teal-100/40 rounded-full blur-3xl" />
@@ -164,45 +185,32 @@ export default async function ProductPage() {
                 *Photo avec modules empilés · 1 module inclus
               </p>
             </div>
-
-            {/* Specs badges - Hidden on mobile */}
-            <div className="hidden md:flex mt-4 flex-wrap gap-2 justify-center lg:justify-start">
-              {specs.map((spec, index) => (
-                <span 
-                  key={index}
-                  className="inline-flex items-center gap-1.5 text-xs text-green-700 bg-green-50 px-3 py-1.5 rounded-full"
-                >
-                  <Check className="w-3 h-3" />
-                  {spec}
-                </span>
-              ))}
-            </div>
           </div>
 
           {/* Right - Product Info */}
-          <div className="order-2 text-center lg:text-left">
-            {/* Category Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
+          <div className="order-2 text-center md:text-left">
+            {/* Category Badge - hidden on mobile, shown in header section */}
+            <div className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
               <span className="text-xs font-medium text-green-700">
                 Batterie solaire · Stockage tout-en-un
               </span>
             </div>
 
-            {/* Title */}
-            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
+            {/* Title - hidden on mobile, shown in header section */}
+            <h1 className="hidden md:block font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
               Batterie Solaire<br />
               <span className="text-teal-600">KSTAR BluE-S</span> 6kW
             </h1>
             
-            {/* Subtitle */}
-            <p className="text-base md:text-lg text-neutral-500 mb-5">
-              Stockez votre surplus solaire, consommez-le le soir.
+            {/* Subtitle - hidden on mobile */}
+            <p className="hidden md:block text-base md:text-lg text-neutral-500 mb-5">
+              Votre électricité gratuite, même la nuit.
             </p>
 
             {/* Price + CTA Block */}
-            <div className="bg-gradient-to-br from-green-50 to-teal-50/50 rounded-2xl p-5 mb-6 border border-green-100">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <div className="bg-gradient-to-br from-green-50 to-teal-50/50 rounded-2xl p-5 mb-4 border border-green-100">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
                 <div>
                   <p className="text-4xl font-bold text-neutral-900">
                     {stripePrice.toLocaleString('fr-FR')} €
@@ -214,18 +222,30 @@ export default async function ProductPage() {
                 <BuyButton />
               </div>
               
+              {/* CTA secondaire */}
+              <Link 
+                href="/contact"
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-white border border-green-200 rounded-xl text-green-700 font-medium text-sm hover:bg-green-50 hover:border-green-300 transition-all"
+              >
+                <Phone className="w-4 h-4" />
+                J'appelle pour plus d'informations
+              </Link>
+              
               {/* Mini reassurance */}
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-neutral-500">
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-neutral-500 mt-3">
                 <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> Paiement sécurisé</span>
                 <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> Garantie 10 ans</span>
                 <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-green-600" /> SAV France</span>
               </div>
             </div>
 
+            {/* Résumé visuel économies - connecté au calculateur */}
+            <SavingsSummary />
+
             {/* Hook calculateur */}
             <a 
               href="#calculateur"
-              className="group flex items-center justify-between gap-3 bg-white border border-green-200 rounded-xl px-4 py-3 mb-6 hover:bg-green-50 hover:border-green-300 transition-all duration-300"
+              className="group flex items-center justify-between gap-3 bg-white border border-green-200 rounded-xl px-4 py-3 mb-4 hover:bg-green-50 hover:border-green-300 transition-all duration-300"
             >
               <p className="text-sm text-neutral-700">
                 <strong className="text-green-700">Revendre à 4 cts ou stocker ?</strong> Calculez vos économies
@@ -237,71 +257,145 @@ export default async function ProductPage() {
               </div>
             </a>
 
-            {/* Key benefits - compact */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-              <div className="flex items-center gap-2 text-sm text-neutral-600">
-                <Zap className="w-4 h-4 text-green-600 shrink-0" />
-                <span>Autonomie le soir</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-neutral-600">
-                <Shield className="w-4 h-4 text-green-600 shrink-0" />
-                <span>Secours coupures</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-neutral-600">
-                <TrendingUp className="w-4 h-4 text-green-600 shrink-0" />
-                <span>Amorti en ~5 ans</span>
-              </div>
-            </div>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
-              {features.map((feature, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center gap-2 md:gap-2.5 p-2.5 md:p-3 rounded-xl bg-white/80 border border-green-100/50 hover:border-green-200 hover:shadow-sm transition-all duration-300"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-green-50 to-green-100/50 flex items-center justify-center flex-shrink-0">
-                    <feature.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-700 stroke-[1.75]" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm font-medium text-neutral-900 leading-tight truncate">{feature.title}</p>
-                    <p className="text-[10px] md:text-[11px] text-neutral-500 truncate">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Bouton fiche technique */}
-            <a 
-              href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
-              target="_blank"
-              className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-green-200 hover:border-green-300 hover:bg-green-50 text-green-700 font-medium py-3 px-6 rounded-xl transition-all duration-300"
-            >
-              <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Télécharger la fiche technique (PDF)
-            </a>
-
-            {/* Mobile Specs */}
-            <div className="md:hidden mt-6 p-4 bg-green-50/50 rounded-xl">
-              <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-3">Spécifications</p>
-              <ul className="space-y-2">
-                {specs.map((spec, index) => (
-                  <li key={index} className="flex items-center gap-2 text-xs text-neutral-600">
-                    <Check className="w-3 h-3 text-green-600 flex-shrink-0" />
-                    {spec}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Key benefits - carrousel */}
+            <BenefitsCarousel />
           </div>
 
         </div>
 
         {/* Calculateur d'amortissement interactif */}
         <div id="calculateur" className="mt-12 md:mt-16 scroll-mt-24">
-          <BatteryCalculator batteryPrice={stripePrice} />
+          <BatteryCalculator />
+        </div>
+
+        {/* Caractéristiques + Fiche technique - sous le calculateur */}
+        <div className="mt-8 md:mt-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 mb-4">
+            {features.map((feature, index) => (
+              <div 
+                key={index} 
+                className="flex items-center gap-2 md:gap-2.5 p-2.5 md:p-3 rounded-xl bg-white/80 border border-green-100/50 hover:border-green-200 hover:shadow-sm transition-all duration-300"
+              >
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-green-50 to-green-100/50 flex items-center justify-center flex-shrink-0">
+                  <feature.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-700 stroke-[1.75]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs md:text-sm font-medium text-neutral-900 leading-tight truncate">{feature.title}</p>
+                  <p className="text-[10px] md:text-[11px] text-neutral-500 truncate">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bouton fiche technique */}
+          <a 
+            href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
+            target="_blank"
+            className="w-full flex items-center justify-center gap-2 bg-white border border-green-200 hover:border-green-300 hover:bg-green-50 text-green-700 font-medium py-3 px-6 rounded-xl transition-all duration-300"
+          >
+            <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Télécharger la fiche technique (PDF)
+          </a>
+        </div>
+
+        {/* Section "Pour qui ?" */}
+        <div className="mt-12 md:mt-16 p-6 md:p-8 bg-gradient-to-br from-teal-50 to-green-50 rounded-2xl border border-teal-100">
+          <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 mb-6 text-center">
+            Cette batterie est-elle faite pour vous ?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
+            <div className="flex items-start gap-3 p-4 bg-white rounded-xl">
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Check className="w-4 h-4 text-green-600" />
+              </div>
+              <div>
+                <p className="font-medium text-neutral-900">Vous avez déjà des panneaux solaires</p>
+                <p className="text-sm text-neutral-500 mt-1">Installation existante ou projet en cours</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-white rounded-xl">
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Check className="w-4 h-4 text-green-600" />
+              </div>
+              <div>
+                <p className="font-medium text-neutral-900">Vous revendez votre surplus à 0,04€</p>
+                <p className="text-sm text-neutral-500 mt-1">Contrat EDF OA ou équivalent</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-white rounded-xl">
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Check className="w-4 h-4 text-green-600" />
+              </div>
+              <div>
+                <p className="font-medium text-neutral-900">Vous consommez surtout le soir/nuit</p>
+                <p className="text-sm text-neutral-500 mt-1">Quand vos panneaux ne produisent plus</p>
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-semibold text-teal-700">
+              → Cette batterie est faite pour vous !
+            </p>
+          </div>
+        </div>
+
+        {/* Tableau comparatif */}
+        <div className="mt-12 md:mt-16">
+          <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 mb-6 text-center">
+            Avant / Après : la différence KSTAR
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-6 bg-neutral-50 rounded-2xl border border-neutral-200">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">😞</span>
+                <h3 className="text-lg font-semibold text-neutral-700">Sans batterie</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3 text-neutral-600">
+                  <span className="w-2 h-2 bg-neutral-400 rounded-full" />
+                  Surplus revendu à 0,04€ seulement
+                </li>
+                <li className="flex items-center gap-3 text-neutral-600">
+                  <span className="w-2 h-2 bg-neutral-400 rounded-full" />
+                  Factures qui grimpent le soir
+                </li>
+                <li className="flex items-center gap-3 text-neutral-600">
+                  <span className="w-2 h-2 bg-neutral-400 rounded-full" />
+                  Dépendant du réseau en coupure
+                </li>
+                <li className="flex items-center gap-3 text-neutral-600">
+                  <span className="w-2 h-2 bg-neutral-400 rounded-full" />
+                  Production solaire gaspillée
+                </li>
+              </ul>
+            </div>
+            <div className="p-6 bg-green-50 rounded-2xl border-2 border-green-200">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">😊</span>
+                <h3 className="text-lg font-semibold text-green-700">Avec KSTAR BluE-S</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3 text-green-700">
+                  <Check className="w-4 h-4 text-green-600" />
+                  Surplus utilisé le soir à 0,20€+
+                </li>
+                <li className="flex items-center gap-3 text-green-700">
+                  <Check className="w-4 h-4 text-green-600" />
+                  Factures divisées par 2 ou 3
+                </li>
+                <li className="flex items-center gap-3 text-green-700">
+                  <Check className="w-4 h-4 text-green-600" />
+                  Autonome en cas de coupure
+                </li>
+                <li className="flex items-center gap-3 text-green-700">
+                  <Check className="w-4 h-4 text-green-600" />
+                  100% de votre production valorisée
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         {/* Delivery & Installation Notice */}
@@ -380,5 +474,6 @@ export default async function ProductPage() {
 
       </div>
     </main>
+    </ProductPageClient>
   )
 }

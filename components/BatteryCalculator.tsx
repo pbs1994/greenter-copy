@@ -1,48 +1,10 @@
 "use client"
 
-import { useState, useMemo } from "react"
 import { Sparkles, Info } from "lucide-react"
+import { useBatteryCalculatorContext } from "@/lib/useBatteryCalculator"
 
-interface BatteryCalculatorProps {
-  batteryPrice: number
-}
-
-const FEED_IN_TARIFF_SMALL = 0.04 // ≤9 kWc
-const FEED_IN_TARIFF_MEDIUM = 0.0536 // 9-36 kWc
-
-export function BatteryCalculator({ batteryPrice }: BatteryCalculatorProps) {
-  const [kWc, setKWc] = useState(6)
-  const [prixKwh, setPrixKwh] = useState(0.20)
-  const [tauxSurplus, setTauxSurplus] = useState(60)
-
-  const results = useMemo(() => {
-    const production = kWc * 1100
-    const surplus = production * (tauxSurplus / 100)
-    const autoconso = production - surplus
-    
-    // Tarif selon la puissance
-    const tarifRachat = kWc <= 9 ? FEED_IN_TARIFF_SMALL : FEED_IN_TARIFF_MEDIUM
-
-    const revenuRevente = surplus * tarifRachat
-    const economieSansBatterie = (autoconso * prixKwh) + revenuRevente
-
-    const surplusStocke = surplus * 0.85
-    const surplusPerdu = surplus * 0.15
-    const economieAvecBatterie = (autoconso * prixKwh) + (surplusStocke * prixKwh) + (surplusPerdu * tarifRachat)
-
-    const gainBatterie = economieAvecBatterie - economieSansBatterie
-    const amortissement = batteryPrice / gainBatterie
-
-    return {
-      surplus: Math.round(surplus),
-      economieSansBatterie: Math.round(economieSansBatterie),
-      economieAvecBatterie: Math.round(economieAvecBatterie),
-      gainBatterie: Math.round(gainBatterie),
-      amortissement: Math.round(amortissement * 10) / 10,
-      surplusStocke: Math.round(surplusStocke),
-      tarifRachat,
-    }
-  }, [kWc, prixKwh, tauxSurplus, batteryPrice])
+export function BatteryCalculator() {
+  const { kWc, prixKwh, tauxSurplus, setKWc, setPrixKwh, setTauxSurplus, results, batteryPrice } = useBatteryCalculatorContext()
 
   const calculatorSchema = {
     "@context": "https://schema.org",
