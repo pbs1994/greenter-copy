@@ -32,3 +32,28 @@ export function ObfuscatedEmail({ className = "", showIcon = false }: Obfuscated
     </button>
   )
 }
+
+interface ObfuscatedEmailLinkProps {
+  className?: string
+  subject?: string
+  children: React.ReactNode
+}
+
+export function ObfuscatedEmailLink({ className = "", subject, children }: ObfuscatedEmailLinkProps) {
+  const email = useObfuscatedEmail()
+
+  const handleClick = () => {
+    if (email) {
+      const mailto = subject 
+        ? `mailto:${email}?subject=${encodeURIComponent(subject)}`
+        : `mailto:${email}`
+      window.location.href = mailto
+    }
+  }
+
+  return (
+    <button onClick={handleClick} className={className}>
+      {children}
+    </button>
+  )
+}

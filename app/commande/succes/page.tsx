@@ -8,6 +8,13 @@ import { CheckCircle, Phone, Mail, Truck, Wrench, Shield, Clock, FileText, Chevr
 import { supabase } from '@/lib/supabase'
 import { useObfuscatedEmail } from '@/components/ObfuscatedEmail'
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+    dataLayer?: unknown[]
+  }
+}
+
 interface OrderDetails {
   id: string
   orderNumber: string
@@ -39,7 +46,7 @@ const steps = [
   {
     number: "2",
     title: "Livraison",
-    description: "Livraison à domicile sous 5 à 10 jours ouvrés.",
+    description: "Livraison à domicile sous 2 à 4 jours ouvrés.",
     icon: Truck,
     done: false,
   },
@@ -80,6 +87,22 @@ function SuccessContent() {
           .select('id, email_sent')
           .eq('stripe_session_id', sessionId)
           .single()
+
+        // Google Ads conversion tracking via dataLayer (GTM)
+        if (typeof window !== 'undefined') {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            'event': 'purchase',
+            'transaction_id': sessionId,
+            'value': orderData.amount,
+            'currency': 'EUR',
+            'items': [{
+              'item_name': 'KSTAR BluE-S 6kW',
+              'price': orderData.amount,
+              'quantity': 1
+            }]
+          });
+        }
 
         if (!existing) {
           await supabase.from('orders').insert({
