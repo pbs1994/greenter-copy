@@ -84,7 +84,7 @@ INSERT INTO products (
 ) VALUES (
   (SELECT id FROM categories WHERE slug = 'batteries-solaires'),
   'KSTAR BluE-S 6kW',
-  'kstar-blues-6kw',
+  'kstar-blue-s-6kw',
   250000,
   '/kstar.png',
   'Batterie solaire tout-en-un avec onduleur hybride et cellules LiFePO4 CATL intégrées. 6kW de puissance, 10 000 cycles garantis. Stockez votre production solaire et consommez-la le soir. Livraison et installation offertes. Onduleur hybride monophasé 230V compatible batteries LiFePO4 48V. Charge/décharge jusqu''à 100A avec basculement réseau instantané. Compatible panneaux jusqu''à 6.5 kW. Garantie 10 ans batteries.',

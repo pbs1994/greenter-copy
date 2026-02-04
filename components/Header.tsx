@@ -62,7 +62,7 @@ const services = [
 const products = [
   {
     title: "Batterie Solaire KSTAR 6kW",
-    href: "/produits/batteries-solaires/kstar-blues-6kw",
+    href: "/produits/batteries-solaires/kstar-blue-s-6kw",
     description: "Onduleur hybride + stockage",
     image: "/kstar.png",
     badge: "Nouveau",
