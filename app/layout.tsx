@@ -141,11 +141,7 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <VideoPreloader />
-        <Header />
         {children}
-        <Footer />
-        <CookieBanner />
       </body>
     </html>
   );
