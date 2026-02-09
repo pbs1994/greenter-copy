@@ -81,7 +81,7 @@ export function transformGoogleResponse(
         authorName: review.authorAttribution.displayName,
         authorPhoto: review.authorAttribution.photoUri,
         rating: review.rating,
-        text: review.originalText?.text || review.text.text,
+        text: review.originalText?.text || review.text?.text || "",
         relativeTime: review.relativePublishTimeDescription,
         publishTime: review.publishTime,
       })),
