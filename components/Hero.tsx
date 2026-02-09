@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { ArrowRight, Play, Pause, CheckCircle, Star } from "lucide-react"
+import { ArrowRight, Play, Pause, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoScroll from "embla-carousel-auto-scroll"
+import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import { getVideoUrl, prefetchVideo } from "./VideoPreloader"
 
 const benefits = [
@@ -78,7 +79,7 @@ export function Hero() {
             
             <p className="text-neutral-600 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-3xl mx-auto">
               Installation de pompes à chaleur, panneaux solaires et isolation thermique 
-              partout en France. Certifié RGE, éligible aux aides.
+              à Ozoir-la-Ferrière et en Seine-et-Marne. Certifié RGE, éligible aux aides.
             </p>
 
             <div className="mb-8">
@@ -196,15 +197,8 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="mt-8 max-w-5xl mx-auto">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-neutral-600">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
-              </div>
-              <span className="font-medium text-neutral-800">4.9/5 sur Google</span>
-              <span className="hidden sm:inline text-neutral-400">•</span>
-              <span>+200 installations réalisées</span>
-            </div>
+          <div className="mt-8 max-w-5xl mx-auto flex justify-center">
+            <GoogleRatingBadgeClient />
           </div>
         </div>
       </div>

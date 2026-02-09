@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin } from "lucide-react"
 import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
@@ -282,7 +282,16 @@ export function Header() {
         )}
 
         {/* Desktop CTA */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href="tel:+33609455056"
+            className="flex items-center gap-2 text-neutral-700 hover:text-green-700 font-medium text-sm transition-colors"
+            aria-label="Appeler Greenter au 06 09 45 50 56"
+          >
+            <Phone className="w-4 h-4" />
+            <span>06 09 45 50 56</span>
+          </a>
+
           <Link 
             href="/contact"
             className="btn-primary text-sm"
@@ -292,14 +301,26 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(true)}
-          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full text-neutral-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-          aria-label="Ouvrir le menu"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+        {/* Mobile: zone badge + menu button */}
+        <div className="lg:hidden flex items-center gap-2">
+          {/* Mobile click-to-call */}
+          <a
+            href="tel:+33609455056"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition-colors"
+            aria-label="Appeler Greenter au 06 09 45 50 56"
+          >
+            <Phone className="h-5 w-5" />
+          </a>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full text-neutral-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+            aria-label="Ouvrir le menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu - Full Screen Overlay */}
@@ -347,10 +368,14 @@ export function Header() {
                 <X className="h-4 w-4 text-white" />
               </button>
             </div>
-            {/* Petit texte d'accroche */}
+            {/* Petit texte d'accroche + zone badge */}
             <p className="text-green-200 text-xs mt-3">
               Votre partenaire en rénovation énergétique
             </p>
+            <div className="flex items-center gap-1.5 mt-2 bg-white/10 rounded-full px-3 py-1 w-fit">
+              <MapPin className="w-3 h-3 text-green-300" />
+              <span className="text-xs font-medium text-green-100">Intervention en Seine-et-Marne (77)</span>
+            </div>
           </div>
 
           {/* Navigation */}

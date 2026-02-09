@@ -2,9 +2,10 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import { Mail, Phone, MapPin, ArrowRight, Star } from "lucide-react"
 import { openCookiePreferences } from "./CookieConsent"
 import { ObfuscatedEmail } from "./ObfuscatedEmail"
+import { CITIES, GOOGLE_MAPS_URL, COMPANY_ADDRESS } from "@/lib/local-seo-data"
 
 export function Footer() {
   return (
@@ -93,6 +94,17 @@ export function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <a
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-green-200 hover:text-white transition-colors text-sm"
+                >
+                  <Star className="w-4 h-4 text-yellow-400" />
+                  Nos avis Google
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -135,7 +147,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                 <span className="text-green-200 text-sm">
-                  38 Rue de Ménilmontant<br />75020 Paris
+                  {COMPANY_ADDRESS.locality}<br />{COMPANY_ADDRESS.postalCode} Seine-et-Marne
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -159,6 +171,25 @@ export function Footer() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Zones d'intervention */}
+      <div className="border-t border-green-900">
+        <div className="container mx-auto max-w-6xl px-4 py-8">
+          <h4 className="font-heading font-semibold text-lg mb-4">Zones d&apos;intervention</h4>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {CITIES.map((city) => (
+              <li key={city.slug}>
+                <Link
+                  href={`/services/pompe-a-chaleur/${city.slug}`}
+                  className="text-green-200 hover:text-white transition-colors text-sm"
+                >
+                  {city.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
