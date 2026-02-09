@@ -59,14 +59,73 @@ const steps = [
   },
 ]
 
+// Données de test pour le mode test
+const TEST_ORDER: OrderDetails = {
+  id: 'test-123',
+  orderNumber: 'TEST-2024-001',
+  status: 'paid',
+  amount: 2500,
+  currency: 'EUR',
+  customerEmail: 'test@example.com',
+  customerName: 'Jean Test',
+  customerPhone: '0600000000',
+  shippingAddress: {
+    line1: '123 Rue de Test',
+    city: 'Paris',
+    postal_code: '75001',
+    country: 'FR'
+  },
+  receiptUrl: null,
+  createdAt: new Date().toISOString()
+}
+
 function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
+  const isTestMode = searchParams.get('test') === 'true'
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [order, setOrder] = useState<OrderDetails | null>(null)
   const decodedEmail = useObfuscatedEmail()
 
   useEffect(() => {
+    // Mode test : afficher des données fictives sans appeler Stripe
+    if (isTestMode) {
+      setOrder(TEST_ORDER)
+      setStatus('success')
+      
+      // Déclencher le tracking Google Ads en mode test
+      if (typeof window !== 'undefined') {
+        console.log('🧪 MODE TEST - Google Ads tracking:')
+        
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'purchase',
+          'transaction_id': 'TEST-' + Date.now(),
+          'value': TEST_ORDER.amount,
+          'currency': 'EUR',
+          'items': [{
+            'item_name': 'KSTAR BluE-S 6kW',
+            'price': TEST_ORDER.amount,
+            'quantity': 1
+          }]
+        });
+        console.log('✅ dataLayer.push effectué:', window.dataLayer)
+        
+        if (window.gtag) {
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
+            'value': TEST_ORDER.amount,
+            'currency': 'EUR',
+            'transaction_id': 'TEST-' + Date.now()
+          });
+          console.log('✅ gtag conversion envoyée')
+        } else {
+          console.log('⚠️ gtag non disponible')
+        }
+      }
+      return
+    }
+
     if (!sessionId) {
       setStatus('error')
       return
