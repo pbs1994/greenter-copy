@@ -10,7 +10,7 @@ import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
-import GoogleRatingBadge from "@/components/GoogleRatingBadge"
+import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
 
@@ -292,7 +292,7 @@ export default async function LocalPACPage({
       {/* Google Rating Badge */}
       <section className="py-6 bg-white">
         <div className="container mx-auto max-w-6xl px-4 flex justify-center">
-          <GoogleRatingBadge />
+          <GoogleRatingBadgeClient />
         </div>
       </section>
 
