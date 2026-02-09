@@ -1,13 +1,11 @@
 import { CITIES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
-import { fetchGoogleReviews } from "@/lib/google-places"
 
-// Default aggregate rating values when API data is unavailable
-const DEFAULT_AGGREGATE_RATING = {
-  ratingValue: 4.8,
-  reviewCount: 20,
+interface JsonLdProps {
+  ratingValue: number
+  reviewCount: number
 }
 
-function JsonLdScripts({ ratingValue, reviewCount }: { ratingValue: number; reviewCount: number }) {
+export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -133,19 +131,4 @@ function JsonLdScripts({ ratingValue, reviewCount }: { ratingValue: number; revi
       />
     </>
   )
-}
-
-export async function JsonLd() {
-  const reviewsData = await fetchGoogleReviews()
-
-  const ratingValue =
-    reviewsData.rating > 0
-      ? reviewsData.rating
-      : DEFAULT_AGGREGATE_RATING.ratingValue
-  const reviewCount =
-    reviewsData.reviewCount > 0
-      ? reviewsData.reviewCount
-      : DEFAULT_AGGREGATE_RATING.reviewCount
-
-  return <JsonLdScripts ratingValue={ratingValue} reviewCount={reviewCount} />
 }
