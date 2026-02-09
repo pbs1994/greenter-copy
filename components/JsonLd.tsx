@@ -7,26 +7,14 @@ const DEFAULT_AGGREGATE_RATING = {
   reviewCount: 20,
 }
 
-export async function JsonLd() {
-  // Fetch Google Reviews data for aggregateRating (with fallback)
-  const reviewsData = await fetchGoogleReviews()
-
-  const ratingValue =
-    reviewsData.rating > 0
-      ? reviewsData.rating
-      : DEFAULT_AGGREGATE_RATING.ratingValue
-  const reviewCount =
-    reviewsData.reviewCount > 0
-      ? reviewsData.reviewCount
-      : DEFAULT_AGGREGATE_RATING.reviewCount
-
+function JsonLdScripts({ ratingValue, reviewCount }: { ratingValue: number; reviewCount: number }) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": "https://greenter.fr/#organization",
     name: "Greenter",
     description:
-      "Expert en rénovation énergétique : installation de pompes à chaleur, panneaux solaires, isolation thermique et audit énergétique partout en France. Certifié RGE.",
+      "Expert en rénovation énergétique : installation de pompes à chaleur, panneaux solaires, isolation thermique et audit énergétique à Ozoir-la-Ferrière et en Seine-et-Marne. Certifié RGE.",
     url: "https://greenter.fr",
     logo: "https://greenter.fr/logo.png",
     image: "https://greenter.fr/logo.png",
@@ -58,13 +46,7 @@ export async function JsonLd() {
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-        ],
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         opens: "09:00",
         closes: "18:00",
       },
@@ -79,8 +61,7 @@ export async function JsonLd() {
           itemOffered: {
             "@type": "Service",
             name: "Installation pompe à chaleur",
-            description:
-              "Installation de pompes à chaleur air-eau et air-air certifiée RGE",
+            description: "Installation de pompes à chaleur air-eau et air-air certifiée RGE",
           },
         },
         {
@@ -88,8 +69,7 @@ export async function JsonLd() {
           itemOffered: {
             "@type": "Service",
             name: "Installation panneaux solaires",
-            description:
-              "Installation de panneaux solaires photovoltaïques pour autoconsommation",
+            description: "Installation de panneaux solaires photovoltaïques pour autoconsommation",
           },
         },
         {
@@ -97,8 +77,7 @@ export async function JsonLd() {
           itemOffered: {
             "@type": "Service",
             name: "Isolation thermique",
-            description:
-              "Travaux d'isolation des murs, combles et toitures",
+            description: "Travaux d'isolation des murs, combles et toitures",
           },
         },
         {
@@ -106,8 +85,7 @@ export async function JsonLd() {
           itemOffered: {
             "@type": "Service",
             name: "Audit énergétique",
-            description:
-              "Diagnostic complet de performance énergétique",
+            description: "Diagnostic complet de performance énergétique",
           },
         },
       ],
@@ -155,4 +133,19 @@ export async function JsonLd() {
       />
     </>
   )
+}
+
+export async function JsonLd() {
+  const reviewsData = await fetchGoogleReviews()
+
+  const ratingValue =
+    reviewsData.rating > 0
+      ? reviewsData.rating
+      : DEFAULT_AGGREGATE_RATING.ratingValue
+  const reviewCount =
+    reviewsData.reviewCount > 0
+      ? reviewsData.reviewCount
+      : DEFAULT_AGGREGATE_RATING.reviewCount
+
+  return <JsonLdScripts ratingValue={ratingValue} reviewCount={reviewCount} />
 }

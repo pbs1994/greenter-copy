@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import "./cookieconsent.css";
 import { Header } from "@/components/Header";
@@ -79,7 +80,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
-        <JsonLd />
+        <Suspense fallback={null}>
+          <JsonLd />
+        </Suspense>
         {/* Preconnect to Supabase for faster video loading */}
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />

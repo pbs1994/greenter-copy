@@ -19,7 +19,7 @@ const benefits = [
 ]
 
 export function Hero() {
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [canPlay, setCanPlay] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -44,14 +44,12 @@ export function Hero() {
 
   const handleCanPlay = () => {
     setCanPlay(true)
-    videoRef.current?.play().catch(() => {})
   }
 
-  // Start playing as soon as we have some data
+  // Mark video as ready when data is loaded
   const handleLoadedData = () => {
     if (!canPlay) {
       setCanPlay(true)
-      videoRef.current?.play().catch(() => {})
     }
   }
 
@@ -166,7 +164,6 @@ export function Hero() {
                     className="w-full h-full object-cover"
                     muted
                     playsInline
-                    autoPlay
                     preload="auto"
                     onLoadedData={handleLoadedData}
                     onCanPlay={handleCanPlay}
