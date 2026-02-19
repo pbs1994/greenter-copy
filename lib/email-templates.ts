@@ -654,5 +654,459 @@ export const contactRequestTemplate = (contact: ContactData) => `
 </html>
 `
 
+// ============================================
+// 4. EMAIL MAINTENANCE - CONFIRMATION CLIENT
+// ============================================
+export interface MaintenanceSubscriptionData {
+  customerName: string
+  customerEmail: string
+  customerPhone?: string
+  services: Array<{ name: string; price: number }> // price in centimes
+  options: Array<{ name: string; price: number }> // price in centimes
+  billingPeriod: 'monthly' | 'yearly'
+  discountMultiPercent: number
+  discountAnnualPercent: number
+  totalAfterDiscounts: number // centimes
+  stripeSubscriptionId: string
+}
+
+function formatCentimesToEuros(centimes: number): string {
+  return (centimes / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
+export const maintenanceClientEmailTemplate = (data: MaintenanceSubscriptionData) => {
+  const billingLabel = data.billingPeriod === 'yearly' ? 'annuel' : 'mensuel'
+  const billingLabelFull = data.billingPeriod === 'yearly' ? 'Annuel' : 'Mensuel'
+
+  const servicesRows = data.services.map(s => `
+                      <tr>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">🔧 ${s.name}</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 8px 0; text-align: right; border-bottom: 1px solid #f0f0f0;">${formatCentimesToEuros(s.price)} €/mois</td>
+                      </tr>`).join('')
+
+  const optionsRows = data.options.length > 0 ? data.options.map(o => `
+                      <tr>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">⚡ ${o.name}</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 8px 0; text-align: right; border-bottom: 1px solid #f0f0f0;">${formatCentimesToEuros(o.price)} €/mois</td>
+                      </tr>`).join('') : ''
+
+  const discountRows = []
+  if (data.discountMultiPercent > 0) {
+    discountRows.push(`
+                      <tr>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 8px 0;">🏷️ Remise multi-équipements</td>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">-${data.discountMultiPercent}%</td>
+                      </tr>`)
+  }
+  if (data.discountAnnualPercent > 0) {
+    discountRows.push(`
+                      <tr>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 8px 0;">🏷️ Remise paiement annuel</td>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">-${data.discountAnnualPercent}%</td>
+                      </tr>`)
+  }
+
+  const totalLabel = data.billingPeriod === 'yearly'
+    ? `${formatCentimesToEuros(data.totalAfterDiscounts * 12)} €/an`
+    : `${formatCentimesToEuros(data.totalAfterDiscounts)} €/mois`
+
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de souscription maintenance - Greenter</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%;">
+          
+          <!-- Header avec gradient -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1B6B3A 0%, #228B47 50%, #0D9488 100%); border-radius: 16px 16px 0 0; padding: 40px 40px 50px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>
+                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <table role="presentation" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="background-color: rgba(255,255,255,0.2); border-radius: 50%; width: 56px; height: 56px; text-align: center; vertical-align: middle;">
+                          <span style="font-size: 28px;">✓</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 20px;">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">Souscription confirmée</h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 8px;">
+                    <p style="margin: 0; color: rgba(255,255,255,0.85); font-size: 16px;">
+                      Merci ${data.customerName.split(' ')[0]} ! Votre contrat de maintenance a bien été enregistré.
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 16px;">
+                    <span style="display: inline-block; background-color: rgba(255,255,255,0.15); color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 14px;">
+                      Paiement ${billingLabel}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Contenu principal -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 0 40px;">
+              
+              <!-- Récapitulatif services -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: -20px;">
+                <tr>
+                  <td style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 24px;">
+                    <h3 style="margin: 0 0 16px; color: #1A1A1A; font-size: 16px; font-weight: 600;">🔧 Services souscrits</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      ${servicesRows}
+                    </table>
+                    
+                    ${data.options.length > 0 ? `
+                    <h3 style="margin: 24px 0 16px; color: #1A1A1A; font-size: 16px; font-weight: 600;">⚡ Options</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      ${optionsRows}
+                    </table>
+                    ` : ''}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Remises et total -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px; border-top: 1px solid #E5E5E5; padding-top: 24px;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 16px; color: #1A1A1A; font-size: 16px; font-weight: 600;">Récapitulatif</h3>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="color: #737373; font-size: 14px; padding: 8px 0;">Mode de paiement</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 8px 0; text-align: right;">${billingLabelFull}</td>
+                      </tr>
+                      ${discountRows.join('')}
+                      <tr>
+                        <td colspan="2" style="border-top: 1px solid #E5E5E5; padding-top: 16px;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td style="color: #1A1A1A; font-size: 16px; font-weight: 600;">Total TTC</td>
+                              <td style="color: #1A1A1A; font-size: 20px; font-weight: 700; text-align: right;">${totalLabel}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Conditions du contrat -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px; background-color: #f9fafb; border-radius: 12px; padding: 24px;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 20px; color: #1A1A1A; font-size: 16px; font-weight: 600;">📋 Conditions du contrat</h3>
+                    
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
+                      <tr>
+                        <td width="40" style="vertical-align: top;">
+                          <div style="width: 32px; height: 32px; background-color: #1B6B3A; border-radius: 50%; text-align: center; line-height: 32px; color: #ffffff; font-size: 14px; font-weight: 600;">1</div>
+                        </td>
+                        <td style="vertical-align: top;">
+                          <p style="margin: 0 0 2px; color: #1A1A1A; font-size: 14px; font-weight: 600;">Engagement 12 mois</p>
+                          <p style="margin: 0; color: #737373; font-size: 13px;">Votre contrat est valable pour une durée minimale de 12 mois.</p>
+                        </td>
+                      </tr>
+                    </table>
+                    
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
+                      <tr>
+                        <td width="40" style="vertical-align: top;">
+                          <div style="width: 32px; height: 32px; background-color: #1B6B3A; border-radius: 50%; text-align: center; line-height: 32px; color: #ffffff; font-size: 14px; font-weight: 600;">2</div>
+                        </td>
+                        <td style="vertical-align: top;">
+                          <p style="margin: 0 0 2px; color: #1A1A1A; font-size: 14px; font-weight: 600;">Intervention planifiée entre le 10ème et 12ème mois</p>
+                          <p style="margin: 0; color: #737373; font-size: 13px;">Notre technicien certifié vous contactera pour planifier votre intervention annuelle.</p>
+                        </td>
+                      </tr>
+                    </table>
+                    
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="40" style="vertical-align: top;">
+                          <div style="width: 32px; height: 32px; background-color: #1B6B3A; border-radius: 50%; text-align: center; line-height: 32px; color: #ffffff; font-size: 14px; font-weight: 600;">3</div>
+                        </td>
+                        <td style="vertical-align: top;">
+                          <p style="margin: 0 0 2px; color: #1A1A1A; font-size: 14px; font-weight: 600;">Pièces de remplacement non incluses</p>
+                          <p style="margin: 0; color: #737373; font-size: 13px;">En cas de remplacement de pièces, celles-ci seront facturées séparément avec un devis préalable.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Contact -->
+          <tr>
+            <td style="background-color: #0F4D2A; padding: 32px 40px; margin-top: 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 4px; color: #ffffff; font-size: 16px; font-weight: 600;">Une question ?</p>
+                    <p style="margin: 0 0 20px; color: rgba(255,255,255,0.7); font-size: 14px;">Lun - Ven : 9h - 19h</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <table role="presentation" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="padding-right: 12px;">
+                          <a href="tel:+33609455056" style="display: inline-block; background-color: #ffffff; color: #0F4D2A; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                            📞 06 09 45 50 56
+                          </a>
+                        </td>
+                        <td>
+                          <a href="mailto:contact@greenter.fr?subject=Contrat maintenance" style="display: inline-block; background-color: rgba(255,255,255,0.15); color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500;">
+                            ✉️ Envoyer un email
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #ffffff; border-radius: 0 0 16px 16px; padding: 24px 40px; text-align: center;">
+              <p style="margin: 0 0 8px; color: #1B6B3A; font-size: 13px; font-weight: 600;">Certifié RGE • QualiPAC • QualiPV • Qualibat</p>
+              <p style="margin: 0; color: #A3A3A3; font-size: 12px;">
+                GREEN TER - SASU au capital de 50 000,00 € - RCS Paris 977 485 721<br>
+                38 Rue de Ménilmontant, 75020 Paris
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}
+
+// ============================================
+// 5. EMAIL MAINTENANCE - NOTIFICATION ADMIN
+// ============================================
+export const maintenanceAdminEmailTemplate = (data: MaintenanceSubscriptionData) => {
+  const billingLabel = data.billingPeriod === 'yearly' ? 'Annuel' : 'Mensuel'
+
+  const servicesRows = data.services.map(s => `
+                      <tr>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0;">🔧 ${s.name}</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right;">${formatCentimesToEuros(s.price)} €/mois</td>
+                      </tr>`).join('')
+
+  const optionsRows = data.options.length > 0 ? data.options.map(o => `
+                      <tr>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0;">⚡ ${o.name}</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right;">${formatCentimesToEuros(o.price)} €/mois</td>
+                      </tr>`).join('') : ''
+
+  const totalLabel = data.billingPeriod === 'yearly'
+    ? `${formatCentimesToEuros(data.totalAfterDiscounts * 12)} €/an`
+    : `${formatCentimesToEuros(data.totalAfterDiscounts)} €/mois`
+
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nouvelle souscription maintenance - Greenter</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #0D9488 0%, #1B6B3A 100%); border-radius: 16px 16px 0 0; padding: 32px 40px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>
+                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
+                  </td>
+                  <td style="text-align: right;">
+                    <span style="display: inline-block; background-color: #22C55E; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">
+                      🔧 NOUVELLE SOUSCRIPTION
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Montant -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 32px 40px; text-align: center; border-bottom: 1px solid #E5E5E5;">
+              <p style="margin: 0 0 8px; color: #737373; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Montant ${billingLabel.toLowerCase()}</p>
+              <p style="margin: 0; color: #1B6B3A; font-size: 48px; font-weight: 700;">${totalLabel}</p>
+              <p style="margin: 8px 0 0; color: #A3A3A3; font-size: 14px;">TTC • Contrat de maintenance</p>
+            </td>
+          </tr>
+
+          <!-- Détails -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 32px 40px;">
+              
+              <!-- Infos client -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #EBF7EE; border-radius: 12px; padding: 20px;">
+                    <h3 style="margin: 0 0 16px; color: #1B6B3A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">👤 Client</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Nom</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right; font-weight: 600;">${data.customerName}</td>
+                      </tr>
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Email</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right;">
+                          <a href="mailto:${data.customerEmail}" style="color: #0D9488; text-decoration: none;">${data.customerEmail}</a>
+                        </td>
+                      </tr>
+                      ${data.customerPhone ? `
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Téléphone</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right;">
+                          <a href="tel:${data.customerPhone}" style="color: #0D9488; text-decoration: none;">${data.customerPhone}</a>
+                        </td>
+                      </tr>
+                      ` : ''}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Services souscrits -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #f9fafb; border-radius: 12px; padding: 20px;">
+                    <h3 style="margin: 0 0 16px; color: #1A1A1A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🔧 Services</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      ${servicesRows}
+                    </table>
+                    ${data.options.length > 0 ? `
+                    <h3 style="margin: 20px 0 16px; color: #1A1A1A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">⚡ Options</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      ${optionsRows}
+                    </table>
+                    ` : ''}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Détails facturation -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #f9fafb; border-radius: 12px; padding: 20px;">
+                    <h3 style="margin: 0 0 16px; color: #1A1A1A; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">💳 Facturation</h3>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Période</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right; font-weight: 500;">${billingLabel}</td>
+                      </tr>
+                      ${data.discountMultiPercent > 0 ? `
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Remise multi-équipements</td>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 6px 0; text-align: right; font-weight: 600;">-${data.discountMultiPercent}%</td>
+                      </tr>
+                      ` : ''}
+                      ${data.discountAnnualPercent > 0 ? `
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Remise annuelle</td>
+                        <td style="color: #1B6B3A; font-size: 14px; padding: 6px 0; text-align: right; font-weight: 600;">-${data.discountAnnualPercent}%</td>
+                      </tr>
+                      ` : ''}
+                      <tr>
+                        <td style="color: #525252; font-size: 14px; padding: 6px 0;">Stripe Subscription ID</td>
+                        <td style="color: #1A1A1A; font-size: 14px; padding: 6px 0; text-align: right; font-family: monospace; font-weight: 600;">${data.stripeSubscriptionId}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Actions -->
+          <tr>
+            <td style="background-color: #1A1A1A; padding: 24px 40px; text-align: center;">
+              <table role="presentation" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+                <tr>
+                  <td style="padding-right: 12px;">
+                    <a href="mailto:${data.customerEmail}?subject=Votre contrat de maintenance - Greenter" style="display: inline-block; background-color: #1B6B3A; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                      ✉️ Contacter le client
+                    </a>
+                  </td>
+                  ${data.customerPhone ? `
+                  <td>
+                    <a href="tel:${data.customerPhone}" style="display: inline-block; background-color: #0D9488; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                      📞 Appeler
+                    </a>
+                  </td>
+                  ` : ''}
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #ffffff; border-radius: 0 0 16px 16px; padding: 20px 40px; text-align: center;">
+              <p style="margin: 0; color: #A3A3A3; font-size: 12px;">
+                Email automatique généré par le système Greenter
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}
+
 // Export des types
 export type { OrderData, ContactData }

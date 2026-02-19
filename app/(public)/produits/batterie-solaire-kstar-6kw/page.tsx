@@ -11,20 +11,39 @@ import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import Stripe from 'stripe'
 
-async function getStripePrice() {
+async function getStripePrice(): Promise<number | null> {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
       apiVersion: '2025-12-15.clover',
     })
     const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!)
-    return price.unit_amount ? price.unit_amount / 100 : 2500
-  } catch {
-    return 2500 // fallback
+    return price.unit_amount ? price.unit_amount / 100 : null
+  } catch (error) {
+    console.error('Stripe price fetch error:', error)
+    return null
   }
 }
 
 export default async function ProductPage() {
   const stripePrice = await getStripePrice()
+  
+  // Si pas de prix Stripe, on ne peut pas vendre
+  if (stripePrice === null) {
+    return (
+      <main className="min-h-[calc(100vh-80px)] bg-gradient-to-b from-green-50/80 via-white to-white py-6 md:py-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+          <div className="text-center py-20">
+            <h1 className="text-2xl font-semibold text-neutral-900 mb-4">Produit temporairement indisponible</h1>
+            <p className="text-neutral-600 mb-6">Nous rencontrons un problème technique. Veuillez réessayer plus tard ou nous contacter.</p>
+            <a href="/contact" className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700 transition-colors">
+              <Phone className="w-5 h-5" />
+              Nous contacter
+            </a>
+          </div>
+        </div>
+      </main>
+    )
+  }
   
   const faqItems = [
     {

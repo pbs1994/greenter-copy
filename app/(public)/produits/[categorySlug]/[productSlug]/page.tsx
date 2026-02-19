@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
-import { getStripePrice } from "@/lib/stripe"
+import { getProductStripePrice } from "@/lib/stripe"
 import { GenericProductTemplate } from "@/components/GenericProductTemplate"
 import { KstarCustomPage } from "@/components/products/KstarCustomPage"
 import type { Product, Category } from "@/types/database"
@@ -117,14 +117,8 @@ export default async function ProductPage({ params }: Props) {
   const typedProduct = product as Product
   const typedCategory = category as Category
   
-  // Fetch price from Stripe if stripe_price_id exists
-  let finalPrice = typedProduct.price
-  if (typedProduct.stripe_price_id) {
-    const stripePrice = await getStripePrice(typedProduct.stripe_price_id)
-    if (stripePrice !== null) {
-      finalPrice = stripePrice
-    }
-  }
+  // Fetch price from Stripe (auto-selects test/live based on environment)
+  const finalPrice = await getProductStripePrice(typedProduct)
   
   // Combine product with category for the template, with Stripe price
   const productWithCategory = {

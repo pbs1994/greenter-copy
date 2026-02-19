@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import { ChevronRight, ArrowRight, Package } from "lucide-react"
 import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
-import { getStripePrice } from "@/lib/stripe"
+import { getProductStripePrice } from "@/lib/stripe"
 import { formatEUR } from "@/lib/format"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import type { Category, Product } from "@/types/database"
@@ -76,16 +76,11 @@ export default async function CategoryPage({ params }: Props) {
   const typedCategory = category as Category
   const typedProducts = (products || []) as Product[]
   
-  // Fetch Stripe prices for all products that have stripe_price_id
+  // Fetch Stripe prices for all products (auto-selects test/live)
   const productsWithPrices = await Promise.all(
     typedProducts.map(async (product) => {
-      if (product.stripe_price_id) {
-        const stripePrice = await getStripePrice(product.stripe_price_id)
-        if (stripePrice !== null) {
-          return { ...product, price: stripePrice }
-        }
-      }
-      return product
+      const price = await getProductStripePrice(product)
+      return { ...product, price }
     })
   )
   

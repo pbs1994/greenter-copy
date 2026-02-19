@@ -5,6 +5,26 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 /**
+ * Check if we're in test mode based on the Stripe secret key
+ */
+export function isStripeTestMode(): boolean {
+  return process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_') ?? false
+}
+
+/**
+ * Get the appropriate Stripe price ID based on environment
+ */
+export function getStripePriceId(product: { 
+  stripe_price_id: string | null; 
+  stripe_price_id_test: string | null 
+}): string | null {
+  if (isStripeTestMode()) {
+    return product.stripe_price_id_test || null
+  }
+  return product.stripe_price_id || null
+}
+
+/**
  * Fetch price from Stripe by price ID
  * Returns price in cents, or null if not found
  */
@@ -16,6 +36,25 @@ export async function getStripePrice(priceId: string): Promise<number | null> {
     console.error('Error fetching Stripe price:', error)
     return null
   }
+}
+
+/**
+ * Fetch price for a product, automatically selecting test/live price ID
+ */
+export async function getProductStripePrice(product: { 
+  stripe_price_id: string | null; 
+  stripe_price_id_test: string | null;
+  price: number;
+}): Promise<number> {
+  const priceId = getStripePriceId(product)
+  if (priceId) {
+    const stripePrice = await getStripePrice(priceId)
+    if (stripePrice !== null) {
+      return stripePrice
+    }
+  }
+  // Fallback to Supabase price
+  return product.price
 }
 
 export { stripe }

@@ -4,7 +4,7 @@ import { ArrowRight, Battery, ChevronRight, Package, Grid3X3 } from "lucide-reac
 import type { Metadata } from "next"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { supabase } from "@/lib/supabase"
-import { getStripePrice } from "@/lib/stripe"
+import { getProductStripePrice } from "@/lib/stripe"
 import { formatEUR } from "@/lib/format"
 import type { Category, Product } from "@/types/database"
 
@@ -42,16 +42,11 @@ export default async function ProduitsPage() {
   const typedCategories = (categories || []) as Category[]
   const typedProducts = (products || []) as (Product & { category: Category })[]
 
-  // Fetch Stripe prices for products that have stripe_price_id
+  // Fetch Stripe prices for products (auto-selects test/live)
   const productsWithPrices = await Promise.all(
     typedProducts.map(async (product) => {
-      if (product.stripe_price_id) {
-        const stripePrice = await getStripePrice(product.stripe_price_id)
-        if (stripePrice !== null) {
-          return { ...product, price: stripePrice }
-        }
-      }
-      return product
+      const price = await getProductStripePrice(product)
+      return { ...product, price }
     })
   )
 
