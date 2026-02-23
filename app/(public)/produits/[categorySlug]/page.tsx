@@ -4,7 +4,6 @@ import { notFound } from "next/navigation"
 import { ChevronRight, ArrowRight, Package } from "lucide-react"
 import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
-import { getProductStripePrice } from "@/lib/stripe"
 import { formatEUR } from "@/lib/format"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import type { Category, Product } from "@/types/database"
@@ -76,14 +75,6 @@ export default async function CategoryPage({ params }: Props) {
   const typedCategory = category as Category
   const typedProducts = (products || []) as Product[]
   
-  // Fetch Stripe prices for all products (auto-selects test/live)
-  const productsWithPrices = await Promise.all(
-    typedProducts.map(async (product) => {
-      const price = await getProductStripePrice(product)
-      return { ...product, price }
-    })
-  )
-  
   // Breadcrumb items for SEO schema
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
@@ -95,7 +86,7 @@ export default async function CategoryPage({ params }: Props) {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": productsWithPrices.map((product, index) => ({
+    "itemListElement": typedProducts.map((product, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {
@@ -157,7 +148,7 @@ export default async function CategoryPage({ params }: Props) {
       {/* Products Grid */}
       <section className="pb-16 md:pb-24">
         <div className="container mx-auto max-w-6xl px-4">
-          {productsWithPrices.length === 0 ? (
+          {typedProducts.length === 0 ? (
             /* Empty State */
             <div className="text-center py-16">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -180,7 +171,7 @@ export default async function CategoryPage({ params }: Props) {
           ) : (
             /* Products Grid */
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {productsWithPrices.map((product) => (
+              {typedProducts.map((product) => (
                 <Link 
                   key={product.id}
                   href={`/produits/${categorySlug}/${product.slug}`}

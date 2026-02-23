@@ -844,8 +844,8 @@ export const maintenanceClientEmailTemplate = (data: MaintenanceSubscriptionData
                           <div style="width: 32px; height: 32px; background-color: #1B6B3A; border-radius: 50%; text-align: center; line-height: 32px; color: #ffffff; font-size: 14px; font-weight: 600;">2</div>
                         </td>
                         <td style="vertical-align: top;">
-                          <p style="margin: 0 0 2px; color: #1A1A1A; font-size: 14px; font-weight: 600;">Intervention planifiée entre le 10ème et 12ème mois</p>
-                          <p style="margin: 0; color: #737373; font-size: 13px;">Notre technicien certifié vous contactera pour planifier votre intervention annuelle.</p>
+                          <p style="margin: 0 0 2px; color: #1A1A1A; font-size: 14px; font-weight: 600;">Prise de contact sous 48h</p>
+                          <p style="margin: 0; color: #737373; font-size: 13px;">Notre équipe vous contactera sous 48 heures pour planifier ensemble votre première intervention.</p>
                         </td>
                       </tr>
                     </table>

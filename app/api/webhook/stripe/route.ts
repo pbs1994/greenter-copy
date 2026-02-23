@@ -222,7 +222,7 @@ async function handleSubscriptionEvent(event: Stripe.Event) {
           const productName =
             typeof lineItem.price?.product === 'object' && lineItem.price.product !== null
               ? (lineItem.price.product as Stripe.Product).name
-              : lineItem.description || 'Service'
+              : 'Service'
 
           const unitPrice = lineItem.price?.unit_amount || 0
 

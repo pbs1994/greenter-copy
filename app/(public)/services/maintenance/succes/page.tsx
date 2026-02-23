@@ -233,7 +233,7 @@ export default async function MaintenanceSuccessPage({
                     </div>
                   </div>
 
-                  {/* Étape 2 - Intervention */}
+                  {/* Étape 2 - Contact */}
                   <div className="relative flex gap-5">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 shadow-md bg-white ring-2 ring-neutral-200">
                       <Calendar className="w-5 h-5 text-neutral-400" />
@@ -241,16 +241,16 @@ export default async function MaintenanceSuccessPage({
                     <div className="flex-1 pb-2">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-sm text-neutral-900">
-                          Planification de l&apos;intervention
+                          Prise de contact sous 48h
                         </h3>
                       </div>
                       <p className="text-sm text-neutral-500">
-                        Votre intervention d&apos;entretien sera planifiée entre le{' '}
+                        Notre équipe vous contactera{' '}
                         <strong className="text-neutral-700">
-                          10ème et le 12ème mois
+                          sous 48 heures
                         </strong>{' '}
-                        de votre contrat. Nous vous contacterons pour fixer un
-                        rendez-vous.
+                        pour planifier ensemble votre première intervention
+                        d&apos;entretien.
                       </p>
                     </div>
                   </div>
@@ -268,7 +268,7 @@ export default async function MaintenanceSuccessPage({
                       </div>
                       <p className="text-sm text-neutral-500">
                         Un technicien certifié réalisera l&apos;entretien complet de
-                        vos équipements avec remise d&apos;un rapport d&apos;intervention.
+                        vos équipements à la date convenue, avec remise d&apos;un rapport détaillé.
                       </p>
                     </div>
                   </div>
@@ -291,11 +291,11 @@ export default async function MaintenanceSuccessPage({
                   <Shield className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-neutral-900">
-                      Engagement 12 mois
+                      Contrat annuel
                     </p>
                     <p className="text-xs text-neutral-500">
-                      Durée minimale d&apos;engagement de 12 mois à compter de la
-                      date de souscription.
+                      Votre contrat est valable 12 mois à compter de la date
+                      de souscription.
                     </p>
                   </div>
                 </div>
@@ -303,11 +303,11 @@ export default async function MaintenanceSuccessPage({
                   <Calendar className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-neutral-900">
-                      Intervention annuelle
+                      Intervention incluse
                     </p>
                     <p className="text-xs text-neutral-500">
-                      1 intervention d&apos;entretien planifiée entre le 10ème et le
-                      12ème mois de votre contrat.
+                      1 intervention d&apos;entretien incluse, planifiée avec vous
+                      sous 48h.
                     </p>
                   </div>
                 </div>
@@ -318,8 +318,8 @@ export default async function MaintenanceSuccessPage({
                       Pièces non incluses
                     </p>
                     <p className="text-xs text-neutral-500">
-                      Les pièces de remplacement ne sont pas incluses dans le
-                      contrat et seront facturées séparément si nécessaire.
+                      Les pièces de remplacement ne sont pas incluses et seront
+                      facturées séparément si nécessaire.
                     </p>
                   </div>
                 </div>
@@ -330,8 +330,7 @@ export default async function MaintenanceSuccessPage({
                       Rapport d&apos;intervention
                     </p>
                     <p className="text-xs text-neutral-500">
-                      Un rapport détaillé vous sera remis après chaque
-                      intervention d&apos;entretien.
+                      Un rapport détaillé vous sera remis après l&apos;intervention.
                     </p>
                   </div>
                 </div>

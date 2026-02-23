@@ -4,7 +4,6 @@ import { ArrowRight, Battery, ChevronRight, Package, Grid3X3 } from "lucide-reac
 import type { Metadata } from "next"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { supabase } from "@/lib/supabase"
-import { getProductStripePrice } from "@/lib/stripe"
 import { formatEUR } from "@/lib/format"
 import type { Category, Product } from "@/types/database"
 
@@ -42,18 +41,10 @@ export default async function ProduitsPage() {
   const typedCategories = (categories || []) as Category[]
   const typedProducts = (products || []) as (Product & { category: Category })[]
 
-  // Fetch Stripe prices for products (auto-selects test/live)
-  const productsWithPrices = await Promise.all(
-    typedProducts.map(async (product) => {
-      const price = await getProductStripePrice(product)
-      return { ...product, price }
-    })
-  )
-
-  // Group products by category
+  // Group products by category (prix déjà dans Supabase)
   const productsByCategory = typedCategories.map(category => ({
     category,
-    products: productsWithPrices.filter(p => p.category_id === category.id)
+    products: typedProducts.filter(p => p.category_id === category.id)
   })).filter(group => group.products.length > 0)
 
   const breadcrumbItems = [
@@ -65,7 +56,7 @@ export default async function ProduitsPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": productsWithPrices.map((product, index) => ({
+    "itemListElement": typedProducts.map((product, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {

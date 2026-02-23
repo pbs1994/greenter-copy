@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 import { calculatePricing } from '@/lib/maintenance-pricing'
-import type { BillingPeriod } from '@/types/maintenance'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
@@ -97,13 +96,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculer les prix avec remises
-    const validBillingPeriod: BillingPeriod = billingPeriod
     const pricing = calculatePricing(
       services,
       options,
       serviceIds,
-      optionIds,
-      validBillingPeriod
+      optionIds
     )
 
     // Séparer options flat fee vs récurrentes

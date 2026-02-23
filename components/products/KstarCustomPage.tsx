@@ -168,7 +168,7 @@ export function KstarCustomPage({ product }: KstarCustomPageProps) {
                     Livraison + Installation offertes
                   </p>
                 </div>
-                <BuyButton />
+                <BuyButton productId={product.id} />
               </div>
               
               {/* CTA secondaire */}

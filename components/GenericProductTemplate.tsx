@@ -207,7 +207,7 @@ export function GenericProductTemplate({ product }: GenericProductTemplateProps)
                     TTC · Livraison incluse
                   </p>
                 </div>
-                {product.stripe_price_id && <BuyButton />}
+                {product.stripe_price_id && <BuyButton productId={product.id} />}
               </div>
               
               {/* Reassurance */}
