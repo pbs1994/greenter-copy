@@ -14,6 +14,7 @@ interface SubscriptionWithDetails extends MaintenanceSubscription {
     id: string;
     name: string | null;
     email: string;
+    phone: string | null;
   } | null;
   maintenance_subscription_items: MaintenanceSubscriptionItem[];
 }
@@ -62,7 +63,7 @@ export default async function SubscriptionsListPage({ searchParams }: Props) {
     .from('maintenance_subscriptions')
     .select(`
       *,
-      customers(id, name, email),
+      customers(id, name, email, phone),
       maintenance_subscription_items(id, item_type, name, unit_price)
     `)
     .order('created_at', { ascending: false });
@@ -201,6 +202,14 @@ function SubscriptionRow({ subscription }: { subscription: SubscriptionWithDetai
           <span className="text-sm text-neutral-500">
             {subscription.customers?.email || '-'}
           </span>
+          {subscription.customers?.phone && (
+            <a 
+              href={`tel:${subscription.customers.phone}`}
+              className="text-sm text-green-600 hover:text-green-700"
+            >
+              {subscription.customers.phone}
+            </a>
+          )}
         </div>
       </td>
       <td className="px-6 py-4">

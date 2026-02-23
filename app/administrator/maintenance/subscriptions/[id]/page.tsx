@@ -333,7 +333,16 @@ export default async function SubscriptionDetailPage({ params }: Props) {
                     Téléphone
                   </p>
                   <p className="text-sm text-neutral-900">
-                    {sub.customers.phone || 'Non renseigné'}
+                    {sub.customers.phone ? (
+                      <a
+                        href={`tel:${sub.customers.phone}`}
+                        className="text-green-600 hover:text-green-700"
+                      >
+                        {sub.customers.phone}
+                      </a>
+                    ) : (
+                      'Non renseigné'
+                    )}
                   </p>
                 </div>
               </div>
