@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, TrendingUp, Zap, Phone, Star, ArrowRight } from "lucide-react"
+import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, Phone } from "lucide-react"
 import { BuyButton } from "@/components/BuyButton"
 import { BatteryCalculator } from "@/components/BatteryCalculator"
 import { SavingsSummary } from "@/components/SavingsSummary"
@@ -9,78 +9,34 @@ import { ProductPageClient } from "@/components/ProductPageClient"
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
-import Stripe from 'stripe'
+import type { Product, Category, FAQItem } from "@/types/database"
 
-async function getStripePrice() {
-  try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2025-12-15.clover',
-    })
-    const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!)
-    return price.unit_amount ? price.unit_amount / 100 : 2500
-  } catch {
-    return 2500 // fallback
-  }
+/**
+ * Props for the KstarCustomPage component
+ */
+interface KstarCustomPageProps {
+  /** Product data with category included */
+  product: Product & { category: Category }
 }
 
-export default async function ProductPage() {
-  const stripePrice = await getStripePrice()
+/**
+ * Custom page component for KSTAR BluE-S 6kW product
+ * Receives product data from database and renders the custom layout
+ * 
+ * @validates Requirements 9.3 - Products with is_custom_page=true use custom template
+ */
+export function KstarCustomPage({ product }: KstarCustomPageProps) {
+  // Convert price from cents to euros
+  const priceInEuros = product.price / 100
   
-  const faqItems = [
-    {
-      question: `Qu'est-ce qui est inclus dans le prix de ${stripePrice.toLocaleString('fr-FR')} € ?`,
-      answer: "Le prix comprend l'onduleur hybride KSTAR BluE-S 6kW, la livraison à domicile et l'installation complète par nos techniciens certifiés. Si vous ne souhaitez pas l'installation, seule la livraison est effectuée au même tarif."
-    },
-    {
-      question: "Quelle est la durée de vie des batteries LiFePO4 ?",
-      answer: "Les cellules LiFePO4 CATL intégrées sont garanties pour 10 000 cycles de charge/décharge, soit environ 25-30 ans d'utilisation normale. KSTAR offre une garantie de 10 ans sur les batteries."
-    },
-    {
-      question: "Puis-je installer le système en extérieur ?",
-      answer: "Oui, le système est certifié IP65, ce qui signifie une protection totale contre la poussière et les jets d'eau. Cependant, il est recommandé de l'installer dans un local technique car les batteries ne doivent pas être chargées en dessous de 0°C."
-    },
-    {
-      question: "Quelle est la plage de température de fonctionnement ?",
-      answer: "L'onduleur fonctionne de -25°C à +60°C. Les batteries fonctionnent de 0°C à +50°C en charge et de -10°C à +50°C en décharge."
-    },
-    {
-      question: "Combien de panneaux solaires puis-je connecter ?",
-      answer: "Le KSTAR BluE-S 6kW accepte jusqu'à 6,5 kW de panneaux solaires avec une tension d'entrée maximale de 580V et un double tracker MPPT pour optimiser la production."
-    },
-    {
-      question: "Que se passe-t-il en cas de coupure de courant ?",
-      answer: "Le système bascule instantanément sur les batteries en cas de coupure réseau. Vous ne remarquerez même pas l'interruption - vos appareils continuent de fonctionner normalement."
-    },
-    {
-      question: "Comment surveiller ma production et consommation ?",
-      answer: "L'application Solarman Smart (disponible sur iOS et Android) permet de suivre en temps réel votre production solaire, consommation, état des batteries et historique. Une interface web est également disponible."
-    },
-    {
-      question: "Puis-je ajouter des batteries supplémentaires plus tard ?",
-      answer: "Oui, le système est évolutif. Vous pouvez ajouter jusqu'à 4 modules BluE-PACK5.1 (20,4 kWh au total) pour augmenter votre autonomie selon vos besoins."
-    },
-    {
-      question: "Quelle est la garantie du produit ?",
-      answer: "L'onduleur est garanti 5 ans par le fabricant KSTAR. Les batteries LiFePO4 CATL bénéficient d'une garantie de 10 ans. Notre installation est garantie 2 ans main d'œuvre."
-    },
-    {
-      question: "Le système est-il bruyant ?",
-      answer: "Non, le KSTAR BluE-S est remarquablement silencieux même sous forte charge. Un léger son haute fréquence peut être perçu à moins de 2-3 mètres, mais il est imperceptible au-delà."
-    },
-    {
-      question: "Quelle autonomie puis-je espérer ?",
-      answer: "Avec une consommation moyenne de 300-500 Wh (éclairage, réfrigérateur, box internet), une batterie de 10 kWh offre 20 à 30 heures d'autonomie. En mode économique, vous pouvez atteindre près de 3 jours."
-    },
-    {
-      question: "Le système est-il compatible avec mon installation existante ?",
-      answer: "Le KSTAR BluE-S 6kW est un onduleur hybride monophasé 230V compatible avec la plupart des installations résidentielles françaises. Nos techniciens évaluent la compatibilité lors de la visite préalable incluse."
-    }
-  ]
+  // Use FAQ from product data if available, otherwise use default FAQ items
+  const faqItems: FAQItem[] = product.faq && product.faq.length > 0 ? product.faq : getDefaultFaqItems(priceInEuros)
   
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Produits", url: "https://greenter.fr/produits" },
-    { name: "Batterie Solaire KSTAR 6kW", url: "https://greenter.fr/produits/batterie-solaire-kstar-6kw" }
+    { name: product.category.name, url: `https://greenter.fr/produits/${product.category.slug}` },
+    { name: product.name, url: `https://greenter.fr/produits/${product.category.slug}/${product.slug}` }
   ]
 
   const features = [
@@ -92,28 +48,22 @@ export default async function ProductPage() {
     { icon: Wifi, title: "Monitoring", description: "App Solarman Smart" },
   ]
 
-  const specs = [
-    "Onduleur hybride monophasé 230V",
-    "Compatible batteries LiFePO4 48V",
-    "Charge/décharge jusqu'à 100A",
-    "Basculement réseau instantané",
-    "Compatible panneaux jusqu'à 6.5 kW",
-    "Garantie 10 ans batteries",
-  ]
+  // Product image URL - use from database or fallback to default
+  const imageUrl = product.image_url || "/kstar.png"
 
   return (
-    <ProductPageClient batteryPrice={stripePrice}>
+    <ProductPageClient batteryPrice={priceInEuros}>
     <main className="min-h-[calc(100vh-80px)] bg-gradient-to-b from-green-50/80 via-white to-white py-6 md:py-8">
       <ProductSchema
-        name="Batterie Solaire KSTAR BluE-S 6kW - Stockage Énergie Solaire"
-        description="Batterie solaire tout-en-un avec onduleur hybride et cellules LiFePO4 CATL intégrées. 6kW de puissance, 10 000 cycles garantis. Stockez votre production solaire et consommez-la le soir. Livraison et installation offertes."
-        image="https://greenter.fr/kstar.png"
-        price={stripePrice}
+        name={product.name}
+        description={product.description || "Batterie solaire tout-en-un avec onduleur hybride et cellules LiFePO4 CATL intégrées. 6kW de puissance, 10 000 cycles garantis. Stockez votre production solaire et consommez-la le soir. Livraison et installation offertes."}
+        image={`https://greenter.fr${imageUrl}`}
+        price={priceInEuros}
         currency="EUR"
         availability="InStock"
         brand="KSTAR"
-        sku="KSTAR-BLUES-6KW"
-        url="https://greenter.fr/produits/batterie-solaire-kstar-6kw"
+        sku={product.slug.toUpperCase()}
+        url={`https://greenter.fr/produits/${product.category.slug}/${product.slug}`}
       />
       <FAQPageSchema items={faqItems} />
       <BreadcrumbSchema items={breadcrumbItems} />
@@ -129,7 +79,11 @@ export default async function ProductPage() {
             Produits
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-neutral-300" />
-          <span className="text-neutral-900 font-medium">Batterie Solaire KSTAR 6kW</span>
+          <Link href={`/produits/${product.category.slug}`} className="text-neutral-400 hover:text-neutral-600 transition-colors">
+            {product.category.name}
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-300" />
+          <span className="text-neutral-900 font-medium">{product.name}</span>
         </nav>
 
         {/* Mobile Header - Title first */}
@@ -137,15 +91,15 @@ export default async function ProductPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3">
             <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
             <span className="text-xs font-medium text-green-700">
-              Batterie solaire · Stockage tout-en-un
+              {product.category.name} · Stockage tout-en-un
             </span>
           </div>
           <h1 className="font-heading text-3xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
-            Batterie Solaire<br />
-            <span className="text-teal-600">KSTAR BluE-S</span> 6kW
+            Batterie solaire<br />
+            <span className="text-teal-600">{product.name}</span>
           </h1>
           <p className="text-base text-neutral-500">
-            Votre électricité gratuite, même la nuit.
+            {product.short_description || "Votre électricité gratuite, même la nuit."}
           </p>
         </div>
 
@@ -159,21 +113,16 @@ export default async function ProductPage() {
               <div className="absolute bottom-8 left-6 md:bottom-12 md:left-8 w-32 md:w-40 h-32 md:h-40 bg-teal-100/40 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 md:h-20 bg-green-300/20 blur-2xl" />
               
-              {/* Badges Livraison + Installation - en bas, style pill */}
-              <div className="absolute bottom-4 left-0 right-0 z-20 flex items-center justify-center gap-2">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded-full shadow-md">
-                  <Truck className="w-3.5 h-3.5 text-white" />
-                  <span className="text-[11px] font-semibold text-white">Livraison offerte</span>
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 rounded-full shadow-md">
-                  <Wrench className="w-3.5 h-3.5 text-white" />
-                  <span className="text-[11px] font-semibold text-white">Installation offerte</span>
-                </div>
+              {/* Badges Livraison + Installation - texte simple */}
+              <div className="absolute bottom-4 left-0 right-0 z-20 text-center">
+                <p className="text-[11px] text-neutral-500">
+                  Livraison et installation offerts
+                </p>
               </div>
               
               <Image
-                src="/kstar.png"
-                alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4 pour autoconsommation"
+                src={imageUrl}
+                alt={`${product.name} - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4 pour autoconsommation`}
                 width={260}
                 height={320}
                 className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
@@ -193,19 +142,19 @@ export default async function ProductPage() {
             <div className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
               <span className="text-xs font-medium text-green-700">
-                Batterie solaire · Stockage tout-en-un
+                {product.category.name} · Stockage tout-en-un
               </span>
             </div>
 
             {/* Title - hidden on mobile, shown in header section */}
             <h1 className="hidden md:block font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight mb-2">
-              Batterie Solaire<br />
-              <span className="text-teal-600">KSTAR BluE-S</span> 6kW
+              Batterie solaire<br />
+              <span className="text-teal-600">{product.name}</span>
             </h1>
             
             {/* Subtitle - hidden on mobile */}
             <p className="hidden md:block text-base md:text-lg text-neutral-500 mb-5">
-              Votre électricité gratuite, même la nuit.
+              {product.short_description || "Votre électricité gratuite, même la nuit."}
             </p>
 
             {/* Price + CTA Block */}
@@ -213,13 +162,13 @@ export default async function ProductPage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
                 <div>
                   <p className="text-4xl font-bold text-neutral-900">
-                    {stripePrice.toLocaleString('fr-FR')} €
+                    {priceInEuros.toLocaleString('fr-FR')} €
                   </p>
                   <p className="text-sm text-green-700 font-medium mt-0.5">
                     Livraison + Installation offertes
                   </p>
                 </div>
-                <BuyButton />
+                <BuyButton productId={product.id} />
               </div>
               
               {/* CTA secondaire */}
@@ -228,7 +177,7 @@ export default async function ProductPage() {
                 className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-white border border-green-200 rounded-xl text-green-700 font-medium text-sm hover:bg-green-50 hover:border-green-300 transition-all"
               >
                 <Phone className="w-4 h-4" />
-                J'appelle pour plus d'informations
+                J&apos;appelle pour plus d&apos;informations
               </Link>
               
               {/* Mini reassurance */}
@@ -374,7 +323,7 @@ export default async function ProductPage() {
             <div className="p-6 bg-green-50 rounded-2xl border-2 border-green-200">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">😊</span>
-                <h3 className="text-lg font-semibold text-green-700">Avec KSTAR BluE-S</h3>
+                <h3 className="text-lg font-semibold text-green-700">Avec {product.name}</h3>
               </div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-green-700">
@@ -412,8 +361,8 @@ export default async function ProductPage() {
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-neutral-900 mb-1">Livraison et installation offertes</h3>
               <p className="text-sm text-neutral-600 leading-relaxed">
-                Le prix affiché comprend la livraison à domicile et l'installation complète par nos techniciens certifiés RGE. 
-                Si vous ne souhaitez pas l'installation, seule la livraison est effectuée — le tarif reste identique.
+                Le prix affiché comprend la livraison à domicile et l&apos;installation complète par nos techniciens certifiés RGE. 
+                Si vous ne souhaitez pas l&apos;installation, seule la livraison est effectuée — le tarif reste identique.
               </p>
             </div>
           </div>
@@ -451,7 +400,7 @@ export default async function ProductPage() {
               <span className="text-xs font-medium text-green-700">Questions fréquentes</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-neutral-900">
-              Tout savoir sur le KSTAR BluE-S 6kW
+              Tout savoir sur le {product.name}
             </h2>
           </div>
 
@@ -476,4 +425,62 @@ export default async function ProductPage() {
     </main>
     </ProductPageClient>
   )
+}
+
+
+/**
+ * Get default FAQ items for KSTAR product
+ * Used when product.faq is empty or not defined
+ */
+function getDefaultFaqItems(priceInEuros: number): FAQItem[] {
+  return [
+    {
+      question: `Qu'est-ce qui est inclus dans le prix de ${priceInEuros.toLocaleString('fr-FR')} € ?`,
+      answer: "Le prix comprend l'onduleur hybride KSTAR BluE-S 6kW, la livraison à domicile et l'installation complète par nos techniciens certifiés. Si vous ne souhaitez pas l'installation, seule la livraison est effectuée au même tarif."
+    },
+    {
+      question: "Quelle est la durée de vie des batteries LiFePO4 ?",
+      answer: "Les cellules LiFePO4 CATL intégrées sont garanties pour 10 000 cycles de charge/décharge, soit environ 25-30 ans d'utilisation normale. KSTAR offre une garantie de 10 ans sur les batteries."
+    },
+    {
+      question: "Puis-je installer le système en extérieur ?",
+      answer: "Oui, le système est certifié IP65, ce qui signifie une protection totale contre la poussière et les jets d'eau. Cependant, il est recommandé de l'installer dans un local technique car les batteries ne doivent pas être chargées en dessous de 0°C."
+    },
+    {
+      question: "Quelle est la plage de température de fonctionnement ?",
+      answer: "L'onduleur fonctionne de -25°C à +60°C. Les batteries fonctionnent de 0°C à +50°C en charge et de -10°C à +50°C en décharge."
+    },
+    {
+      question: "Combien de panneaux solaires puis-je connecter ?",
+      answer: "Le KSTAR BluE-S 6kW accepte jusqu'à 6,5 kW de panneaux solaires avec une tension d'entrée maximale de 580V et un double tracker MPPT pour optimiser la production."
+    },
+    {
+      question: "Que se passe-t-il en cas de coupure de courant ?",
+      answer: "Le système bascule instantanément sur les batteries en cas de coupure réseau. Vous ne remarquerez même pas l'interruption - vos appareils continuent de fonctionner normalement."
+    },
+    {
+      question: "Comment surveiller ma production et consommation ?",
+      answer: "L'application Solarman Smart (disponible sur iOS et Android) permet de suivre en temps réel votre production solaire, consommation, état des batteries et historique. Une interface web est également disponible."
+    },
+    {
+      question: "Puis-je ajouter des batteries supplémentaires plus tard ?",
+      answer: "Oui, le système est évolutif. Vous pouvez ajouter jusqu'à 4 modules BluE-PACK5.1 (20,4 kWh au total) pour augmenter votre autonomie selon vos besoins."
+    },
+    {
+      question: "Quelle est la garantie du produit ?",
+      answer: "L'onduleur est garanti 5 ans par le fabricant KSTAR. Les batteries LiFePO4 CATL bénéficient d'une garantie de 10 ans. Notre installation est garantie 2 ans main d'œuvre."
+    },
+    {
+      question: "Le système est-il bruyant ?",
+      answer: "Non, le KSTAR BluE-S est remarquablement silencieux même sous forte charge. Un léger son haute fréquence peut être perçu à moins de 2-3 mètres, mais il est imperceptible au-delà."
+    },
+    {
+      question: "Quelle autonomie puis-je espérer ?",
+      answer: "Avec une consommation moyenne de 300-500 Wh (éclairage, réfrigérateur, box internet), une batterie de 10 kWh offre 20 à 30 heures d'autonomie. En mode économique, vous pouvez atteindre près de 3 jours."
+    },
+    {
+      question: "Le système est-il compatible avec mon installation existante ?",
+      answer: "Le KSTAR BluE-S 6kW est un onduleur hybride monophasé 230V compatible avec la plupart des installations résidentielles françaises. Nos techniciens évaluent la compatibilité lors de la visite préalable incluse."
+    }
+  ]
 }

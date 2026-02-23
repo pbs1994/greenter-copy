@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Flame, Wind, Droplets, SunMedium, SunDim, Zap, type LucideIcon } from "lucide-react"
 import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
@@ -15,6 +15,23 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+
+interface MaintenanceService {
+  id: string
+  name: string
+  description: string
+  icon: string
+  price_monthly: number
+  price_yearly: number
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  Flame, Wind, Sun, Droplets, SunMedium, SunDim, Zap, Wrench, Thermometer,
+}
+
+function getIcon(name: string): LucideIcon {
+  return iconMap[name] ?? Wrench
+}
 
 const services = [
   {
@@ -62,7 +79,7 @@ const services = [
 const products = [
   {
     title: "Batterie Solaire KSTAR 6kW",
-    href: "/produits/batterie-solaire-kstar-6kw",
+    href: "/produits/batteries-solaires/kstar-blue-s-6kw",
     description: "Onduleur hybride + stockage",
     image: "/kstar.png",
     badge: "Nouveau",
@@ -78,10 +95,20 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
+  const [maintenanceServices, setMaintenanceServices] = React.useState<MaintenanceService[]>([])
   const { data: priceData } = useProductPrice()
 
   React.useEffect(() => {
     setMounted(true)
+    // Fetch maintenance services
+    fetch('/api/maintenance-services')
+      .then(res => res.json())
+      .then(data => {
+        if (data.services) {
+          setMaintenanceServices(data.services)
+        }
+      })
+      .catch(console.error)
   }, [])
 
   React.useEffect(() => {
@@ -193,10 +220,10 @@ export function Header() {
 
                   {/* Footer */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
-                    <a href="tel:+33609455056" className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800 transition-colors">
-                      <Phone className="w-4 h-4" />
-                      <span className="font-semibold">06 09 45 50 56</span>
-                    </a>
+                    <Link href="/services/maintenance" className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800 transition-colors">
+                      <Wrench className="w-4 h-4" />
+                      <span className="font-semibold">Contrats d'entretien</span>
+                    </Link>
                     <Link
                       href="/contact"
                       className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
@@ -263,6 +290,53 @@ export function Header() {
                     >
                       <ShoppingBag className="w-4 h-4" />
                       Voir tous les produits
+                    </Link>
+                  </div>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="text-neutral-700 font-medium">
+                Contrats d'entretien
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="w-[680px] p-4 bg-white">
+                  <div className="grid grid-cols-6 gap-2">
+                    {maintenanceServices.slice(0, 6).map((service) => {
+                      const Icon = getIcon(service.icon)
+                      return (
+                        <NavigationMenuLink key={service.id} asChild>
+                          <Link
+                            href="/services/maintenance"
+                            className="group flex flex-col items-center p-3 rounded-xl bg-neutral-50 hover:bg-green-50 border border-transparent hover:border-green-200 transition-all"
+                          >
+                            <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:bg-green-600 group-hover:shadow-md transition-all">
+                              <Icon className="w-6 h-6 text-green-600 group-hover:text-white transition-colors" />
+                            </div>
+                            <h4 className="font-medium text-[11px] text-neutral-700 group-hover:text-green-700 text-center leading-tight mb-1">
+                              {service.name}
+                            </h4>
+                            <p className="text-[10px] font-bold text-green-600">
+                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      )
+                    })}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-neutral-100">
+                    <p className="text-xs text-neutral-500">
+                      Cumulez et économisez <span className="text-green-600 font-semibold">jusqu'à -15%</span>
+                    </p>
+                    <Link
+                      href="/services/maintenance"
+                      className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
+                    >
+                      Configurer mon contrat
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
                 </div>
@@ -530,19 +604,20 @@ export function Header() {
 
           {/* Footer avec gradient */}
           <div className="bg-gradient-to-r from-green-900 via-green-800 to-teal-800 p-4">
-            {/* Phone */}
-            <a 
-              href="tel:+33609455056" 
+            {/* Contrats d'entretien */}
+            <Link 
+              href="/services/maintenance"
+              onClick={closeMenu}
               className="flex items-center gap-3 p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all mb-3"
             >
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-white" />
+                <Wrench className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-xs text-green-200 font-medium">Appelez-nous</div>
-                <div className="font-semibold text-white">06 09 45 50 56</div>
+                <div className="text-xs text-green-200 font-medium">Protégez vos équipements</div>
+                <div className="font-semibold text-white">Contrats d'entretien</div>
               </div>
-            </a>
+            </Link>
 
             {/* CTA */}
             <Link 

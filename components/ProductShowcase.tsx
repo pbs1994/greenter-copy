@@ -3,7 +3,8 @@
 import Image from "next/image"
 import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, Truck, Wrench } from "lucide-react"
 import { BuyButton } from "./BuyButton"
-import { useProductPrice } from "@/lib/useProductPrice"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
 
 const features = [
   { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
@@ -24,7 +25,21 @@ const specs = [
 ]
 
 export function ProductShowcase() {
-  const { data: priceData, loading } = useProductPrice()
+  const [product, setProduct] = useState<{ id: string; price: number } | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchProduct() {
+      const { data } = await supabase
+        .from('products')
+        .select('id, price')
+        .eq('slug', 'kstar-blue-s-6kw')
+        .single()
+      setProduct(data)
+      setLoading(false)
+    }
+    fetchProduct()
+  }, [])
   
   return (
     <section id="produit" className="bg-gradient-to-b from-green-50/80 via-white to-white py-12 md:py-16 lg:py-20">
@@ -110,7 +125,7 @@ export function ProductShowcase() {
             {/* Price */}
             <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                {loading ? '...' : priceData?.formatted}
+                {loading ? '...' : product ? `${(product.price / 100).toLocaleString('fr-FR')} €` : '...'}
               </p>
               <span className="text-sm text-neutral-400">TTC</span>
             </div>
@@ -123,9 +138,9 @@ export function ProductShowcase() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
-              <BuyButton />
+              {product && <BuyButton productId={product.id} />}
               <a 
-                href="/produits/batterie-solaire-kstar-6kw"
+                href="/produits/batteries-solaires/kstar-blue-s-6kw"
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
               >
                 Détails techniques

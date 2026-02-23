@@ -1,0 +1,100 @@
+<!--
+  Template Email Supabase pour Magic Link + OTP
+  
+  À configurer dans : Supabase Dashboard > Authentication > Email Templates > Magic Link
+  
+  Variables disponibles :
+  - {{ .Token }} : Le code OTP à 6 chiffres
+  - {{ .TokenHash }} : Hash du token (pour le lien)
+  - {{ .SiteURL }} : URL du site
+  - {{ .ConfirmationURL }} : Lien magique complet
+  - {{ .Email }} : Email de l'utilisateur
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Greenter</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 480px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <img src="https://www.greenter.fr/icon.png" alt="Greenter" width="180" style="display: block; margin: 0 auto 16px;" />
+              <p style="margin: 0; font-size: 14px; color: #737373;">
+                Espace Administration
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 20px 40px;">
+              <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #171717; text-align: center;">
+                Votre code de connexion
+              </h2>
+              <p style="margin: 0 0 24px; font-size: 14px; color: #525252; text-align: center; line-height: 1.6;">
+                Utilisez ce code pour vous connecter à votre espace administration, ou cliquez sur le bouton ci-dessous.
+              </p>
+              
+              <!-- Code OTP -->
+              <div style="background: linear-gradient(135deg, #f0fdf4 0%, #f0fdfa 100%); border: 2px dashed #16a34a; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                <p style="margin: 0 0 8px; font-size: 12px; color: #737373; text-transform: uppercase; letter-spacing: 1px;">
+                  Code à 6 chiffres
+                </p>
+                <p style="margin: 0; font-size: 36px; font-weight: 700; color: #16a34a; letter-spacing: 8px; font-family: 'Courier New', monospace;">
+                  {{ .Token }}
+                </p>
+              </div>
+              
+              <!-- Divider -->
+              <div style="text-align: center; margin: 24px 0;">
+                <span style="display: inline-block; padding: 0 16px; background: #ffffff; color: #a3a3a3; font-size: 12px;">
+                  ou
+                </span>
+              </div>
+              
+              <!-- Magic Link Button -->
+              <div style="text-align: center;">
+                <a href="{{ .ConfirmationURL }}" style="display: inline-block; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 14px 32px; border-radius: 12px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);">
+                  ✨ Connexion instantanée
+                </a>
+              </div>
+              
+              <p style="margin: 24px 0 0; font-size: 12px; color: #a3a3a3; text-align: center;">
+                Ce code expire dans 1 heure.
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 20px 40px 40px;">
+              <div style="border-top: 1px solid #e5e5e5; padding-top: 20px;">
+                <p style="margin: 0; font-size: 12px; color: #a3a3a3; text-align: center; line-height: 1.6;">
+                  Si vous n'avez pas demandé ce code, ignorez cet email.<br>
+                  Votre compte reste sécurisé.
+                </p>
+              </div>
+            </td>
+          </tr>
+          
+        </table>
+        
+        <!-- Bottom text -->
+        <p style="margin: 24px 0 0; font-size: 11px; color: #a3a3a3; text-align: center;">
+          © 2024 Greenter · Solutions énergétiques durables<br>
+          <a href="https://greenter.fr" style="color: #16a34a; text-decoration: none;">greenter.fr</a>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
