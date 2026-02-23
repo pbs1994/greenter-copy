@@ -193,10 +193,10 @@ export function Header() {
 
                   {/* Footer */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
-                    <a href="tel:+33609455056" className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800 transition-colors">
-                      <Phone className="w-4 h-4" />
-                      <span className="font-semibold">06 09 45 50 56</span>
-                    </a>
+                    <Link href="/services/maintenance" className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800 transition-colors">
+                      <Wrench className="w-4 h-4" />
+                      <span className="font-semibold">Contrats d'entretien</span>
+                    </Link>
                     <Link
                       href="/contact"
                       className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
@@ -505,19 +505,20 @@ export function Header() {
 
           {/* Footer avec gradient */}
           <div className="bg-gradient-to-r from-green-900 via-green-800 to-teal-800 p-4">
-            {/* Phone */}
-            <a 
-              href="tel:+33609455056" 
+            {/* Contrats d'entretien */}
+            <Link 
+              href="/services/maintenance"
+              onClick={closeMenu}
               className="flex items-center gap-3 p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all mb-3"
             >
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-white" />
+                <Wrench className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-xs text-green-200 font-medium">Appelez-nous</div>
-                <div className="font-semibold text-white">06 09 45 50 56</div>
+                <div className="text-xs text-green-200 font-medium">Protégez vos équipements</div>
+                <div className="font-semibold text-white">Contrats d'entretien</div>
               </div>
-            </a>
+            </Link>
 
             {/* CTA */}
             <Link 
