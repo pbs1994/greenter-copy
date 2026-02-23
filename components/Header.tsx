@@ -274,10 +274,7 @@ export function Header() {
                 className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
                 asChild
               >
-                <Link href="/services/maintenance" className="flex items-center gap-1.5">
-                  <Wrench className="w-4 h-4" />
-                  Contrats d'entretien
-                </Link>
+                <Link href="/services/maintenance">Contrats d'entretien</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
