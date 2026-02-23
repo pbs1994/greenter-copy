@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery, Shield, Clock } from "lucide-react"
 import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
@@ -15,6 +15,14 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+
+interface MaintenanceService {
+  id: string
+  name: string
+  description: string
+  price_monthly: number
+  price_yearly: number
+}
 
 const services = [
   {
@@ -78,10 +86,20 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
+  const [maintenanceServices, setMaintenanceServices] = React.useState<MaintenanceService[]>([])
   const { data: priceData } = useProductPrice()
 
   React.useEffect(() => {
     setMounted(true)
+    // Fetch maintenance services
+    fetch('/api/maintenance-services')
+      .then(res => res.json())
+      .then(data => {
+        if (data.services) {
+          setMaintenanceServices(data.services)
+        }
+      })
+      .catch(console.error)
   }, [])
 
   React.useEffect(() => {
@@ -270,12 +288,52 @@ export function Header() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuLink
-                className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
-                asChild
-              >
-                <Link href="/services/maintenance">Contrats d'entretien</Link>
-              </NavigationMenuLink>
+              <NavigationMenuTrigger className="text-neutral-700 font-medium">
+                Contrats d'entretien
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="w-[380px] p-4 bg-white">
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 px-1">
+                    Équipements couverts
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {maintenanceServices.map((service) => (
+                      <NavigationMenuLink key={service.id} asChild>
+                        <Link
+                          href="/services/maintenance"
+                          className="group flex flex-col items-center gap-2 rounded-xl p-3 hover:bg-green-50 transition-all text-center"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-100 to-teal-100 flex items-center justify-center group-hover:from-green-500 group-hover:to-teal-500 transition-all">
+                            <Wrench className="w-5 h-5 text-green-700 group-hover:text-white transition-colors" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-xs text-neutral-900 group-hover:text-green-700 transition-colors">
+                              {service.name}
+                            </h4>
+                            <p className="text-xs font-bold text-green-600">
+                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
+                            </p>
+                          </div>
+                        </Link>
+                      </NavigationMenuLink>
+                    ))}
+                  </div>
+                  
+                  {/* Footer */}
+                  <div className="mt-4 pt-3 border-t border-neutral-100">
+                    <Link
+                      href="/services/maintenance"
+                      className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-sm rounded-lg transition-colors"
+                    >
+                      Configurer mon contrat
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <p className="text-[10px] text-neutral-400 text-center mt-2">
+                      Cumulez plusieurs équipements et économisez jusqu'à -15%
+                    </p>
+                  </div>
+                </div>
+              </NavigationMenuContent>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
