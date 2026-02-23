@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery, Shield, Clock } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, Battery, Shield, Clock, Flame, Wind, Droplets, SunMedium, SunDim, Zap, type LucideIcon } from "lucide-react"
 import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
@@ -20,8 +20,17 @@ interface MaintenanceService {
   id: string
   name: string
   description: string
+  icon: string
   price_monthly: number
   price_yearly: number
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  Flame, Wind, Sun, Droplets, SunMedium, SunDim, Zap, Wrench, Thermometer,
+}
+
+function getIcon(name: string): LucideIcon {
+  return iconMap[name] ?? Wrench
 }
 
 const services = [
@@ -292,46 +301,47 @@ export function Header() {
                 Contrats d'entretien
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="w-[520px] p-4 bg-white">
-                  {/* Équipements en grille */}
-                  <div className="grid grid-cols-4 gap-2">
-                    {maintenanceServices.map((service, index) => (
-                      <NavigationMenuLink key={service.id} asChild>
-                        <Link
-                          href="/services/maintenance"
-                          className="group relative flex flex-col rounded-xl overflow-hidden bg-neutral-100 hover:bg-neutral-50 transition-all"
-                        >
-                          {/* Image */}
-                          <div className="relative h-20 w-full overflow-hidden bg-gradient-to-br from-green-600 to-teal-600">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <Wrench className="w-8 h-8 text-white/80" />
+                <div className="w-[680px] p-4 bg-white">
+                  {/* Équipements en grille horizontale comme les services */}
+                  <div className="grid grid-cols-5 gap-2">
+                    {maintenanceServices.slice(0, 5).map((service) => {
+                      const Icon = getIcon(service.icon)
+                      return (
+                        <NavigationMenuLink key={service.id} asChild>
+                          <Link
+                            href="/services/maintenance"
+                            className="group relative flex flex-col rounded-xl overflow-hidden bg-neutral-100 hover:bg-neutral-50 transition-all"
+                          >
+                            {/* Zone icône avec gradient */}
+                            <div className="relative h-20 w-full overflow-hidden bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center">
+                              <Icon className="w-10 h-10 text-white/90 group-hover:scale-110 transition-transform duration-300" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                              
+                              {/* Prix badge */}
+                              <span className="absolute top-1.5 right-1.5 bg-white text-green-700 text-[8px] font-bold px-1.5 py-0.5 rounded">
+                                {(service.price_monthly * 12 / 100).toFixed(0)}€/an
+                              </span>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                            
-                            {/* Prix badge */}
-                            <span className="absolute top-1.5 right-1.5 bg-white text-green-700 text-[9px] font-bold px-1.5 py-0.5 rounded">
-                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
-                            </span>
-                          </div>
 
-                          {/* Texte */}
-                          <div className="p-2 text-center">
-                            <h4 className="font-semibold text-[11px] text-neutral-900 group-hover:text-green-700 transition-colors leading-tight">
-                              {service.name}
-                            </h4>
-                          </div>
-                          
-                          {/* Hover ring */}
-                          <div className="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-green-400 transition-all pointer-events-none" />
-                        </Link>
-                      </NavigationMenuLink>
-                    ))}
+                            {/* Texte */}
+                            <div className="p-2 text-center">
+                              <h4 className="font-semibold text-xs text-neutral-900 group-hover:text-green-700 transition-colors leading-tight">
+                                {service.name}
+                              </h4>
+                            </div>
+                            
+                            {/* Hover ring */}
+                            <div className="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-green-400 transition-all pointer-events-none" />
+                          </Link>
+                        </NavigationMenuLink>
+                      )
+                    })}
                   </div>
 
                   {/* Footer */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
                     <div className="text-xs text-neutral-500">
-                      <span className="text-green-600 font-semibold">Jusqu'à -15%</span> en cumulant
+                      <span className="text-green-600 font-semibold">Jusqu'à -15%</span> en cumulant plusieurs équipements
                     </div>
                     <Link
                       href="/services/maintenance"
