@@ -274,6 +274,18 @@ export function Header() {
                 className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
                 asChild
               >
+                <Link href="/services/maintenance" className="flex items-center gap-1.5">
+                  <Wrench className="w-4 h-4" />
+                  Contrats d'entretien
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
+                asChild
+              >
                 <Link href="/contact">Contact</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
