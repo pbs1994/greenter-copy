@@ -356,16 +356,7 @@ export function Header() {
         )}
 
         {/* Desktop CTA */}
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href="tel:+33609455056"
-            className="flex items-center gap-2 text-neutral-700 hover:text-green-700 font-medium text-sm transition-colors"
-            aria-label="Appeler Greenter au 06 09 45 50 56"
-          >
-            <Phone className="w-4 h-4" />
-            <span>06 09 45 50 56</span>
-          </a>
-
+        <div className="hidden lg:flex items-center gap-4">
           <Link 
             href="/contact"
             className="btn-primary text-sm"
@@ -375,18 +366,8 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Mobile: zone badge + menu button */}
-        <div className="lg:hidden flex items-center gap-2">
-          {/* Mobile click-to-call */}
-          <a
-            href="tel:+33609455056"
-            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition-colors"
-            aria-label="Appeler Greenter au 06 09 45 50 56"
-          >
-            <Phone className="h-5 w-5" />
-          </a>
-
-          {/* Mobile menu button */}
+        {/* Mobile menu button */}
+        <div className="lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(true)}
             className="inline-flex items-center justify-center w-10 h-10 rounded-full text-neutral-700 hover:bg-green-50 hover:text-green-700 transition-colors"
