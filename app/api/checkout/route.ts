@@ -33,14 +33,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Vérifier que le produit a un stripe_price_id
-    if (!product.stripe_price_id) {
-      return NextResponse.json(
-        { error: 'Ce produit n\'est pas configuré pour le paiement' },
-        { status: 400 }
-      )
-    }
-
     // URL de retour en cas d'annulation
     const cancelUrl = product.category?.slug 
       ? `${process.env.NEXT_PUBLIC_SITE_URL}/produits/${product.category.slug}/${product.slug}`
@@ -50,7 +42,15 @@ export async function POST(request: NextRequest) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: product.stripe_price_id,
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: product.name,
+              description: product.short_description || undefined,
+              images: product.image_url ? [`${process.env.NEXT_PUBLIC_SITE_URL}${product.image_url}`] : undefined,
+            },
+            unit_amount: product.price, // Prix en centimes depuis Supabase
+          },
           quantity: 1,
         },
       ],
