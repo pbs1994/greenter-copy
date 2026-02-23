@@ -302,36 +302,24 @@ export function Header() {
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="w-[680px] p-4 bg-white">
-                  {/* Équipements en grille horizontale comme les services */}
-                  <div className="grid grid-cols-5 gap-2">
-                    {maintenanceServices.slice(0, 5).map((service) => {
+                  <div className="grid grid-cols-6 gap-2">
+                    {maintenanceServices.slice(0, 6).map((service) => {
                       const Icon = getIcon(service.icon)
                       return (
                         <NavigationMenuLink key={service.id} asChild>
                           <Link
                             href="/services/maintenance"
-                            className="group relative flex flex-col rounded-xl overflow-hidden bg-neutral-100 hover:bg-neutral-50 transition-all"
+                            className="group flex flex-col items-center p-3 rounded-xl bg-neutral-50 hover:bg-green-50 border border-transparent hover:border-green-200 transition-all"
                           >
-                            {/* Zone icône avec gradient */}
-                            <div className="relative h-20 w-full overflow-hidden bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center">
-                              <Icon className="w-10 h-10 text-white/90 group-hover:scale-110 transition-transform duration-300" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                              
-                              {/* Prix badge */}
-                              <span className="absolute top-1.5 right-1.5 bg-white text-green-700 text-[8px] font-bold px-1.5 py-0.5 rounded">
-                                {(service.price_monthly * 12 / 100).toFixed(0)}€/an
-                              </span>
+                            <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:bg-green-600 group-hover:shadow-md transition-all">
+                              <Icon className="w-6 h-6 text-green-600 group-hover:text-white transition-colors" />
                             </div>
-
-                            {/* Texte */}
-                            <div className="p-2 text-center">
-                              <h4 className="font-semibold text-xs text-neutral-900 group-hover:text-green-700 transition-colors leading-tight">
-                                {service.name}
-                              </h4>
-                            </div>
-                            
-                            {/* Hover ring */}
-                            <div className="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-green-400 transition-all pointer-events-none" />
+                            <h4 className="font-medium text-[11px] text-neutral-700 group-hover:text-green-700 text-center leading-tight mb-1">
+                              {service.name}
+                            </h4>
+                            <p className="text-[10px] font-bold text-green-600">
+                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
+                            </p>
                           </Link>
                         </NavigationMenuLink>
                       )
@@ -339,10 +327,10 @@ export function Header() {
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
-                    <div className="text-xs text-neutral-500">
-                      <span className="text-green-600 font-semibold">Jusqu'à -15%</span> en cumulant plusieurs équipements
-                    </div>
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-neutral-100">
+                    <p className="text-xs text-neutral-500">
+                      Cumulez et économisez <span className="text-green-600 font-semibold">jusqu'à -15%</span>
+                    </p>
                     <Link
                       href="/services/maintenance"
                       className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
