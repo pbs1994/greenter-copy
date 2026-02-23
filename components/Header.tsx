@@ -292,45 +292,54 @@ export function Header() {
                 Contrats d'entretien
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="w-[380px] p-4 bg-white">
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 px-1">
-                    Équipements couverts
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {maintenanceServices.map((service) => (
+                <div className="w-[520px] p-4 bg-white">
+                  {/* Équipements en grille */}
+                  <div className="grid grid-cols-4 gap-2">
+                    {maintenanceServices.map((service, index) => (
                       <NavigationMenuLink key={service.id} asChild>
                         <Link
                           href="/services/maintenance"
-                          className="group flex flex-col items-center gap-2 rounded-xl p-3 hover:bg-green-50 transition-all text-center"
+                          className="group relative flex flex-col rounded-xl overflow-hidden bg-neutral-100 hover:bg-neutral-50 transition-all"
                         >
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-100 to-teal-100 flex items-center justify-center group-hover:from-green-500 group-hover:to-teal-500 transition-all">
-                            <Wrench className="w-5 h-5 text-green-700 group-hover:text-white transition-colors" />
+                          {/* Image */}
+                          <div className="relative h-20 w-full overflow-hidden bg-gradient-to-br from-green-600 to-teal-600">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <Wrench className="w-8 h-8 text-white/80" />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            
+                            {/* Prix badge */}
+                            <span className="absolute top-1.5 right-1.5 bg-white text-green-700 text-[9px] font-bold px-1.5 py-0.5 rounded">
+                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
+                            </span>
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-xs text-neutral-900 group-hover:text-green-700 transition-colors">
+
+                          {/* Texte */}
+                          <div className="p-2 text-center">
+                            <h4 className="font-semibold text-[11px] text-neutral-900 group-hover:text-green-700 transition-colors leading-tight">
                               {service.name}
                             </h4>
-                            <p className="text-xs font-bold text-green-600">
-                              {(service.price_monthly * 12 / 100).toFixed(0)}€/an
-                            </p>
                           </div>
+                          
+                          {/* Hover ring */}
+                          <div className="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-green-400 transition-all pointer-events-none" />
                         </Link>
                       </NavigationMenuLink>
                     ))}
                   </div>
-                  
+
                   {/* Footer */}
-                  <div className="mt-4 pt-3 border-t border-neutral-100">
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
+                    <div className="text-xs text-neutral-500">
+                      <span className="text-green-600 font-semibold">Jusqu'à -15%</span> en cumulant
+                    </div>
                     <Link
                       href="/services/maintenance"
-                      className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-sm rounded-lg transition-colors"
+                      className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
                     >
                       Configurer mon contrat
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
-                    <p className="text-[10px] text-neutral-400 text-center mt-2">
-                      Cumulez plusieurs équipements et économisez jusqu'à -15%
-                    </p>
                   </div>
                 </div>
               </NavigationMenuContent>
