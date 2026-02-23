@@ -6,6 +6,7 @@ import "./cookieconsent.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { fetchGoogleReviews } from "@/lib/google-places";
 import { CookieBanner } from "@/components/CookieBanner";
 import { VideoPreloader } from "@/components/VideoPreloader";
 
@@ -71,15 +72,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const reviewsData = await fetchGoogleReviews()
+  const ratingValue = reviewsData.rating > 0 ? reviewsData.rating : 4.8
+  const reviewCount = reviewsData.reviewCount > 0 ? reviewsData.reviewCount : 20
+
   return (
     <html lang="fr">
       <head>
-        <JsonLd />
+        <JsonLd ratingValue={ratingValue} reviewCount={reviewCount} />
         {/* Preconnect to Supabase for faster video loading */}
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />

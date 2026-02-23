@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Installation Pompe à Chaleur | Devis Gratuit | Greenter",
-  description: "Installation de pompe à chaleur air-eau et air-air partout en France. Certifié RGE QualiPAC. Jusqu'à 70% d'économies sur votre chauffage. Éligible MaPrimeRénov'. Devis gratuit sous 48h.",
+  title: "Installation Pompe à Chaleur Ozoir-la-Ferrière, Roissy-en-Brie | Devis Gratuit",
+  description: "Installation de pompe à chaleur à Ozoir-la-Ferrière, Roissy-en-Brie et Seine-et-Marne (77). Certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 06 09 45 50 56",
   keywords: [
     "pompe à chaleur",
     "PAC air-eau",

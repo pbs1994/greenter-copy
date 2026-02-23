@@ -2,11 +2,15 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, CheckCircle, Thermometer, Zap, Leaf, Shield, Phone, ChevronDown, Euro, Clock, Award } from "lucide-react"
+import { ArrowRight, CheckCircle, Thermometer, Zap, Leaf, Shield, Phone, ChevronDown, Euro, Clock, Award, MapPin } from "lucide-react"
 import { useState } from "react"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
+import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
+import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
+import ServiceAreaSection from "@/components/ServiceAreaSection"
+import { CITIES } from "@/lib/local-seo-data"
 
 const pacTypes = [
   {
@@ -99,6 +103,18 @@ const faqs = [
     question: "L'installation est-elle bruyante ?",
     answer: "Les PAC modernes sont très silencieuses (25-45 dB). L'unité extérieure doit respecter la réglementation sur le bruit de voisinage. Nous veillons à un positionnement optimal.",
   },
+  {
+    question: "Combien coûte une pompe à chaleur à Ozoir-la-Ferrière ?",
+    answer: "Le prix d'une pompe à chaleur à Ozoir-la-Ferrière varie entre 8 000€ et 18 000€ selon le modèle. Avec MaPrimeRénov' et les CEE, le reste à charge peut être réduit de 40 à 70%. Contactez-nous pour un devis personnalisé gratuit.",
+  },
+  {
+    question: "Quelles aides pour une PAC en Seine-et-Marne ?",
+    answer: "En Seine-et-Marne (77), vous pouvez bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE (jusqu'à 4 000€), de la TVA réduite à 5,5%, et de l'éco-PTZ. Greenter vous accompagne dans toutes vos démarches.",
+  },
+  {
+    question: "Intervenez-vous à Roissy-en-Brie ?",
+    answer: "Oui, Greenter intervient à Roissy-en-Brie et dans toute la Seine-et-Marne : Ozoir-la-Ferrière, Chevry-Cossigny, Lésigny, Pontault-Combault, Gretz-Armainvilliers, Tournan-en-Brie, Brie-Comte-Robert. Devis gratuit sous 48h.",
+  },
 ]
 
 const brands = [
@@ -144,7 +160,7 @@ export default function PompeAChaleurPage() {
                 Certifié RGE QualiPAC
               </span>
               <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-                Pompe à chaleur : divisez vos factures de chauffage par 3
+                Installation Pompe à Chaleur à Ozoir-la-Ferrière et environs
               </h1>
               <p className="text-green-100 text-lg leading-relaxed mb-8">
                 Installation de pompes à chaleur air-eau et air-air partout en France. 
@@ -202,6 +218,13 @@ export default function PompeAChaleurPage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Google Rating Badge */}
+      <section className="py-6 bg-white">
+        <div className="container mx-auto max-w-6xl px-4 flex justify-center">
+          <GoogleRatingBadgeClient />
         </div>
       </section>
 
@@ -295,6 +318,9 @@ export default function PompeAChaleurPage() {
           </div>
         </div>
       </section>
+
+      {/* Google Reviews Carousel */}
+      <GoogleReviewsCarousel className="bg-neutral-50" />
 
       {/* Aides financières */}
       <section className="py-16 md:py-24 bg-white">
@@ -478,6 +504,49 @@ export default function PompeAChaleurPage() {
                   </p>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Zone d'intervention */}
+      <ServiceAreaSection className="bg-white" />
+
+      {/* Nos interventions par ville */}
+      <section className="py-16 md:py-24 bg-neutral-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Proximité
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Nos interventions par ville
+            </h2>
+            <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+              Découvrez nos services d'installation de pompe à chaleur dans votre ville. Devis gratuit et intervention rapide en Seine-et-Marne.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                href={`/services/pompe-a-chaleur/${city.slug}`}
+                className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow group ring-1 ring-neutral-200 hover:ring-green-300"
+              >
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-200 transition-colors">
+                  <MapPin className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">
+                    {city.name}
+                  </p>
+                  <p className="text-sm text-neutral-500">
+                    {city.postalCode}
+                  </p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-green-600 ml-auto shrink-0 transition-colors" />
+              </Link>
             ))}
           </div>
         </div>

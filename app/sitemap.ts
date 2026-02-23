@@ -1,8 +1,17 @@
 import { MetadataRoute } from 'next'
+import { CITIES } from '@/lib/local-seo-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://greenter.fr'
   const currentDate = new Date()
+
+  // URLs des pages locales pour chaque ville prioritaire
+  const localPages: MetadataRoute.Sitemap = CITIES.map((city) => ({
+    url: `${baseUrl}/services/pompe-a-chaleur/${city.slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
 
   return [
     {
@@ -47,6 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    ...localPages,
     {
       url: `${baseUrl}/produits`,
       lastModified: currentDate,
