@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createProduct, updateProduct } from '@/app/administrator/actions/products';
 import { slugify } from '@/lib/slugify';
 import { ImageUpload } from './ImageUpload';
+import { MultiImageUpload } from './MultiImageUpload';
 import type { Product, Category, SpecField, ProductFeature, FAQItem } from '@/types/database';
 
 interface ProductFormProps {
@@ -61,6 +62,7 @@ export function ProductForm({ product, categories, mode }: ProductFormProps) {
   const [categoryId, setCategoryId] = useState(product?.category_id || '');
   const [priceEuros, setPriceEuros] = useState(product ? centsToEuros(product.price) : '');
   const [imageUrl, setImageUrl] = useState(product?.image_url || '');
+  const [images, setImages] = useState<string[]>(product?.images || []);
   const [description, setDescription] = useState(product?.description || '');
   const [shortDescription, setShortDescription] = useState(product?.short_description || '');
   const [isActive, setIsActive] = useState(product?.is_active ?? true);
@@ -215,6 +217,7 @@ export function ProductForm({ product, categories, mode }: ProductFormProps) {
     formData.set('category_id', categoryId);
     formData.set('price', priceCents.toString());
     formData.set('image_url', imageUrl || '');
+    formData.set('images', JSON.stringify(images));
     formData.set('description', description || '');
     formData.set('short_description', shortDescription || '');
     formData.set('specs', JSON.stringify(specs));
@@ -347,11 +350,26 @@ export function ProductForm({ product, categories, mode }: ProductFormProps) {
           {/* Image Upload */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-neutral-700 mb-1.5">
-              Image du produit
+              Image principale
             </label>
             <ImageUpload
               value={imageUrl}
               onChange={setImageUrl}
+            />
+          </div>
+
+          {/* Images secondaires */}
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+              Images secondaires
+            </label>
+            <p className="text-xs text-neutral-500 mb-2">
+              Ajoutez jusqu'à 5 images supplémentaires pour la galerie produit
+            </p>
+            <MultiImageUpload
+              value={images}
+              onChange={setImages}
+              max={5}
             />
           </div>
 

@@ -41,10 +41,22 @@ export default async function ProduitsPage() {
   const typedCategories = (categories || []) as Category[]
   const typedProducts = (products || []) as (Product & { category: Category })[]
 
-  // Group products by category (prix déjà dans Supabase)
+  // Calculer les prix dynamiques pour les produits kit
+  const inverterPrice = typedProducts.find(p => p.slug.includes('onduleur'))?.price || 0
+  const batteryPrice = typedProducts.find(p => p.slug.includes('batterie'))?.price || 0
+  
+  // Mettre à jour le prix du kit dynamiquement
+  const productsWithDynamicPrices = typedProducts.map(product => {
+    if (product.slug.includes('kit')) {
+      return { ...product, price: inverterPrice + batteryPrice }
+    }
+    return product
+  })
+
+  // Group products by category
   const productsByCategory = typedCategories.map(category => ({
     category,
-    products: typedProducts.filter(p => p.category_id === category.id)
+    products: productsWithDynamicPrices.filter(p => p.category_id === category.id)
   })).filter(group => group.products.length > 0)
 
   const breadcrumbItems = [
@@ -56,7 +68,7 @@ export default async function ProduitsPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": typedProducts.map((product, index) => ({
+    "itemListElement": productsWithDynamicPrices.map((product, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {

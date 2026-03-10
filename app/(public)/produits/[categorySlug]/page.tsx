@@ -75,6 +75,18 @@ export default async function CategoryPage({ params }: Props) {
   const typedCategory = category as Category
   const typedProducts = (products || []) as Product[]
   
+  // Calculer les prix dynamiques pour les produits kit
+  const inverterPrice = typedProducts.find(p => p.slug.includes('onduleur'))?.price || 0
+  const batteryPrice = typedProducts.find(p => p.slug.includes('batterie'))?.price || 0
+  
+  // Mettre à jour le prix du kit dynamiquement
+  const productsWithDynamicPrices = typedProducts.map(product => {
+    if (product.slug.includes('kit')) {
+      return { ...product, price: inverterPrice + batteryPrice }
+    }
+    return product
+  })
+  
   // Breadcrumb items for SEO schema
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
@@ -86,7 +98,7 @@ export default async function CategoryPage({ params }: Props) {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": typedProducts.map((product, index) => ({
+    "itemListElement": productsWithDynamicPrices.map((product, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {
@@ -148,7 +160,7 @@ export default async function CategoryPage({ params }: Props) {
       {/* Products Grid */}
       <section className="pb-16 md:pb-24">
         <div className="container mx-auto max-w-6xl px-4">
-          {typedProducts.length === 0 ? (
+          {productsWithDynamicPrices.length === 0 ? (
             /* Empty State */
             <div className="text-center py-16">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -171,7 +183,7 @@ export default async function CategoryPage({ params }: Props) {
           ) : (
             /* Products Grid */
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {typedProducts.map((product) => (
+              {productsWithDynamicPrices.map((product) => (
                 <Link 
                   key={product.id}
                   href={`/produits/${categorySlug}/${product.slug}`}

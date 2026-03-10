@@ -24,6 +24,7 @@ export interface Product {
   slug: string;
   price: number; // cents
   image_url: string | null;
+  images: string[]; // images secondaires
   description: string | null;
   short_description: string | null;
   specs: Record<string, string | number>;

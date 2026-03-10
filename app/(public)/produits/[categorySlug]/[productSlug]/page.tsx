@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
 import { GenericProductTemplate } from "@/components/GenericProductTemplate"
 import { KstarCustomPage } from "@/components/products/KstarCustomPage"
+import { KstarOnduleurPage } from "@/components/products/KstarOnduleurPage"
+import { KstarBatteriePage } from "@/components/products/KstarBatteriePage"
 import type { Product, Category } from "@/types/database"
 
 interface Props {
@@ -122,11 +124,35 @@ export default async function ProductPage({ params }: Props) {
     category: typedCategory
   }
   
-  // Conditional rendering based on is_custom_page flag
-  // Products with is_custom_page=true use custom template (KstarCustomPage)
+  // Conditional rendering based on is_custom_page flag and product slug
   // @validates Requirements 9.3 - Products with is_custom_page=true use custom template
   if (typedProduct.is_custom_page) {
-    return <KstarCustomPage product={productWithCategory} />
+    const slug = typedProduct.slug.toLowerCase()
+    
+    // Récupérer les prix de l'onduleur et de la batterie pour les calculs dynamiques
+    const { data: allProducts } = await supabase
+      .from('products')
+      .select('slug, price')
+      .eq('category_id', category.id)
+      .eq('is_active', true)
+    
+    const prices = {
+      inverter: allProducts?.find(p => p.slug.includes('onduleur'))?.price || 249900,
+      battery: allProducts?.find(p => p.slug.includes('batterie'))?.price || 349900,
+    }
+    
+    // Route vers la page onduleur
+    if (slug.includes('onduleur')) {
+      return <KstarOnduleurPage product={productWithCategory} prices={prices} />
+    }
+    
+    // Route vers la page batterie
+    if (slug.includes('batterie')) {
+      return <KstarBatteriePage product={productWithCategory} prices={prices} />
+    }
+    
+    // Route vers la page kit/pack (défaut pour les produits custom stockage solaire)
+    return <KstarCustomPage product={productWithCategory} prices={prices} />
   }
   
   // Render generic template for products without custom page

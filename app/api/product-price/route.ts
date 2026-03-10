@@ -3,31 +3,14 @@ import { supabase } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    // Récupérer le premier produit actif depuis Supabase
-    // D'abord essayer avec is_custom_page=true (produit phare)
-    let { data: product, error } = await supabase
+    // Récupérer les prix de l'onduleur et de la batterie pour calculer le prix du kit
+    const { data: products, error } = await supabase
       .from('products')
-      .select('price, name')
+      .select('price, slug')
       .eq('is_active', true)
-      .eq('is_custom_page', true)
-      .limit(1)
-      .single()
+      .in('slug', ['onduleur-hybride-solaire-5kw', 'batterie-solaire-lifepo4-5kwh'])
     
-    // Si pas de produit custom, chercher n'importe quel produit actif
-    if (error || !product) {
-      const result = await supabase
-        .from('products')
-        .select('price, name')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
-      
-      product = result.data
-      error = result.error
-    }
-    
-    if (error || !product) {
+    if (error || !products || products.length === 0) {
       console.error('Supabase error:', error)
       return NextResponse.json(
         { error: 'Aucun produit trouvé', details: error?.message },
@@ -35,13 +18,21 @@ export async function GET() {
       )
     }
     
+    // Calculer le prix du kit (onduleur + batterie)
+    const inverterPrice = products.find(p => p.slug.includes('onduleur'))?.price || 0
+    const batteryPrice = products.find(p => p.slug.includes('batterie'))?.price || 0
+    const totalPrice = inverterPrice + batteryPrice
+    
     // Le prix est en centimes dans Supabase, on le convertit en euros
-    const amount = product.price / 100
+    const amount = totalPrice / 100
     
     return NextResponse.json({ 
       price: amount,
       formatted: `${amount.toLocaleString('fr-FR')} €`,
-      currency: 'eur'
+      currency: 'eur',
+      // Détail des prix pour debug
+      inverterPrice: inverterPrice / 100,
+      batteryPrice: batteryPrice / 100,
     })
   } catch (error) {
     console.error('Product price error:', error)

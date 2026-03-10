@@ -30,12 +30,24 @@ export function ProductShowcase() {
 
   useEffect(() => {
     async function fetchProduct() {
-      const { data } = await supabase
+      // Récupérer les prix de l'onduleur et de la batterie
+      const { data: products } = await supabase
         .from('products')
-        .select('id, price')
-        .eq('slug', 'kstar-blue-s-6kw')
-        .single()
-      setProduct(data)
+        .select('id, price, slug')
+        .eq('is_active', true)
+        .in('slug', ['onduleur-hybride-solaire-5kw', 'batterie-solaire-lifepo4-5kwh', 'kit-stockage-solaire-complet-5kw'])
+      
+      if (products && products.length > 0) {
+        const inverterPrice = products.find(p => p.slug.includes('onduleur'))?.price || 0
+        const batteryPrice = products.find(p => p.slug.includes('batterie'))?.price || 0
+        const kitProduct = products.find(p => p.slug.includes('kit'))
+        
+        // Utiliser l'ID du kit pour le bouton d'achat, mais calculer le prix
+        setProduct({
+          id: kitProduct?.id || products[0].id,
+          price: inverterPrice + batteryPrice
+        })
+      }
       setLoading(false)
     }
     fetchProduct()
@@ -140,7 +152,7 @@ export function ProductShowcase() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
               {product && <BuyButton productId={product.id} />}
               <a 
-                href="/produits/batteries-solaires/kstar-blue-s-6kw"
+                href="/produits/stockage-solaire/kit-stockage-solaire-complet-5kw"
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
               >
                 Détails techniques

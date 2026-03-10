@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, Phone } from "lucide-react"
+import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, Phone, Zap } from "lucide-react"
 import { BuyButton } from "@/components/BuyButton"
 import { BatteryCalculator } from "@/components/BatteryCalculator"
 import { SavingsSummary } from "@/components/SavingsSummary"
@@ -9,6 +9,7 @@ import { ProductPageClient } from "@/components/ProductPageClient"
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import { ProductConfigurator } from "@/components/ProductConfigurator"
 import type { Product, Category, FAQItem } from "@/types/database"
 
 /**
@@ -17,6 +18,8 @@ import type { Product, Category, FAQItem } from "@/types/database"
 interface KstarCustomPageProps {
   /** Product data with category included */
   product: Product & { category: Category }
+  /** Prix dynamiques depuis la base */
+  prices: { inverter: number; battery: number }
 }
 
 /**
@@ -25,9 +28,10 @@ interface KstarCustomPageProps {
  * 
  * @validates Requirements 9.3 - Products with is_custom_page=true use custom template
  */
-export function KstarCustomPage({ product }: KstarCustomPageProps) {
-  // Convert price from cents to euros
-  const priceInEuros = product.price / 100
+export function KstarCustomPage({ product, prices }: KstarCustomPageProps) {
+  // Prix calculé dynamiquement : onduleur + batterie
+  const calculatedPrice = prices.inverter + prices.battery
+  const priceInEuros = calculatedPrice / 100
   
   // Use FAQ from product data if available, otherwise use default FAQ items
   const faqItems: FAQItem[] = product.faq && product.faq.length > 0 ? product.faq : getDefaultFaqItems(priceInEuros)
@@ -157,24 +161,19 @@ export function KstarCustomPage({ product }: KstarCustomPageProps) {
               {product.short_description || "Votre électricité gratuite, même la nuit."}
             </p>
 
-            {/* Price + CTA Block */}
+            {/* Price + CTA Block avec Configurateur */}
             <div className="bg-gradient-to-br from-green-50 to-teal-50/50 rounded-2xl p-5 mb-4 border border-green-100">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
-                <div>
-                  <p className="text-4xl font-bold text-neutral-900">
-                    {priceInEuros.toLocaleString('fr-FR')} €
-                  </p>
-                  <p className="text-sm text-green-700 font-medium mt-0.5">
-                    Livraison + Installation offertes
-                  </p>
-                </div>
+              {/* Configurateur de produit */}
+              <ProductConfigurator defaultConfig="bundle" prices={prices} />
+              
+              <div className="mt-4 pt-4 border-t border-green-200/50">
                 <BuyButton productId={product.id} />
               </div>
               
               {/* CTA secondaire */}
               <Link 
                 href="/contact"
-                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-white border border-green-200 rounded-xl text-green-700 font-medium text-sm hover:bg-green-50 hover:border-green-300 transition-all"
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 mt-3 bg-white border border-green-200 rounded-xl text-green-700 font-medium text-sm hover:bg-green-50 hover:border-green-300 transition-all"
               >
                 <Phone className="w-4 h-4" />
                 J&apos;appelle pour plus d&apos;informations

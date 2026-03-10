@@ -61,6 +61,7 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
   const categoryId = formData.get('category_id') as string;
   const priceRaw = formData.get('price') as string;
   const imageUrl = formData.get('image_url') as string | null;
+  const imagesRaw = formData.get('images') as string;
   const description = formData.get('description') as string | null;
   const shortDescription = formData.get('short_description') as string | null;
   const specsRaw = formData.get('specs') as string;
@@ -88,6 +89,7 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
   let specs: Record<string, string | number> = {};
   let features: Array<{ icon: string; title: string; description: string }> = [];
   let faq: Array<{ question: string; answer: string }> = [];
+  let images: string[] = [];
 
   try {
     specs = specsRaw ? JSON.parse(specsRaw) : {};
@@ -105,6 +107,12 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
     faq = faqRaw ? JSON.parse(faqRaw) : [];
   } catch {
     return { success: false, error: 'Format de la FAQ invalide' };
+  }
+
+  try {
+    images = imagesRaw ? JSON.parse(imagesRaw) : [];
+  } catch {
+    return { success: false, error: 'Format des images invalide' };
   }
 
   // Fetch category to get spec_fields for validation
@@ -152,6 +160,7 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
       category_id: categoryId,
       price,
       image_url: imageUrl || null,
+      images: images || [],
       description: description || null,
       short_description: shortDescription || null,
       specs,
@@ -206,6 +215,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
   const categoryId = formData.get('category_id') as string;
   const priceRaw = formData.get('price') as string;
   const imageUrl = formData.get('image_url') as string | null;
+  const imagesRaw = formData.get('images') as string;
   const description = formData.get('description') as string | null;
   const shortDescription = formData.get('short_description') as string | null;
   const specsRaw = formData.get('specs') as string;
@@ -232,6 +242,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
   let specs: Record<string, string | number> = {};
   let features: Array<{ icon: string; title: string; description: string }> = [];
   let faq: Array<{ question: string; answer: string }> = [];
+  let images: string[] = [];
 
   try {
     specs = specsRaw ? JSON.parse(specsRaw) : {};
@@ -249,6 +260,12 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
     faq = faqRaw ? JSON.parse(faqRaw) : [];
   } catch {
     return { success: false, error: 'Format de la FAQ invalide' };
+  }
+
+  try {
+    images = imagesRaw ? JSON.parse(imagesRaw) : [];
+  } catch {
+    return { success: false, error: 'Format des images invalide' };
   }
 
   // Fetch category to get spec_fields for validation
@@ -318,6 +335,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
       category_id: categoryId,
       price,
       image_url: imageUrl || null,
+      images: images || [],
       description: description || null,
       short_description: shortDescription || null,
       specs,
