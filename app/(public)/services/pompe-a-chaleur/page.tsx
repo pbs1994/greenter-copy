@@ -1,516 +1,617 @@
-﻿"use client"
+"use client"
 
-import { useState, useEffect } from "react"
-import { Phone, Star, Check, Shield, Clock, Award, Loader2 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, CheckCircle, Thermometer, Zap, Leaf, Shield, Phone, ChevronDown, Euro, Clock, Award, MapPin } from "lucide-react"
+import { useState } from "react"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
-import { LocalBusinessSchema } from "@/components/schemas/LocalBusinessSchema"
-import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchema"
-import { ArticleSchema } from "@/components/schemas/ArticleSchema"
-import { PACEditorialContent } from "@/components/editorial"
+import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
+import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
+import ServiceAreaSection from "@/components/ServiceAreaSection"
 import { CITIES } from "@/lib/local-seo-data"
-import type { GoogleReviewsResponse } from "@/lib/google-places"
 
-const PHONE = "06 09 45 50 56"
-const PHONE_LINK = "tel:+33609455056"
-const BRANDS = ["Atlantic", "Daikin", "Mitsubishi", "Panasonic", "Toshiba", "LG", "Hitachi"]
-
-// FAQ data for SEO schema (used by FAQPageSchema)
-const faqs = [
-  { question: "Quel est le prix d'une pompe ├á chaleur ?", answer: "Le prix varie selon le type de PAC. Une PAC air/air co├╗te ├á partir de 1 500Ôé¼ par unit├® int├®rieure. Une PAC air/eau d├®marre ├á 5 000Ôé¼. Ces prix sont hors aides (MaPrimeR├®nov', CEE) qui peuvent r├®duire significativement le reste ├á charge. Un devis pr├®cis est ├®tabli apr├¿s visite technique gratuite." },
-  { question: "Quelles ├®conomies puis-je r├®aliser ?", answer: "Une pompe ├á chaleur permet de r├®duire votre facture de chauffage de 50 ├á 70%. Cela s'explique par son rendement exceptionnel : pour 1 kWh d'├®lectricit├® consomm├®, une PAC produit 3 ├á 5 kWh de chaleur. L'├®nergie suppl├®mentaire est puis├®e gratuitement dans l'air ext├®rieur." },
-  { question: "Une PAC fonctionne-t-elle par grand froid ?", answer: "Oui, les PAC modernes fonctionnent jusqu'├á -15┬░C voire -20┬░C pour certains mod├¿les. Le rendement diminue l├®g├¿rement par temps tr├¿s froid, mais la PAC continue de chauffer. En Seine-et-Marne, les temp├®ratures descendent rarement en dessous de -10┬░C, ce qui est parfaitement adapt├®." },
-  { question: "Quelle est la dur├®e de vie d'une PAC ?", answer: "Une pompe ├á chaleur bien entretenue a une dur├®e de vie de 15 ├á 20 ans. L'entretien annuel (obligatoire pour les PAC contenant plus de 2kg de fluide frigorig├¿ne) permet de maintenir les performances et de prolonger la dur├®e de vie de l'├®quipement." },
-  { question: "Une PAC est-elle bruyante ?", answer: "Les PAC modernes sont con├ºues pour ├¬tre silencieuses. L'unit├® int├®rieure ├®met environ 20-25 dB (├®quivalent ├á un chuchotement). L'unit├® ext├®rieure ├®met 45-55 dB, comparable ├á une conversation normale. L'emplacement de l'unit├® ext├®rieure est ├®tudi├® lors de la visite technique pour minimiser les nuisances." },
-  { question: "Comment v├®rifier votre certification RGE ?", answer: "Notre certification RGE est v├®rifiable sur le site officiel france-renov.gouv.fr. Cette certification est obligatoire pour que vous puissiez b├®n├®ficier des aides de l'├ëtat (MaPrimeR├®nov', CEE, TVA r├®duite)." },
-  { question: "Intervenez-vous dans ma commune ?", answer: "Nous intervenons dans toute la Seine-et-Marne (77) et les communes limitrophes : Ozoir-la-Ferri├¿re, Roissy-en-Brie, Pontault-Combault, Brie-Comte-Robert, Tournan-en-Brie, Gretz-Armainvilliers, L├®signy, Chevry-Cossigny et environs." },
-  { question: "Faut-il un entretien r├®gulier ?", answer: "Un entretien annuel est recommand├® (et obligatoire pour les PAC de plus de 2kg de fluide). Il comprend : v├®rification du fluide frigorig├¿ne, nettoyage des filtres, contr├┤le des performances. Co├╗t moyen : 150 ├á 200Ôé¼/an. Nous proposons des contrats de maintenance." },
+const pacTypes = [
+  {
+    title: "PAC Air-Eau",
+    description: "Idéale pour le chauffage central et l'eau chaude sanitaire. Se raccorde à vos radiateurs ou plancher chauffant existants.",
+    image: "/pac-air_eau.svg",
+    specs: ["COP jusqu'à 5", "Chauffage + ECS", "Compatible radiateurs"],
+    popular: true,
+  },
+  {
+    title: "PAC Air-Air",
+    description: "Solution réversible pour chauffer l'hiver et climatiser l'été. Installation rapide, idéale en rénovation.",
+    image: "/pac-air-air.svg",
+    specs: ["Réversible chaud/froid", "Installation simple", "Pièce par pièce"],
+    popular: false,
+  },
+  {
+    title: "PAC Géothermique",
+    description: "Performance maximale grâce à l'énergie du sol. Rendement stable toute l'année, indépendant de la météo.",
+    image: "/pac-geo.jpg",
+    specs: ["COP jusqu'à 6", "Rendement constant", "Très silencieuse"],
+    popular: false,
+  },
 ]
 
-function GoogleLogo({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className}>
-      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-    </svg>
-  )
-}
+const advantages = [
+  {
+    icon: Euro,
+    title: "Jusqu'à 70% d'économies",
+    description: "Divisez votre facture de chauffage par 3 grâce à un rendement exceptionnel.",
+  },
+  {
+    icon: Leaf,
+    title: "Énergie renouvelable",
+    description: "Captez les calories de l'air extérieur, une ressource gratuite et inépuisable.",
+  },
+  {
+    icon: Thermometer,
+    title: "Confort toute l'année",
+    description: "Chauffage en hiver, climatisation en été avec les modèles réversibles.",
+  },
+  {
+    icon: Shield,
+    title: "Garantie décennale",
+    description: "Installation certifiée RGE avec garantie décennale sur la pose.",
+  },
+]
 
-function CallbackForm({ compact = false }: { compact?: boolean }) {
-  const [phone, setPhone] = useState("")
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+const steps = [
+  {
+    number: "01",
+    title: "Visite technique",
+    description: "Un technicien évalue votre logement et vos besoins pour dimensionner la PAC idéale.",
+  },
+  {
+    number: "02",
+    title: "Devis détaillé",
+    description: "Recevez un devis transparent avec le montant des aides déduites.",
+  },
+  {
+    number: "03",
+    title: "Installation",
+    description: "Pose par nos équipes certifiées RGE en 1 à 2 jours.",
+  },
+  {
+    number: "04",
+    title: "Mise en service",
+    description: "Paramétrage optimal et formation à l'utilisation de votre équipement.",
+  },
+]
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!phone.trim()) return
+const faqs = [
+  {
+    question: "Combien coûte l'installation d'une pompe à chaleur ?",
+    answer: "Le coût varie selon le type de PAC et la surface à chauffer. Comptez entre 8 000€ et 18 000€ avant aides pour une PAC air-eau. Avec MaPrimeRénov' et les CEE, le reste à charge peut être réduit de 40 à 70% selon vos revenus.",
+  },
+  {
+    question: "Une PAC fonctionne-t-elle par grand froid ?",
+    answer: "Oui, les PAC modernes fonctionnent jusqu'à -15°C voire -25°C pour certains modèles. Le COP diminue légèrement mais reste très avantageux par rapport à un chauffage électrique classique.",
+  },
+  {
+    question: "Quelle est la durée de vie d'une pompe à chaleur ?",
+    answer: "Une PAC bien entretenue dure en moyenne 15 à 20 ans. L'entretien annuel obligatoire (pour les PAC > 4kW) permet de maintenir ses performances et prolonger sa durée de vie.",
+  },
+  {
+    question: "Puis-je garder mes radiateurs existants ?",
+    answer: "Oui, une PAC air-eau se raccorde à votre circuit de chauffage existant (radiateurs ou plancher chauffant). Un dimensionnement correct permet de conserver vos émetteurs actuels.",
+  },
+  {
+    question: "L'installation est-elle bruyante ?",
+    answer: "Les PAC modernes sont très silencieuses (25-45 dB). L'unité extérieure doit respecter la réglementation sur le bruit de voisinage. Nous veillons à un positionnement optimal.",
+  },
+  {
+    question: "Combien coûte une pompe à chaleur à Ozoir-la-Ferrière ?",
+    answer: "Le prix d'une pompe à chaleur à Ozoir-la-Ferrière varie entre 8 000€ et 18 000€ selon le modèle. Avec MaPrimeRénov' et les CEE, le reste à charge peut être réduit de 40 à 70%. Contactez-nous pour un devis personnalisé gratuit.",
+  },
+  {
+    question: "Quelles aides pour une PAC en Seine-et-Marne ?",
+    answer: "En Seine-et-Marne (77), vous pouvez bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE (jusqu'à 4 000€), de la TVA réduite à 5,5%, et de l'éco-PTZ. Greenter vous accompagne dans toutes vos démarches.",
+  },
+  {
+    question: "Intervenez-vous à Roissy-en-Brie ?",
+    answer: "Oui, Greenter intervient à Roissy-en-Brie et dans toute la Seine-et-Marne : Ozoir-la-Ferrière, Chevry-Cossigny, Lésigny, Pontault-Combault, Gretz-Armainvilliers, Tournan-en-Brie, Brie-Comte-Robert. Devis gratuit sous 48h.",
+  },
+]
 
-    setStatus("loading")
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: "Demande de rappel PAC",
-          email: "rappel@greenter.fr",
-          phone: phone.trim(),
-          message: `Nouvelle demande de rappel pour une installation de pompe ├á chaleur.\n\nNum├®ro: ${phone.trim()}\nSource: Landing page PAC`
-        })
-      })
-      if (response.ok) {
-        setStatus("success")
-        setPhone("")
-      } else {
-        setStatus("error")
-      }
-    } catch {
-      setStatus("error")
-    }
-  }
-
-  if (status === "success") {
-    return (
-      <div className={`${compact ? "bg-emerald-50 rounded-xl p-4" : "bg-emerald-50 rounded-2xl p-5"} text-center`}>
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-            <Check className="w-5 h-5 text-white" />
-          </div>
-          <p className="text-emerald-700 font-semibold">Demande envoy├®e !</p>
-          <p className="text-emerald-600 text-sm">Nous vous rappelons tr├¿s rapidement.</p>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className={`${compact ? "bg-slate-50 rounded-xl p-4" : "bg-gradient-to-br from-slate-50 to-emerald-50/50 rounded-2xl p-5 border border-slate-100"}`}>
-      <p className={`text-slate-700 ${compact ? "text-sm mb-3" : "text-base mb-4"} text-center font-medium`}>
-        Pas le temps d'appeler ? On vous rappelle !
-      </p>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="relative">
-          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Votre num├®ro de t├®l├®phone"
-            className={`w-full ${compact ? "pl-11 pr-4 py-3 text-base" : "pl-12 pr-4 py-4 text-lg"} bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className={`w-full ${compact ? "py-3 text-base" : "py-4 text-lg"} bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 shadow-sm hover:shadow-md flex items-center justify-center gap-2`}
-        >
-          {status === "loading" ? (
-            <Loader2 className="w-5 h-5 animate-spin" />
-          ) : (
-            <>├ètre rappel├® gratuitement</>
-          )}
-        </button>
-      </form>
-      {status === "error" && (
-        <p className="text-red-500 text-sm text-center mt-3">Une erreur est survenue. R├®essayez.</p>
-      )}
-    </div>
-  )
-}
+const brands = [
+  { name: "Daikin", logo: "/partners/daikin.svg" },
+  { name: "Atlantic", logo: "/partners/atlantic.svg" },
+  { name: "Mitsubishi", logo: "/partners/mitsubishi.svg" },
+  { name: "Panasonic", logo: "/partners/panasonic.svg" },
+  { name: "Bosch", logo: "/partners/bosch.svg" },
+  { name: "Toshiba", logo: "/partners/toshiba.svg" },
+]
 
 export default function PompeAChaleurPage() {
-  const [googleData, setGoogleData] = useState<GoogleReviewsResponse | null>(null)
-  useEffect(() => { fetch("/api/google-reviews").then(res => res.json()).then(setGoogleData).catch(() => {}) }, [])
-  const rating = googleData?.rating ?? 4.9
-  const reviewCount = googleData?.reviewCount ?? 47
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
 
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Pompe ├á chaleur", url: "https://greenter.fr/services/pompe-a-chaleur" }
+    { name: "Pompe à chaleur", url: "https://greenter.fr/services/pompe-a-chaleur" }
   ]
 
   return (
-    <>
-      <ServiceSchema name="Installation Pompe ├á Chaleur Seine-et-Marne" description="Installation PAC certifi├® RGE. Prix transparents." url="https://greenter.fr/services/pompe-a-chaleur" image="https://greenter.fr/pac.png" />
+    <main>
+      <ServiceSchema
+        name="Installation Pompe à Chaleur"
+        description="Installation de pompes à chaleur air-eau et air-air partout en France. Certifié RGE QualiPAC. Jusqu'à 70% d'économies sur votre chauffage. Éligible MaPrimeRénov'. Devis gratuit sous 48h."
+        url="https://greenter.fr/services/pompe-a-chaleur"
+        image="https://greenter.fr/pac.jpg"
+      />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
-      <LocalBusinessSchema name="Greenter" description="Installation pompe ├á chaleur certifi├® RGE en Seine-et-Marne (77) et ├Äle-de-France" address={{ streetAddress: "Ozoir-la-Ferri├¿re", addressLocality: "Ozoir-la-Ferri├¿re", postalCode: "77330", addressCountry: "FR" }} telephone="+33609455056" email="contact@greenter.fr" url="https://greenter.fr" image="https://greenter.fr/logo.png" priceRange="Ôé¼Ôé¼" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
-      <AggregateRatingSchema itemReviewed={{ type: "LocalBusiness", name: "Greenter" }} ratingValue={rating} reviewCount={reviewCount} />
-      <ArticleSchema
-        headline="Guide complet de la pompe ├á chaleur en 2026 : types, prix, aides et installation"
-        description="Tout savoir sur les pompes ├á chaleur en 2026 : comparatif des types (air/air, air/eau, g├®othermique), prix, aides MaPrimeR├®nov' et processus d'installation par un artisan RGE en Seine-et-Marne."
-        datePublished="2024-01-15"
-        dateModified="2026-03-01"
-        author={{ name: "Greenter", url: "https://greenter.fr" }}
-        publisher={{ name: "Greenter", logo: "https://greenter.fr/logo.png" }}
-        image="https://greenter.fr/pac.png"
-        url="https://greenter.fr/services/pompe-a-chaleur"
-        wordCount={2400}
-      />
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-green-900 via-green-800 to-teal-900 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
 
-      <style jsx global>{`
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 20s linear infinite; }
-      `}</style>
-
-      <div className="min-h-screen bg-white flex flex-col">
-        
-        {/* ============================================================= */}
-        {/* HERO - Design premium avec image PAC en fond */}
-        {/* ============================================================= */}
-        <section className="flex-1 relative overflow-hidden min-h-[100dvh] lg:min-h-0">
-          {/* Background image pac.jpg avec overlay vert d├®grad├® */}
-          <div className="absolute inset-0">
-            <Image
-              src="/pac.jpg"
-              alt="Installation pompe ├á chaleur en Seine-et-Marne par Greenter"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/95 via-emerald-900/90 to-teal-900/85" />
-          
-          {/* MOBILE LAYOUT - Design ultra clean sans image */}
-          <div className="lg:hidden relative flex flex-col justify-between min-h-[100dvh] px-5 py-8">
-            {/* Header mobile - Avis Google d├®filants */}
-            <div className="text-center">
-              {/* Bandeau avis Google d├®filant mobile */}
-              {googleData?.reviews && googleData.reviews.length > 0 ? (
-                <div className="mb-6 -mx-5 overflow-hidden">
-                  <div className="flex animate-marquee whitespace-nowrap">
-                    {[...googleData.reviews, ...googleData.reviews, ...googleData.reviews].map((review, i) => (
-                      <a 
-                        key={i} 
-                        href={`https://www.google.com/maps/place/?q=place_id:ChIJ18W1Jb2UBkMRQ0A08rwo42U#reviews`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mx-3 bg-white/10 hover:bg-white/20 rounded-full px-3 py-2 transition-colors"
-                      >
-                        <GoogleLogo className="w-4 h-4 shrink-0" />
-                        <div className="flex items-center gap-0.5 shrink-0">
-                          {[1,2,3,4,5].map(star => (
-                            <Star key={star} className={`w-3 h-3 ${star <= review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/20'}`} />
-                          ))}
-                        </div>
-                        <span className="text-white/90 text-xs max-w-[180px] truncate">&ldquo;{review.text}&rdquo;</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-6">
-                  <Shield className="w-4 h-4 text-emerald-300" />
-                  <span className="text-emerald-300 text-sm font-medium">Certifi├® RGE</span>
-                </div>
-              )}
-              
-              <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
-                Divisez votre
-                <br />facture de
-                <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">chauffage par 3</span>
+        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="inline-block bg-teal-500/20 text-teal-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+                Certifié RGE QualiPAC
+              </span>
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+                Installation Pompe à Chaleur à Ozoir-la-Ferrière et environs
               </h1>
-              
-              <p className="text-emerald-100/70 text-base leading-relaxed">
-                Prix transparents, sans mauvaise surprise.
-                <br />Devis personnalis├® apr├¿s visite technique gratuite.
+              <p className="text-green-100 text-lg leading-relaxed mb-8">
+                Installation de pompes à chaleur air-eau et air-air partout en France. 
+                Profitez d'un chauffage performant et économique, éligible aux aides de l'État.
               </p>
-            </div>
 
-            {/* Card centrale - Style Proxiserve */}
-            <div className="my-6">
-              <div className="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-2xl">
-                {/* Liste avantages */}
-                <ul className="space-y-4 mb-5">
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-emerald-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <span className="text-slate-700">PAC air/air ├á partir de </span>
-                      <span className="text-emerald-600 font-bold">1 500Ôé¼</span>
-                      <span className="text-slate-500 text-sm"> /unit├®</span>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-emerald-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <span className="text-slate-700">PAC air/eau ├á partir de </span>
-                      <span className="text-emerald-600 font-bold">5 000Ôé¼</span>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-emerald-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <span className="text-slate-700">Visite technique </span>
-                      <span className="text-emerald-600 font-bold">gratuite</span>
-                    </div>
-                  </li>
-                </ul>
-
-                {/* Note */}
-                <p className="text-xs text-slate-400 text-center mb-4 italic">
-                  Prix indicatifs. Tarif d├®finitif apr├¿s ├®tude personnalis├®e.
-                </p>
-
-                {/* CTA */}
-                <a
-                  href={PHONE_LINK}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-orange-500/30"
-                >
-                  <Phone className="w-5 h-5" />
-                  Devis Gratuit
-                </a>
-
-                {/* S├®parateur */}
-                <div className="flex items-center gap-3 my-4">
-                  <div className="flex-1 h-px bg-slate-200" />
-                  <span className="text-slate-400 text-xs uppercase tracking-wide">ou</span>
-                  <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex flex-wrap gap-4 mb-8">
+                <div className="flex items-center gap-2 text-white">
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
+                  <span>Jusqu'à 70% d'économies</span>
                 </div>
+                <div className="flex items-center gap-2 text-white">
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
+                  <span>Éligible MaPrimeRénov'</span>
+                </div>
+                <div className="flex items-center gap-2 text-white">
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
+                  <span>Garantie décennale</span>
+                </div>
+              </div>
 
-                {/* Formulaire rappel */}
-                <CallbackForm compact />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/contact" className="btn-primary text-base px-8 py-4">
+                  Demander un devis gratuit
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a href="tel:+33609455056" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4">
+                  <Phone className="w-5 h-5" />
+                  06 09 45 50 56
+                </a>
               </div>
             </div>
 
-            {/* Badge Google en bas */}
-            <div className="flex justify-center">
-              <a 
-                href={googleData?.googleMapsUrl || "https://g.page/greenter"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-white rounded-xl px-4 py-3"
-              >
-                <GoogleLogo className="w-7 h-7" />
-                <div className="flex items-center gap-1.5">
-                  {[1,2,3,4,5].map(i => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                  ))}
+            <div className="relative">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/pac.jpg"
+                  alt="Installation pompe à chaleur par Greenter"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              {/* Floating card */}
+              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl hidden md:block">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-neutral-900">-70%</p>
+                    <p className="text-sm text-neutral-600">sur vos factures</p>
+                  </div>
                 </div>
-                <div className="border-l border-slate-200 pl-3">
-                  <p className="text-slate-900 font-bold text-sm">{rating}/5</p>
-                  <p className="text-slate-500 text-xs">{reviewCount} avis</p>
-                </div>
-              </a>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* DESKTOP LAYOUT */}
-          <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
-            {/* Grid principale - Formulaire ├á droite, contenu ├á gauche */}
-            <div className="grid lg:grid-cols-12 gap-8 items-start">
-              
-              {/* Zone gauche (8 colonnes) - Texte + Image + Bandeau marques */}
-              <div className="lg:col-span-8">
-                {/* Grille texte + image */}
-                <div className="grid grid-cols-2 gap-6 items-start">
-                  {/* Colonne texte */}
-                  <div className="text-white pt-2">
-                    <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
-                      <Shield className="w-4 h-4 text-emerald-300" />
-                      <span className="text-emerald-300 text-sm font-medium">Certifi├® RGE</span>
-                    </div>
-                    
-                    <h1 className="text-4xl xl:text-5xl font-bold leading-tight mb-4">
-                      Divisez votre
-                      <br />facture de
-                      <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">chauffage par 3</span>
-                    </h1>
-                    
-                    <p className="text-emerald-100/80 mb-6 leading-relaxed text-lg">
-                      Prix transparents, sans mauvaise surprise.
-                      <br />Devis personnalis├® apr├¿s visite technique gratuite.
-                    </p>
+      {/* Google Rating Badge */}
+      <section className="py-6 bg-white">
+        <div className="container mx-auto max-w-6xl px-4 flex justify-center">
+          <GoogleRatingBadgeClient />
+        </div>
+      </section>
 
-                    {/* Badge Google + T├®l├®phone */}
-                    <div className="flex items-center gap-4">
-                      <a 
-                        href={googleData?.googleMapsUrl || "https://g.page/greenter"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 bg-white rounded-2xl px-4 py-3 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-                      >
-                        <GoogleLogo className="w-8 h-8" />
-                        <div className="border-l border-slate-200 pl-3">
-                          <div className="flex items-center gap-0.5 mb-0.5">
-                            {[1,2,3,4,5].map(i => (
-                              <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            ))}
-                          </div>
-                          <p className="text-slate-900 font-bold text-sm">{rating}/5 <span className="font-normal text-slate-500">({reviewCount})</span></p>
-                        </div>
-                      </a>
+      {/* Types de PAC */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Solutions adaptées
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Quel type de pompe à chaleur choisir ?
+            </h2>
+            <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+              Chaque projet est unique. Découvrez la solution la plus adaptée à votre logement et vos besoins.
+            </p>
+          </div>
 
-                      {/* CTA T├®l├®phone */}
-                      <a 
-                        href={PHONE_LINK}
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-4 py-3 rounded-2xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02] transition-all"
-                      >
-                        <Phone className="w-5 h-5" />
-                        <span className="text-sm">{PHONE}</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Colonne image PAC */}
-                  <div className="flex justify-center items-start">
-                    <div className="relative w-full max-w-[400px] h-[340px] xl:h-[380px]">
-                      <Image
-                        src="/pac2.png"
-                        alt="Pompe ├á chaleur air-eau installation Ozoir-la-Ferri├¿re 77"
-                        fill
-                        className="object-contain drop-shadow-[0_25px_70px_rgba(255,255,255,0.25)]"
-                        priority
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bandeau avis Google d├®filant */}
-                {googleData?.reviews && googleData.reviews.length > 0 && (
-                  <div className="mt-6 bg-white/10 backdrop-blur-sm border border-white/10 py-4 -mx-4 px-4 overflow-hidden rounded-xl">
-                    <div className="flex animate-marquee whitespace-nowrap">
-                      {[...googleData.reviews, ...googleData.reviews, ...googleData.reviews].map((review, i) => (
-                        <a 
-                          key={i} 
-                          href={`https://www.google.com/maps/place/?q=place_id:ChIJ18W1Jb2UBkMRQ0A08rwo42U#reviews`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-3 mx-6 bg-white/10 hover:bg-white/20 rounded-xl px-4 py-3 transition-colors cursor-pointer"
-                        >
-                          <GoogleLogo className="w-5 h-5 shrink-0" />
-                          <div className="flex items-center gap-1 shrink-0">
-                            {[1,2,3,4,5].map(star => (
-                              <Star key={star} className={`w-3 h-3 ${star <= review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/20'}`} />
-                            ))}
-                          </div>
-                          <span className="text-white/90 text-sm max-w-[300px] truncate">&ldquo;{review.text}&rdquo;</span>
-                          <span className="text-white/50 text-xs shrink-0">ÔÇö {review.authorName}</span>
-                        </a>
-                      ))}
-                    </div>
-                    <p className="text-center text-white/40 text-xs mt-3 italic">
-                      Les clients satisfaits laissent rarement des avis... Merci ├á ceux qui prennent le temps !
-                    </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {pacTypes.map((pac, index) => (
+              <div 
+                key={index}
+                className={`relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow ${
+                  pac.popular ? 'ring-2 ring-teal-500' : 'ring-1 ring-neutral-200'
+                }`}
+              >
+                {pac.popular && (
+                  <div className="absolute top-4 right-4 bg-teal-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
+                    Plus populaire
                   </div>
                 )}
-
-                {/* Bandeau marques d├®filant - sous texte + image */}
-                <div className="mt-4 bg-black/20 backdrop-blur-sm border-t border-b border-white/10 py-4 -mx-4 px-4 overflow-hidden rounded-xl">
-                  <div className="flex animate-marquee whitespace-nowrap">
-                    {[...BRANDS, ...BRANDS, ...BRANDS, ...BRANDS].map((brand, i) => (
-                      <span key={i} className="mx-8 text-xl font-bold text-white/40 tracking-wide">{brand}</span>
+                <div className="relative h-48">
+                  <Image
+                    src={pac.image}
+                    alt={pac.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-heading text-xl font-bold text-neutral-900 mb-2">
+                    {pac.title}
+                  </h3>
+                  <p className="text-neutral-600 text-sm mb-4">
+                    {pac.description}
+                  </p>
+                  <ul className="space-y-2">
+                    {pac.specs.map((spec, i) => (
+                      <li key={i} className="flex items-center gap-2 text-sm text-neutral-700">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        {spec}
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              {/* Colonne droite - Card Bento premium */}
-              <div className="lg:col-span-4">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
-                  {/* Header avec gradient */}
-                  <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                        <Award className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-bold text-white">Nos tarifs</h2>
-                        <p className="text-emerald-100 text-sm">Prix indicatifs, devis gratuit</p>
-                      </div>
-                    </div>
+      {/* Avantages */}
+      <section className="py-16 md:py-24 bg-green-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Pourquoi choisir la PAC
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Les avantages de la pompe à chaleur
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {advantages.map((advantage, index) => {
+              const Icon = advantage.icon
+              return (
+                <div key={index} className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                  <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                    <Icon className="w-7 h-7 text-green-600" />
                   </div>
+                  <h3 className="font-heading text-lg font-bold text-neutral-900 mb-2">
+                    {advantage.title}
+                  </h3>
+                  <p className="text-neutral-600 text-sm">
+                    {advantage.description}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
 
-                  <div className="p-6">
-                    {/* Grille prix style bento */}
-                    <div className="grid grid-cols-2 gap-3 mb-5">
-                      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
-                        <p className="text-slate-500 text-xs font-medium mb-1">PAC Air/Air</p>
-                        <p className="text-2xl font-bold text-slate-900">1 500Ôé¼</p>
-                        <p className="text-slate-400 text-xs">par unit├®</p>
-                      </div>
-                      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
-                        <p className="text-slate-500 text-xs font-medium mb-1">PAC Air/Eau</p>
-                        <p className="text-2xl font-bold text-slate-900">5 000Ôé¼</p>
-                        <p className="text-slate-400 text-xs">├á partir de</p>
-                      </div>
-                    </div>
+      {/* Google Reviews Carousel */}
+      <GoogleReviewsCarousel className="bg-neutral-50" />
 
-                    {/* Avantages */}
-                    <div className="space-y-3 mb-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <Check className="w-4 h-4 text-emerald-600" />
-                        </div>
-                        <span className="text-slate-700 text-sm">Visite technique gratuite</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-emerald-600" />
-                        </div>
-                        <span className="text-slate-700 text-sm">Devis sous 48h</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <Shield className="w-4 h-4 text-emerald-600" />
-                        </div>
-                        <span className="text-slate-700 text-sm">Garantie 10 ans</span>
-                      </div>
-                    </div>
+      {/* Aides financières */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+                Aides financières
+              </span>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
+                Réduisez le coût de votre installation
+              </h2>
+              <p className="text-neutral-600 text-lg mb-8">
+                En tant qu'installateur certifié RGE, vos travaux sont éligibles aux principales aides de l'État. 
+                Nous vous accompagnons dans toutes vos démarches administratives.
+              </p>
 
-                    {/* Note prix indicatifs */}
-                    <p className="text-xs text-slate-400 text-center mb-4 italic">
-                      Prix indicatifs. Tarif d├®finitif apr├¿s ├®tude personnalis├®e.
-                    </p>
-
-                    {/* CTA */}
-                    <a
-                      href={PHONE_LINK}
-                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 via-orange-500 to-red-500 hover:from-orange-600 hover:via-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-[1.02]"
-                    >
-                      <Phone className="w-5 h-5" />
-                      <span>Appeler maintenant</span>
-                    </a>
-
-                    {/* S├®parateur */}
-                    <div className="flex items-center gap-3 my-4">
-                      <div className="flex-1 h-px bg-slate-200" />
-                      <span className="text-slate-400 text-xs uppercase tracking-wide">ou</span>
-                      <div className="flex-1 h-px bg-slate-200" />
-                    </div>
-
-                    {/* Formulaire rappel */}
-                    <CallbackForm />
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-xl">
+                  <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shrink-0">
+                    <Euro className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-neutral-900">MaPrimeRénov'</h4>
+                    <p className="text-sm text-neutral-600">Jusqu'à 5 000€ selon vos revenus</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-xl">
+                  <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-neutral-900">Prime CEE</h4>
+                    <p className="text-sm text-neutral-600">Jusqu'à 4 000€ cumulables</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-xl">
+                  <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-neutral-900">TVA réduite 5,5%</h4>
+                    <p className="text-sm text-neutral-600">Appliquée automatiquement</p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Bandeau marques d├®filant - Mobile uniquement */}
-          <div className="lg:hidden relative bg-black/20 backdrop-blur-sm border-t border-white/10 py-5 overflow-hidden">
-            <div className="flex animate-marquee whitespace-nowrap">
-              {[...BRANDS, ...BRANDS, ...BRANDS, ...BRANDS].map((brand, i) => (
-                <span key={i} className="mx-10 text-2xl md:text-3xl font-bold text-white/30 tracking-wide">{brand}</span>
-              ))}
+            <div className="bg-gradient-to-br from-green-900 to-teal-900 rounded-2xl p-8 text-white">
+              <h3 className="font-heading text-2xl font-bold mb-2">
+                Exemple de financement
+              </h3>
+              <p className="text-green-200 mb-6">PAC air-eau 8kW pour maison 120m²</p>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between items-center py-2 border-b border-green-700">
+                  <span className="text-green-200">Prix installation</span>
+                  <span className="font-semibold">14 000 €</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-green-700">
+                  <span className="text-green-200">MaPrimeRénov'</span>
+                  <span className="font-semibold text-teal-400">- 4 000 €</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-green-700">
+                  <span className="text-green-200">Prime CEE</span>
+                  <span className="font-semibold text-teal-400">- 2 500 €</span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <span className="text-lg font-semibold">Reste à charge</span>
+                  <span className="text-2xl font-bold">7 500 €</span>
+                </div>
+              </div>
+
+              <p className="text-xs text-green-300 mb-6">
+                *Exemple pour un ménage aux revenus intermédiaires. Montant variable selon situation.
+              </p>
+
+              <Link href="/contact" className="btn-primary w-full justify-center">
+                Estimer mes aides
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ============================================================= */}
-        {/* Editorial Content - Replaces old sections */}
-        {/* ============================================================= */}
-        <PACEditorialContent />
-      </div>
-    </>
+      {/* Processus */}
+      <section className="py-16 md:py-24 bg-neutral-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Notre accompagnement
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Votre projet en 4 étapes
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((step, index) => (
+              <div key={index} className="relative">
+                <div className="bg-white rounded-xl p-6 shadow-md h-full">
+                  <span className="text-4xl font-bold text-green-200 mb-4 block">
+                    {step.number}
+                  </span>
+                  <h3 className="font-heading text-lg font-bold text-neutral-900 mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-neutral-600 text-sm">
+                    {step.description}
+                  </p>
+                </div>
+                {index < steps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-green-300" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Marques */}
+      <section className="py-12 bg-white border-y border-neutral-100">
+        <div className="container mx-auto max-w-6xl px-4">
+          <p className="text-center text-neutral-500 text-sm mb-8">
+            Nous installons les meilleures marques de pompes à chaleur
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {brands.map((brand, index) => (
+              <div key={index} className="h-10 w-24 md:w-28 relative grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100">
+                <Image
+                  src={brand.logo}
+                  alt={brand.name}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto max-w-4xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Questions fréquentes
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Tout savoir sur la pompe à chaleur
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div 
+                key={index}
+                className="border border-neutral-200 rounded-xl overflow-hidden hover:border-green-300 transition-colors"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-green-50 transition-colors"
+                >
+                  <span className="font-semibold text-neutral-900 pr-4">
+                    {faq.question}
+                  </span>
+                  <ChevronDown 
+                    className={`w-5 h-5 text-green-700 shrink-0 transition-transform duration-300 ${
+                      openFaq === index ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                <div 
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openFaq === index ? 'max-h-96' : 'max-h-0'
+                  }`}
+                >
+                  <p className="px-5 pb-5 text-neutral-600 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Zone d'intervention */}
+      <ServiceAreaSection className="bg-white" />
+
+      {/* Nos interventions par ville */}
+      <section className="py-16 md:py-24 bg-neutral-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
+              Proximité
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Nos interventions par ville
+            </h2>
+            <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+              Découvrez nos services d'installation de pompe à chaleur dans votre ville. Devis gratuit et intervention rapide en Seine-et-Marne.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                href={`/services/pompe-a-chaleur/${city.slug}`}
+                className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow group ring-1 ring-neutral-200 hover:ring-green-300"
+              >
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-200 transition-colors">
+                  <MapPin className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">
+                    {city.name}
+                  </p>
+                  <p className="text-sm text-neutral-500">
+                    {city.postalCode}
+                  </p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-green-600 ml-auto shrink-0 transition-colors" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-16 md:py-20 bg-gradient-to-br from-green-900 via-green-800 to-teal-900">
+        <div className="container mx-auto max-w-4xl px-4 text-center">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+            Prêt à réduire vos factures de chauffage ?
+          </h2>
+          <p className="text-green-100 text-lg mb-8 max-w-2xl mx-auto">
+            Obtenez votre devis personnalisé gratuit sous 48h. 
+            Nos experts vous accompagnent de A à Z.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact" className="btn-primary text-base px-8 py-4">
+              Demander mon devis gratuit
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <a href="tel:+33609455056" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4">
+              <Phone className="w-5 h-5" />
+              06 09 45 50 56
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Services complémentaires */}
+      <section className="py-12 bg-neutral-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <h3 className="font-heading text-xl font-bold text-neutral-900 text-center mb-8">
+            Services complémentaires
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-4">
+            <Link href="/services/panneaux-solaires" className="flex items-center gap-4 p-4 bg-white rounded-xl hover:shadow-md transition-shadow group">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <Zap className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">Panneaux solaires</p>
+                <p className="text-sm text-neutral-500">Produisez votre électricité</p>
+              </div>
+            </Link>
+            <Link href="/services/isolation" className="flex items-center gap-4 p-4 bg-white rounded-xl hover:shadow-md transition-shadow group">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <Shield className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">Isolation thermique</p>
+                <p className="text-sm text-neutral-500">Réduisez les déperditions</p>
+              </div>
+            </Link>
+            <Link href="/services/audit" className="flex items-center gap-4 p-4 bg-white rounded-xl hover:shadow-md transition-shadow group">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <Clock className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">Audit énergétique</p>
+                <p className="text-sm text-neutral-500">Identifiez vos priorités</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   )
 }
