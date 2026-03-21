@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Installation Pompe à Chaleur Ozoir-la-Ferrière, Roissy-en-Brie | Devis Gratuit",
-  description: "Installation de pompe à chaleur à Ozoir-la-Ferrière, Roissy-en-Brie et Seine-et-Marne (77). Certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 06 09 45 50 56",
+  description: "Installation de pompe à chaleur à Ozoir-la-Ferrière, Roissy-en-Brie et Seine-et-Marne (77). Certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 07 66 97 50 99",
   keywords: [
     "pompe à chaleur",
     "PAC air-eau",

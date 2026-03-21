@@ -127,3 +127,12 @@ export const COMPANY_ADDRESS = {
   latitude: 48.7626,
   longitude: 2.6721,
 } as const
+
+// -----------------------------------------------------------------------------
+// Téléphone de l'entreprise
+// -----------------------------------------------------------------------------
+
+export const COMPANY_PHONE = {
+  raw: "+33766975099",        // Format international pour les liens tel:
+  display: "07 66 97 50 99",  // Format d'affichage
+} as const

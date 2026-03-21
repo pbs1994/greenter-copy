@@ -39,7 +39,7 @@ export async function generateMetadata({
   }
 
   const title = `Installation Pompe à Chaleur ${city.name} | Devis Gratuit | Greenter`
-  const description = `Installation de pompe à chaleur à ${city.name} (${city.postalCode}). Certifié RGE. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 06 09 45 50 56`
+  const description = `Installation de pompe à chaleur à ${city.name} (${city.postalCode}). Certifié RGE. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 07 66 97 50 99`
 
   return {
     title,
@@ -265,11 +265,11 @@ export default async function LocalPACPage({
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <a
-                  href="tel:+33609455056"
+                  href="tel:+33766975099"
                   className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"
                 >
                   <Phone className="w-5 h-5" />
-                  06 09 45 50 56
+                  07 66 97 50 99
                 </a>
               </div>
             </div>
@@ -369,11 +369,11 @@ export default async function LocalPACPage({
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:+33609455056"
+              href="tel:+33766975099"
               className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"
             >
               <Phone className="w-5 h-5" />
-              06 09 45 50 56
+              07 66 97 50 99
             </a>
           </div>
         </div>
