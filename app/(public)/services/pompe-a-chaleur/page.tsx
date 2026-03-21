@@ -13,8 +13,8 @@ import { PACEditorialContent } from "@/components/editorial"
 import { CITIES } from "@/lib/local-seo-data"
 import type { GoogleReviewsResponse } from "@/lib/google-places"
 
-const PHONE = "06 09 45 50 56"
-const PHONE_LINK = "tel:+33609455056"
+const PHONE = "07 66 97 50 99"
+const PHONE_LINK = "tel:+33766975099"
 const BRANDS = ["Atlantic", "Daikin", "Mitsubishi", "Panasonic", "Toshiba", "LG", "Hitachi"]
 
 // FAQ data for SEO schema (used by FAQPageSchema)
