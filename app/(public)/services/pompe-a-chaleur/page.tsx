@@ -14,6 +14,14 @@ import { CITIES } from "@/lib/local-seo-data"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import type { GoogleReviewsResponse } from "@/lib/google-places"
 
+// Type declaration for gtag
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+    dataLayer?: unknown[]
+  }
+}
+
 const PHONE = "07 66 97 50 99"
 const BRANDS = ["Atlantic", "Daikin", "Mitsubishi", "Panasonic", "Toshiba", "LG", "Hitachi"]
 
@@ -63,6 +71,24 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
       if (response.ok) {
         setStatus("success")
         setPhone("")
+        
+        // Track Google Ads conversion for callback form submission
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-17839863014/ovtpCOy194wcEObp2rpC',
+            'value': 1.0,
+            'currency': 'EUR'
+          })
+        }
+        // Also push to dataLayer for GTM
+        if (typeof window !== 'undefined') {
+          window.dataLayer = window.dataLayer || []
+          window.dataLayer.push({
+            'event': 'callback_form_submit',
+            'phone_number': phone.trim(),
+            'page_url': window.location.href
+          })
+        }
       } else {
         setStatus("error")
       }
