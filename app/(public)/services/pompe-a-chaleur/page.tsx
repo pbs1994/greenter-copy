@@ -74,19 +74,18 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
         
         // Track Google Ads conversion for callback form submission
         if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'conversion', {
-            'send_to': 'AW-17839863014/ovtpCOy194wcEObp2rpC',
-            'value': 1.0,
-            'currency': 'EUR'
+          window.gtag('event', 'generate_lead', {
+            'currency': 'EUR',
+            'value': 50.0
           })
         }
         // Also push to dataLayer for GTM
         if (typeof window !== 'undefined') {
           window.dataLayer = window.dataLayer || []
           window.dataLayer.push({
-            'event': 'callback_form_submit',
-            'phone_number': phone.trim(),
-            'page_url': window.location.href
+            'event': 'form_submit',
+            'form_name': 'callback_request',
+            'phone_number': phone.trim()
           })
         }
       } else {
