@@ -56,6 +56,14 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
     e.preventDefault()
     if (!phone.trim()) return
 
+    // Validate French phone number (06, 07, or +33)
+    const cleanPhone = phone.trim().replace(/\s/g, '')
+    const frenchPhoneRegex = /^(?:(?:\+33|0033|0)[67])(?:[0-9]{8})$/
+    if (!frenchPhoneRegex.test(cleanPhone)) {
+      setStatus("error")
+      return
+    }
+
     setStatus("loading")
     try {
       const response = await fetch("/api/contact", {
@@ -139,7 +147,7 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
         </button>
       </form>
       {status === "error" && (
-        <p className="text-red-500 text-sm text-center mt-3">Une erreur est survenue. Réessayez.</p>
+        <p className="text-red-500 text-sm text-center mt-3">Numéro invalide. Entrez un numéro français (06 ou 07).</p>
       )}
     </div>
   )
