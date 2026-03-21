@@ -11,10 +11,10 @@ import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchem
 import { ArticleSchema } from "@/components/schemas/ArticleSchema"
 import { PACEditorialContent } from "@/components/editorial"
 import { CITIES } from "@/lib/local-seo-data"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import type { GoogleReviewsResponse } from "@/lib/google-places"
 
 const PHONE = "07 66 97 50 99"
-const PHONE_LINK = "tel:+33766975099"
 const BRANDS = ["Atlantic", "Daikin", "Mitsubishi", "Panasonic", "Toshiba", "LG", "Hitachi"]
 
 // FAQ data for SEO schema (used by FAQPageSchema)
@@ -262,13 +262,13 @@ export default function PompeAChaleurPage() {
                 </p>
 
                 {/* CTA */}
-                <a
-                  href={PHONE_LINK}
+                <PhoneCallTracker
                   className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-orange-500/30"
+                  showIcon={false}
                 >
                   <Phone className="w-5 h-5" />
                   Devis Gratuit
-                </a>
+                </PhoneCallTracker>
 
                 {/* Séparateur */}
                 <div className="flex items-center gap-3 my-4">
@@ -351,13 +351,13 @@ export default function PompeAChaleurPage() {
                       </a>
 
                       {/* CTA Téléphone */}
-                      <a 
-                        href={PHONE_LINK}
+                      <PhoneCallTracker 
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-4 py-3 rounded-2xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02] transition-all"
+                        showIcon={false}
                       >
                         <Phone className="w-5 h-5" />
                         <span className="text-sm">{PHONE}</span>
-                      </a>
+                      </PhoneCallTracker>
                     </div>
                   </div>
 
@@ -473,13 +473,13 @@ export default function PompeAChaleurPage() {
                     </p>
 
                     {/* CTA */}
-                    <a
-                      href={PHONE_LINK}
+                    <PhoneCallTracker
                       className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 via-orange-500 to-red-500 hover:from-orange-600 hover:via-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-[1.02]"
+                      showIcon={false}
                     >
                       <Phone className="w-5 h-5" />
                       <span>Appeler maintenant</span>
-                    </a>
+                    </PhoneCallTracker>
 
                     {/* Séparateur */}
                     <div className="flex items-center gap-3 my-4">
