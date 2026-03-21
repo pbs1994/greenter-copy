@@ -74,9 +74,8 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
         
         // Track Google Ads conversion for callback form submission
         if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'generate_lead', {
-            'currency': 'EUR',
-            'value': 50.0
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-17839863014/form_submit'
           })
         }
         // Also push to dataLayer for GTM
