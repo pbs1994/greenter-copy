@@ -216,8 +216,8 @@ export default function PompeAChaleurPage() {
               </h1>
               
               <p className="text-emerald-100/70 text-base leading-relaxed">
-                Prix transparents, sans mauvaise surprise.
-                <br />Devis personnalisé après visite technique gratuite.
+                Votre confort, notre expertise.
+                <br />Diagnostic gratuit à domicile.
               </p>
             </div>
 
@@ -327,8 +327,8 @@ export default function PompeAChaleurPage() {
                     </h1>
                     
                     <p className="text-emerald-100/80 mb-6 leading-relaxed text-lg">
-                      Prix transparents, sans mauvaise surprise.
-                      <br />Devis personnalisé après visite technique gratuite.
+                      Votre confort, notre expertise.
+                      <br />Diagnostic gratuit à domicile.
                     </p>
 
                     {/* Badge Google + Téléphone */}
