@@ -72,10 +72,11 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
         setStatus("success")
         setPhone("")
         
-        // Track Google Ads conversion for callback form submission
+        // Track form submission event for Google Ads
         if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'conversion', {
-            'send_to': 'AW-17839863014/form_submit'
+          window.gtag('event', 'generate_lead', {
+            'event_category': 'form',
+            'event_label': 'callback_request_pac'
           })
         }
         // Also push to dataLayer for GTM
