@@ -94,20 +94,31 @@ describe('getMultiDiscount – unit tests', () => {
 });
 
 describe('calculatePricing – unit tests', () => {
-  const svc1 = makeService('a', 1500);
-  const svc2 = makeService('b', 2500);
-  const svc3 = makeService('c', 2000);
-  const svc4 = makeService('d', 1500);
-  const exemptOpt = makeOption('x', 5000, true);
-  const discountableOpt = makeOption('y', 3000, false);
+  const svc1 = makeService('a', 1500); // 15€/mois
+  const svc2 = makeService('b', 2500); // 25€/mois
+  const svc3 = makeService('c', 2000); // 20€/mois
+  const svc4 = makeService('d', 1500); // 15€/mois
+  const recurringOpt = makeOption('y', 3000, false); // 30€/mois recurring
+  const flatFeeOpt = makeOption('z', 5000, false, true); // 50€ one-time
 
-  it('computes correctly for 1 service, monthly', () => {
+  it('computes correctly for 1 service, monthly billing', () => {
     const result = calculatePricing([svc1], [], ['a'], [], 'monthly');
     expect(result.discountMultiPercent).toBe(0);
     expect(result.discountMultiAmount).toBe(0);
     expect(result.servicesAfterMulti).toBe(1500);
     expect(result.totalMonthly).toBe(1500);
-    expect(result.savingsTotal).toBe(0);
+    expect(result.discountAnnualPercent).toBe(0); // No annual discount in monthly mode
+    expect(result.discountAnnualAmount).toBe(0);
+    expect(result.totalAnnual).toBe(1500 * 12); // 18000
+  });
+
+  it('computes correctly for 1 service, yearly billing (2 mois offerts)', () => {
+    const result = calculatePricing([svc1], [], ['a'], [], 'yearly');
+    expect(result.discountMultiPercent).toBe(0);
+    expect(result.totalMonthly).toBe(1500);
+    expect(result.discountAnnualPercent).toBe(16.67);
+    expect(result.discountAnnualAmount).toBe(3000); // 2 months = 1500 * 2
+    expect(result.totalAnnual).toBe(1500 * 10); // 10 months instead of 12
   });
 
   it('computes 5% multi discount for 2 services', () => {
@@ -121,38 +132,63 @@ describe('calculatePricing – unit tests', () => {
     expect(result.totalMonthly).toBe(3800);
   });
 
-  it('does not apply discount to exempt options', () => {
+  it('applies both multi and annual discounts for yearly billing', () => {
     const result = calculatePricing(
-      [svc1, svc2], [exemptOpt], ['a', 'b'], ['x'], 'yearly'
+      [svc1, svc2], [], ['a', 'b'], [], 'yearly'
     );
     // Services: 4000, multi 5% = 200, after multi = 3800
-    // Exempt option: 5000 (no discount)
-    // Annual 10% on discountable (3800 + 0) = 380
-    // totalMonthly = 3800 + 5000 - 380 = 8420
-    expect(result.totalMonthly).toBe(8420);
-    // Full price monthly = 4000 + 5000 = 9000
-    // Full annual = 108000, actual annual = 8420*12 = 101040
-    expect(result.savingsTotal).toBe(108000 - 101040);
+    expect(result.servicesAfterMulti).toBe(3800);
+    expect(result.totalMonthly).toBe(3800);
+    // Annual: 10 months instead of 12 (2 mois offerts)
+    expect(result.totalAnnual).toBe(3800 * 10); // 38000
+    expect(result.discountAnnualAmount).toBe(3800 * 2); // 7600
   });
 
-  it('applies annual discount on non-exempt options', () => {
+  it('handles recurring options correctly', () => {
     const result = calculatePricing(
-      [svc1], [discountableOpt], ['a'], ['y'], 'yearly'
+      [svc1], [recurringOpt], ['a'], ['y'], 'yearly'
     );
     // Services: 1500, multi 0%, after multi = 1500
-    // Discountable option: 3000
-    // Annual 10% on (1500 + 3000) = 450
-    // totalMonthly = 1500 + 3000 - 450 = 4050
-    expect(result.discountAnnualAmount).toBe(450);
-    expect(result.totalMonthly).toBe(4050);
+    // Recurring option: 3000
+    // totalMonthly = 1500 + 3000 = 4500
+    expect(result.totalMonthly).toBe(4500);
+    // Annual: 10 months (2 mois offerts)
+    expect(result.totalAnnual).toBe(4500 * 10); // 45000
+    expect(result.discountAnnualAmount).toBe(4500 * 2); // 9000
+  });
+
+  it('handles flat fee options correctly (added to annual only)', () => {
+    const result = calculatePricing(
+      [svc1], [flatFeeOpt], ['a'], ['z'], 'yearly'
+    );
+    // Services: 1500, multi 0%
+    expect(result.totalMonthly).toBe(1500);
+    // Annual: 10 months + flat fee
+    expect(result.totalAnnual).toBe(1500 * 10 + 5000); // 15000 + 5000 = 20000
+    expect(result.flatFeeTotal).toBe(5000);
+  });
+
+  it('handles service quantities (duplicate IDs)', () => {
+    // 2x service a = should count as 2 services for multi discount
+    const result = calculatePricing(
+      [svc1], [], ['a', 'a'], [], 'monthly'
+    );
+    // 2 services = 5% discount
+    expect(result.discountMultiPercent).toBe(5);
+    // Subtotal: 1500 * 2 = 3000
+    expect(result.servicesSubtotal).toBe(3000);
+    // Discount: 3000 * 5% = 150
+    expect(result.discountMultiAmount).toBe(150);
+    expect(result.servicesAfterMulti).toBe(2850);
+    expect(result.totalMonthly).toBe(2850);
   });
 
   it('total is always positive with at least one service', () => {
     const result = calculatePricing(
       [svc1, svc2, svc3, svc4],
-      [exemptOpt, discountableOpt],
+      [recurringOpt, flatFeeOpt],
       ['a', 'b', 'c', 'd'],
-      ['x', 'y'],
+      ['y', 'z'],
       'yearly'
     );
     expect(result.totalMonthly).toBeGreaterThan(0);
@@ -164,8 +200,6 @@ describe('calculatePricing – unit tests', () => {
 
 describe('Property 1: Calcul remise multi-équipements', () => {
   /**
-   * **Validates: Requirements 5.1, 5.2, 5.3**
-   *
    * Pour tout ensemble de N services sélectionnés (N ≥ 1),
    * la remise multi DOIT être : 0% si N=1, 5% si N=2, 10% si N=3, 15% si N≥4.
    */
@@ -183,18 +217,19 @@ describe('Property 1: Calcul remise multi-équipements', () => {
   });
 
   /**
-   * **Validates: Requirements 5.1, 5.2, 5.3**
-   *
    * calculatePricing must apply the correct multi-discount percentage
-   * matching the number of selected services.
+   * matching the number of selected services (counting quantities).
    */
-  it('calculatePricing applies the correct multi-discount percent', () => {
+  it('calculatePricing applies the correct multi-discount percent based on total quantity', () => {
     fc.assert(
-      fc.property(arbServices, (services) => {
-        const ids = services.map((s) => s.id);
+      fc.property(arbServices, fc.integer({ min: 1, max: 3 }), (services, multiplier) => {
+        // Create IDs with potential duplicates to test quantity handling
+        const ids = services.flatMap((s) => Array(multiplier).fill(s.id));
+        const totalCount = services.length * multiplier;
+        
         const result = calculatePricing(services, [], ids, [], 'monthly');
-
-        const expected = getMultiDiscount(services.length);
+        const expected = getMultiDiscount(totalCount);
+        
         return result.discountMultiPercent === expected;
       }),
       { numRuns: 200 }
@@ -202,58 +237,12 @@ describe('Property 1: Calcul remise multi-équipements', () => {
   });
 });
 
-describe('Property 2: Remise non appliquée aux options exemptées', () => {
+describe('Property 2: Annual discount is 2 months free', () => {
   /**
-   * **Validates: Requirements 5.4, 5.6**
-   *
-   * Pour toute option récurrente avec exempt_from_discount=true,
-   * son prix NE DOIT PAS être affecté par les remises multi ou annuelle.
+   * For yearly billing, the annual total should be exactly 10 months
+   * of the monthly total (plus flat fees).
    */
-  it('exempt recurring options contribute their full price regardless of discounts', () => {
-    fc.assert(
-      fc.property(
-        arbServices,
-        fc.array(arbPrice, { minLength: 1, maxLength: 4 }),
-        arbBillingPeriod,
-        (services, exemptPrices, billing) => {
-          const exemptOptions = exemptPrices.map((p, i) =>
-            makeOption(`ex${i}`, p, true, false) // recurring, exempt
-          );
-          const svcIds = services.map((s) => s.id);
-          const optIds = exemptOptions.map((o) => o.id);
-
-          // Calculate WITH exempt options
-          const withOpts = calculatePricing(
-            services, exemptOptions, svcIds, optIds, billing
-          );
-          // Calculate WITHOUT options
-          const withoutOpts = calculatePricing(
-            services, [], svcIds, [], billing
-          );
-
-          const exemptTotal = exemptOptions.reduce(
-            (sum, o) => sum + o.price_monthly, 0
-          );
-
-          // The difference in monthly total should be exactly the exempt options total
-          // (since exempt options are not discounted at all)
-          return withOpts.totalMonthly - withoutOpts.totalMonthly === exemptTotal;
-        }
-      ),
-      { numRuns: 200 }
-    );
-  });
-});
-
-describe('Property 3: Ordre d\'application des remises', () => {
-  /**
-   * **Validates: Requirements 5.5, 5.7**
-   *
-   * Pour tout calcul avec remise multi ET remise annuelle,
-   * le total final DOIT être égal à :
-   * (services × (1 - multi%)) × (1 - annuel%) + options_exemptées + flat_fee/12
-   */
-  it('discount order: multi first, then annual on (services_after_multi + discountable_options)', () => {
+  it('yearly total equals 10 months of monthly total plus flat fees', () => {
     fc.assert(
       fc.property(
         arbServices,
@@ -266,35 +255,69 @@ describe('Property 3: Ordre d\'application des remises', () => {
             services, options, svcIds, optIds, 'yearly'
           );
 
-          const servicesSubtotal = services.reduce(
-            (sum, s) => sum + s.price_monthly, 0
-          );
-          const multiPercent = getMultiDiscount(services.length);
-          const multiAmount = Math.round(servicesSubtotal * multiPercent / 100);
-          const servicesAfterMulti = servicesSubtotal - multiAmount;
-
-          // Séparer options par type
-          const recurringOptions = options.filter((o) => !o.is_flat_fee);
-          const flatFeeOptions = options.filter((o) => o.is_flat_fee);
-
-          const exemptTotal = recurringOptions
-            .filter((o) => o.exempt_from_discount)
+          const flatFeeTotal = options
+            .filter((o) => o.is_flat_fee)
             .reduce((sum, o) => sum + o.price_monthly, 0);
-          const discountableTotal = recurringOptions
-            .filter((o) => !o.exempt_from_discount)
-            .reduce((sum, o) => sum + o.price_monthly, 0);
-          const flatFeeTotal = flatFeeOptions.reduce(
-            (sum, o) => sum + o.price_monthly, 0
+
+          // Annual = 10 months + flat fees
+          const expectedAnnual = result.totalMonthly * 10 + flatFeeTotal;
+          
+          return result.totalAnnual === expectedAnnual;
+        }
+      ),
+      { numRuns: 200 }
+    );
+  });
+
+  /**
+   * For monthly billing, no annual discount should be applied.
+   */
+  it('monthly billing has no annual discount', () => {
+    fc.assert(
+      fc.property(
+        arbServices,
+        arbOptions,
+        (services, options) => {
+          const svcIds = services.map((s) => s.id);
+          const optIds = options.map((o) => o.id);
+
+          const result = calculatePricing(
+            services, options, svcIds, optIds, 'monthly'
           );
 
-          const discountableSum = servicesAfterMulti + discountableTotal;
-          const annualAmount = Math.round(discountableSum * 10 / 100);
+          return result.discountAnnualPercent === 0 && result.discountAnnualAmount === 0;
+        }
+      ),
+      { numRuns: 200 }
+    );
+  });
+});
 
-          const totalMonthlyRecurring =
-            servicesAfterMulti + discountableTotal + exemptTotal - annualAmount;
-          const expectedMonthly = totalMonthlyRecurring + Math.round(flatFeeTotal / 12);
+describe('Property 3: Flat fees are one-time charges', () => {
+  /**
+   * Flat fee options should only be added to the annual total,
+   * not affect the monthly recurring amount.
+   */
+  it('flat fees do not affect totalMonthly', () => {
+    fc.assert(
+      fc.property(
+        arbServices,
+        arbOptions,
+        arbBillingPeriod,
+        (services, options, billing) => {
+          const svcIds = services.map((s) => s.id);
+          const allOptIds = options.map((o) => o.id);
+          const recurringOptIds = options.filter((o) => !o.is_flat_fee).map((o) => o.id);
 
-          return result.totalMonthly === expectedMonthly;
+          const withFlatFees = calculatePricing(
+            services, options, svcIds, allOptIds, billing
+          );
+          const withoutFlatFees = calculatePricing(
+            services, options.filter((o) => !o.is_flat_fee), svcIds, recurringOptIds, billing
+          );
+
+          // Monthly totals should be the same
+          return withFlatFees.totalMonthly === withoutFlatFees.totalMonthly;
         }
       ),
       { numRuns: 200 }
@@ -304,8 +327,6 @@ describe('Property 3: Ordre d\'application des remises', () => {
 
 describe('Property 4: Total toujours positif', () => {
   /**
-   * **Validates: Requirements 5.1, 5.2, 5.3, 5.5**
-   *
    * Pour toute combinaison de services et options,
    * le total après remises DOIT être strictement positif (> 0)
    * dès qu'au moins un service est sélectionné.
@@ -332,72 +353,62 @@ describe('Property 4: Total toujours positif', () => {
   });
 });
 
-describe('Property 5: Économies annuelles correctes', () => {
+describe('Property 5: Multi-discount savings calculation', () => {
   /**
-   * **Validates: Requirements 5.5**
-   *
-   * Pour tout calcul en mode annuel, les économies affichées
-   * DOIVENT être égales à (prix_plein_annuel - prix_remisé_annuel).
+   * savingsTotal should equal the multi-discount amount times 12 months.
    */
-  it('savingsTotal equals full annual price minus discounted annual price', () => {
+  it('savingsTotal equals discountMultiAmount * 12', () => {
     fc.assert(
       fc.property(
         arbServices,
         arbOptions,
-        (services, options) => {
+        arbBillingPeriod,
+        (services, options, billing) => {
           const svcIds = services.map((s) => s.id);
           const optIds = options.map((o) => o.id);
 
           const result = calculatePricing(
-            services, options, svcIds, optIds, 'yearly'
+            services, options, svcIds, optIds, billing
           );
 
-          const recurringOptions = options.filter((o) => !o.is_flat_fee);
-          const flatFeeOptions = options.filter((o) => o.is_flat_fee);
-          const flatFeeTotal = flatFeeOptions.reduce((sum, o) => sum + o.price_monthly, 0);
-
-          const fullPriceMonthlyRecurring =
-            services.reduce((sum, s) => sum + s.price_monthly, 0) +
-            recurringOptions.reduce((sum, o) => sum + o.price_monthly, 0);
-          const fullPriceAnnual = fullPriceMonthlyRecurring * 12 + flatFeeTotal;
-          const actualAnnual = result.totalAnnual;
-
-          return result.savingsTotal === fullPriceAnnual - actualAnnual;
+          return result.savingsTotal === result.discountMultiAmount * 12;
         }
       ),
       { numRuns: 200 }
     );
   });
+});
 
+describe('Property 6: Service quantities are handled correctly', () => {
   /**
-   * **Validates: Requirements 5.5**
-   *
-   * In monthly mode, savings should reflect the monthly difference
-   * between full price and discounted price.
+   * Duplicate service IDs should be counted as multiple services
+   * for both pricing and multi-discount calculation.
    */
-  it('savingsTotal in monthly mode equals full monthly minus discounted monthly', () => {
+  it('duplicate service IDs increase total and affect multi-discount tier', () => {
     fc.assert(
       fc.property(
-        arbServices,
-        arbOptions,
-        (services, options) => {
-          const svcIds = services.map((s) => s.id);
-          const optIds = options.map((o) => o.id);
+        arbServices.filter((s) => s.length >= 1),
+        fc.integer({ min: 1, max: 4 }),
+        arbBillingPeriod,
+        (services, quantity, billing) => {
+          const service = services[0];
+          const singleId = [service.id];
+          const multipleIds = Array(quantity).fill(service.id);
 
-          const result = calculatePricing(
-            services, options, svcIds, optIds, 'monthly'
+          const singleResult = calculatePricing(
+            [service], [], singleId, [], billing
+          );
+          const multipleResult = calculatePricing(
+            [service], [], multipleIds, [], billing
           );
 
-          const recurringOptions = options.filter((o) => !o.is_flat_fee);
-          const flatFeeOptions = options.filter((o) => o.is_flat_fee);
-          const flatFeeTotal = flatFeeOptions.reduce((sum, o) => sum + o.price_monthly, 0);
+          // Subtotal should scale with quantity
+          const subtotalScales = multipleResult.servicesSubtotal === singleResult.servicesSubtotal * quantity;
+          
+          // Multi-discount should be based on total quantity
+          const correctDiscount = multipleResult.discountMultiPercent === getMultiDiscount(quantity);
 
-          const fullPriceMonthlyRecurring =
-            services.reduce((sum, s) => sum + s.price_monthly, 0) +
-            recurringOptions.reduce((sum, o) => sum + o.price_monthly, 0);
-          const fullPriceMonthly = fullPriceMonthlyRecurring + Math.round(flatFeeTotal / 12);
-
-          return result.savingsTotal === fullPriceMonthly - result.totalMonthly;
+          return subtotalScales && correctDiscount;
         }
       ),
       { numRuns: 200 }

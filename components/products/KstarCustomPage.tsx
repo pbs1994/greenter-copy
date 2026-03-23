@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import Image from "next/image"
 import Link from "next/link"
 import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, HelpCircle, Truck, Wrench, Phone, Zap } from "lucide-react"
@@ -20,6 +23,8 @@ interface KstarCustomPageProps {
   product: Product & { category: Category }
   /** Prix dynamiques depuis la base */
   prices: { inverter: number; battery: number }
+  /** IDs des produits pour le checkout */
+  productIds: { inverter: string; battery: string; bundle: string }
 }
 
 /**
@@ -28,7 +33,14 @@ interface KstarCustomPageProps {
  * 
  * @validates Requirements 9.3 - Products with is_custom_page=true use custom template
  */
-export function KstarCustomPage({ product, prices }: KstarCustomPageProps) {
+export function KstarCustomPage({ product, prices, productIds }: KstarCustomPageProps) {
+  // Initialiser avec le bundle ID directement
+  const [selectedProductId, setSelectedProductId] = useState(productIds?.bundle || product.id)
+  const [cartItems, setCartItems] = useState<Array<{ productId: string; quantity: number }>>([
+    { productId: productIds?.inverter || '', quantity: 1 },
+    { productId: productIds?.battery || '', quantity: 1 }
+  ])
+  
   // Prix calculé dynamiquement : onduleur + batterie
   const calculatedPrice = prices.inverter + prices.battery
   const priceInEuros = calculatedPrice / 100
@@ -164,10 +176,31 @@ export function KstarCustomPage({ product, prices }: KstarCustomPageProps) {
             {/* Price + CTA Block avec Configurateur */}
             <div className="bg-gradient-to-br from-green-50 to-teal-50/50 rounded-2xl p-5 mb-4 border border-green-100">
               {/* Configurateur de produit */}
-              <ProductConfigurator defaultConfig="bundle" prices={prices} />
+              <ProductConfigurator 
+                defaultConfig="bundle" 
+                prices={prices} 
+                productIds={productIds}
+                onConfigChange={(config) => {
+                  if (config.productId) {
+                    setSelectedProductId(config.productId)
+                  }
+                  if (config.items && config.items.length > 0) {
+                    setCartItems(config.items)
+                  }
+                }}
+              />
               
               <div className="mt-4 pt-4 border-t border-green-200/50">
-                <BuyButton productId={product.id} />
+                {cartItems.length > 0 && cartItems[0].productId ? (
+                  <BuyButton items={cartItems} />
+                ) : (
+                  <button 
+                    disabled
+                    className="w-full bg-gray-300 text-gray-500 font-semibold py-4 px-10 rounded-full cursor-not-allowed"
+                  >
+                    Chargement...
+                  </button>
+                )}
               </div>
               
               {/* CTA secondaire */}
@@ -176,7 +209,7 @@ export function KstarCustomPage({ product, prices }: KstarCustomPageProps) {
                 className="flex items-center justify-center gap-2 w-full py-2.5 px-4 mt-3 bg-white border border-green-200 rounded-xl text-green-700 font-medium text-sm hover:bg-green-50 hover:border-green-300 transition-all"
               >
                 <Phone className="w-4 h-4" />
-                J&apos;appelle pour plus d&apos;informations
+                J'appelle pour plus d'informations
               </Link>
               
               {/* Mini reassurance */}
@@ -360,8 +393,8 @@ export function KstarCustomPage({ product, prices }: KstarCustomPageProps) {
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-neutral-900 mb-1">Livraison et installation offertes</h3>
               <p className="text-sm text-neutral-600 leading-relaxed">
-                Le prix affiché comprend la livraison à domicile et l&apos;installation complète par nos techniciens certifiés RGE. 
-                Si vous ne souhaitez pas l&apos;installation, seule la livraison est effectuée — le tarif reste identique.
+                Le prix affiché comprend la livraison à domicile et l'installation complète par nos techniciens certifiés RGE. 
+                Si vous ne souhaitez pas l'installation, seule la livraison est effectuée — le tarif reste identique.
               </p>
             </div>
           </div>

@@ -2,10 +2,18 @@
 
 import { useState, useEffect } from 'react'
 
+interface ProductPriceItem {
+  slug: string
+  name: string
+  price: number
+  formatted: string
+}
+
 interface ProductPrice {
   price: number
   formatted: string
   currency: string
+  products?: ProductPriceItem[]
 }
 
 export function useProductPrice() {

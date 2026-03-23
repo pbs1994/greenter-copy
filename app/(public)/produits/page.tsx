@@ -152,7 +152,7 @@ export default async function ProduitsPage() {
                 Catalogue en cours de préparation
               </h2>
               <p className="text-neutral-600 mb-6">
-                Nos produits arrivent bientôt. Contactez-nous pour plus d&apos;informations.
+                Nos produits arrivent bientôt. Contactez-nous pour plus d'informations.
               </p>
               <Link 
                 href="/contact"

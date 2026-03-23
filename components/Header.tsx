@@ -4,7 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Flame, Wind, Droplets, SunMedium, SunDim, Zap, type LucideIcon } from "lucide-react"
-import { useProductPrice } from "@/lib/useProductPrice"
 
 import {
   NavigationMenu,
@@ -27,6 +26,15 @@ interface MaintenanceService {
 
 const iconMap: Record<string, LucideIcon> = {
   Flame, Wind, Sun, Droplets, SunMedium, SunDim, Zap, Wrench, Thermometer,
+}
+
+interface ProductItem {
+  title: string
+  href: string
+  description: string
+  image: string
+  badge: string | null
+  slug: string
 }
 
 function getIcon(name: string): LucideIcon {
@@ -76,15 +84,7 @@ const services = [
   },
 ]
 
-const products = [
-  {
-    title: "Kit Stockage Solaire",
-    href: "/produits/stockage-solaire/kit-stockage-solaire-complet-5kw",
-    description: "Onduleur hybride + batterie",
-    image: "/kstar.png",
-    badge: "Nouveau",
-  },
-]
+const products: ProductItem[] = []
 
 const navLinks = [
   { title: "Accueil", href: "/" },
@@ -96,7 +96,8 @@ export function Header() {
   const [scrolled, setScrolled] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
   const [maintenanceServices, setMaintenanceServices] = React.useState<MaintenanceService[]>([])
-  const { data: priceData } = useProductPrice()
+  const [productItems, setProductItems] = React.useState<ProductItem[]>([])
+  const [productPrices, setProductPrices] = React.useState<Record<string, string>>({})
 
   React.useEffect(() => {
     setMounted(true)
@@ -109,6 +110,44 @@ export function Header() {
         }
       })
       .catch(console.error)
+    
+    // Fetch prices from API (single source of truth)
+    fetch('/api/product-price')
+      .then(res => res.json())
+      .then(data => {
+        if (data.products) {
+          const prices: Record<string, string> = {}
+          data.products.forEach((p: { slug: string; formatted: string }) => {
+            prices[p.slug] = p.formatted
+          })
+          setProductPrices(prices)
+        }
+      })
+      .catch(console.error)
+    
+    // Fetch product images from Supabase
+    import('@/lib/supabase').then(({ supabase }) => {
+      supabase
+        .from('products')
+        .select('id, name, slug, image_url, short_description, category:categories(slug)')
+        .eq('is_active', true)
+        .then(({ data }) => {
+          if (data) {
+            setProductItems(data.map(p => {
+              const category = p.category as { slug: string }[] | { slug: string } | null
+              const categorySlug = Array.isArray(category) ? category[0]?.slug : category?.slug
+              return {
+                title: p.name,
+                href: `/produits/${categorySlug || 'stockage-solaire'}/${p.slug}`,
+                description: p.short_description || '',
+                image: p.image_url || '/kstar.png',
+                badge: p.slug.includes('kit') ? 'Populaire' : null,
+                slug: p.slug
+              }
+            }))
+          }
+        })
+    })
   }, [])
 
   React.useEffect(() => {
@@ -241,55 +280,68 @@ export function Header() {
                 Produits
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="w-[320px] p-4 bg-white">
-                  {products.map((product) => (
-                    <NavigationMenuLink key={product.title} asChild>
-                      <Link
-                        href={product.href}
-                        className="group flex items-center gap-4 rounded-xl p-3 hover:bg-green-50 transition-all"
-                      >
-                        {/* Image produit */}
-                        <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-teal-50 flex items-center justify-center shrink-0">
-                          <Image
-                            src={product.image}
-                            alt={product.title}
-                            width={60}
-                            height={70}
-                            className="object-contain group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {product.badge && (
-                            <span className="absolute top-1 left-1 bg-teal-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">
-                              {product.badge}
-                            </span>
-                          )}
-                        </div>
-                        
-                        {/* Infos */}
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-neutral-900 group-hover:text-green-700 transition-colors">
-                            {product.title}
-                          </h4>
-                          <p className="text-xs text-neutral-500 mb-1">
-                            {product.description}
-                          </p>
-                          <p className="text-sm font-bold text-green-700">
-                            {priceData?.formatted || '...'}
-                          </p>
-                        </div>
-                        
-                        <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-green-600 group-hover:translate-x-0.5 transition-all" />
-                      </Link>
-                    </NavigationMenuLink>
-                  ))}
-                  
-                  {/* Lien tous les produits */}
-                  <div className="mt-3 pt-3 border-t border-neutral-100">
-                    <Link
-                      href="/produits"
-                      className="flex items-center justify-center gap-2 w-full py-2 text-sm font-semibold text-green-700 hover:text-green-800 transition-colors"
-                    >
+                <div className="w-[520px] p-4 bg-white">
+                  {/* Produits en grille horizontale comme les services */}
+                  <div className="grid grid-cols-3 gap-3">
+                    {productItems.map((product) => (
+                      <NavigationMenuLink key={product.title} asChild>
+                        <Link
+                          href={product.href}
+                          className="group relative flex flex-col rounded-xl overflow-hidden bg-neutral-100 hover:bg-neutral-50 transition-all"
+                        >
+                          {/* Image */}
+                          <div className="relative h-28 w-full overflow-hidden bg-gradient-to-br from-green-50 to-teal-50 flex items-center justify-center">
+                            <Image
+                              src={product.image}
+                              alt={product.title}
+                              width={100}
+                              height={100}
+                              className="object-contain group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                            
+                            {/* Badge */}
+                            {product.badge && (
+                              <span className="absolute top-2 left-2 bg-teal-500 text-white text-[9px] font-bold px-2 py-0.5 rounded">
+                                {product.badge}
+                              </span>
+                            )}
+                            
+                            {/* Icône */}
+                            <div className="absolute bottom-2 right-2 w-7 h-7 bg-white/90 rounded-md flex items-center justify-center">
+                              <Zap className="w-4 h-4 text-green-700" />
+                            </div>
+                          </div>
+
+                          {/* Texte */}
+                          <div className="p-3 text-center">
+                            <h4 className="font-semibold text-xs text-neutral-900 group-hover:text-green-700 transition-colors leading-tight mb-1">
+                              {product.title}
+                            </h4>
+                            <p className="text-sm font-bold text-green-700">
+                              {productPrices[product.slug] || '...'}
+                            </p>
+                          </div>
+                          
+                          {/* Hover ring */}
+                          <div className="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-green-400 transition-all pointer-events-none" />
+                        </Link>
+                      </NavigationMenuLink>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-neutral-100">
+                    <Link href="/produits" className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800 transition-colors">
                       <ShoppingBag className="w-4 h-4" />
-                      Voir tous les produits
+                      <span className="font-semibold">Tous les produits</span>
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-xs px-4 py-2 rounded-full transition-colors"
+                    >
+                      Devis gratuit
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
                 </div>
@@ -532,7 +584,7 @@ export function Header() {
                 </span>
                 <div className="h-px flex-1 bg-gradient-to-l from-teal-300 to-transparent"></div>
               </div>
-              {products.map((product) => (
+              {productItems.map((product) => (
                 <Link
                   key={product.href}
                   href={product.href}
@@ -558,7 +610,7 @@ export function Header() {
                       {product.title}
                     </span>
                     <div className="text-sm text-neutral-500">{product.description}</div>
-                    <div className="text-sm font-bold text-teal-600">{priceData?.formatted || '...'}</div>
+                    <div className="text-sm font-bold text-teal-600">{productPrices[product.slug] || '...'}</div>
                   </div>
                   <ChevronRight className="w-5 h-5 text-neutral-300 group-hover:text-teal-500 transition-all group-hover:translate-x-1" />
                 </Link>

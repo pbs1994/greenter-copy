@@ -126,7 +126,7 @@ export function Services() {
             Des solutions adaptées à votre projet
           </h2>
           <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
-            De l&apos;audit à l&apos;installation, un accompagnement complet éligible aux aides.
+            De l'audit à l'installation, un accompagnement complet éligible aux aides.
           </p>
         </div>
       </div>

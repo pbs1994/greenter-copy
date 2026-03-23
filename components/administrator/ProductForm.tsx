@@ -455,7 +455,7 @@ export function ProductForm({ product, categories, mode }: ProductFormProps) {
         <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-6 text-center">
           <FieldIcon className="w-10 h-10 text-neutral-300 mx-auto mb-3" />
           <p className="text-neutral-500">
-            Cette catégorie n&apos;a pas de champs de spécification définis
+            Cette catégorie n'a pas de champs de spécification définis
           </p>
         </div>
       )}

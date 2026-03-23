@@ -107,7 +107,7 @@ describe('POST /api/checkout/maintenance', () => {
     const res = await POST(makeRequest({ optionIds: [], billingPeriod: 'monthly' }))
     const body = await res.json()
     expect(res.status).toBe(400)
-    expect(body.error).toContain('au moins un service')
+    expect(body.error).toContain('services invalide')
   })
 
   it('returns 400 when serviceIds is empty', async () => {

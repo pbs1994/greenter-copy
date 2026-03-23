@@ -129,30 +129,40 @@ export default async function ProductPage({ params }: Props) {
   if (typedProduct.is_custom_page) {
     const slug = typedProduct.slug.toLowerCase()
     
-    // Récupérer les prix de l'onduleur et de la batterie pour les calculs dynamiques
+    // Récupérer les prix et IDs de l'onduleur et de la batterie pour les calculs dynamiques
     const { data: allProducts } = await supabase
       .from('products')
-      .select('slug, price')
+      .select('id, slug, price')
       .eq('category_id', category.id)
       .eq('is_active', true)
     
+    const inverterProduct = allProducts?.find(p => p.slug.includes('onduleur'))
+    const batteryProduct = allProducts?.find(p => p.slug.includes('batterie'))
+    const bundleProduct = allProducts?.find(p => p.slug.includes('kit'))
+    
     const prices = {
-      inverter: allProducts?.find(p => p.slug.includes('onduleur'))?.price || 249900,
-      battery: allProducts?.find(p => p.slug.includes('batterie'))?.price || 349900,
+      inverter: inverterProduct?.price || 249900,
+      battery: batteryProduct?.price || 349900,
+    }
+    
+    const productIds = {
+      inverter: inverterProduct?.id || '',
+      battery: batteryProduct?.id || '',
+      bundle: bundleProduct?.id || typedProduct.id,
     }
     
     // Route vers la page onduleur
     if (slug.includes('onduleur')) {
-      return <KstarOnduleurPage product={productWithCategory} prices={prices} />
+      return <KstarOnduleurPage product={productWithCategory} prices={prices} productIds={productIds} />
     }
     
     // Route vers la page batterie
     if (slug.includes('batterie')) {
-      return <KstarBatteriePage product={productWithCategory} prices={prices} />
+      return <KstarBatteriePage product={productWithCategory} prices={prices} productIds={productIds} />
     }
     
     // Route vers la page kit/pack (défaut pour les produits custom stockage solaire)
-    return <KstarCustomPage product={productWithCategory} prices={prices} />
+    return <KstarCustomPage product={productWithCategory} prices={prices} productIds={productIds} />
   }
   
   // Render generic template for products without custom page

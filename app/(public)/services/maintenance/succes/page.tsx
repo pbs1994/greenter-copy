@@ -250,7 +250,7 @@ export default async function MaintenanceSuccessPage({
                           sous 48 heures
                         </strong>{' '}
                         pour planifier ensemble votre première intervention
-                        d&apos;entretien.
+                        d'entretien.
                       </p>
                     </div>
                   </div>
@@ -263,12 +263,12 @@ export default async function MaintenanceSuccessPage({
                     <div className="flex-1 pb-2">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-sm text-neutral-900">
-                          Intervention d&apos;entretien
+                          Intervention d'entretien
                         </h3>
                       </div>
                       <p className="text-sm text-neutral-500">
-                        Un technicien certifié réalisera l&apos;entretien complet de
-                        vos équipements à la date convenue, avec remise d&apos;un rapport détaillé.
+                        Un technicien certifié réalisera l'entretien complet de
+                        vos équipements à la date convenue, avec remise d'un rapport détaillé.
                       </p>
                     </div>
                   </div>
@@ -306,7 +306,7 @@ export default async function MaintenanceSuccessPage({
                       Intervention incluse
                     </p>
                     <p className="text-xs text-neutral-500">
-                      1 intervention d&apos;entretien incluse, planifiée avec vous
+                      1 intervention d'entretien incluse, planifiée avec vous
                       sous 48h.
                     </p>
                   </div>
@@ -327,10 +327,10 @@ export default async function MaintenanceSuccessPage({
                   <FileText className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-neutral-900">
-                      Rapport d&apos;intervention
+                      Rapport d'intervention
                     </p>
                     <p className="text-xs text-neutral-500">
-                      Un rapport détaillé vous sera remis après l&apos;intervention.
+                      Un rapport détaillé vous sera remis après l'intervention.
                     </p>
                   </div>
                 </div>
@@ -371,7 +371,7 @@ export default async function MaintenanceSuccessPage({
             href="/"
             className="inline-flex items-center gap-1.5 text-neutral-500 hover:text-neutral-900 text-sm transition-colors"
           >
-            Retour à l&apos;accueil
+            Retour à l'accueil
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

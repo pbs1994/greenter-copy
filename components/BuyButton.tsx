@@ -3,15 +3,29 @@
 import { useState } from 'react'
 import { ArrowRight, Loader2 } from 'lucide-react'
 
-interface BuyButtonProps {
+interface CartItem {
   productId: string
+  quantity: number
+}
+
+interface BuyButtonProps {
+  productId?: string
+  items?: CartItem[]
   className?: string
 }
 
-export function BuyButton({ productId, className }: BuyButtonProps) {
+export function BuyButton({ productId, items, className }: BuyButtonProps) {
   const [loading, setLoading] = useState(false)
 
   const handleCheckout = async () => {
+    // Construire le panier
+    const cartItems = items || (productId ? [{ productId, quantity: 1 }] : [])
+    
+    if (cartItems.length === 0 || cartItems.some(item => !item.productId)) {
+      alert('Erreur: Produit non sélectionné')
+      return
+    }
+    
     setLoading(true)
     try {
       const response = await fetch('/api/checkout', {
@@ -19,7 +33,7 @@ export function BuyButton({ productId, className }: BuyButtonProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ items: cartItems }),
       })
       const data = await response.json()
       

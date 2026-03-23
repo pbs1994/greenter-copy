@@ -7,6 +7,7 @@ import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, ChevronRight, He
 import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import { BuyButton } from "@/components/BuyButton"
 import type { Product, Category, FAQItem } from "@/types/database"
 
 function formatPrice(cents: number): string {
@@ -16,9 +17,10 @@ function formatPrice(cents: number): string {
 interface KstarOnduleurPageProps {
   product: Product & { category: Category }
   prices: { inverter: number; battery: number }
+  productIds: { inverter: string; battery: string; bundle: string }
 }
 
-export function KstarOnduleurPage({ product, prices }: KstarOnduleurPageProps) {
+export function KstarOnduleurPage({ product, prices, productIds }: KstarOnduleurPageProps) {
   const [batteryCount, setBatteryCount] = useState(0)
   
   // Prix depuis la base de données
@@ -241,9 +243,16 @@ export function KstarOnduleurPage({ product, prices }: KstarOnduleurPageProps) {
                   </div>
                 </div>
 
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-colors">
-                  Commander
-                </button>
+                <BuyButton 
+                  items={batteryCount > 0 
+                    ? [
+                        { productId: productIds.inverter, quantity: 1 },
+                        { productId: productIds.battery, quantity: batteryCount }
+                      ]
+                    : [{ productId: productIds.inverter, quantity: 1 }]
+                  }
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+                />
                 
                 <Link 
                   href="/contact"

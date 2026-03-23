@@ -128,7 +128,7 @@ export function MaintenanceOptionForm({ option, mode }: MaintenanceOptionFormPro
               htmlFor="name"
               className="block text-sm font-medium text-neutral-700 mb-1.5"
             >
-              Nom de l&apos;option <span className="text-red-500">*</span>
+              Nom de l'option <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -212,7 +212,7 @@ export function MaintenanceOptionForm({ option, mode }: MaintenanceOptionFormPro
                        focus:ring-green-500 focus:border-transparent transition-shadow"
             />
             <p className="mt-1 text-xs text-neutral-500">
-              Nom de l&apos;icône Lucide (ex: Zap, Shield, Clock)
+              Nom de l'icône Lucide (ex: Zap, Shield, Clock)
             </p>
           </div>
 
@@ -222,7 +222,7 @@ export function MaintenanceOptionForm({ option, mode }: MaintenanceOptionFormPro
               htmlFor="sort_order"
               className="block text-sm font-medium text-neutral-700 mb-1.5"
             >
-              Ordre d&apos;affichage
+              Ordre d'affichage
             </label>
             <input
               type="number"

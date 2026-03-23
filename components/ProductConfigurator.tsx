@@ -1,9 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Check, Battery, Zap, Plus, Minus, Info } from 'lucide-react'
 
 type ConfigType = 'bundle' | 'inverter' | 'battery'
+
+interface CartItem {
+  productId: string
+  quantity: number
+}
 
 interface ProductConfiguratorProps {
   onConfigChange?: (config: {
@@ -11,9 +16,12 @@ interface ProductConfiguratorProps {
     batteryCount: number
     totalPrice: number
     priceInEuros: number
+    productId: string
+    items: CartItem[]
   }) => void
   defaultConfig?: ConfigType
   prices?: { inverter: number; battery: number }
+  productIds?: { inverter: string; battery: string; bundle: string }
 }
 
 function formatPrice(cents: number): string {
@@ -26,7 +34,7 @@ const DEFAULT_PRICES = {
   battery: 349900,
 }
 
-export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', prices }: ProductConfiguratorProps) {
+export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', prices, productIds }: ProductConfiguratorProps) {
   const [selectedConfig, setSelectedConfig] = useState<ConfigType>(defaultConfig)
   const [batteryCount, setBatteryCount] = useState(1)
 
@@ -39,26 +47,70 @@ export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', 
   }
 
   // Calcul du prix
-  const calculatePrice = () => {
-    if (selectedConfig === 'inverter') {
+  const calculatePrice = (config: ConfigType = selectedConfig, batteries: number = batteryCount) => {
+    if (config === 'inverter') {
       return PRICES.inverter
     }
-    if (selectedConfig === 'battery') {
+    if (config === 'battery') {
       const firstBattery = PRICES.battery
-      const extraBatteries = Math.max(0, batteryCount - 1) * PRICES.extraBattery
+      const extraBatteries = Math.max(0, batteries - 1) * PRICES.extraBattery
       return firstBattery + extraBatteries
     }
     // Bundle
     const bundlePrice = PRICES.bundle
-    const extraBatteries = Math.max(0, batteryCount - 1) * PRICES.extraBattery
+    const extraBatteries = Math.max(0, batteries - 1) * PRICES.extraBattery
     return bundlePrice + extraBatteries
+  }
+
+  // Get product ID based on config
+  const getProductId = (config: ConfigType) => {
+    if (!productIds) return ''
+    switch (config) {
+      case 'inverter': return productIds.inverter
+      case 'battery': return productIds.battery
+      case 'bundle': return productIds.bundle
+    }
+  }
+
+  // Build cart items based on config
+  const getCartItems = (config: ConfigType, batteries: number): CartItem[] => {
+    if (!productIds) return []
+    
+    switch (config) {
+      case 'inverter':
+        return [{ productId: productIds.inverter, quantity: 1 }]
+      case 'battery':
+        return [{ productId: productIds.battery, quantity: batteries }]
+      case 'bundle':
+        return [
+          { productId: productIds.inverter, quantity: 1 },
+          { productId: productIds.battery, quantity: batteries }
+        ]
+    }
   }
 
   const totalPrice = calculatePrice()
   const priceInEuros = totalPrice / 100
+  const currentProductId = getProductId(selectedConfig)
+
+  // Notify parent on mount with default config
+  useEffect(() => {
+    if (productIds) {
+      const defaultBatteries = defaultConfig === 'inverter' ? 0 : 1
+      onConfigChange?.({
+        type: defaultConfig,
+        batteryCount: defaultBatteries,
+        totalPrice: calculatePrice(defaultConfig, defaultBatteries),
+        priceInEuros: calculatePrice(defaultConfig, defaultBatteries) / 100,
+        productId: getProductId(defaultConfig),
+        items: getCartItems(defaultConfig, defaultBatteries),
+      })
+    }
+  }, [productIds])
 
   const handleConfigChange = (type: ConfigType) => {
     setSelectedConfig(type)
+    const newBatteryCount = type === 'inverter' ? 0 : (batteryCount === 0 ? 1 : batteryCount)
     if (type === 'inverter') {
       setBatteryCount(0)
     } else if (batteryCount === 0) {
@@ -66,9 +118,11 @@ export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', 
     }
     onConfigChange?.({
       type,
-      batteryCount: type === 'inverter' ? 0 : batteryCount,
-      totalPrice: calculatePrice(),
-      priceInEuros: calculatePrice() / 100,
+      batteryCount: newBatteryCount,
+      totalPrice: calculatePrice(type, newBatteryCount),
+      priceInEuros: calculatePrice(type, newBatteryCount) / 100,
+      productId: getProductId(type),
+      items: getCartItems(type, newBatteryCount),
     })
   }
 
@@ -77,8 +131,10 @@ export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', 
     onConfigChange?.({
       type: selectedConfig,
       batteryCount: count,
-      totalPrice: calculatePrice(),
-      priceInEuros: calculatePrice() / 100,
+      totalPrice: calculatePrice(selectedConfig, count),
+      priceInEuros: calculatePrice(selectedConfig, count) / 100,
+      productId: getProductId(selectedConfig),
+      items: getCartItems(selectedConfig, count),
     })
   }
 

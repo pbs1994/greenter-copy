@@ -235,7 +235,7 @@ export function MaintenanceServiceForm({ service, mode }: MaintenanceServiceForm
                        focus:ring-green-500 focus:border-transparent transition-shadow"
             />
             <p className="mt-1 text-xs text-neutral-500">
-              Nom de l&apos;icône Lucide (ex: Wrench, Flame, Sun)
+              Nom de l'icône Lucide (ex: Wrench, Flame, Sun)
             </p>
           </div>
 
@@ -245,7 +245,7 @@ export function MaintenanceServiceForm({ service, mode }: MaintenanceServiceForm
               htmlFor="sort_order"
               className="block text-sm font-medium text-neutral-700 mb-1.5"
             >
-              Ordre d&apos;affichage
+              Ordre d'affichage
             </label>
             <input
               type="number"

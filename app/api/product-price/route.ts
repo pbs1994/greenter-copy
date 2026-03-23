@@ -3,12 +3,11 @@ import { supabase } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    // Récupérer les prix de l'onduleur et de la batterie pour calculer le prix du kit
+    // Récupérer tous les produits actifs avec leurs prix DIRECTEMENT depuis Supabase
     const { data: products, error } = await supabase
       .from('products')
-      .select('price, slug')
+      .select('price, slug, name')
       .eq('is_active', true)
-      .in('slug', ['onduleur-hybride-solaire-5kw', 'batterie-solaire-lifepo4-5kwh'])
     
     if (error || !products || products.length === 0) {
       console.error('Supabase error:', error)
@@ -18,21 +17,24 @@ export async function GET() {
       )
     }
     
-    // Calculer le prix du kit (onduleur + batterie)
-    const inverterPrice = products.find(p => p.slug.includes('onduleur'))?.price || 0
-    const batteryPrice = products.find(p => p.slug.includes('batterie'))?.price || 0
-    const totalPrice = inverterPrice + batteryPrice
+    // Créer un tableau avec tous les prix DIRECTEMENT depuis la base (pas de calcul)
+    const allProducts = products.map(p => ({
+      slug: p.slug,
+      name: p.name,
+      price: p.price / 100,
+      formatted: `${(p.price / 100).toLocaleString('fr-FR')} €`
+    }))
     
-    // Le prix est en centimes dans Supabase, on le convertit en euros
-    const amount = totalPrice / 100
+    // Trouver le kit pour le prix par défaut
+    const kit = allProducts.find(p => p.slug === 'kit-stockage-solaire-complet-5kw')
+    const defaultPrice = kit?.price || 0
+    const defaultFormatted = kit?.formatted || '...'
     
     return NextResponse.json({ 
-      price: amount,
-      formatted: `${amount.toLocaleString('fr-FR')} €`,
+      price: defaultPrice,
+      formatted: defaultFormatted,
       currency: 'eur',
-      // Détail des prix pour debug
-      inverterPrice: inverterPrice / 100,
-      batteryPrice: batteryPrice / 100,
+      products: allProducts
     })
   } catch (error) {
     console.error('Product price error:', error)

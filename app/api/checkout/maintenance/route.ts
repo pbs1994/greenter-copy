@@ -95,12 +95,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Calculer les prix avec remises
+    // Calculer les prix avec remises (en passant le billingPeriod)
     const pricing = calculatePricing(
       services,
       options,
       serviceIds,
-      optionIds
+      optionIds,
+      billingPeriod
     )
 
     // Séparer options flat fee vs récurrentes
@@ -110,16 +111,29 @@ export async function POST(request: NextRequest) {
     // Déterminer si on a des items récurrents
     const hasRecurringItems = services.length > 0 || recurringOptions.length > 0
 
+    // Compter les quantités de chaque service (serviceIds peut avoir des doublons)
+    const serviceQuantities: Record<string, number> = {}
+    for (const id of serviceIds) {
+      serviceQuantities[id] = (serviceQuantities[id] || 0) + 1
+    }
+
     // Créer les line_items Stripe pour les items récurrents (subscription)
     const recurringLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
     // Ajouter chaque service comme line_item avec prix ajusté (remise multi appliquée)
-    for (const service of services) {
+    // Pour l'annuel: 10 mois au lieu de 12 (2 mois offerts)
+    const uniqueServiceIds = [...new Set(serviceIds)]
+    for (const serviceId of uniqueServiceIds) {
+      const service = services.find((s: any) => s.id === serviceId)
+      if (!service) continue
+
+      const qty = serviceQuantities[serviceId] || 1
       const discountedPrice = Math.round(
         service.price_monthly * (1 - pricing.discountMultiPercent / 100)
       )
+      // Annuel = 10 mois (2 mois offerts), Mensuel = prix mensuel
       const unitAmount = billingPeriod === 'yearly'
-        ? Math.round(discountedPrice * 12 * (1 - pricing.discountAnnualPercent / 100))
+        ? discountedPrice * 10  // 2 mois offerts
         : discountedPrice
 
       recurringLineItems.push({
@@ -131,15 +145,15 @@ export async function POST(request: NextRequest) {
             interval: billingPeriod === 'yearly' ? 'year' : 'month',
           },
         },
-        quantity: 1,
+        quantity: qty,
       })
     }
 
     // Ajouter les options récurrentes comme line_items
     for (const option of recurringOptions) {
-      const isDiscountable = !option.exempt_from_discount
+      // Annuel = 10 mois (2 mois offerts), Mensuel = prix mensuel
       const unitAmount = billingPeriod === 'yearly'
-        ? Math.round(option.price_monthly * 12 * (isDiscountable ? (1 - pricing.discountAnnualPercent / 100) : 1))
+        ? option.price_monthly * 10  // 2 mois offerts
         : option.price_monthly
 
       recurringLineItems.push({

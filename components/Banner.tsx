@@ -79,12 +79,12 @@ export function Banner() {
           {/* Left Content */}
           <div>
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
-              Réduisez vos factures d&apos;énergie dès maintenant
+              Réduisez vos factures d'énergie dès maintenant
             </h2>
             
             <p className="text-green-100 text-lg leading-relaxed mb-8">
               Greenter accompagne particuliers et professionnels dans leurs projets 
-              d&apos;efficacité énergétique, de l&apos;audit à la maintenance, avec des solutions 
+              d'efficacité énergétique, de l'audit à la maintenance, avec des solutions 
               durables et performantes.
             </p>
 
@@ -202,7 +202,7 @@ export function Banner() {
                 </form>
 
                 <p className="text-xs text-neutral-500 mt-4 text-center">
-                  En soumettant ce formulaire, vous acceptez d&apos;être contacté par Greenter.
+                  En soumettant ce formulaire, vous acceptez d'être contacté par Greenter.
                 </p>
               </>
             )}

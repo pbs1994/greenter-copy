@@ -1,10 +1,12 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, Truck, Wrench } from "lucide-react"
 import { BuyButton } from "./BuyButton"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
+import { useProductPrice } from "@/lib/useProductPrice"
 
 const features = [
   { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
@@ -25,27 +27,25 @@ const specs = [
 ]
 
 export function ProductShowcase() {
-  const [product, setProduct] = useState<{ id: string; price: number } | null>(null)
+  const [product, setProduct] = useState<{ id: string; imageUrl: string; slug: string } | null>(null)
   const [loading, setLoading] = useState(true)
+  const { data: priceData, loading: priceLoading } = useProductPrice()
 
   useEffect(() => {
     async function fetchProduct() {
-      // Récupérer les prix de l'onduleur et de la batterie
+      // Recuperer le kit complet avec son image
       const { data: products } = await supabase
         .from('products')
-        .select('id, price, slug')
+        .select('id, slug, image_url')
         .eq('is_active', true)
-        .in('slug', ['onduleur-hybride-solaire-5kw', 'batterie-solaire-lifepo4-5kwh', 'kit-stockage-solaire-complet-5kw'])
+        .eq('slug', 'kit-stockage-solaire-complet-5kw')
+        .single()
       
-      if (products && products.length > 0) {
-        const inverterPrice = products.find(p => p.slug.includes('onduleur'))?.price || 0
-        const batteryPrice = products.find(p => p.slug.includes('batterie'))?.price || 0
-        const kitProduct = products.find(p => p.slug.includes('kit'))
-        
-        // Utiliser l'ID du kit pour le bouton d'achat, mais calculer le prix
+      if (products) {
         setProduct({
-          id: kitProduct?.id || products[0].id,
-          price: inverterPrice + batteryPrice
+          id: products.id,
+          imageUrl: products.image_url || '/kstar.png',
+          slug: products.slug
         })
       }
       setLoading(false)
@@ -78,7 +78,7 @@ export function ProductShowcase() {
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 md:h-20 bg-green-300/20 blur-2xl" />
               
               <Image
-                src="/kstar.png"
+                src={product?.imageUrl || "/kstar.png"}
                 alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4"
                 width={260}
                 height={320}
@@ -137,7 +137,7 @@ export function ProductShowcase() {
             {/* Price */}
             <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                {loading ? '...' : product ? `${(product.price / 100).toLocaleString('fr-FR')} €` : '...'}
+                {priceLoading ? '...' : priceData?.formatted || '...'}
               </p>
               <span className="text-sm text-neutral-400">TTC</span>
             </div>
@@ -152,10 +152,10 @@ export function ProductShowcase() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
               {product && <BuyButton productId={product.id} />}
               <a 
-                href="/produits/stockage-solaire/kit-stockage-solaire-complet-5kw"
+                href={`/produits/stockage-solaire/${product?.slug || 'kit-stockage-solaire-complet-5kw'}`}
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
               >
-                Détails techniques
+                Details techniques
               </a>
             </div>
 

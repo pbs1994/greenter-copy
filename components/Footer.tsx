@@ -177,7 +177,7 @@ export function Footer() {
       {/* Zones d'intervention */}
       <div className="border-t border-green-900">
         <div className="container mx-auto max-w-6xl px-4 py-8">
-          <h4 className="font-heading font-semibold text-lg mb-4">Zones d&apos;intervention</h4>
+          <h4 className="font-heading font-semibold text-lg mb-4">Zones d'intervention</h4>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {CITIES.map((city) => (
               <li key={city.slug}>
