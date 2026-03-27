@@ -38,11 +38,7 @@ export default buildConfig({
   
   db: postgresAdapter({
     pool: {
-      host: process.env.DB_HOST || 'db.abyprihmbknvctwnerzr.supabase.co',
-      port: Number(process.env.DB_PORT) || 5432,
-      database: process.env.DB_NAME || 'postgres',
-      user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD!,
+      connectionString: process.env.DATABASE_URL!,
       ssl: {
         rejectUnauthorized: false,
       },
