@@ -44,7 +44,10 @@ export default buildConfig({
       database: 'postgres',
       user: 'postgres.abyprihmbknvctwnerzr',
       password: 'PsmBgAXR4fjWOmG4',
-      ssl: { rejectUnauthorized: false },
+      ssl: {
+        rejectUnauthorized: false,
+        servername: 'abyprihmbknvctwnerzr.pooler.supabase.com',
+      },
     },
     schemaName: 'payload',
   }),
