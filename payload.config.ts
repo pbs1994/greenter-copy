@@ -24,6 +24,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  serverURL: process.env.NEXT_PUBLIC_SITE_URL || 'https://greenter.fr',
   secret: process.env.PAYLOAD_SECRET!,
   
   sharp,
@@ -35,10 +36,14 @@ export default buildConfig({
     },
   },
   
-  // Try transaction pooler (port 6543) with project ref in username
+  // Hardcoded for debugging - will move to env vars once working
   db: postgresAdapter({
     pool: {
-      connectionString: 'postgresql://postgres.abyprihmbknvctwnerzr:PsmBgAXR4fjWOmG4@aws-0-eu-north-1.pooler.supabase.com:6543/postgres',
+      host: 'aws-0-eu-north-1.pooler.supabase.com',
+      port: 6543,
+      database: 'postgres',
+      user: 'postgres.abyprihmbknvctwnerzr',
+      password: 'PsmBgAXR4fjWOmG4',
       ssl: { rejectUnauthorized: false },
     },
     schemaName: 'payload',
