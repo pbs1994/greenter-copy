@@ -37,12 +37,8 @@ export default buildConfig({
   
   db: postgresAdapter({
     pool: {
-      host: process.env.DB_HOST || 'aws-0-eu-north-1.pooler.supabase.com',
-      port: parseInt(process.env.DB_PORT || '6543', 10),
-      database: process.env.DB_NAME || 'postgres',
-      user: process.env.DB_USER || '',
-      password: process.env.DB_PASSWORD || '',
-      ssl: { rejectUnauthorized: false },
+      connectionString: process.env.DATABASE_URL || '',
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     },
     schemaName: 'payload',
   }),
