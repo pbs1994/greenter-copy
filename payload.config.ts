@@ -35,10 +35,10 @@ export default buildConfig({
     },
   },
   
-  // Try multiple connection methods - will remove hardcoded values once we find which works
+  // Try transaction pooler (port 6543) with project ref in username
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || 'postgresql://postgres.abyprihmbknvctwnerzr:PsmBgAXR4fjWOmG4@aws-0-eu-north-1.pooler.supabase.com:5432/postgres',
+      connectionString: 'postgresql://postgres.abyprihmbknvctwnerzr:PsmBgAXR4fjWOmG4@aws-0-eu-north-1.pooler.supabase.com:6543/postgres',
       ssl: { rejectUnauthorized: false },
     },
     schemaName: 'payload',
