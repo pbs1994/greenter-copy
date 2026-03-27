@@ -114,6 +114,10 @@ export const GOOGLE_PLACE_ID = "ChIJ18W1Jb2UBkMRQ0A08rwo42U"
 
 export const GOOGLE_MAPS_URL = `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`
 
+// URL pour voir tous les avis Google (ouvre directement l'onglet avis)
+export const GOOGLE_REVIEWS_URL = `https://search.google.com/local/reviews?placeid=${GOOGLE_PLACE_ID}`
+
+// URL pour laisser un avis Google
 export const GOOGLE_REVIEW_URL = `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`
 
 // -----------------------------------------------------------------------------

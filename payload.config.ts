@@ -2,6 +2,7 @@ import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -38,10 +39,17 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL || '',
     },
-    schemaName: 'payload', // Utilise un schema séparé pour éviter les conflits
+    schemaName: 'payload',
   }),
   
   editor: lexicalEditor(),
+  
+  // Configuration email pour reset password
+  email: resendAdapter({
+    defaultFromAddress: 'noreply@greenter.fr',
+    defaultFromName: 'Greenter Admin',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   
   collections: [
     Users,

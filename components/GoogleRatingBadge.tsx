@@ -4,7 +4,7 @@
 // Requirements: 2.1, 2.2, 2.3, 2.4, 2.5
 
 import { fetchGoogleReviews } from "@/lib/google-places"
-import { GOOGLE_MAPS_URL } from "@/lib/local-seo-data"
+import { GOOGLE_REVIEWS_URL } from "@/lib/local-seo-data"
 
 // -----------------------------------------------------------------------------
 // Interfaces
@@ -159,7 +159,7 @@ export default async function GoogleRatingBadge({
 
   return (
     <a
-      href={GOOGLE_MAPS_URL}
+      href={GOOGLE_REVIEWS_URL}
       target="_blank"
       rel="noopener noreferrer"
       className={`
@@ -169,7 +169,7 @@ export default async function GoogleRatingBadge({
         hover:shadow-md hover:border-neutral-300 hover:-translate-y-0.5
         ${className}
       `}
-      aria-label={`Note Google : ${data.rating} sur 5 basée sur ${data.reviewCount} avis. Voir sur Google Maps.`}
+      aria-label={`Note Google : ${data.rating} sur 5 basée sur ${data.reviewCount} avis. Voir les avis Google.`}
     >
       {/* Logo Google */}
       <GoogleLogo size={24} />

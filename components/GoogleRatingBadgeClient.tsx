@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react"
 import { StarRating } from "@/components/GoogleRatingBadge"
 import type { GoogleReviewsResponse } from "@/lib/google-places"
-import { GOOGLE_MAPS_URL } from "@/lib/local-seo-data"
+import { GOOGLE_REVIEWS_URL } from "@/lib/local-seo-data"
 
 // -----------------------------------------------------------------------------
 // Interfaces
@@ -99,7 +99,7 @@ export default function GoogleRatingBadgeClient({
 
   return (
     <a
-      href={data.googleMapsUrl || GOOGLE_MAPS_URL}
+      href={GOOGLE_REVIEWS_URL}
       target="_blank"
       rel="noopener noreferrer"
       className={`
@@ -109,7 +109,7 @@ export default function GoogleRatingBadgeClient({
         hover:shadow-md hover:border-neutral-300 hover:-translate-y-0.5
         ${className}
       `}
-      aria-label={`Note Google : ${data.rating} sur 5 basée sur ${data.reviewCount} avis. Voir sur Google Maps.`}
+      aria-label={`Note Google : ${data.rating} sur 5 basée sur ${data.reviewCount} avis. Voir les avis Google.`}
     >
       {/* Logo Google */}
       <GoogleLogo size={24} />
