@@ -35,13 +35,10 @@ export default buildConfig({
     },
   },
   
+  // Try multiple connection methods - will remove hardcoded values once we find which works
   db: postgresAdapter({
     pool: {
-      host: process.env.DB_HOST || 'db.abyprihmbknvctwnerzr.supabase.co',
-      port: parseInt(process.env.DB_PORT || '5432', 10),
-      database: process.env.DB_NAME || 'postgres',
-      user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || '',
+      connectionString: process.env.DATABASE_URL || 'postgresql://postgres.abyprihmbknvctwnerzr:PsmBgAXR4fjWOmG4@aws-0-eu-north-1.pooler.supabase.com:5432/postgres',
       ssl: { rejectUnauthorized: false },
     },
     schemaName: 'payload',
