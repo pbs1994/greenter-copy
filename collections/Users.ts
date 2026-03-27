@@ -96,8 +96,13 @@ export const Users: CollectionConfig = {
   access: {
     // Seuls les users authentifiés peuvent lire la liste des users
     read: ({ req }) => !!req.user,
-    // Seuls les admins peuvent créer de nouveaux users
-    create: ({ req }) => req.user?.role === 'admin',
+    // Seuls les admins peuvent créer de nouveaux users (sauf le tout premier)
+    create: async ({ req }) => {
+      // Permettre la création du premier utilisateur (page d'onboarding Payload)
+      const usersCount = await req.payload.count({ collection: 'users' })
+      if (usersCount.totalDocs === 0) return true
+      return req.user?.role === 'admin'
+    },
     // Les users peuvent modifier leur propre profil, les admins peuvent tout modifier
     update: ({ req }) => {
       if (req.user?.role === 'admin') return true
@@ -110,8 +115,12 @@ export const Users: CollectionConfig = {
     },
     // Seuls les admins peuvent supprimer des users
     delete: ({ req }) => req.user?.role === 'admin',
-    // Désactiver complètement l'accès admin pour les non-authentifiés
-    admin: ({ req }) => !!req.user,
+    // Désactiver complètement l'accès admin pour les non-authentifiés (sauf onboarding)
+    admin: async ({ req }) => {
+      if (req.user) return true
+      const usersCount = await req.payload.count({ collection: 'users' })
+      return usersCount.totalDocs === 0
+    },
   },
   fields: [
     {
