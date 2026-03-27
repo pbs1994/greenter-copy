@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { syncProductToStripe } from '@/hooks/syncProductToStripe'
+import { syncProductToPublic, deleteProductFromPublic } from '@/hooks/syncProductToPublic'
 import { ProductBlocks } from '@/blocks'
 
 /**
@@ -50,7 +51,8 @@ export const Products: CollectionConfig = {
     read: () => true, // Public access for products
   },
   hooks: {
-    afterChange: [syncProductToStripe],
+    afterChange: [syncProductToStripe, syncProductToPublic],
+    afterDelete: [deleteProductFromPublic],
   },
   fields: [
     // Basic fields - Requirement 2.1
