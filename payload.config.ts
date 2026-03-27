@@ -1,5 +1,5 @@
 import { buildConfig } from 'payload'
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -35,9 +35,14 @@ export default buildConfig({
     },
   },
   
-  db: vercelPostgresAdapter({
+  db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      host: process.env.DB_HOST || 'db.abyprihmbknvctwnerzr.supabase.co',
+      port: parseInt(process.env.DB_PORT || '5432', 10),
+      database: process.env.DB_NAME || 'postgres',
+      user: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASSWORD || '',
+      ssl: { rejectUnauthorized: false },
     },
     schemaName: 'payload',
   }),
