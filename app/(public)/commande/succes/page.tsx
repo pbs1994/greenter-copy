@@ -1,141 +1,74 @@
-'use client'
-
-import { useEffect, useState, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CheckCircle, Phone, Mail, Truck, Wrench, Shield, Clock, FileText, ChevronRight, Download, Settings, MapPin } from 'lucide-react'
-import { useObfuscatedEmail } from '@/components/ObfuscatedEmail'
+import { CheckCircle, Phone, Mail, Truck, Wrench, Clock, ChevronRight, Download, Settings, MapPin } from 'lucide-react'
+import Stripe from 'stripe'
+import { notFound } from 'next/navigation'
+import { ConversionTracker } from './ConversionTracker'
+import { EmailButton } from './EmailButton'
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void
-    dataLayer?: unknown[]
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-12-15.clover',
+})
+
+interface Props {
+  searchParams: Promise<{ session_id?: string }>
+}
+
+async function getOrder(sessionId: string) {
+  const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: ['payment_intent', 'line_items', 'line_items.data.price.product'],
+  })
+
+  if (!session || session.payment_status !== 'paid') return null
+
+  const paymentIntent = session.payment_intent as Stripe.PaymentIntent
+  let receiptUrl = null
+  if (paymentIntent?.id) {
+    const charges = await stripe.charges.list({ payment_intent: paymentIntent.id, limit: 1 })
+    if (charges.data.length > 0) receiptUrl = charges.data[0].receipt_url
   }
-}
 
-interface OrderItem {
-  name: string
-  description: string | null
-  quantity: number
-  unitPrice: number
-  total: number
-  image: string | null
-}
+  const items = session.line_items?.data.map((item) => {
+    const product = item.price?.product as Stripe.Product | undefined
+    return {
+      name: product?.name || 'Produit',
+      description: product?.description || null,
+      quantity: item.quantity || 1,
+      unitPrice: item.price?.unit_amount ? item.price.unit_amount / 100 : 0,
+      total: item.amount_total ? item.amount_total / 100 : 0,
+      image: product?.images?.[0] || null,
+    }
+  }) || []
 
-interface OrderDetails {
-  id: string
-  orderNumber: string
-  status: string
-  amount: number
-  currency: string
-  customerEmail: string | null
-  customerName: string | null
-  customerPhone: string | null
-  shippingAddress: {
-    line1?: string
-    line2?: string
-    city?: string
-    postal_code?: string
-    country?: string
-  } | null
-  items: OrderItem[]
-  receiptUrl: string | null
-  createdAt: string
+  return {
+    id: session.id,
+    orderNumber: `GRT-${session.id.slice(-8).toUpperCase()}`,
+    amount: session.amount_total ? session.amount_total / 100 : 0,
+    currency: session.currency?.toUpperCase() || 'EUR',
+    customerEmail: session.customer_details?.email || null,
+    customerName: session.customer_details?.name || null,
+    customerPhone: session.customer_details?.phone || null,
+    shippingAddress: (session as { shipping_details?: { address?: Stripe.Address } }).shipping_details?.address || null,
+    items,
+    receiptUrl,
+    createdAt: new Date(session.created * 1000).toISOString(),
+  }
 }
 
 const steps = [
-  {
-    number: "1",
-    title: "Confirmation par email",
-    description: "Récapitulatif de commande envoyé dans les prochaines minutes.",
-    icon: Mail,
-    done: true,
-  },
-  {
-    number: "2",
-    title: "Livraison",
-    description: "Livraison à domicile sous 2 à 4 jours ouvrés.",
-    icon: Truck,
-    done: false,
-  },
-  {
-    number: "3",
-    title: "Installation & mise en service",
-    description: "Installation complète en 1 journée par nos techniciens certifiés RGE.",
-    icon: Settings,
-    done: false,
-  },
+  { title: "Confirmation par email", description: "Récapitulatif de commande envoyé dans les prochaines minutes.", icon: Mail, done: true },
+  { title: "Livraison", description: "Livraison à domicile sous 2 à 4 jours ouvrés.", icon: Truck, done: false },
+  { title: "Installation & mise en service", description: "Installation complète en 1 journée par nos techniciens certifiés RGE.", icon: Settings, done: false },
 ]
 
-function SuccessContent() {
-  const searchParams = useSearchParams()
-  const sessionId = searchParams.get('session_id')
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
-  const [order, setOrder] = useState<OrderDetails | null>(null)
-  const decodedEmail = useObfuscatedEmail()
+export default async function SuccessPage({ searchParams }: Props) {
+  const { session_id: sessionId } = await searchParams
 
-  useEffect(() => {
-    if (!sessionId) {
-      setStatus('error')
-      return
-    }
+  if (!sessionId) notFound()
 
-    const fetchOrder = async () => {
-      try {
-        const response = await fetch(`/api/order/${sessionId}`)
-        if (!response.ok) throw new Error('Failed to fetch order')
+  const order = await getOrder(sessionId)
 
-        const orderData = await response.json()
-        setOrder(orderData)
-
-        // Google Ads conversion tracking
-        if (typeof window !== 'undefined') {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            'event': 'purchase',
-            'transaction_id': sessionId,
-            'value': orderData.amount,
-            'currency': 'EUR',
-            'items': orderData.items.map((item: OrderItem) => ({
-              'item_name': item.name,
-              'price': item.unitPrice,
-              'quantity': item.quantity,
-            })),
-          });
-
-          if (window.gtag) {
-            window.gtag('event', 'conversion', {
-              'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
-              'value': orderData.amount,
-              'currency': 'EUR',
-              'transaction_id': sessionId,
-            });
-          }
-        }
-
-        setStatus('success')
-      } catch (error) {
-        console.error('Error:', error)
-        setStatus('error')
-      }
-    }
-
-    fetchOrder()
-  }, [sessionId])
-
-  if (status === 'loading') {
-    return (
-      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-neutral-50">
-        <div className="text-center">
-          <div className="w-12 h-12 border-3 border-neutral-200 border-t-green-600 rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-neutral-500">Confirmation en cours...</p>
-        </div>
-      </main>
-    )
-  }
-
-  if (status === 'error' || !order) {
+  if (!order) {
     return (
       <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-neutral-50 px-4">
         <div className="text-center max-w-md">
@@ -158,13 +91,22 @@ function SuccessContent() {
   }
 
   const orderDate = new Date(order.createdAt).toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+    day: 'numeric', month: 'long', year: 'numeric',
   })
 
   return (
     <main className="min-h-[calc(100vh-80px)] bg-neutral-50">
+      {/* Google Ads conversion tracking (client-side) */}
+      <ConversionTracker
+        sessionId={sessionId}
+        amount={order.amount}
+        items={order.items.map((item) => ({
+          name: item.name,
+          price: item.unitPrice,
+          quantity: item.quantity,
+        }))}
+      />
+
       {/* Header */}
       <div className="bg-gradient-to-br from-green-600 via-green-700 to-teal-700 text-white">
         <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16 text-center">
@@ -271,38 +213,28 @@ function SuccessContent() {
             {/* Timeline des étapes */}
             <div className="bg-white rounded-2xl shadow-lg ring-1 ring-neutral-100 p-6">
               <h2 className="font-semibold text-neutral-900 mb-6">Prochaines étapes</h2>
-
               <div className="relative">
-                {/* Ligne verticale */}
                 <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-neutral-200" />
-
                 <div className="space-y-6">
                   {steps.map((step, index) => {
                     const Icon = step.icon
                     return (
                       <div key={index} className="relative flex gap-5">
                         <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 shadow-md ${
-                          step.done
-                            ? 'bg-green-600'
-                            : 'bg-white ring-2 ring-neutral-200'
+                          step.done ? 'bg-green-600' : 'bg-white ring-2 ring-neutral-200'
                         }`}>
                           <Icon className={`w-5 h-5 ${step.done ? 'text-white' : 'text-neutral-400'}`} />
                         </div>
-
                         <div className="flex-1 pb-2">
                           <div className="flex items-center gap-2 mb-1">
                             <h3 className={`font-semibold text-sm ${step.done ? 'text-green-700' : 'text-neutral-900'}`}>
                               {step.title}
                             </h3>
                             {step.done && (
-                              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                                Fait
-                              </span>
+                              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Fait</span>
                             )}
                           </div>
-                          <p className="text-sm text-neutral-500">
-                            {step.description}
-                          </p>
+                          <p className="text-sm text-neutral-500">{step.description}</p>
                         </div>
                       </div>
                     )
@@ -373,7 +305,6 @@ function SuccessContent() {
                 <Clock className="w-3.5 h-3.5" />
                 Lun - Ven : 9h - 19h
               </p>
-
               <div className="space-y-2">
                 <a
                   href="tel:+33609455056"
@@ -382,13 +313,7 @@ function SuccessContent() {
                   <Phone className="w-4 h-4" />
                   06 09 45 50 56
                 </a>
-                <button
-                  onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}?subject=Commande ${order.orderNumber}`)}
-                  className="w-full flex items-center justify-center gap-2 bg-green-800 text-white font-medium text-sm py-2.5 rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  <Mail className="w-4 h-4" />
-                  Envoyer un email
-                </button>
+                <EmailButton orderNumber={order.orderNumber} />
               </div>
             </div>
           </div>
@@ -406,17 +331,5 @@ function SuccessContent() {
         </div>
       </div>
     </main>
-  )
-}
-
-export default function SuccessPage() {
-  return (
-    <Suspense fallback={
-      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-neutral-50">
-        <div className="w-12 h-12 border-3 border-neutral-200 border-t-green-600 rounded-full animate-spin" />
-      </main>
-    }>
-      <SuccessContent />
-    </Suspense>
   )
 }
