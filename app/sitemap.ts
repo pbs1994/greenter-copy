@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       productPages = products
         .filter((p) => p.category && p.slug)
         .map((p) => ({
-          url: `${baseUrl}/produits/${(p.category as { slug: string }).slug}/${p.slug}`,
+          url: `${baseUrl}/produits/${(p.category as unknown as { slug: string }).slug}/${p.slug}`,
           lastModified: p.updated_at ? new Date(p.updated_at) : currentDate,
           changeFrequency: 'weekly' as const,
           priority: 0.8,
