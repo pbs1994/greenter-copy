@@ -7,6 +7,28 @@ import { KstarOnduleurPage } from "@/components/products/KstarOnduleurPage"
 import { KstarBatteriePage } from "@/components/products/KstarBatteriePage"
 import type { Product, Category } from "@/types/database"
 
+export const revalidate = 3600 // Revalidate every hour
+
+export async function generateStaticParams() {
+  try {
+    const { data: products } = await supabase
+      .from('products')
+      .select('slug, category:categories(slug)')
+      .eq('is_active', true)
+
+    if (!products) return []
+
+    return products
+      .filter((p) => p.slug && p.category)
+      .map((p) => ({
+        categorySlug: (p.category as unknown as { slug: string }).slug,
+        productSlug: p.slug,
+      }))
+  } catch {
+    return []
+  }
+}
+
 interface Props {
   params: Promise<{ categorySlug: string; productSlug: string }>
 }

@@ -44,12 +44,22 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/produits/kstar-blue-s-6kw',
-        destination: '/produits/batterie-solaire-kstar-6kw',
+        destination: '/produits/stockage-solaire/batterie-solaire-lifepo4-5kwh',
         permanent: true,
       },
       {
         source: '/produits/batterie-solaire-kstar-6kw',
-        destination: '/produits/batteries-solaires/kstar-blues-6kw',
+        destination: '/produits/stockage-solaire/batterie-solaire-lifepo4-5kwh',
+        permanent: true,
+      },
+      {
+        source: '/produits/batteries-solaires/kstar-blues-6kw',
+        destination: '/produits/stockage-solaire/batterie-solaire-lifepo4-5kwh',
+        permanent: true,
+      },
+      {
+        source: '/produits/batteries-solaires/:path*',
+        destination: '/produits/stockage-solaire/:path*',
         permanent: true,
       },
     ];

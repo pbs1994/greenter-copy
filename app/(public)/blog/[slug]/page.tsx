@@ -35,6 +35,22 @@ interface BlogPost {
 
 export const revalidate = 1800 // Revalidate every 30 minutes
 
+export async function generateStaticParams() {
+  try {
+    const payload = await getPayloadClient()
+    const posts = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      limit: 100,
+    })
+    return posts.docs
+      .filter((post) => post.slug)
+      .map((post) => ({ slug: post.slug as string }))
+  } catch {
+    return []
+  }
+}
+
 interface Props {
   params: Promise<{ slug: string }>
 }

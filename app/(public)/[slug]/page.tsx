@@ -25,9 +25,27 @@ const RESERVED_SLUGS = [
   'api',
 ]
 
+export const revalidate = 3600 // Revalidate every hour
+
+export async function generateStaticParams() {
+  try {
+    const payload = await getPayloadClient()
+    const { docs: pages } = await payload.find({
+      collection: 'pages',
+      where: { status: { equals: 'published' } },
+      limit: 100,
+    })
+    return pages
+      .filter((p) => p.slug && !RESERVED_SLUGS.includes(p.slug))
+      .map((p) => ({ slug: p.slug as string }))
+  } catch {
+    return []
+  }
+}
+
 /**
  * Generate metadata for SEO
- * 
+ *
  * @validates Requirements 21.3
  */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -8,6 +8,21 @@ import { formatEUR } from "@/lib/format"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import type { Category, Product } from "@/types/database"
 
+export const revalidate = 3600 // Revalidate every hour
+
+export async function generateStaticParams() {
+  try {
+    const { data: categories } = await supabase
+      .from('categories')
+      .select('slug')
+
+    if (!categories) return []
+    return categories.map((c) => ({ categorySlug: c.slug }))
+  } catch {
+    return []
+  }
+}
+
 interface Props {
   params: Promise<{ categorySlug: string }>
 }
