@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
 import fs from 'fs'
@@ -7,6 +8,23 @@ import path from 'path'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
+
+// Rate limiting
+const requestCounts = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT = 5
+const RATE_WINDOW = 60 * 1000
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const record = requestCounts.get(ip)
+  if (!record || now > record.resetTime) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
+    return false
+  }
+  if (record.count >= RATE_LIMIT) return true
+  record.count++
+  return false
+}
 
 // Formater un nombre en prix
 function formatPrice(value: number): string {
@@ -44,6 +62,12 @@ export async function GET(
   { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
+    const headersList = await headers()
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0] || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
+    }
+
     const { sessionId } = await params
 
     if (!sessionId) {

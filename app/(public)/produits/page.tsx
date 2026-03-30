@@ -10,12 +10,12 @@ import type { Category, Product } from "@/types/database"
 export const revalidate = 3600 // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "Nos Produits | Batteries Solaires & Équipements Énergie | Greenter",
-  description: "Découvrez notre catalogue de batteries solaires, onduleurs hybrides et équipements pour l'autoconsommation. Livraison et installation offerts. Prix compétitifs.",
-  keywords: ["batterie solaire", "onduleur hybride", "stockage énergie", "KSTAR", "LiFePO4", "autoconsommation"],
+  title: "Nos Produits | Stockage Solaire & Équipements Énergie | Greenter",
+  description: "Découvrez notre catalogue de stockage solaire, onduleurs hybrides et batteries LiFePO4 pour l'autoconsommation. Livraison et installation offerts. Prix compétitifs.",
+  keywords: ["stockage solaire", "batterie solaire", "onduleur hybride", "KSTAR", "LiFePO4", "autoconsommation"],
   openGraph: {
     title: "Nos Produits | Greenter",
-    description: "Batteries solaires et équipements pour l'autoconsommation. Livraison et installation offerts.",
+    description: "Stockage solaire et équipements pour l'autoconsommation. Livraison et installation offerts.",
     url: "https://greenter.fr/produits",
     siteName: "Greenter",
     locale: "fr_FR",

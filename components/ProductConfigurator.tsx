@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Check, Battery, Zap, Plus, Minus, Info } from 'lucide-react'
+import { getExtraBatteryPrice, DEFAULT_PRODUCT_PRICES } from '@/lib/pricing-constants'
 
 type ConfigType = 'bundle' | 'inverter' | 'battery'
 
@@ -29,10 +30,7 @@ function formatPrice(cents: number): string {
 }
 
 // Prix par défaut si non fournis
-const DEFAULT_PRICES = {
-  inverter: 249900,
-  battery: 349900,
-}
+const DEFAULT_PRICES = DEFAULT_PRODUCT_PRICES
 
 export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', prices, productIds }: ProductConfiguratorProps) {
   const [selectedConfig, setSelectedConfig] = useState<ConfigType>(defaultConfig)
@@ -43,7 +41,7 @@ export function ProductConfigurator({ onConfigChange, defaultConfig = 'bundle', 
     inverter: prices?.inverter || DEFAULT_PRICES.inverter,
     battery: prices?.battery || DEFAULT_PRICES.battery,
     bundle: (prices?.inverter || DEFAULT_PRICES.inverter) + (prices?.battery || DEFAULT_PRICES.battery),
-    extraBattery: Math.round((prices?.battery || DEFAULT_PRICES.battery) * 0.857), // ~15% réduction
+    extraBattery: getExtraBatteryPrice(prices?.battery || DEFAULT_PRICES.battery),
   }
 
   // Calcul du prix

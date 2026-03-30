@@ -1,7 +1,10 @@
--- Greenter E-commerce Initial Data Migration
--- This file seeds the database with the initial category and product data.
--- Execute this file in the Supabase SQL editor AFTER running schema.sql.
--- Uses ON CONFLICT to safely re-run without duplicating data.
+-- ⚠️ DEPRECATED: This file is the ORIGINAL seed from early development.
+-- The current product structure uses kstar-products.sql instead.
+-- Category "batteries-solaires" has been replaced by "stockage-solaire"
+-- with 3 separate products (onduleur, batterie, kit).
+-- DO NOT RUN this file on production — use kstar-products.sql instead.
+--
+-- Kept for historical reference only.
 
 -- ============================================================================
 -- CATEGORY: Batteries solaires

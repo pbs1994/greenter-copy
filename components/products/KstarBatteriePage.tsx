@@ -8,6 +8,7 @@ import { ProductSchema } from "@/components/schemas/ProductSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { BuyButton } from "@/components/BuyButton"
+import { getExtraBatteryPrice } from "@/lib/pricing-constants"
 import type { Product, Category, FAQItem } from "@/types/database"
 
 function formatPrice(cents: number): string {
@@ -28,7 +29,7 @@ export function KstarBatteriePage({ product, prices, productIds }: KstarBatterie
   const PRICES = {
     inverter: prices.inverter,
     battery: prices.battery,
-    extraBattery: Math.round(prices.battery * 0.857), // ~15% de réduction sur batteries supplémentaires
+    extraBattery: getExtraBatteryPrice(prices.battery),
   }
   
   const pricing = useMemo(() => {

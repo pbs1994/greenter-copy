@@ -1,17 +1,32 @@
 import { NextResponse } from "next/server"
+import { headers } from "next/headers"
 import { fetchGoogleReviews } from "@/lib/google-places"
 
-/**
- * GET /api/google-reviews
- *
- * Récupère les avis Google via l'API Google Places (New).
- * Les résultats sont mis en cache pendant 24 heures (revalidate: 86400)
- * via le mécanisme de cache Next.js dans fetchGoogleReviews.
- *
- * En cas d'erreur API, retourne les données par défaut (fallback).
- */
+// Rate limiting
+const requestCounts = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT = 15
+const RATE_WINDOW = 60 * 1000
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const record = requestCounts.get(ip)
+  if (!record || now > record.resetTime) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
+    return false
+  }
+  if (record.count >= RATE_LIMIT) return true
+  record.count++
+  return false
+}
+
 export async function GET() {
   try {
+    const headersList = await headers()
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0] || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
+    }
+
     const data = await fetchGoogleReviews({ revalidate: 86400 })
 
     return NextResponse.json(data)
