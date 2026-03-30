@@ -33,6 +33,8 @@ interface BlogPost {
   updatedAt?: string | null
 }
 
+export const revalidate = 1800 // Revalidate every 30 minutes
+
 interface Props {
   params: Promise<{ slug: string }>
 }

@@ -7,6 +7,8 @@ import { supabase } from "@/lib/supabase"
 import { formatEUR } from "@/lib/format"
 import type { Category, Product } from "@/types/database"
 
+export const revalidate = 3600 // Revalidate every hour
+
 export const metadata: Metadata = {
   title: "Nos Produits | Batteries Solaires & Équipements Énergie | Greenter",
   description: "Découvrez notre catalogue de batteries solaires, onduleurs hybrides et équipements pour l'autoconsommation. Livraison et installation offerts. Prix compétitifs.",

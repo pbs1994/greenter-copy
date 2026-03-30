@@ -20,6 +20,8 @@ import { MaintenanceFAQSection } from "@/components/maintenance/MaintenanceFAQSe
 import { ServiceDetailModal } from "@/components/maintenance/ServiceDetailModal"
 import { OptionDetailModal } from "@/components/maintenance/OptionDetailModal"
 
+export const revalidate = 3600 // Revalidate every hour
+
 const guarantees = [
   {
     icon: Shield,
