@@ -42,16 +42,13 @@ greenter/
 │   ├── api/                # Next.js API routes
 │   │   ├── checkout/       # Stripe checkout (products + maintenance)
 │   │   ├── webhook/stripe/ # Stripe webhook handler
-│   │   ├── order/          # Order retrieval
 │   │   ├── invoice/        # PDF invoice generation
 │   │   ├── contact/        # Contact form submission
 │   │   ├── maintenance-services/ # Active services API
 │   │   ├── product-price/  # Product pricing
 │   │   ├── google-reviews/ # Google reviews fetch
-│   │   ├── send-email/     # Transactional emails
-│   │   ├── send-order-emails/ # Order email notifications
-│   │   ├── blog/create/    # Blog creation
-│   │   └── upload/         # File upload
+│   │   ├── video-stream/   # Video streaming proxy
+│   │   └── video-url/      # Video URL resolution
 │   ├── layout.tsx          # Root layout
 │   ├── robots.ts           # SEO robots
 │   └── sitemap.ts          # SEO sitemap
