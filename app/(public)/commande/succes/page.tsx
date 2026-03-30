@@ -4,8 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CheckCircle, Phone, Mail, Truck, Wrench, Shield, Clock, FileText, ChevronRight, Battery, Sun, Download, Settings, MapPin } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { CheckCircle, Phone, Mail, Truck, Wrench, Shield, Clock, FileText, ChevronRight, Download, Settings, MapPin } from 'lucide-react'
 import { useObfuscatedEmail } from '@/components/ObfuscatedEmail'
 
 declare global {
@@ -13,6 +12,15 @@ declare global {
     gtag?: (...args: unknown[]) => void
     dataLayer?: unknown[]
   }
+}
+
+interface OrderItem {
+  name: string
+  description: string | null
+  quantity: number
+  unitPrice: number
+  total: number
+  image: string | null
 }
 
 interface OrderDetails {
@@ -31,6 +39,7 @@ interface OrderDetails {
     postal_code?: string
     country?: string
   } | null
+  items: OrderItem[]
   receiptUrl: string | null
   createdAt: string
 }
@@ -59,95 +68,28 @@ const steps = [
   },
 ]
 
-// Données de test pour le mode test
-const TEST_ORDER: OrderDetails = {
-  id: 'test-123',
-  orderNumber: 'TEST-2024-001',
-  status: 'paid',
-  amount: 2500,
-  currency: 'EUR',
-  customerEmail: 'test@example.com',
-  customerName: 'Jean Test',
-  customerPhone: '0600000000',
-  shippingAddress: {
-    line1: '123 Rue de Test',
-    city: 'Paris',
-    postal_code: '75001',
-    country: 'FR'
-  },
-  receiptUrl: null,
-  createdAt: new Date().toISOString()
-}
-
 function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
-  const isTestMode = searchParams.get('test') === 'true'
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [order, setOrder] = useState<OrderDetails | null>(null)
   const decodedEmail = useObfuscatedEmail()
 
   useEffect(() => {
-    // Mode test : afficher des données fictives sans appeler Stripe
-    if (isTestMode) {
-      setOrder(TEST_ORDER)
-      setStatus('success')
-      
-      // Déclencher le tracking Google Ads en mode test
-      if (typeof window !== 'undefined') {
-        console.log('🧪 MODE TEST - Google Ads tracking:')
-        
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          'event': 'purchase',
-          'transaction_id': 'TEST-' + Date.now(),
-          'value': TEST_ORDER.amount,
-          'currency': 'EUR',
-          'items': [{
-            'item_name': 'KSTAR BluE-S 6kW',
-            'price': TEST_ORDER.amount,
-            'quantity': 1
-          }]
-        });
-        console.log('✅ dataLayer.push effectué:', window.dataLayer)
-        
-        if (window.gtag) {
-          window.gtag('event', 'conversion', {
-            'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
-            'value': TEST_ORDER.amount,
-            'currency': 'EUR',
-            'transaction_id': 'TEST-' + Date.now()
-          });
-          console.log('✅ gtag conversion envoyée')
-        } else {
-          console.log('⚠️ gtag non disponible')
-        }
-      }
-      return
-    }
-
     if (!sessionId) {
       setStatus('error')
       return
     }
 
-    const fetchOrderAndSave = async () => {
+    const fetchOrder = async () => {
       try {
-        // Récupérer les détails depuis l'API Stripe
         const response = await fetch(`/api/order/${sessionId}`)
         if (!response.ok) throw new Error('Failed to fetch order')
-        
+
         const orderData = await response.json()
         setOrder(orderData)
 
-        // Sauvegarder dans Supabase si pas déjà fait
-        const { data: existing } = await supabase
-          .from('orders')
-          .select('id, email_sent')
-          .eq('stripe_session_id', sessionId)
-          .single()
-
-        // Google Ads conversion tracking via dataLayer (GTM)
+        // Google Ads conversion tracking
         if (typeof window !== 'undefined') {
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
@@ -155,74 +97,20 @@ function SuccessContent() {
             'transaction_id': sessionId,
             'value': orderData.amount,
             'currency': 'EUR',
-            'items': [{
-              'item_name': 'KSTAR BluE-S 6kW',
-              'price': orderData.amount,
-              'quantity': 1
-            }]
+            'items': orderData.items.map((item: OrderItem) => ({
+              'item_name': item.name,
+              'price': item.unitPrice,
+              'quantity': item.quantity,
+            })),
           });
-          
-          // Google Ads conversion tracking direct (gtag)
+
           if (window.gtag) {
             window.gtag('event', 'conversion', {
               'send_to': 'AW-17839863014/BTP5CNrp-ewbEObp2rpC',
               'value': orderData.amount,
               'currency': 'EUR',
-              'transaction_id': sessionId
+              'transaction_id': sessionId,
             });
-          }
-        }
-
-        if (!existing) {
-          await supabase.from('orders').insert({
-            stripe_session_id: sessionId,
-            product_name: 'KSTAR BluE-S 6kW',
-            amount: orderData.amount,
-            status: 'paid',
-            customer_email: orderData.customerEmail,
-            customer_name: orderData.customerName,
-            created_at: orderData.createdAt,
-            email_sent: false,
-          })
-        }
-
-        // Envoyer les emails si pas encore fait
-        if (!existing?.email_sent && orderData.customerEmail) {
-          try {
-            const orderDate = new Date(orderData.createdAt).toLocaleDateString('fr-FR', { 
-              day: 'numeric', 
-              month: 'long', 
-              year: 'numeric' 
-            })
-
-            const emailResponse = await fetch('/api/send-order-emails', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                sessionId,
-                orderData: {
-                  orderNumber: orderData.orderNumber,
-                  customerName: orderData.customerName || 'Client',
-                  customerEmail: orderData.customerEmail,
-                  customerPhone: orderData.customerPhone,
-                  shippingAddress: orderData.shippingAddress,
-                  productName: 'KSTAR BluE-S 6kW',
-                  amount: orderData.amount,
-                  orderDate,
-                },
-              }),
-            })
-
-            if (emailResponse.ok) {
-              // Marquer les emails comme envoyés
-              await supabase
-                .from('orders')
-                .update({ email_sent: true })
-                .eq('stripe_session_id', sessionId)
-            }
-          } catch (emailError) {
-            console.error('Error sending emails:', emailError)
-            // Ne pas bloquer la page si l'email échoue
           }
         }
 
@@ -233,7 +121,7 @@ function SuccessContent() {
       }
     }
 
-    fetchOrderAndSave()
+    fetchOrder()
   }, [sessionId])
 
   if (status === 'loading') {
@@ -269,10 +157,10 @@ function SuccessContent() {
     )
   }
 
-  const orderDate = new Date(order.createdAt).toLocaleDateString('fr-FR', { 
-    day: 'numeric', 
-    month: 'long', 
-    year: 'numeric' 
+  const orderDate = new Date(order.createdAt).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
   })
 
   return (
@@ -298,44 +186,49 @@ function SuccessContent() {
 
       <div className="container mx-auto max-w-4xl px-4 -mt-6">
         <div className="grid lg:grid-cols-5 gap-6">
-          
+
           {/* Colonne principale */}
           <div className="lg:col-span-3 space-y-6">
-            
-            {/* Produit commandé */}
+
+            {/* Produits commandés */}
             <div className="bg-white rounded-2xl shadow-lg ring-1 ring-neutral-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-neutral-100">
                 <h2 className="font-semibold text-neutral-900">Votre commande</h2>
               </div>
-              <div className="p-6">
-                <div className="flex gap-5">
-                  <div className="w-24 h-24 bg-gradient-to-br from-green-50 to-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Image
-                      src="/kstar.png"
-                      alt="KSTAR BluE-S 6kW"
-                      width={80}
-                      height={80}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-neutral-900 mb-1">KSTAR BluE-S 6kW</h3>
-                    <p className="text-sm text-neutral-500 mb-3">Onduleur hybride avec stockage LiFePO4</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className="inline-flex items-center gap-1 text-xs text-neutral-600 bg-neutral-100 px-2 py-1 rounded">
-                        <Battery className="w-3 h-3" /> 10 000 cycles
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs text-neutral-600 bg-neutral-100 px-2 py-1 rounded">
-                        <Sun className="w-3 h-3" /> 6 kW
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs text-neutral-600 bg-neutral-100 px-2 py-1 rounded">
-                        <Shield className="w-3 h-3" /> Garantie 10 ans
-                      </span>
+              <div className="p-6 space-y-4">
+                {order.items.map((item, index) => (
+                  <div key={index} className="flex gap-5">
+                    <div className="w-24 h-24 bg-gradient-to-br from-green-50 to-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                      {item.image ? (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={80}
+                          height={80}
+                          className="object-contain"
+                        />
+                      ) : (
+                        <Wrench className="w-8 h-8 text-green-600" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-neutral-900 mb-1">{item.name}</h3>
+                      {item.description && (
+                        <p className="text-sm text-neutral-500 mb-2">{item.description}</p>
+                      )}
+                      <div className="flex items-center gap-3 text-sm">
+                        {item.quantity > 1 && (
+                          <span className="text-neutral-500">Qté : {item.quantity}</span>
+                        )}
+                        <span className="font-medium text-neutral-900">
+                          {item.total.toLocaleString('fr-FR')} €
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
-              
+
               {/* Adresse de livraison */}
               {order.shippingAddress && (
                 <div className="px-6 py-4 border-t border-neutral-100">
@@ -354,7 +247,7 @@ function SuccessContent() {
                   </div>
                 </div>
               )}
-              
+
               {/* Services inclus */}
               <div className="px-6 py-4 bg-green-50/50 border-t border-green-100">
                 <p className="text-xs text-green-700 font-medium uppercase tracking-wider mb-3">Services inclus</p>
@@ -378,7 +271,7 @@ function SuccessContent() {
             {/* Timeline des étapes */}
             <div className="bg-white rounded-2xl shadow-lg ring-1 ring-neutral-100 p-6">
               <h2 className="font-semibold text-neutral-900 mb-6">Prochaines étapes</h2>
-              
+
               <div className="relative">
                 {/* Ligne verticale */}
                 <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-neutral-200" />
@@ -389,13 +282,13 @@ function SuccessContent() {
                     return (
                       <div key={index} className="relative flex gap-5">
                         <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 shadow-md ${
-                          step.done 
-                            ? 'bg-green-600' 
+                          step.done
+                            ? 'bg-green-600'
                             : 'bg-white ring-2 ring-neutral-200'
                         }`}>
                           <Icon className={`w-5 h-5 ${step.done ? 'text-white' : 'text-neutral-400'}`} />
                         </div>
-                        
+
                         <div className="flex-1 pb-2">
                           <div className="flex items-center gap-2 mb-1">
                             <h3 className={`font-semibold text-sm ${step.done ? 'text-green-700' : 'text-neutral-900'}`}>
@@ -421,7 +314,7 @@ function SuccessContent() {
 
           {/* Sidebar */}
           <div className="lg:col-span-2 space-y-6">
-            
+
             {/* Récapitulatif */}
             <div className="bg-white rounded-2xl shadow-lg ring-1 ring-neutral-100 overflow-hidden">
               <div className="px-5 py-4 border-b border-neutral-100">
@@ -439,10 +332,12 @@ function SuccessContent() {
                       <span className="text-neutral-900 text-right truncate ml-2">{order.customerEmail}</span>
                     </div>
                   )}
-                  <div className="flex justify-between">
-                    <span className="text-neutral-500">Produit</span>
-                    <span className="text-neutral-900">{order.amount.toLocaleString('fr-FR')} €</span>
-                  </div>
+                  {order.items.map((item, index) => (
+                    <div key={index} className="flex justify-between">
+                      <span className="text-neutral-500">{item.name}{item.quantity > 1 ? ` x${item.quantity}` : ''}</span>
+                      <span className="text-neutral-900">{item.total.toLocaleString('fr-FR')} €</span>
+                    </div>
+                  ))}
                   <div className="flex justify-between">
                     <span className="text-neutral-500">Livraison</span>
                     <span className="text-green-600">Offerte</span>
@@ -457,10 +352,10 @@ function SuccessContent() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Bouton facture */}
               <div className="px-5 pb-5">
-                <a 
+                <a
                   href={`/api/invoice/${sessionId}`}
                   download={`facture-${order.orderNumber}.pdf`}
                   className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium text-sm py-2.5 rounded-lg transition-colors"
@@ -478,16 +373,16 @@ function SuccessContent() {
                 <Clock className="w-3.5 h-3.5" />
                 Lun - Ven : 9h - 19h
               </p>
-              
+
               <div className="space-y-2">
-                <a 
-                  href="tel:+33609455056" 
+                <a
+                  href="tel:+33609455056"
                   className="w-full flex items-center justify-center gap-2 bg-white text-green-900 font-medium text-sm py-2.5 rounded-lg hover:bg-green-50 transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   06 09 45 50 56
                 </a>
-                <button 
+                <button
                   onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}?subject=Commande ${order.orderNumber}`)}
                   className="w-full flex items-center justify-center gap-2 bg-green-800 text-white font-medium text-sm py-2.5 rounded-lg hover:bg-green-700 transition-colors"
                 >
@@ -496,28 +391,12 @@ function SuccessContent() {
                 </button>
               </div>
             </div>
-
-            {/* Fiche technique */}
-            <a 
-              href="/KSTAR BLUE-S SERIES ESS 6KW.pdf" 
-              target="_blank"
-              className="flex items-center gap-3 bg-white rounded-xl p-4 ring-1 ring-neutral-100 hover:ring-green-200 hover:shadow-md transition-all group"
-            >
-              <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                <FileText className="w-5 h-5 text-green-600" />
-              </div>
-              <div className="flex-1">
-                <p className="font-medium text-neutral-900 text-sm">Fiche technique</p>
-                <p className="text-xs text-neutral-500">PDF - KSTAR BluE-S 6kW</p>
-              </div>
-              <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:text-green-600 transition-colors" />
-            </a>
           </div>
         </div>
 
         {/* Retour */}
         <div className="text-center py-10">
-          <Link 
+          <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-neutral-500 hover:text-neutral-900 text-sm transition-colors"
           >
