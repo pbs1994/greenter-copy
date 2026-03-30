@@ -17,18 +17,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Valider le format email pour éviter l'injection d'en-têtes
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const sanitizedEmail = email && emailRegex.test(email) ? email : undefined
+
     // Envoyer l'email au gérant
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
-      replyTo: email || undefined,
+      replyTo: sanitizedEmail,
       subject: `📩 Nouvelle demande de contact - ${name}`,
-      html: contactRequestTemplate({ 
-        name, 
-        email: email || 'Non renseigné', 
-        phone, 
-        service: service || '', 
-        message: message || 'Demande de devis' 
+      html: contactRequestTemplate({
+        name: name.replace(/[<>&"']/g, ''),
+        email: sanitizedEmail || 'Non renseigné',
+        phone: phone.replace(/[<>&"']/g, ''),
+        service: (service || '').replace(/[<>&"']/g, ''),
+        message: (message || 'Demande de devis').replace(/[<>&"']/g, ''),
       }),
     })
 

@@ -63,6 +63,18 @@ async function saveOrderToDatabase(session: Stripe.Checkout.Session) {
     throw customerError
   }
 
+  // Idempotence : vérifier si la commande existe déjà (webhook Stripe peut retenter)
+  const { data: existingOrder } = await supabase
+    .from('orders')
+    .select('id, order_number')
+    .eq('stripe_session_id', session.id)
+    .single()
+
+  if (existingOrder) {
+    console.log(`⏭️ Commande ${existingOrder.order_number} déjà existante, skip`)
+    return { order: existingOrder, customer: customerRecord }
+  }
+
   // Create order with 'paid' status (Requirements 8.1, 8.2, 8.3)
   const { data: order, error: orderError } = await supabase
     .from('orders')

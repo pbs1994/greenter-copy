@@ -14,6 +14,7 @@ import type {
   PricingSummary,
   BillingPeriod,
 } from '@/types/maintenance'
+import { calculatePricing } from '@/lib/maintenance-pricing'
 
 // Détails enrichis pour les options
 export const optionDetails: Record<string, { benefits: string[]; whyUseful: string }> = {
@@ -109,81 +110,18 @@ export const serviceIncludesDetails: Record<string, Record<string, string>> = {
 // Type for service quantities (serviceId -> quantity)
 export type ServiceQuantities = Record<string, number>
 
-// Calculate pricing with quantities
-function calculatePricingWithQuantities(
-  services: MaintenanceService[],
-  options: MaintenanceOption[],
-  serviceQuantities: ServiceQuantities,
-  selectedOptions: string[]
-): PricingSummary {
-  // Calculate services subtotal with quantities
-  let servicesSubtotal = 0
-  let totalServiceCount = 0
-  
-  for (const service of services) {
-    const qty = serviceQuantities[service.id] || 0
-    if (qty > 0) {
-      servicesSubtotal += service.price_monthly * qty
-      totalServiceCount += qty
+/**
+ * Convertit les quantites (Record<id, qty>) en tableau d'IDs avec doublons
+ * pour etre compatible avec calculatePricing de lib/maintenance-pricing.ts
+ */
+function quantitiesToServiceIds(quantities: ServiceQuantities): string[] {
+  const ids: string[] = []
+  for (const [id, qty] of Object.entries(quantities)) {
+    for (let i = 0; i < qty; i++) {
+      ids.push(id)
     }
   }
-
-  // Calculate discount based on total service count
-  let discountMultiPercent = 0
-  if (totalServiceCount >= 4) {
-    discountMultiPercent = 15
-  } else if (totalServiceCount === 3) {
-    discountMultiPercent = 10
-  } else if (totalServiceCount === 2) {
-    discountMultiPercent = 5
-  }
-
-  const discountMultiAmount = Math.round(servicesSubtotal * discountMultiPercent / 100)
-  const servicesAfterMulti = servicesSubtotal - discountMultiAmount
-
-  // Calculate options total
-  let optionsTotal = 0
-  let flatFeeTotal = 0
-  
-  for (const option of options) {
-    if (selectedOptions.includes(option.id)) {
-      if (option.is_flat_fee) {
-        flatFeeTotal += option.price_monthly
-      } else {
-        optionsTotal += option.price_monthly
-      }
-    }
-  }
-
-  // Total monthly (services after discount + recurring options)
-  const totalMonthly = servicesAfterMulti + optionsTotal
-
-  // Annual discount (2 months free = ~16.67%)
-  const discountAnnualPercent = 16.67
-  const monthlyBeforeAnnualDiscount = totalMonthly
-  const annualBeforeDiscount = monthlyBeforeAnnualDiscount * 12
-  const discountAnnualAmount = Math.round(monthlyBeforeAnnualDiscount * 2) // 2 mois offerts
-
-  // Total annual (10 months instead of 12 + flat fees)
-  const totalAnnual = annualBeforeDiscount - discountAnnualAmount + flatFeeTotal
-
-  // Savings
-  const savingsTotal = discountMultiAmount * 12
-
-  return {
-    servicesSubtotal,
-    discountMultiPercent,
-    discountMultiAmount,
-    servicesAfterMulti,
-    optionsTotal,
-    discountAnnualPercent,
-    discountAnnualAmount,
-    totalMonthly,
-    totalAnnual,
-    totalDisplay: totalMonthly,
-    savingsTotal,
-    flatFeeTotal,
-  }
+  return ids
 }
 
 // Context value interface
@@ -257,10 +195,16 @@ export function MaintenanceConfiguratorProvider({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Derived: pricing calculation
+  // Derived: pricing calculation (source unique : lib/maintenance-pricing.ts)
   const pricing = useMemo(
-    () => calculatePricingWithQuantities(services, options, selectedServices, selectedOptions),
-    [services, options, selectedServices, selectedOptions]
+    () => calculatePricing(
+      services,
+      options,
+      quantitiesToServiceIds(selectedServices),
+      selectedOptions,
+      billingPeriod === 'monthly' ? 'monthly' : 'yearly',
+    ),
+    [services, options, selectedServices, selectedOptions, billingPeriod]
   )
 
   // Derived: total service count
