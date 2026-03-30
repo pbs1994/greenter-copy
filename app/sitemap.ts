@@ -31,16 +31,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // Produits dynamiques depuis Supabase
+  // Produits dynamiques depuis Supabase (catégories + produits)
   let productPages: MetadataRoute.Sitemap = []
   try {
+    const { data: categories } = await supabase
+      .from('categories')
+      .select('slug')
+
+    if (categories) {
+      productPages = categories.map((c) => ({
+        url: `${baseUrl}/produits/${c.slug}`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.85,
+      }))
+    }
+
     const { data: products } = await supabase
       .from('products')
       .select('slug, category:categories(slug), updated_at')
       .eq('is_active', true)
 
     if (products) {
-      productPages = products
+      const pages = products
         .filter((p) => p.category && p.slug)
         .map((p) => ({
           url: `${baseUrl}/produits/${(p.category as unknown as { slug: string }).slug}/${p.slug}`,
@@ -48,6 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: 'weekly' as const,
           priority: 0.8,
         }))
+      productPages = [...productPages, ...pages]
     }
   } catch {
     // Silently continue if DB unavailable during build
