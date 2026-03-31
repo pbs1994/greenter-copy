@@ -4,10 +4,6 @@ import { syncProductToStripe } from '@/hooks/syncProductToStripe'
 import { syncProductToPublic, deleteProductFromPublic } from '@/hooks/syncProductToPublic'
 import { ProductBlocks } from '@/blocks'
 
-/**
- * Icon options for product features
- * Based on Lucide icons commonly used in the project
- */
 const ICON_OPTIONS = [
   { label: 'Soleil', value: 'sun' },
   { label: 'Batterie', value: 'battery' },
@@ -31,224 +27,275 @@ const ICON_OPTIONS = [
   { label: 'Info', value: 'info' },
 ]
 
-/**
- * Products Collection
- * 
- * Manages all products in the e-commerce store with rich content,
- * modular blocks, and Stripe integration.
- * 
- * @validates Requirements 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10, 2.11
- */
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'price', 'is_active', 'updatedAt'],
+    defaultColumns: ['name', 'category', 'price', 'is_active', 'is_featured', 'updatedAt'],
     description: 'Produits du catalogue',
     listSearchableFields: ['name', 'slug', 'short_description'],
   },
   access: {
-    read: () => true, // Public access for products
+    read: () => true,
   },
   hooks: {
     afterChange: [syncProductToStripe, syncProductToPublic],
     afterDelete: [deleteProductFromPublic],
   },
   fields: [
-    // Basic fields - Requirement 2.1
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-      label: 'Nom du produit',
-    },
-    // Slug auto-generated - Requirement 2.1, 2.11
-    slugField('name'),
-    {
-      name: 'price',
-      type: 'number',
-      required: true,
-      min: 0,
-      label: 'Prix (en centimes)',
-      admin: {
-        description: 'Prix en centimes d\'euro (ex: 24990 = 249,90€)',
-      },
-    },
-    {
-      name: 'short_description',
-      type: 'textarea',
-      label: 'Description courte',
-      admin: {
-        description: 'Résumé du produit affiché dans les listes',
-      },
-    },
-    {
-      name: 'is_active',
-      type: 'checkbox',
-      defaultValue: true,
-      label: 'Actif',
-      admin: {
-        description: 'Décocher pour masquer le produit du site',
-      },
-    },
-    // Stripe IDs - Requirement 2.1
-    {
-      name: 'stripe_product_id',
-      type: 'text',
-      label: 'Stripe Product ID',
-      admin: {
-        readOnly: true,
-        description: 'ID du produit Stripe (généré automatiquement)',
-      },
-    },
-    {
-      name: 'stripe_price_id',
-      type: 'text',
-      label: 'Stripe Price ID',
-      admin: {
-        readOnly: true,
-        description: 'ID du prix Stripe (généré automatiquement)',
-      },
-    },
-    // Category relationship - Requirement 2.2
-    {
-      name: 'category',
-      type: 'relationship',
-      relationTo: 'categories',
-      required: true,
-      label: 'Catégorie',
-      admin: {
-        description: 'Catégorie du produit',
-      },
-    },
-    // Rich Text description - Requirement 2.3
-    {
-      name: 'description',
-      type: 'richText',
-      label: 'Description détaillée',
-      admin: {
-        description: 'Description complète du produit avec formatage',
-      },
-    },
-    // Specs repeatable group - Requirement 2.4
-    {
-      name: 'specs',
-      type: 'array',
-      label: 'Spécifications techniques',
-      admin: {
-        description: 'Caractéristiques techniques du produit',
-      },
-      fields: [
+      type: 'tabs',
+      tabs: [
+        // ═══════════════════════════════════════
+        // TAB 1 : ESSENTIEL
+        // ═══════════════════════════════════════
         {
-          name: 'label',
-          type: 'text',
-          required: true,
-          label: 'Libellé',
+          label: 'Essentiel',
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+              label: 'Nom du produit',
+              admin: {
+                description: 'Ex: "Batterie Solaire LiFePO4 5kWh"',
+              },
+            },
+            slugField('name'),
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'category',
+                  type: 'relationship',
+                  relationTo: 'categories',
+                  required: true,
+                  label: 'Catégorie',
+                },
+                {
+                  name: 'price',
+                  type: 'number',
+                  required: true,
+                  min: 0,
+                  label: 'Prix (en centimes)',
+                  admin: {
+                    description: 'Ex: 249900 = 2 499,00 €',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'short_description',
+              type: 'textarea',
+              label: 'Description courte',
+              admin: {
+                description: 'Résumé affiché dans les listes et en haut de la page produit (1-2 phrases)',
+              },
+            },
+            {
+              name: 'main_image',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Image principale',
+              admin: {
+                description: 'Photo du produit sur fond blanc (min 800×800px)',
+              },
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'is_active',
+                  type: 'checkbox',
+                  defaultValue: true,
+                  label: 'Actif',
+                  admin: {
+                    description: 'Visible sur le site',
+                  },
+                },
+                {
+                  name: 'is_featured',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Produit vedette',
+                  admin: {
+                    description: 'Affiché en avant sur la page d\'accueil',
+                  },
+                },
+              ],
+            },
+          ],
         },
+
+        // ═══════════════════════════════════════
+        // TAB 2 : CONTENU
+        // ═══════════════════════════════════════
         {
-          name: 'value',
-          type: 'text',
-          required: true,
-          label: 'Valeur',
+          label: 'Contenu',
+          fields: [
+            {
+              name: 'description',
+              type: 'richText',
+              label: 'Description détaillée',
+              admin: {
+                description: 'Description complète avec formatage (visible sur la page produit)',
+              },
+            },
+            {
+              name: 'gallery',
+              type: 'array',
+              maxRows: 10,
+              label: 'Galerie d\'images',
+              admin: {
+                description: 'Photos supplémentaires du produit (max 10). Plus il y en a, mieux c\'est pour la conversion.',
+              },
+              fields: [
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  label: 'Image',
+                },
+              ],
+            },
+            {
+              name: 'features',
+              type: 'array',
+              label: 'Points forts',
+              admin: {
+                description: 'Les avantages clés du produit (6 recommandés). Affichés avec des icônes sur la page.',
+              },
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'select',
+                  options: ICON_OPTIONS,
+                  label: 'Icône',
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  label: 'Titre',
+                  admin: { description: 'Ex: "10 000 cycles"' },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: 'Description',
+                  admin: { description: 'Ex: "Cellules LiFePO4 CATL"' },
+                },
+              ],
+            },
+            {
+              name: 'faq',
+              type: 'array',
+              label: 'Questions fréquentes',
+              admin: {
+                description: 'FAQ spécifique au produit (aide le SEO et la conversion)',
+              },
+              fields: [
+                {
+                  name: 'question',
+                  type: 'text',
+                  required: true,
+                  label: 'Question',
+                },
+                {
+                  name: 'answer',
+                  type: 'richText',
+                  label: 'Réponse',
+                },
+              ],
+            },
+          ],
         },
+
+        // ═══════════════════════════════════════
+        // TAB 3 : TECHNIQUE
+        // ═══════════════════════════════════════
         {
-          name: 'unit',
-          type: 'text',
-          label: 'Unité',
-          admin: {
-            description: 'Unité de mesure (ex: kW, kWh, kg)',
-          },
+          label: 'Technique',
+          fields: [
+            {
+              name: 'specs',
+              type: 'array',
+              label: 'Spécifications techniques',
+              admin: {
+                description: 'Caractéristiques techniques (puissance, capacité, dimensions, etc.)',
+              },
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                  label: 'Libellé',
+                  admin: { description: 'Ex: "Puissance"' },
+                },
+                {
+                  name: 'value',
+                  type: 'text',
+                  required: true,
+                  label: 'Valeur',
+                  admin: { description: 'Ex: "5"' },
+                },
+                {
+                  name: 'unit',
+                  type: 'text',
+                  label: 'Unité',
+                  admin: { description: 'Ex: "kW", "kWh", "kg"' },
+                },
+              ],
+            },
+            {
+              name: 'blocks',
+              type: 'blocks',
+              label: 'Sections modulaires',
+              admin: {
+                description: 'Sections de contenu personnalisables (optionnel)',
+              },
+              blocks: ProductBlocks,
+            },
+          ],
+        },
+
+        // ═══════════════════════════════════════
+        // TAB 4 : STRIPE (lecture seule)
+        // ═══════════════════════════════════════
+        {
+          label: 'Stripe & Avancé',
+          fields: [
+            {
+              name: 'stripe_product_id',
+              type: 'text',
+              label: 'Stripe Product ID',
+              admin: {
+                readOnly: true,
+                description: 'Généré automatiquement à la création du produit',
+              },
+            },
+            {
+              name: 'stripe_price_id',
+              type: 'text',
+              label: 'Stripe Price ID',
+              admin: {
+                readOnly: true,
+                description: 'Généré automatiquement (mis à jour si le prix change)',
+              },
+            },
+            {
+              name: 'is_custom_page',
+              type: 'checkbox',
+              defaultValue: false,
+              label: 'Page personnalisée',
+              admin: {
+                description: 'Active un template de page sur-mesure (ex: pages KSTAR). Ne pas cocher sauf si un template spécifique existe dans le code.',
+              },
+            },
+          ],
         },
       ],
-    },
-    // Features repeatable group - Requirement 2.5
-    {
-      name: 'features',
-      type: 'array',
-      label: 'Caractéristiques',
-      admin: {
-        description: 'Points forts et fonctionnalités du produit',
-      },
-      fields: [
-        {
-          name: 'icon',
-          type: 'select',
-          options: ICON_OPTIONS,
-          label: 'Icône',
-        },
-        {
-          name: 'title',
-          type: 'text',
-          required: true,
-          label: 'Titre',
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Description',
-        },
-      ],
-    },
-    // FAQ repeatable group - Requirement 2.6
-    {
-      name: 'faq',
-      type: 'array',
-      label: 'Questions fréquentes',
-      admin: {
-        description: 'FAQ spécifique au produit',
-      },
-      fields: [
-        {
-          name: 'question',
-          type: 'text',
-          required: true,
-          label: 'Question',
-        },
-        {
-          name: 'answer',
-          type: 'richText',
-          label: 'Réponse',
-        },
-      ],
-    },
-    // Main product image - Requirement 2.7
-    {
-      name: 'main_image',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Image principale',
-      admin: {
-        description: 'Image principale du produit',
-      },
-    },
-    // Gallery images - Requirement 2.8
-    {
-      name: 'gallery',
-      type: 'array',
-      maxRows: 10,
-      label: 'Galerie d\'images',
-      admin: {
-        description: 'Images supplémentaires du produit (max 10)',
-      },
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-          label: 'Image',
-        },
-      ],
-    },
-    // Blocks field for modular sections - Requirement 2.9
-    {
-      name: 'blocks',
-      type: 'blocks',
-      label: 'Sections modulaires',
-      admin: {
-        description: 'Sections de contenu personnalisables pour la page produit',
-      },
-      blocks: ProductBlocks,
     },
   ],
 }

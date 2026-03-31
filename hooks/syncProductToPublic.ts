@@ -2,6 +2,33 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 import { supabase } from '@/lib/supabase'
 
 /**
+ * Resolve gallery images from Payload media to URL strings
+ */
+async function resolveGalleryImages(
+  gallery: Array<{ image: { id: string; url?: string } | string }> | undefined | null,
+  req: { payload: { findByID: (args: { collection: string; id: string }) => Promise<{ url?: string }> } }
+): Promise<string[]> {
+  if (!gallery || !Array.isArray(gallery)) return []
+
+  const urls: string[] = []
+  for (const item of gallery) {
+    if (!item.image) continue
+    if (typeof item.image === 'object' && item.image.url) {
+      urls.push(item.image.url)
+    } else {
+      const mediaId = typeof item.image === 'object' ? item.image.id : item.image
+      try {
+        const media = await req.payload.findByID({ collection: 'media', id: mediaId })
+        if (media?.url) urls.push(media.url)
+      } catch {
+        // Skip unresolvable images
+      }
+    }
+  }
+  return urls
+}
+
+/**
  * Hook to sync Payload products to public.products table
  * so the frontend (which reads from Supabase) stays up to date.
  */
@@ -47,13 +74,15 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
     // Resolve image URL from Payload media
     let imageUrl: string | null = null
     if (doc.main_image) {
-      const mediaId = typeof doc.main_image === 'object' ? doc.main_image.id : doc.main_image
       const media = typeof doc.main_image === 'object' ? doc.main_image : await req.payload.findByID({
         collection: 'media',
-        id: mediaId,
+        id: typeof doc.main_image === 'string' ? doc.main_image : doc.main_image.id,
       })
       imageUrl = media?.url || null
     }
+
+    // Resolve gallery images
+    const galleryUrls = await resolveGalleryImages(doc.gallery, req)
 
     // Convert specs from Payload array format to JSONB object
     const specs: Record<string, string> = {}
@@ -85,8 +114,11 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
       price: doc.price,
       short_description: doc.short_description || null,
       is_active: doc.is_active ?? true,
+      is_custom_page: doc.is_custom_page || false,
+      is_featured: doc.is_featured || false,
       category_id: publicCategoryId,
       image_url: imageUrl,
+      images: galleryUrls,
       description: doc.short_description || null,
       specs: Object.keys(specs).length > 0 ? specs : null,
       features,

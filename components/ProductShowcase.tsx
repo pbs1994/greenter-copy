@@ -2,90 +2,106 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Wifi, Gauge, Check, Battery, Sun, Thermometer, Truck, Wrench } from "lucide-react"
+import { Check, ArrowRight, Truck, Wrench } from "lucide-react"
 import { BuyButton } from "./BuyButton"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
-import { useProductPrice } from "@/lib/useProductPrice"
+import { formatEUR } from "@/lib/format"
+import type { Product, Category } from "@/types/database"
 
-const features = [
-  { icon: Battery, title: "10 000 cycles", description: "Cellules LiFePO4 CATL" },
-  { icon: Gauge, title: "6 kW", description: "Puissance nominale" },
-  { icon: Sun, title: "97%", description: "Rendement solaire" },
-  { icon: Shield, title: "IP65", description: "Usage extérieur" },
-  { icon: Thermometer, title: "-25° à +60°", description: "Plage de fonctionnement" },
-  { icon: Wifi, title: "Monitoring", description: "App Solarman Smart" },
-]
-
-const specs = [
-  "Onduleur hybride monophasé 230V",
-  "Compatible batteries LiFePO4 48V",
-  "Charge/décharge jusqu'à 100A",
-  "Basculement réseau instantané",
-  "Compatible panneaux jusqu'à 6.5 kW",
-  "Garantie 10 ans batteries",
-]
+type FeaturedProduct = Product & { category: Category | null }
 
 export function ProductShowcase() {
-  const [product, setProduct] = useState<{ id: string; imageUrl: string; slug: string } | null>(null)
+  const [product, setProduct] = useState<FeaturedProduct | null>(null)
   const [loading, setLoading] = useState(true)
-  const { data: priceData, loading: priceLoading } = useProductPrice()
 
   useEffect(() => {
-    async function fetchProduct() {
-      // Recuperer le kit complet avec son image
-      const { data: products } = await supabase
+    async function fetchFeatured() {
+      // Fetch the featured product (is_featured = true), or fallback to the first active product
+      const { data } = await supabase
         .from('products')
-        .select('id, slug, image_url')
+        .select('*, category:categories(*)')
         .eq('is_active', true)
-        .eq('slug', 'kit-stockage-solaire-complet-5kw')
+        .eq('is_featured', true)
+        .limit(1)
         .single()
-      
-      if (products) {
-        setProduct({
-          id: products.id,
-          imageUrl: products.image_url || '/kstar.png',
-          slug: products.slug
-        })
+
+      if (data) {
+        setProduct(data as unknown as FeaturedProduct)
+      } else {
+        // Fallback: get the first active product
+        const { data: fallback } = await supabase
+          .from('products')
+          .select('*, category:categories(*)')
+          .eq('is_active', true)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single()
+        if (fallback) setProduct(fallback as unknown as FeaturedProduct)
       }
       setLoading(false)
     }
-    fetchProduct()
+    fetchFeatured()
   }, [])
-  
+
+  if (loading) {
+    return (
+      <section className="bg-gradient-to-b from-green-50/80 via-white to-white py-12 md:py-16 lg:py-20">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="h-8 w-48 bg-neutral-100 rounded-lg animate-pulse mx-auto mb-4" />
+            <div className="h-12 w-96 bg-neutral-100 rounded-lg animate-pulse mx-auto" />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (!product) return null
+
+  const categorySlug = product.category?.slug || 'produits'
+  const productUrl = `/produits/${categorySlug}/${product.slug}`
+
+  // Build features from product.features (up to 6)
+  const displayFeatures = (product.features || []).slice(0, 6)
+
+  // Build specs from product.specs (up to 6)
+  const displaySpecs = Object.entries(product.specs || {}).slice(0, 6).map(
+    ([key, value]) => `${key.replace(/_/g, ' ')}: ${value}`
+  )
+
   return (
     <section id="produit" className="bg-gradient-to-b from-green-50/80 via-white to-white py-12 md:py-16 lg:py-20">
       <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
             Notre produit phare
           </span>
           <h2 className="font-heading text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-neutral-900">
-            Batterie solaire avec onduleur hybride
+            {product.name}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          
+
           {/* Left - Product Image */}
           <div className="relative order-1">
             <div className="relative aspect-square md:aspect-[4/5] max-h-[50vh] md:max-h-[55vh] bg-gradient-to-br from-green-50 to-white rounded-2xl md:rounded-[2rem] flex items-center justify-center overflow-hidden ring-1 ring-green-100/50 group mx-auto max-w-sm lg:max-w-none">
-              {/* Decorative blurs */}
               <div className="absolute top-6 right-6 md:top-8 md:right-8 w-24 md:w-32 h-24 md:h-32 bg-green-200/30 rounded-full blur-3xl" />
               <div className="absolute bottom-8 left-6 md:bottom-12 md:left-8 w-32 md:w-40 h-32 md:h-40 bg-teal-100/40 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 md:h-20 bg-green-300/20 blur-2xl" />
-              
+
               <Image
-                src={product?.imageUrl || "/kstar.png"}
-                alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4"
+                src={product.image_url || "/kstar.png"}
+                alt={product.name}
                 width={260}
                 height={320}
                 className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
               />
-              
-              {/* Badges Livraison + Pose - en bas, côte à côte */}
+
+              {/* Badges */}
               <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-center gap-2">
                 <div className="flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-sm border border-green-100">
                   <Truck className="w-4 h-4 text-green-600" />
@@ -98,84 +114,85 @@ export function ProductShowcase() {
               </div>
             </div>
 
-            {/* Specs badges - Hidden on mobile, shown on tablet+ */}
-            <div className="hidden md:flex mt-4 flex-wrap gap-2 justify-center lg:justify-start">
-              {specs.map((spec, index) => (
-                <span 
-                  key={index}
-                  className="inline-flex items-center gap-1.5 text-xs text-green-700 bg-green-50 px-3 py-1.5 rounded-full"
-                >
-                  <Check className="w-3 h-3" />
-                  {spec}
-                </span>
-              ))}
-            </div>
+            {/* Specs badges */}
+            {displaySpecs.length > 0 && (
+              <div className="hidden md:flex mt-4 flex-wrap gap-2 justify-center lg:justify-start">
+                {displaySpecs.map((spec, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center gap-1.5 text-xs text-green-700 bg-green-50 px-3 py-1.5 rounded-full"
+                  >
+                    <Check className="w-3 h-3" />
+                    {spec}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right - Product Info */}
           <div className="order-2 text-center lg:text-left">
             {/* Category Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-              <span className="text-xs font-medium text-green-700">
-                Onduleur hybride · Stockage tout-en-un
-              </span>
-            </div>
+            {product.category && (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full mb-3 md:mb-4">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                <span className="text-xs font-medium text-green-700">
+                  {product.category.name}
+                </span>
+              </div>
+            )}
 
             {/* Title */}
-            <h3 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-none mb-1">
-              KSTAR <span className="text-teal-600">BluE-S</span>
+            <h3 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-neutral-900 tracking-tight leading-none mb-3 md:mb-4">
+              {product.name}
             </h3>
-            
-            {/* Subtitle */}
-            <p className="text-base md:text-lg lg:text-xl text-neutral-500 mb-4 md:mb-5">
-              <span className="font-semibold text-teal-600">6 kW</span>
-              <span className="mx-2 text-neutral-300">·</span>
-              L'indépendance énergétique, <span className="italic">simplifiée.</span>
-            </p>
+
+            {/* Short description */}
+            {product.short_description && (
+              <p className="text-neutral-500 text-sm md:text-base leading-relaxed mb-5 md:mb-6 max-w-md mx-auto lg:mx-0">
+                {product.short_description}
+              </p>
+            )}
 
             {/* Price */}
-            <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3 md:mb-4">
+            <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-5 md:mb-6">
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
-                {priceLoading ? '...' : priceData?.formatted || '...'}
+                {formatEUR(product.price)}
               </p>
               <span className="text-sm text-neutral-400">TTC</span>
             </div>
 
-            {/* Description */}
-            <p className="text-neutral-500 text-sm md:text-base leading-relaxed mb-5 md:mb-6 max-w-md mx-auto lg:mx-0">
-              Onduleur, batteries LiFePO4 et gestion intelligente réunis dans un système premium. 
-              Cellules CATL garanties 10 000 cycles.
-            </p>
-
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
-              {product && <BuyButton productId={product.id} />}
-              <a 
-                href={`/produits/stockage-solaire/${product?.slug || 'kit-stockage-solaire-complet-5kw'}`}
-                className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center"
+              <BuyButton productId={product.id} />
+              <Link
+                href={productUrl}
+                className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2"
               >
-                Details techniques
-              </a>
+                Détails techniques
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
 
             {/* Features Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
-              {features.map((feature, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center gap-2 md:gap-2.5 p-2.5 md:p-3 rounded-xl bg-white/80 border border-green-100/50 hover:border-green-200 hover:shadow-sm transition-all duration-300"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-green-50 to-green-100/50 flex items-center justify-center flex-shrink-0">
-                    <feature.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-700 stroke-[1.75]" />
+            {displayFeatures.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+                {displayFeatures.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 md:gap-2.5 p-2.5 md:p-3 rounded-xl bg-white/80 border border-green-100/50 hover:border-green-200 hover:shadow-sm transition-all duration-300"
+                  >
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-green-50 to-green-100/50 flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm">{feature.icon}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs md:text-sm font-medium text-neutral-900 leading-tight truncate">{feature.title}</p>
+                      <p className="text-[10px] md:text-[11px] text-neutral-500 truncate">{feature.description}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm font-medium text-neutral-900 leading-tight truncate">{feature.title}</p>
-                    <p className="text-[10px] md:text-[11px] text-neutral-500 truncate">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
         </div>
