@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import Script from "next/script";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -6,10 +7,26 @@ import { JsonLd } from "@/components/JsonLd";
 import { fetchGoogleReviews } from "@/lib/google-places";
 import { CookieBanner } from "@/components/CookieBanner";
 import { VideoPreloader } from "@/components/VideoPreloader";
+import "../globals.css";
+import "../cookieconsent.css";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 const GTM_ID = "GTM-NQZQZT3S";
 
 export const metadata: Metadata = {
+  title: "Greenter | Rénovation énergétique partout en France - Pompe à chaleur, Panneaux solaires",
+  description: "Expert certifié RGE en rénovation énergétique : installation pompe à chaleur, panneaux solaires, isolation thermique et audit énergétique. Économisez jusqu'à 70% sur vos factures. Accompagnement MaPrimeRénov' inclus.",
   keywords: ["rénovation énergétique", "pompe à chaleur", "panneaux solaires", "isolation thermique", "audit énergétique", "MaPrimeRénov", "RGE", "économies énergie", "chauffage", "autoconsommation"],
   authors: [{ name: "Greenter" }],
   creator: "Greenter",
@@ -62,40 +79,42 @@ export default async function PublicLayout({
   const reviewCount = reviewsData.reviewCount > 0 ? reviewsData.reviewCount : 20
 
   return (
-    <>
-      <JsonLd ratingValue={ratingValue} reviewCount={reviewCount} />
-      <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
-      <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
-      <Script
-        id="gtm-script"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`,
-        }}
-      />
-      <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17839863014" strategy="afterInteractive" />
-      <Script
-        id="google-ads-gtag"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-17839863014');`,
-        }}
-      />
-      <Script
-        id="microsoft-clarity"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","v9fqnrk25s");`,
-        }}
-      />
-      <noscript>
-        <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
-      </noscript>
-      <VideoPreloader />
-      <Header />
-      {children}
-      <Footer />
-      <CookieBanner />
-    </>
+    <html lang="fr" className={`${plusJakarta.variable} ${inter.variable}`}>
+      <body className="font-body antialiased">
+        <JsonLd ratingValue={ratingValue} reviewCount={reviewCount} />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17839863014" strategy="afterInteractive" />
+        <Script
+          id="google-ads-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-17839863014');`,
+          }}
+        />
+        <Script
+          id="microsoft-clarity"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","v9fqnrk25s");`,
+          }}
+        />
+        <noscript>
+          <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
+        </noscript>
+        <VideoPreloader />
+        <Header />
+        {children}
+        <Footer />
+        <CookieBanner />
+      </body>
+    </html>
   );
 }
