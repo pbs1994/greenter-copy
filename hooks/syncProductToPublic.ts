@@ -1,4 +1,4 @@
-import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
+import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, PayloadRequest } from 'payload'
 import { supabase } from '@/lib/supabase'
 import { lexicalToHtml } from '@/lib/lexical-to-html'
 
@@ -7,7 +7,7 @@ import { lexicalToHtml } from '@/lib/lexical-to-html'
  */
 async function resolveGalleryImages(
   gallery: Array<{ image: { id: string; url?: string } | string }> | undefined | null,
-  req: { payload: { findByID: (args: { collection: string; id: string }) => Promise<{ url?: string }> } }
+  req: PayloadRequest
 ): Promise<string[]> {
   if (!gallery || !Array.isArray(gallery)) return []
 
@@ -19,7 +19,7 @@ async function resolveGalleryImages(
     } else {
       const mediaId = typeof item.image === 'object' ? item.image.id : item.image
       try {
-        const media = await req.payload.findByID({ collection: 'media', id: mediaId })
+        const media = (await req.payload.findByID({ collection: 'media', id: mediaId })) as { url?: string } | null
         if (media?.url) urls.push(media.url)
       } catch {
         // Skip unresolvable images
