@@ -86,12 +86,13 @@ export default buildConfig({
         },
       },
       token: process.env.BLOB_READ_WRITE_TOKEN!,
-      // clientUploads disabled: when enabled, the browser uploads directly
-      // to Vercel Blob via a signed URL, but any silent failure in that
-      // flow makes Payload fall back to the local filesystem (which is
-      // not persistent in serverless). Server-side uploads are more
-      // reliable and let us see real errors in Vercel logs.
-      clientUploads: false,
+      // Vercel Blob refuses to overwrite an existing blob with the same
+      // path. Without addRandomSuffix, re-uploading a file with the same
+      // name (or even retrying after a partial failure) blows up with
+      // "This blob already exists". The random suffix makes every upload
+      // a unique URL, which is what Vercel recommends.
+      addRandomSuffix: true,
+      clientUploads: true,
     }),
   ],
   
