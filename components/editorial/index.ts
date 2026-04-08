@@ -15,3 +15,4 @@ export { SourceCitation } from './SourceCitation';
 export { SourcesSection } from './SourcesSection';
 export { FinalContactBox } from './FinalContactBox';
 export { PACEditorialContent } from './PACEditorialContent';
+export { IsolationEditorialContent } from './IsolationEditorialContent';
