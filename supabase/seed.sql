@@ -125,7 +125,7 @@ INSERT INTO products (
   ]'::jsonb,
   'price_1SsprwPdqZafPLpmZlsLtGAb',
   true,
-  true
+  false
 )
 ON CONFLICT (category_id, slug) DO UPDATE SET
   name = EXCLUDED.name,

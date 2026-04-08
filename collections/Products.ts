@@ -284,15 +284,6 @@ export const Products: CollectionConfig = {
                 description: 'Généré automatiquement (mis à jour si le prix change)',
               },
             },
-            {
-              name: 'is_custom_page',
-              type: 'checkbox',
-              defaultValue: false,
-              label: 'Page personnalisée',
-              admin: {
-                description: 'Active un template de page sur-mesure (ex: pages KSTAR). Ne pas cocher sauf si un template spécifique existe dans le code.',
-              },
-            },
           ],
         },
       ],

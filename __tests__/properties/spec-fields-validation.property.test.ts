@@ -468,7 +468,6 @@ function createProductFormData(overrides: Partial<{
   short_description: string;
   stripe_price_id: string;
   is_active: string;
-  is_custom_page: string;
 }> = {}): FormData {
   const formData = new FormData();
   formData.set('name', overrides.name ?? 'Test Product');
@@ -482,7 +481,6 @@ function createProductFormData(overrides: Partial<{
   formData.set('short_description', overrides.short_description ?? '');
   formData.set('stripe_price_id', overrides.stripe_price_id ?? '');
   formData.set('is_active', overrides.is_active ?? 'true');
-  formData.set('is_custom_page', overrides.is_custom_page ?? 'false');
   return formData;
 }
 

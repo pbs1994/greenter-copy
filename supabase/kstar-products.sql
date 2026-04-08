@@ -34,7 +34,7 @@ SELECT
   'Onduleur hybride monophasé 5kW pour autoconsommation solaire. Double MPPT, compatible batteries LiFePO4 48V. Rendement 97.6%, IP65 pour usage extérieur. Monitoring via application smartphone.',
   '/kstar-onduleur.png',
   true,
-  true,
+  false,
   '{"puissance": "5 kW", "technologie": "Onduleur hybride", "garantie": "5 ans"}'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET
@@ -56,7 +56,7 @@ SELECT
   'Batterie de stockage solaire LiFePO4 5.12 kWh. 10 000 cycles garantis, extensible jusqu''à 20 kWh (4 modules). Garantie 10 ans. Compatible onduleurs hybrides 48V.',
   '/kstar-batterie.png',
   true,
-  true,
+  false,
   '{"capacite": "5.12 kWh", "technologie": "LiFePO4", "garantie": "10 ans"}'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET
@@ -78,7 +78,7 @@ SELECT
   'Système de stockage solaire tout-en-un. Onduleur hybride 5kW + batterie LiFePO4 5.12 kWh. 10 000 cycles, extensible jusqu''à 20 kWh. Livraison et installation offertes.',
   '/kstar.png',
   true,
-  true,
+  false,
   '{"puissance": "5 kW", "capacite": "5.12 kWh", "technologie": "LiFePO4", "garantie": "10 ans"}'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET

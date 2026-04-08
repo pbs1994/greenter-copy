@@ -2,9 +2,6 @@ import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
 import { GenericProductTemplate } from "@/components/GenericProductTemplate"
-import { KstarCustomPage } from "@/components/products/KstarCustomPage"
-import { KstarOnduleurPage } from "@/components/products/KstarOnduleurPage"
-import { KstarBatteriePage } from "@/components/products/KstarBatteriePage"
 import type { Product, Category } from "@/types/database"
 
 export const revalidate = 3600 // Revalidate every hour
@@ -102,26 +99,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /**
  * Dynamic product page component
  * Renders product at /produits/[categorySlug]/[productSlug]
- * 
- * @validates Requirements 9.1 - Dynamic product pages render at /produits/[categorySlug]/[productSlug]
- * @validates Requirements 9.3 - Products with is_custom_page=true use custom template (handled in task 12.4)
- * @validates Requirements 9.4 - Products without custom page use generic template
+ *
+ * All products use the same generic template — no per-product custom pages.
  */
 export default async function ProductPage({ params }: Props) {
   const { categorySlug, productSlug } = await params
-  
+
   // First get the category by slug to validate the URL structure
   const { data: category, error: categoryError } = await supabase
     .from('categories')
     .select('*')
     .eq('slug', categorySlug)
     .single()
-  
+
   // Handle 404 if category not found
   if (categoryError || !category) {
     notFound()
   }
-  
+
   // Query product by slug and category_id, ensuring it's active
   const { data: product, error: productError } = await supabase
     .from('products')
@@ -130,63 +125,14 @@ export default async function ProductPage({ params }: Props) {
     .eq('category_id', category.id)
     .eq('is_active', true)
     .single()
-  
+
   // Handle 404 if product not found or not active
   if (productError || !product) {
     notFound()
   }
-  
-  // Type the data
+
   const typedProduct = product as Product
   const typedCategory = category as Category
-  
-  // Combine product with category for the template (prix déjà dans Supabase)
-  const productWithCategory = {
-    ...typedProduct,
-    category: typedCategory
-  }
-  
-  // Conditional rendering based on is_custom_page flag and product slug
-  // @validates Requirements 9.3 - Products with is_custom_page=true use custom template
-  if (typedProduct.is_custom_page) {
-    const slug = typedProduct.slug.toLowerCase()
-    
-    // Récupérer les prix et IDs de l'onduleur et de la batterie pour les calculs dynamiques
-    const { data: allProducts } = await supabase
-      .from('products')
-      .select('id, slug, price')
-      .eq('category_id', category.id)
-      .eq('is_active', true)
-    
-    const inverterProduct = allProducts?.find(p => p.slug.includes('onduleur'))
-    const batteryProduct = allProducts?.find(p => p.slug.includes('batterie'))
-    const bundleProduct = allProducts?.find(p => p.slug.includes('kit'))
-    
-    const prices = {
-      inverter: inverterProduct?.price || 249900,
-      battery: batteryProduct?.price || 349900,
-    }
-    
-    const productIds = {
-      inverter: inverterProduct?.id || '',
-      battery: batteryProduct?.id || '',
-      bundle: bundleProduct?.id || typedProduct.id,
-    }
-    
-    // Route vers la page onduleur
-    if (slug.includes('onduleur')) {
-      return <KstarOnduleurPage product={productWithCategory} prices={prices} productIds={productIds} />
-    }
-    
-    // Route vers la page batterie
-    if (slug.includes('batterie')) {
-      return <KstarBatteriePage product={productWithCategory} prices={prices} productIds={productIds} />
-    }
-    
-    // Route vers la page kit/pack (défaut pour les produits custom stockage solaire)
-    return <KstarCustomPage product={productWithCategory} prices={prices} productIds={productIds} />
-  }
-  
-  // Render generic template for products without custom page
-  return <GenericProductTemplate product={productWithCategory} />
+
+  return <GenericProductTemplate product={{ ...typedProduct, category: typedCategory }} />
 }

@@ -70,7 +70,7 @@ greenter/
 │   ├── ui/                 # shadcn/ui primitives
 │   ├── blocks/             # CMS block renderers (Hero, FAQ, CTA, Gallery, etc.)
 │   ├── maintenance/        # Maintenance configurator components
-│   ├── products/           # Product page templates (ProductPageV2, Kstar pages)
+│   ├── products/           # Generic ProductTemplate + gallery, sticky buy bar, trust grid
 │   ├── editorial/          # Editorial/article content
 │   ├── schemas/            # JSON-LD structured data (Product, Article, LocalBusiness)
 │   ├── Header.tsx          # Main navigation
@@ -262,9 +262,9 @@ Modular content system used in Products, Pages, and BlogPosts:
 - Rendered by `components/blocks/BlockRenderer.tsx`
 
 ### Product Templates
-- Generic product pages use `ProductPageV2.tsx`
-- KSTAR products have custom templates: `KstarBatteriePage.tsx`, `KstarOnduleurPage.tsx`, `KstarCustomPage.tsx`
-- Toggle via `is_custom_page` field on Product collection
+- All product pages use `components/products/ProductTemplate.tsx` (re-exported as `GenericProductTemplate`)
+- Template features: image gallery, quantity selector, sticky buy bar, trust grid, delivery section
+- All product data (specs, features, FAQ, gallery) is rendered from the database — no per-product code
 
 ### SEO
 - JSON-LD schemas: `ProductSchema`, `ArticleSchema`, `LocalBusinessSchema`, `FAQSchema`, `AggregateRatingSchema`
@@ -320,7 +320,7 @@ Modular content system used in Products, Pages, and BlogPosts:
 
 ### Key Large Components
 - `components/Header.tsx` (~29KB) - Main navigation
-- `components/products/ProductPageV2.tsx` (~43KB) - Product template
+- `components/products/ProductTemplate.tsx` - Generic product page (used by all products)
 - `components/maintenance/MaintenanceConfigurator.tsx` (~35KB) - Configurator
 - `components/editorial/PACEditorialContent.tsx` (~26KB) - PAC article
 - `lib/email-templates.ts` (~58KB) - All email HTML templates

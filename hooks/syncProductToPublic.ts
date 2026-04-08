@@ -114,7 +114,6 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
       price: doc.price,
       short_description: doc.short_description || null,
       is_active: doc.is_active ?? true,
-      is_custom_page: doc.is_custom_page || false,
       is_featured: doc.is_featured || false,
       category_id: publicCategoryId,
       image_url: imageUrl,
