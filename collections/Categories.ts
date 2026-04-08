@@ -1,5 +1,9 @@
 import type { CollectionConfig, CollectionBeforeDeleteHook } from 'payload'
 import { slugField } from '@/fields/slug'
+import {
+  syncCategoryToPublic,
+  deleteCategoryFromPublic,
+} from '@/hooks/syncCategoryToPublic'
 
 // Hook to prevent deletion if products are assigned to this category
 const preventDeleteIfProductsExist: CollectionBeforeDeleteHook = async ({ id, req }) => {
@@ -32,7 +36,9 @@ export const Categories: CollectionConfig = {
     read: () => true, // Public access for categories
   },
   hooks: {
+    afterChange: [syncCategoryToPublic],
     beforeDelete: [preventDeleteIfProductsExist],
+    afterDelete: [deleteCategoryFromPublic],
   },
   fields: [
     {
