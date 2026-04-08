@@ -1,5 +1,14 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
+import { revalidatePath } from 'next/cache'
 import { supabase } from '@/lib/supabase'
+
+function revalidateProductPages() {
+  try {
+    revalidatePath('/produits', 'layout')
+  } catch (err) {
+    console.error('revalidatePath(/produits) failed:', err)
+  }
+}
 
 /**
  * Sync a Payload category to public.categories on every change.
@@ -52,6 +61,7 @@ export const syncCategoryToPublic: CollectionAfterChangeHook = async ({
     console.error('syncCategoryToPublic threw:', error)
   }
 
+  revalidateProductPages()
   return doc
 }
 
@@ -73,5 +83,6 @@ export const deleteCategoryFromPublic: CollectionAfterDeleteHook = async ({
     console.error('deleteCategoryFromPublic failed:', error)
   }
 
+  revalidateProductPages()
   return doc
 }

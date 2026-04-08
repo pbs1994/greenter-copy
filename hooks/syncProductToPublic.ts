@@ -1,6 +1,22 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, PayloadRequest } from 'payload'
+import { revalidatePath } from 'next/cache'
 import { supabase } from '@/lib/supabase'
 import { lexicalToHtml } from '@/lib/lexical-to-html'
+
+/**
+ * Bust the Next.js ISR cache for all product-related routes so a
+ * change in Payload shows up on the public site immediately instead
+ * of waiting for the 1h revalidate window.
+ */
+function revalidateProductPages() {
+  try {
+    // 'layout' mode invalidates all nested paths under /produits (list,
+    // category pages, and individual product pages in one shot).
+    revalidatePath('/produits', 'layout')
+  } catch (err) {
+    console.error('revalidatePath(/produits) failed:', err)
+  }
+}
 
 /**
  * Resolve gallery images from Payload media to URL strings
@@ -145,6 +161,7 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
     console.error('syncProductToPublic failed:', error)
   }
 
+  revalidateProductPages()
   return doc
 }
 
@@ -160,5 +177,6 @@ export const deleteProductFromPublic: CollectionAfterDeleteHook = async ({ doc }
     console.error('deleteProductFromPublic failed:', error)
   }
 
+  revalidateProductPages()
   return doc
 }
