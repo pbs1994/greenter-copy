@@ -1,5 +1,6 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 import { supabase } from '@/lib/supabase'
+import { lexicalToHtml } from '@/lib/lexical-to-html'
 
 /**
  * Resolve gallery images from Payload media to URL strings
@@ -34,7 +35,6 @@ async function resolveGalleryImages(
  */
 export const syncProductToPublic: CollectionAfterChangeHook = async ({
   doc,
-  operation,
   req,
 }) => {
   try {
@@ -84,14 +84,18 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
     // Resolve gallery images
     const galleryUrls = await resolveGalleryImages(doc.gallery, req)
 
-    // Convert specs from Payload array format to JSONB object
-    const specs: Record<string, string> = {}
-    if (doc.specs && Array.isArray(doc.specs)) {
-      for (const spec of doc.specs) {
-        const key = spec.label?.toLowerCase().replace(/\s+/g, '_') || spec.label
-        specs[key] = spec.unit ? `${spec.value} ${spec.unit}` : spec.value
-      }
-    }
+    // Specs: keep the Payload array shape verbatim — the public template
+    // reads this directly via normalizeSpecs(). No more lossy slugified
+    // keys, no more pre-merged units.
+    const specs = Array.isArray(doc.specs)
+      ? doc.specs
+          .filter((s: { label?: string; value?: string }) => s?.label && s?.value !== undefined && s?.value !== null)
+          .map((s: { label: string; value: string; unit?: string }) => ({
+            label: s.label,
+            value: String(s.value),
+            unit: s.unit || null,
+          }))
+      : null
 
     // Convert features array
     const features = doc.features?.map((f: { icon?: string; title: string; description?: string }) => ({
@@ -100,13 +104,16 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
       description: f.description || null,
     })) || null
 
-    // Convert FAQ array (extract plain text from richText)
-    const faq = doc.faq?.map((f: { question: string; answer?: { root?: { children?: Array<{ children?: Array<{ text?: string }> }> } } }) => ({
+    // Convert FAQ array — answers are richText, serialize to HTML so the
+    // template can render real formatting (bold, links, lists, etc.).
+    const faq = doc.faq?.map((f: { question: string; answer?: unknown }) => ({
       question: f.question,
-      answer: f.answer?.root?.children?.map(
-        (node: { children?: Array<{ text?: string }> }) => node.children?.map((c: { text?: string }) => c.text || '').join('') || ''
-      ).join('\n') || '',
+      answer: lexicalToHtml(f.answer) || '',
     })) || null
+
+    // Description: serialize the lexical richText to HTML once at sync
+    // time so the public site doesn't need the Payload runtime.
+    const descriptionHtml = lexicalToHtml(doc.description)
 
     const publicProduct = {
       name: doc.name,
@@ -118,8 +125,8 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
       category_id: publicCategoryId,
       image_url: imageUrl,
       images: galleryUrls,
-      description: doc.short_description || null,
-      specs: Object.keys(specs).length > 0 ? specs : null,
+      description: descriptionHtml,
+      specs: specs && specs.length > 0 ? specs : null,
       features,
       faq,
       stripe_product_id: doc.stripe_product_id || null,

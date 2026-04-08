@@ -7,6 +7,7 @@ import { BuyButton } from "./BuyButton"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { formatEUR } from "@/lib/format"
+import { normalizeSpecs } from "@/lib/product-specs"
 import type { Product, Category } from "@/types/database"
 
 type FeaturedProduct = Product & { category: Category | null }
@@ -65,10 +66,10 @@ export function ProductShowcase() {
   // Build features from product.features (up to 6)
   const displayFeatures = (product.features || []).slice(0, 6)
 
-  // Build specs from product.specs (up to 6)
-  const displaySpecs = Object.entries(product.specs || {}).slice(0, 6).map(
-    ([key, value]) => `${key.replace(/_/g, ' ')}: ${value}`
-  )
+  // Build specs from product.specs (up to 6) — normalized to {label, value}
+  const displaySpecs = normalizeSpecs(product.specs)
+    .slice(0, 6)
+    .map((spec) => `${spec.label}: ${spec.value}`)
 
   return (
     <section id="produit" className="bg-gradient-to-b from-green-50/80 via-white to-white py-12 md:py-16 lg:py-20">

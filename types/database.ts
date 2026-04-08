@@ -17,6 +17,12 @@ export interface SpecField {
   unit?: string; // e.g., "kW", "kWh"
 }
 
+export interface ProductSpec {
+  label: string;
+  value: string;
+  unit?: string | null;
+}
+
 export interface Product {
   id: string;
   category_id: string;
@@ -25,9 +31,12 @@ export interface Product {
   price: number; // cents
   image_url: string | null;
   images: string[]; // images secondaires
-  description: string | null;
+  description: string | null; // HTML serialized from Payload richText
   short_description: string | null;
-  specs: Record<string, string | number>;
+  // Specs are stored as an array of {label, value, unit?}.
+  // Legacy rows may still be a Record<string, string|number> — use
+  // normalizeSpecs() from lib/product-specs.ts to read safely.
+  specs: ProductSpec[] | Record<string, string | number> | null;
   features: ProductFeature[];
   faq: FAQItem[];
   stripe_product_id: string | null;

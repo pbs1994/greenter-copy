@@ -6,12 +6,13 @@ import { formatEUR } from '@/lib/format'
 
 interface StickyBuyBarProps {
   productName: string
-  price: number // cents
+  price: number // cents — total price (unit price × quantity)
   productId: string
+  quantity: number
   ctaId: string // ID of the main CTA element to observe
 }
 
-export function StickyBuyBar({ productName, price, productId, ctaId }: StickyBuyBarProps) {
+export function StickyBuyBar({ productName, price, productId, quantity, ctaId }: StickyBuyBarProps) {
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -36,7 +37,7 @@ export function StickyBuyBar({ productName, price, productId, ctaId }: StickyBuy
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: [{ productId, quantity: 1 }] }),
+        body: JSON.stringify({ items: [{ productId, quantity }] }),
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url

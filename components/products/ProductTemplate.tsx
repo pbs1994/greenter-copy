@@ -15,11 +15,12 @@ import {
 import { BuyButton } from '@/components/BuyButton'
 import { ProductSchema, BreadcrumbSchema, FAQPageSchema } from '@/components/schemas'
 import { formatEUR } from '@/lib/format'
+import { normalizeSpecs } from '@/lib/product-specs'
 import { ProductGallery } from './ProductGallery'
 import { TrustGrid } from './TrustGrid'
 import { DeliverySection } from './DeliverySection'
 import { StickyBuyBar } from './StickyBuyBar'
-import type { Product, Category, SpecField, ProductFeature, FAQItem } from '@/types/database'
+import type { Product, Category, ProductFeature, FAQItem } from '@/types/database'
 
 interface ProductTemplateProps {
   product: Product & { category: Category }
@@ -51,7 +52,11 @@ function FAQAccordionItem({
       </button>
       {isOpen && (
         <div className="px-4 md:px-5 pb-4 md:pb-5 bg-white">
-          <p className="text-sm text-neutral-600 leading-relaxed">{item.answer}</p>
+          {/* answer is HTML serialized from Payload richText */}
+          <div
+            className="prose prose-sm prose-neutral prose-p:text-neutral-600 prose-a:text-green-700 hover:prose-a:text-green-800 max-w-none"
+            dangerouslySetInnerHTML={{ __html: item.answer }}
+          />
         </div>
       )}
     </div>
@@ -102,26 +107,9 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
     { name: product.name, url: `${baseUrl}/produits/${category.slug}/${product.slug}` },
   ]
 
-  const specFieldsMap = new Map<string, SpecField>(
-    category.spec_fields.map((field) => [field.key, field])
-  )
-
-  const formatSpecValue = (key: string, value: string | number): string => {
-    const field = specFieldsMap.get(key)
-    if (field?.unit) return `${value} ${field.unit}`
-    return String(value)
-  }
-
-  const getSpecLabel = (key: string): string => {
-    const field = specFieldsMap.get(key)
-    return field?.name || key
-  }
-
-  const specsArray = Object.entries(product.specs || {}).map(([key, value]) => ({
-    key,
-    label: getSpecLabel(key),
-    value: formatSpecValue(key, value),
-  }))
+  // Specs are stored as [{label, value, unit?}] (with legacy fallback).
+  // The normalizer returns ready-to-display {label, value} pairs.
+  const specsArray = normalizeSpecs(product.specs)
 
   const features: ProductFeature[] = product.features || []
   const faqItems: FAQItem[] = product.faq || []
@@ -257,6 +245,21 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
           <TrustGrid />
         </div>
 
+        {/* ========== DESCRIPTION (richText from CMS) ========== */}
+        {product.description && (
+          <section className="mb-12 md:mb-16">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-2xl font-bold text-neutral-900 mb-6 text-center">
+                Description
+              </h2>
+              <div
+                className="prose prose-neutral prose-headings:font-heading prose-headings:text-neutral-900 prose-p:text-neutral-600 prose-a:text-green-700 hover:prose-a:text-green-800 prose-strong:text-neutral-900 max-w-none"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+            </div>
+          </section>
+        )}
+
         {/* ========== SPECS ========== */}
         {specsArray.length > 0 && (
           <section className="mb-12 md:mb-16">
@@ -264,9 +267,9 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
               Caractéristiques techniques
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {specsArray.map((spec) => (
+              {specsArray.map((spec, index) => (
                 <div
-                  key={spec.key}
+                  key={`${spec.label}-${index}`}
                   className="flex items-center gap-3 p-4 bg-white rounded-xl border border-neutral-100"
                 >
                   <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -304,11 +307,6 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
             </div>
           </section>
         )}
-
-        {/* ========== DELIVERY BANNER (full width) ========== */}
-        <div className="mb-12 md:mb-16">
-          <DeliverySection />
-        </div>
 
         {/* ========== FAQ ========== */}
         {faqItems.length > 0 && (
@@ -385,6 +383,7 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
         productName={product.name}
         price={totalPrice}
         productId={product.id}
+        quantity={quantity}
         ctaId="main-cta"
       />
     </main>

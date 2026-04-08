@@ -25,7 +25,7 @@ ON CONFLICT (slug) DO UPDATE SET
 -- 3. Créer les 3 produits
 -- Produit 1: Onduleur
 INSERT INTO products (name, slug, category_id, price, short_description, description, image_url, is_active, is_custom_page, specs)
-SELECT 
+SELECT
   'Onduleur Hybride Solaire 5kW',
   'onduleur-hybride-solaire-5kw',
   c.id,
@@ -35,7 +35,11 @@ SELECT
   '/kstar-onduleur.png',
   true,
   false,
-  '{"puissance": "5 kW", "technologie": "Onduleur hybride", "garantie": "5 ans"}'::jsonb
+  '[
+    {"label": "Puissance", "value": "5", "unit": "kW"},
+    {"label": "Technologie", "value": "Onduleur hybride"},
+    {"label": "Garantie", "value": "5", "unit": "ans"}
+  ]'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
@@ -47,7 +51,7 @@ ON CONFLICT (slug) DO UPDATE SET
 
 -- Produit 2: Batterie
 INSERT INTO products (name, slug, category_id, price, short_description, description, image_url, is_active, is_custom_page, specs)
-SELECT 
+SELECT
   'Batterie Solaire LiFePO4 5kWh',
   'batterie-solaire-lifepo4-5kwh',
   c.id,
@@ -57,7 +61,11 @@ SELECT
   '/kstar-batterie.png',
   true,
   false,
-  '{"capacite": "5.12 kWh", "technologie": "LiFePO4", "garantie": "10 ans"}'::jsonb
+  '[
+    {"label": "Capacité", "value": "5.12", "unit": "kWh"},
+    {"label": "Technologie", "value": "LiFePO4"},
+    {"label": "Garantie", "value": "10", "unit": "ans"}
+  ]'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
@@ -69,7 +77,7 @@ ON CONFLICT (slug) DO UPDATE SET
 
 -- Produit 3: Kit complet
 INSERT INTO products (name, slug, category_id, price, short_description, description, image_url, is_active, is_custom_page, specs)
-SELECT 
+SELECT
   'Kit Stockage Solaire Complet 5kW',
   'kit-stockage-solaire-complet-5kw',
   c.id,
@@ -79,7 +87,12 @@ SELECT
   '/kstar.png',
   true,
   false,
-  '{"puissance": "5 kW", "capacite": "5.12 kWh", "technologie": "LiFePO4", "garantie": "10 ans"}'::jsonb
+  '[
+    {"label": "Puissance", "value": "5", "unit": "kW"},
+    {"label": "Capacité", "value": "5.12", "unit": "kWh"},
+    {"label": "Technologie", "value": "LiFePO4"},
+    {"label": "Garantie", "value": "10", "unit": "ans"}
+  ]'::jsonb
 FROM categories c WHERE c.slug = 'stockage-solaire'
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
