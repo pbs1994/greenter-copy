@@ -22,6 +22,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.91.0",
+    "@vercel/blob": "^2.3.3",
     "class-variance-authority": "^0.7.1",
     "cli-color": "^2.0.4",
     "clsx": "^2.1.1",
