@@ -155,10 +155,21 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
       .upsert(publicProduct, { onConflict: 'slug' })
 
     if (error) {
-      console.error('Failed to sync product to public:', error)
+      // Surface to Payload logs (visible in Vercel) instead of swallowing.
+      req.payload.logger.error({
+        msg: 'syncProductToPublic upsert failed',
+        slug: doc.slug,
+        error: error.message,
+        details: error.details,
+        hint: error.hint,
+      })
     }
   } catch (error) {
-    console.error('syncProductToPublic failed:', error)
+    req.payload.logger.error({
+      msg: 'syncProductToPublic threw',
+      slug: doc?.slug,
+      error: error instanceof Error ? error.message : String(error),
+    })
   }
 
   revalidateProductPages()
@@ -168,13 +179,17 @@ export const syncProductToPublic: CollectionAfterChangeHook = async ({
 /**
  * Hook to delete from public.products when deleted in Payload
  */
-export const deleteProductFromPublic: CollectionAfterDeleteHook = async ({ doc }) => {
+export const deleteProductFromPublic: CollectionAfterDeleteHook = async ({ doc, req }) => {
   try {
     if (doc?.slug) {
       await supabase.from('products').delete().eq('slug', doc.slug)
     }
   } catch (error) {
-    console.error('deleteProductFromPublic failed:', error)
+    req.payload.logger.error({
+      msg: 'deleteProductFromPublic failed',
+      slug: doc?.slug,
+      error: error instanceof Error ? error.message : String(error),
+    })
   }
 
   revalidateProductPages()
