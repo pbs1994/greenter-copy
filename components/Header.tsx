@@ -67,6 +67,14 @@ const services = [
     badge: null,
   },
   {
+    title: "Isolation à 1€",
+    href: "/services/isolation-1-euro",
+    description: "Combles & planchers bas — aides 2026",
+    icon: Home,
+    image: "/isolation.jpg",
+    badge: "Nouveau",
+  },
+  {
     title: "Audit énergétique",
     href: "/services/audit",
     description: "Diagnostic complet",
