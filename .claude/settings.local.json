@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/Alex/OneDrive/Desktop/Projets/greenter -type f \\\\\\(-name .env* -o -name *config* -o -name *database* -o -name *db* \\\\\\))",
+      "WebSearch",
+      "Bash(find /c/Users/Alex/OneDrive/Desktop/Projets/greenter -name *.env* -type f ! -path */node_modules/* -o -name *.env ! -path */node_modules/*)",
+      "Bash(find /c/Users/Alex/OneDrive/Desktop/Projets/greenter -name *database* -o -name *db* -type f ! -path */node_modules/* ! -path */.git/*)",
+      "Bash(grep -r \"DATABASE_URL\\\\|postgres\\\\|connection\" /c/Users/Alex/OneDrive/Desktop/Projets/greenter --include=*.json --include=*.ts --include=*.js)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:payloadcms.com)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:node-postgres.com)",
+      "WebFetch(domain:www.weweb.io)",
+      "WebFetch(domain:medium.com)",
+      "mcp__claude_ai_Supabase__get_project",
+      "mcp__claude_ai_Supabase__execute_sql",
+      "mcp__claude_ai_Supabase__get_logs",
+      "WebFetch(domain:greenter.fr)",
+      "WebFetch(domain:www.greenter.fr)"
+    ]
+  }
+}
