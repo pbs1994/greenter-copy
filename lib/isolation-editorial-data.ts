@@ -76,7 +76,7 @@ export const ISOLATION_ZONES: IsolationZone[] = [
     name: "Planchers bas",
     percentage: "7-10%",
     description:
-      "Sur vide sanitaire, cave ou garage non chauffé. Projection de mousse ou panneaux rigides, chantier rapide en 1 journée.",
+      "Sur vide sanitaire, cave ou garage non chauffé. Projection de mousse ou panneaux rigides selon le support.",
     rMin: "R ≥ 3 m².K/W",
     priority: "élevée",
   },
@@ -174,7 +174,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Visite technique gratuite",
     duration: "45 minutes",
     description:
-      "Un technicien Greenter se déplace chez vous en Seine-et-Marne : mesures précises des combles, contrôle de la charpente, repérage des points singuliers (trappe d'accès, conduits de fumée, spots encastrés), choix de l'isolant adapté.",
+      "Un technicien Greenter se déplace chez vous : mesures précises des combles, contrôle de la charpente, repérage des points singuliers (trappe d'accès, conduits de fumée, spots encastrés), choix de l'isolant adapté.",
     icon: "home",
   },
   {
@@ -182,23 +182,23 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Devis & dépôt des aides",
     duration: "48 à 72h",
     description:
-      "Nous établissons un devis détaillé avec aides MaPrimeRénov' et Prime CEE déjà déduites. Nous déposons votre dossier sur maprimerenov.gouv.fr, signons le contrat CEE avec le fournisseur d'énergie et attendons l'accord de l'Anah avant d'engager les travaux.",
+      "Nous établissons un devis détaillé et prenons en charge toutes les démarches administratives : dépôt du dossier MaPrimeRénov' sur maprimerenov.gouv.fr et constitution du dossier CEE.",
     icon: "document",
   },
   {
     step: 4,
     title: "Chantier d'isolation",
-    duration: "1/2 journée à 1 jour",
+    duration: "Selon surface",
     description:
-      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W), pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur. Vérification finale au caméra thermique.",
+      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W). Pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur. Contrôle qualité sur site.",
     icon: "wrench",
   },
   {
     step: 5,
-    title: "Versement des aides",
+    title: "Vos économies commencent",
     duration: "2 à 6 semaines",
     description:
-      "Nous envoyons la facture à l'Anah et au fournisseur CEE. Les aides sont versées directement sur votre compte bancaire. Vous profitez immédiatement des économies de chauffage, jusqu'à 600€/an pour 100 m² de combles.",
+      "Après les travaux, nous finalisons les dossiers d'aides. Vous ne payez que le reste à charge — aucune avance de trésorerie. Vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
     icon: "euro",
   },
 ]
@@ -280,7 +280,7 @@ export const ISOLATION_FAQS = [
   {
     question: "Combien de temps durent les travaux d'isolation des combles ?",
     answer:
-      "L'isolation des combles perdus par soufflage est très rapide : pour une maison de 80 à 120 m², le chantier se termine en une demi-journée à une journée complète. L'isolation des planchers bas par projection de mousse polyuréthane ou pose de panneaux rigides nécessite 1 à 2 jours selon la surface. Vous profitez des économies d'énergie immédiatement après la fin du chantier, jusqu'à 600 €/an sur votre facture de chauffage pour 100 m² de combles.",
+      "La durée dépend de la surface et du type de travaux. Pour les combles perdus par soufflage (80 à 120 m²), notre équipe intervient sur une session de chantier complète avec contrôle qualité. Pour les planchers bas, comptez 1 à 2 sessions selon la surface et les contraintes d'accès. Vous profitez des économies d'énergie dès la fin des travaux, jusqu'à 600 €/an sur votre facture de chauffage pour 100 m² de combles.",
   },
   {
     question: "Quel matériau isolant choisir pour les combles ?",
@@ -290,10 +290,10 @@ export const ISOLATION_FAQS = [
   {
     question: "Comment se passe le dépôt du dossier MaPrimeRénov' ?",
     answer:
-      "Greenter s'occupe de toute la procédure : création de votre compte sur maprimerenov.gouv.fr, constitution du dossier, téléversement du devis, suivi de l'instruction Anah, puis envoi de la facture après travaux pour déclencher le versement. Les aides CEE sont quant à elles directement déduites de notre devis (mention « prime déduite »). Vous n'avez qu'à signer le devis et profiter de vos travaux.",
+      "Greenter s'occupe de toute la procédure : constitution du dossier MaPrimeRénov', dépôt sur la plateforme, suivi de l'instruction, puis envoi de la facture après travaux. Vous ne payez que le reste à charge — aucune avance de trésorerie de votre côté.",
   },
   {
-    question: "Comment éviter les arnaques à l'isolation ?",
+    question: "Comment choisir un artisan de confiance ?",
     answer:
       "Méfiez-vous du démarchage téléphonique — il est interdit depuis 2020 pour la rénovation énergétique. Fuyez les offres « 100 % gratuites sans étude » et les entreprises sans certification RGE vérifiable. Chez Greenter, vous pouvez vérifier notre RGE Qualibat directement sur france-renov.gouv.fr. Nous établissons toujours un devis détaillé après une visite technique gratuite, sans pression commerciale.",
   },

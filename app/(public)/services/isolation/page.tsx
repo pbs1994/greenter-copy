@@ -102,7 +102,7 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <div className={`${compact ? "bg-slate-50 rounded-xl p-4" : "bg-gradient-to-br from-slate-50 to-orange-50/50 rounded-2xl p-5 border border-slate-100"}`}>
+    <div className={`${compact ? "bg-slate-50 rounded-xl p-4" : "bg-gradient-to-br from-slate-50 to-sky-50/50 rounded-2xl p-5 border border-slate-100"}`}>
       <p className={`text-slate-700 ${compact ? "text-sm mb-3" : "text-base mb-4"} text-center font-medium`}>
         Pas le temps d&apos;appeler ? On vous rappelle !
       </p>
@@ -114,14 +114,14 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Votre numéro de téléphone"
-            className={`w-full ${compact ? "pl-11 pr-4 py-3 text-base" : "pl-12 pr-4 py-4 text-lg"} bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all`}
+            className={`w-full ${compact ? "pl-11 pr-4 py-3 text-base" : "pl-12 pr-4 py-4 text-lg"} bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all`}
             required
           />
         </div>
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`w-full ${compact ? "py-3 text-base" : "py-4 text-lg"} bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 shadow-sm hover:shadow-md flex items-center justify-center gap-2`}
+          className={`w-full ${compact ? "py-3 text-base" : "py-4 text-lg"} bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-xl transition-all disabled:opacity-50 shadow-sm hover:shadow-md flex items-center justify-center gap-2`}
         >
           {status === "loading" ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Être rappelé gratuitement</>}
         </button>
@@ -155,16 +155,16 @@ export default function IsolationPage() {
   return (
     <>
       <ServiceSchema
-        name="Isolation à 1€ - Combles et planchers bas en Seine-et-Marne"
-        description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat intervenant en Seine-et-Marne (77)."
+        name="Isolation à 1€ - Combles et planchers bas"
+        description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat."
         url="https://greenter.fr/services/isolation"
         image="https://greenter.fr/isolation.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={ISOLATION_FAQS} />
       <LocalBusinessSchema
-        name="Greenter - Isolation à 1€ en Seine-et-Marne"
-        description="Isolation des combles et planchers bas à partir de 1€ grâce aux aides 2026. Certifié RGE Qualibat en Seine-et-Marne (77) et Île-de-France."
+        name="Greenter - Isolation à 1€"
+        description="Isolation des combles et planchers bas à partir de 1€ grâce aux aides 2026. Artisan certifié RGE Qualibat."
         address={{
           streetAddress: "Ozoir-la-Ferrière",
           addressLocality: "Ozoir-la-Ferrière",
@@ -186,7 +186,7 @@ export default function IsolationPage() {
       />
       <ArticleSchema
         headline="Isolation à 1€ en 2026 : ce qu'il faut savoir sur les aides et le dispositif"
-        description="Tout savoir sur l'isolation à 1€ en 2026 : fin du Coup de Pouce historique, aides actuelles (MaPrimeRénov', CEE bonifiés), plafonds de ressources, zones d'intervention en Seine-et-Marne."
+        description="Tout savoir sur l'isolation à 1€ en 2026 : aides actuelles (MaPrimeRénov', CEE bonifiés), plafonds de ressources, matériaux et processus d'installation."
         datePublished="2026-01-10"
         dateModified="2026-04-08"
         author={{ name: "Greenter", url: "https://greenter.fr" }}
@@ -205,74 +205,78 @@ export default function IsolationPage() {
         {/* ============================================================= */}
         {/* HERO - Design premium avec image isolation */}
         {/* ============================================================= */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <Image
-              src="/isolation.jpg"
-              alt="Isolation des combles à 1 euro en Seine-et-Marne par Greenter"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-950/95 via-amber-900/90 to-orange-900/85" />
+        <section className="flex-1 relative overflow-hidden min-h-[100dvh] lg:min-h-0">
+          {/* Background with deep blue-slate gradient — no photo behind overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900" />
 
           {/* MOBILE */}
           <div className="lg:hidden relative flex flex-col justify-between min-h-[100dvh] px-5 py-8">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-6">
-                <Shield className="w-4 h-4 text-orange-300" />
-                <span className="text-orange-200 text-sm font-medium">Certifié RGE Qualibat</span>
+                <Shield className="w-4 h-4 text-sky-300" />
+                <span className="text-sky-200 text-sm font-medium">Certifié RGE</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
                 Isolation des combles
                 <br />
                 à partir de{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-amber-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-300">
                   1€
                 </span>
                 <span className="text-white">*</span>
               </h1>
-              <p className="text-orange-100/80 text-base leading-relaxed mb-2">
+              <p className="text-sky-100/80 text-base leading-relaxed mb-2">
                 Grâce aux aides 2026 (MaPrimeRénov&apos; + CEE bonifiés).
               </p>
-              <p className="text-orange-100/60 text-sm">Seine-et-Marne (77) & Île-de-France</p>
+              <p className="text-sky-100/60 text-sm">Devis gratuit • Sans engagement</p>
             </div>
 
-            <div className="my-6">
+            {/* Photo isolation - cadre contenu arrondi */}
+            <div className="my-4 mx-auto w-full max-w-sm">
+              <div className="relative h-44 rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src="/isolation.jpg"
+                  alt="Artisan soufflant de la ouate de cellulose dans des combles"
+                  fill
+                  className="object-cover object-[70%_50%]"
+                  priority
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
               <div className="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-2xl">
                 <ul className="space-y-4 mb-5">
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Combles perdus & </span>
-                      <span className="text-orange-600 font-bold">planchers bas</span>
+                      <span className="text-slate-700">Facture de chauffage </span>
+                      <span className="text-sky-700 font-bold">réduite de 30%</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Aides </span>
-                      <span className="text-orange-600 font-bold">déduites</span>
-                      <span className="text-slate-500 text-sm"> du devis</span>
+                      <span className="text-sky-700 font-bold">Aides de l&apos;État</span>
+                      <span className="text-slate-500 text-sm"> cumulables</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Chantier en </span>
-                      <span className="text-orange-600 font-bold">1 journée</span>
+                      <span className="text-slate-700">Logement au </span>
+                      <span className="text-sky-700 font-bold">confort thermique élevé</span>
                     </div>
                   </li>
                 </ul>
                 <p className="text-xs text-slate-400 text-center mb-4 italic">
-                  *Sous conditions de ressources. Reste à charge selon catégorie MaPrimeRénov&apos;.
+                  *Sous conditions de ressources. Vous ne payez que le reste à charge, sans avance.
                 </p>
                 <PhoneCallTracker
                   className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-orange-500/30"
@@ -312,118 +316,136 @@ export default function IsolationPage() {
           </div>
 
           {/* DESKTOP */}
-          <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-10 pb-12 w-full">
+          <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
             <div className="grid lg:grid-cols-12 gap-8 items-start">
-              {/* Left */}
-              <div className="lg:col-span-7 text-white pt-6">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-                  <Shield className="w-4 h-4 text-orange-300" />
-                  <span className="text-orange-200 text-sm font-medium">Certifié RGE Qualibat • Seine-et-Marne (77)</span>
-                </div>
-                <h1 className="text-4xl xl:text-6xl font-bold leading-[1.05] mb-5">
-                  Isolation des combles
-                  <br />à partir de{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-amber-300 to-yellow-300">
-                    1€
-                  </span>
-                  <span className="text-white">*</span>
-                </h1>
-                <p className="text-orange-100/85 mb-6 leading-relaxed text-lg max-w-xl">
-                  Profitez des aides renforcées 2026 : <strong className="text-white">MaPrimeRénov&apos; Bleu/Jaune</strong>{" "}
-                  et <strong className="text-white">Prime CEE bonifiée</strong>. Un reste à charge réduit à 1€ pour les
-                  ménages très modestes sur l&apos;isolation des combles perdus.
-                </p>
-
-                {/* KPIs */}
-                <div className="grid grid-cols-3 gap-4 mb-6 max-w-xl">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">30%</p>
-                    <p className="text-xs text-orange-100/70 mt-1">pertes par la toiture</p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">1 jour</p>
-                    <p className="text-xs text-orange-100/70 mt-1">de travaux</p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">-600 €</p>
-                    <p className="text-xs text-orange-100/70 mt-1">/ an de chauffage</p>
-                  </div>
-                </div>
-
-                {/* Badge Google + CTA tel */}
-                <div className="flex items-center gap-4 mb-6">
-                  <a
-                    href={googleData?.googleMapsUrl || "https://g.page/greenter"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-white rounded-2xl px-4 py-3 hover:shadow-xl transition-all"
-                  >
-                    <GoogleLogo className="w-8 h-8" />
-                    <div className="border-l border-slate-200 pl-3">
-                      <div className="flex items-center gap-0.5 mb-0.5">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        ))}
-                      </div>
-                      <p className="text-slate-900 font-bold text-sm">
-                        {rating}/5 <span className="font-normal text-slate-500">({reviewCount})</span>
-                      </p>
+              {/* Left — text + photo + KPIs (8 cols like PAC) */}
+              <div className="lg:col-span-8">
+                <div className="grid grid-cols-2 gap-6 items-start">
+                  {/* Text column */}
+                  <div className="text-white pt-2">
+                    <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
+                      <Shield className="w-4 h-4 text-sky-300" />
+                      <span className="text-sky-200 text-sm font-medium">Certifié RGE</span>
                     </div>
-                  </a>
-                  <PhoneCallTracker
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-5 py-3 rounded-2xl shadow-lg shadow-orange-500/30"
-                    showIcon={false}
-                  >
-                    <Phone className="w-5 h-5" />
-                    <span className="text-sm">{PHONE}</span>
-                  </PhoneCallTracker>
+                    <h1 className="text-4xl xl:text-5xl font-bold leading-tight mb-4">
+                      Isolation des combles
+                      <br />à partir de{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-300">
+                        1€
+                      </span>
+                      <span className="text-white">*</span>
+                    </h1>
+                    <p className="text-sky-100/80 mb-6 leading-relaxed text-lg">
+                      Aides 2026 : <strong className="text-white">MaPrimeRénov&apos;</strong>{" "}
+                      + <strong className="text-white">CEE bonifiés</strong>.
+                      <br />Reste à charge réduit à 1€* pour les ménages très modestes.
+                    </p>
+
+                    {/* Badge Google + CTA tel */}
+                    <div className="flex items-center gap-4">
+                      <a
+                        href={googleData?.googleMapsUrl || "https://g.page/greenter"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 bg-white rounded-2xl px-4 py-3 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+                      >
+                        <GoogleLogo className="w-8 h-8" />
+                        <div className="border-l border-slate-200 pl-3">
+                          <div className="flex items-center gap-0.5 mb-0.5">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                              <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                            ))}
+                          </div>
+                          <p className="text-slate-900 font-bold text-sm">
+                            {rating}/5 <span className="font-normal text-slate-500">({reviewCount})</span>
+                          </p>
+                        </div>
+                      </a>
+                      <PhoneCallTracker
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-4 py-3 rounded-2xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02] transition-all"
+                        showIcon={false}
+                      >
+                        <Phone className="w-5 h-5" />
+                        <span className="text-sm">{PHONE}</span>
+                      </PhoneCallTracker>
+                    </div>
+                  </div>
+
+                  {/* Photo column — contained in rounded frame like PAC product */}
+                  <div className="flex justify-center items-start pt-2">
+                    <div className="relative w-full max-w-[420px] h-[340px] xl:h-[380px] rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
+                      <Image
+                        src="/isolation.jpg"
+                        alt="Artisan soufflant de la ouate de cellulose dans des combles perdus"
+                        fill
+                        className="object-cover object-[70%_50%]"
+                        priority
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-orange-100/50 text-xs italic max-w-xl">
-                  *Reste à charge minimum après déduction de MaPrimeRénov&apos; et Prime CEE bonifiée pour les ménages
-                  très modestes (catégorie Bleu). Calcul personnalisé gratuit après visite technique.
+                {/* KPIs row beneath text+photo */}
+                <div className="grid grid-cols-3 gap-4 mt-6 max-w-2xl">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-3xl font-bold text-sky-300">-30%</p>
+                    <p className="text-xs text-sky-100/70 mt-1">sur la facture chauffage</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-2xl font-bold text-sky-300">Aides État</p>
+                    <p className="text-xs text-sky-100/70 mt-1">cumulables en 2026</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-2xl font-bold text-sky-300">Confort</p>
+                    <p className="text-xs text-sky-100/70 mt-1">thermique toute l'année</p>
+                  </div>
+                </div>
+
+                <p className="text-sky-100/40 text-xs italic mt-4 max-w-xl">
+                  *Sous conditions de ressources. Vous ne payez que le reste à charge — aucune avance de trésorerie.
+                  Montant selon catégorie de revenus. Calcul personnalisé gratuit après visite technique.
                 </p>
               </div>
 
-              {/* Right - form card */}
-              <div className="lg:col-span-5">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
-                  <div className="bg-gradient-to-r from-orange-600 via-orange-500 to-red-500 px-6 py-5">
+              {/* Right — form card (4 cols like PAC) */}
+              <div className="lg:col-span-4">
+                <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
+                  <div className="bg-gradient-to-r from-slate-700 via-slate-600 to-sky-700 px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                         <Award className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <h2 className="text-lg font-bold text-white">Test d&apos;éligibilité gratuit</h2>
-                        <p className="text-orange-100 text-sm">Réponse en 2 min • Sans engagement</p>
+                        <p className="text-sky-100 text-sm">Réponse en 2 min • Sans engagement</p>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
                     <div className="space-y-3 mb-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Check className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Check className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">
                           Aides MaPrimeRénov&apos; + CEE calculées
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Clock className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">Visite technique sous 48h</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Shield className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Shield className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">Garantie décennale</span>
                       </div>
                     </div>
                     <PhoneCallTracker
-                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 via-orange-500 to-red-500 hover:from-orange-600 hover:via-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]"
+                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]"
                       showIcon={false}
                     >
                       <Phone className="w-5 h-5" />
@@ -452,19 +474,19 @@ export default function IsolationPage() {
         {/* ============================================================= */}
         {/* CTA FINAL */}
         {/* ============================================================= */}
-        <section className="py-16 md:py-20 bg-gradient-to-br from-orange-500 via-orange-600 to-red-600">
+        <section className="py-16 md:py-20 bg-gradient-to-br from-slate-800 via-slate-700 to-sky-800">
           <div className="container mx-auto max-w-4xl px-4 text-center">
             <Thermometer className="w-16 h-16 text-white/80 mx-auto mb-6" />
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
               Testez votre éligibilité à l&apos;isolation à 1€*
             </h2>
-            <p className="text-orange-100 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto">
               En 2 minutes au téléphone, nous vérifions votre catégorie MaPrimeRénov&apos;, calculons vos aides et
               vous envoyons un devis transparent. Sans engagement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <PhoneCallTracker
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-700 font-bold px-8 py-4 rounded-full hover:bg-orange-50 transition-colors shadow-xl"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-8 py-4 rounded-full hover:from-orange-600 hover:to-red-600 transition-colors shadow-xl"
                 showIcon={false}
               >
                 <Phone className="w-5 h-5" />
@@ -478,10 +500,9 @@ export default function IsolationPage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
-            <p className="text-orange-200/80 text-xs mt-6 max-w-2xl mx-auto">
-              *Reste à charge réduit jusqu&apos;à 1€ pour les ménages très modestes (catégorie MaPrimeRénov&apos;
-              Bleu) sur l&apos;isolation des combles perdus, grâce au cumul MaPrimeRénov&apos; + Prime CEE bonifiée.
-              Montant variable selon la situation personnelle. Devis détaillé établi après visite technique gratuite.
+            <p className="text-sky-200/70 text-xs mt-6 max-w-2xl mx-auto">
+              *Vous ne payez que le reste à charge (à partir de 1€ pour les ménages très modestes, catégorie Bleu).
+              Aucune avance de trésorerie. Montant variable selon votre situation. Devis détaillé après visite technique gratuite.
             </p>
           </div>
         </section>
@@ -497,13 +518,13 @@ export default function IsolationPage() {
             <div className="grid sm:grid-cols-3 gap-4">
               <Link
                 href="/services/pompe-a-chaleur"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <Flame className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <Flame className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Pompe à chaleur
                   </p>
                   <p className="text-sm text-neutral-500">Jusqu&apos;à -70% sur le chauffage</p>
@@ -511,13 +532,13 @@ export default function IsolationPage() {
               </Link>
               <Link
                 href="/services/panneaux-solaires"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <Wind className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <Wind className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Panneaux solaires
                   </p>
                   <p className="text-sm text-neutral-500">Produisez votre électricité</p>
@@ -525,13 +546,13 @@ export default function IsolationPage() {
               </Link>
               <Link
                 href="/services/audit"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <FileCheck className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <FileCheck className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Audit énergétique
                   </p>
                   <p className="text-sm text-neutral-500">Priorisez vos travaux</p>
