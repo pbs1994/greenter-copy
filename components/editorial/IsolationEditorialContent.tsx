@@ -339,11 +339,6 @@ export function IsolationEditorialContent() {
             source="Anah, France Rénov', mars 2026"
           />
 
-          <PullQuote
-            quote="Sans artisan certifié RGE, aucune aide n'est versée. Vérifiez toujours la certification sur france-renov.gouv.fr."
-            variant="highlight"
-          />
-
           <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
             MaPrimeRénov' Parcours par Geste
           </h3>
