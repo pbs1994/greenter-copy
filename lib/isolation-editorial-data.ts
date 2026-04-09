@@ -174,7 +174,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Visite technique gratuite",
     duration: "45 minutes",
     description:
-      "Un technicien Greenter se déplace chez vous en Seine-et-Marne : mesures précises des combles, contrôle de la charpente, repérage des points singuliers (trappe d'accès, conduits de fumée, spots encastrés), choix de l'isolant adapté.",
+      "Un technicien Greenter se déplace chez vous : mesures précises des combles, contrôle de la charpente, repérage des points singuliers (trappe d'accès, conduits de fumée, spots encastrés), choix de l'isolant adapté.",
     icon: "home",
   },
   {
@@ -182,7 +182,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Devis & dépôt des aides",
     duration: "48 à 72h",
     description:
-      "Nous établissons un devis détaillé avec aides MaPrimeRénov' et Prime CEE déjà déduites. Nous déposons votre dossier sur maprimerenov.gouv.fr, signons le contrat CEE avec le fournisseur d'énergie et attendons l'accord de l'Anah avant d'engager les travaux.",
+      "Nous établissons un devis détaillé et prenons en charge toutes les démarches administratives : dépôt du dossier MaPrimeRénov' sur maprimerenov.gouv.fr et constitution du dossier CEE.",
     icon: "document",
   },
   {
@@ -190,7 +190,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Chantier d'isolation",
     duration: "1/2 journée à 1 jour",
     description:
-      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W), pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur. Vérification finale au caméra thermique.",
+      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W), pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur.",
     icon: "wrench",
   },
   {
@@ -198,7 +198,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Versement des aides",
     duration: "2 à 6 semaines",
     description:
-      "Nous envoyons la facture à l'Anah et au fournisseur CEE. Les aides sont versées directement sur votre compte bancaire. Vous profitez immédiatement des économies de chauffage, jusqu'à 600€/an pour 100 m² de combles.",
+      "Après les travaux, nous finalisons les dossiers d'aides. Les aides sont versées et vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
     icon: "euro",
   },
 ]

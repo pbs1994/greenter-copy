@@ -155,16 +155,16 @@ export default function IsolationPage() {
   return (
     <>
       <ServiceSchema
-        name="Isolation à 1€ - Combles et planchers bas en Seine-et-Marne"
-        description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat intervenant en Seine-et-Marne (77)."
+        name="Isolation à 1€ - Combles et planchers bas"
+        description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat."
         url="https://greenter.fr/services/isolation"
         image="https://greenter.fr/isolation.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={ISOLATION_FAQS} />
       <LocalBusinessSchema
-        name="Greenter - Isolation à 1€ en Seine-et-Marne"
-        description="Isolation des combles et planchers bas à partir de 1€ grâce aux aides 2026. Certifié RGE Qualibat en Seine-et-Marne (77) et Île-de-France."
+        name="Greenter - Isolation à 1€"
+        description="Isolation des combles et planchers bas à partir de 1€ grâce aux aides 2026. Artisan certifié RGE Qualibat."
         address={{
           streetAddress: "Ozoir-la-Ferrière",
           addressLocality: "Ozoir-la-Ferrière",
@@ -186,7 +186,7 @@ export default function IsolationPage() {
       />
       <ArticleSchema
         headline="Isolation à 1€ en 2026 : ce qu'il faut savoir sur les aides et le dispositif"
-        description="Tout savoir sur l'isolation à 1€ en 2026 : fin du Coup de Pouce historique, aides actuelles (MaPrimeRénov', CEE bonifiés), plafonds de ressources, zones d'intervention en Seine-et-Marne."
+        description="Tout savoir sur l'isolation à 1€ en 2026 : aides actuelles (MaPrimeRénov', CEE bonifiés), plafonds de ressources, matériaux et processus d'installation."
         datePublished="2026-01-10"
         dateModified="2026-04-08"
         author={{ name: "Greenter", url: "https://greenter.fr" }}
@@ -214,7 +214,7 @@ export default function IsolationPage() {
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-6">
                 <Shield className="w-4 h-4 text-sky-300" />
-                <span className="text-sky-200 text-sm font-medium">Certifié RGE Qualibat</span>
+                <span className="text-sky-200 text-sm font-medium">Certifié RGE</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
                 Isolation des combles
@@ -228,7 +228,7 @@ export default function IsolationPage() {
               <p className="text-sky-100/80 text-base leading-relaxed mb-2">
                 Grâce aux aides 2026 (MaPrimeRénov&apos; + CEE bonifiés).
               </p>
-              <p className="text-sky-100/60 text-sm">Seine-et-Marne (77) & Île-de-France</p>
+              <p className="text-sky-100/60 text-sm">Partout en France</p>
             </div>
 
             {/* Photo isolation - cadre contenu arrondi */}
@@ -252,8 +252,8 @@ export default function IsolationPage() {
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Combles perdus & </span>
-                      <span className="text-sky-700 font-bold">planchers bas</span>
+                      <span className="text-slate-700">Facture de chauffage </span>
+                      <span className="text-sky-700 font-bold">réduite de 30%</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
@@ -261,9 +261,8 @@ export default function IsolationPage() {
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Aides </span>
-                      <span className="text-sky-700 font-bold">déduites</span>
-                      <span className="text-slate-500 text-sm"> du devis</span>
+                      <span className="text-sky-700 font-bold">Aides de l&apos;État</span>
+                      <span className="text-slate-500 text-sm"> cumulables</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
@@ -271,8 +270,8 @@ export default function IsolationPage() {
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <span className="text-slate-700">Chantier en </span>
-                      <span className="text-sky-700 font-bold">1 journée</span>
+                      <span className="text-slate-700">Logement au </span>
+                      <span className="text-sky-700 font-bold">confort thermique élevé</span>
                     </div>
                   </li>
                 </ul>
@@ -326,7 +325,7 @@ export default function IsolationPage() {
                   <div className="text-white pt-2">
                     <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
                       <Shield className="w-4 h-4 text-sky-300" />
-                      <span className="text-sky-200 text-sm font-medium">Certifié RGE Qualibat</span>
+                      <span className="text-sky-200 text-sm font-medium">Certifié RGE</span>
                     </div>
                     <h1 className="text-4xl xl:text-5xl font-bold leading-tight mb-4">
                       Isolation des combles
@@ -389,16 +388,16 @@ export default function IsolationPage() {
                 {/* KPIs row beneath text+photo */}
                 <div className="grid grid-cols-3 gap-4 mt-6 max-w-2xl">
                   <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-sky-300">30%</p>
-                    <p className="text-xs text-sky-100/70 mt-1">pertes par la toiture</p>
+                    <p className="text-3xl font-bold text-sky-300">-30%</p>
+                    <p className="text-xs text-sky-100/70 mt-1">sur la facture chauffage</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-sky-300">1 jour</p>
-                    <p className="text-xs text-sky-100/70 mt-1">de travaux</p>
+                    <p className="text-2xl font-bold text-sky-300">Aides État</p>
+                    <p className="text-xs text-sky-100/70 mt-1">cumulables en 2026</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-sky-300">-600 €</p>
-                    <p className="text-xs text-sky-100/70 mt-1">/ an de chauffage</p>
+                    <p className="text-2xl font-bold text-sky-300">Confort</p>
+                    <p className="text-xs text-sky-100/70 mt-1">thermique toute l'année</p>
                   </div>
                 </div>
 

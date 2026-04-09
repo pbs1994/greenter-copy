@@ -149,7 +149,7 @@ export function IsolationEditorialContent() {
         {/* ================================================================ */}
         <ArticleSection id="combien-ca-coute" title="Combien ça coûte vraiment ?">
           <p>
-            Voici le calcul pour une famille de 3 personnes en Seine-et-Marne,
+            Voici le calcul pour une famille de 3 personnes,
             catégorie <strong>MaPrimeRénov' Bleu</strong> (très modestes),
             pour <strong>100 m² de combles perdus</strong> :
           </p>
@@ -285,7 +285,7 @@ export function IsolationEditorialContent() {
             Versée par les fournisseurs d'énergie (TotalEnergies, EDF, Engie…).
             La bonification <strong>« Grands Précaires »</strong> monte jusqu'à{' '}
             <strong>10,54 €/m² pour les combles</strong>. Chez Greenter, la prime est
-            déduite directement de votre devis — pas d'avance de trésorerie.
+            prise en charge directement par Greenter auprès du fournisseur d'énergie.
           </p>
 
           <h3 className="text-xl font-bold text-slate-900 mt-8 mb-3 font-editorial-serif">
@@ -309,8 +309,7 @@ export function IsolationEditorialContent() {
         {/* ================================================================ */}
         <ArticleSection id="processus" title="Comment ça se passe ? 5 étapes, zéro tracas">
           <p>
-            Du premier appel au versement des aides, <strong>nous gérons toutes les démarches</strong>.
-            Vous signez, on s'occupe du reste.
+            Du premier appel au versement des aides, <strong>nous gérons toutes les démarches administratives</strong> pour vous.
           </p>
 
           <InfographicBlock
@@ -334,7 +333,7 @@ export function IsolationEditorialContent() {
         <div className="px-4">
           <SidebarCTA
             title="Visite technique gratuite sous 48h"
-            description="Devis détaillé avec aides déjà déduites. Sans engagement."
+            description="Devis détaillé avec estimation des aides. Sans engagement."
             phone={PHONE_NUMBER}
             variant="editorial"
           />
@@ -525,8 +524,7 @@ export function IsolationEditorialContent() {
               Notre zone d'intervention
             </h2>
             <p className="text-slate-600 mb-4">
-              Basés à <strong>Ozoir-la-Ferrière</strong>, nous intervenons dans toute la{' '}
-              <strong>Seine-et-Marne (77)</strong> et les communes limitrophes d'Île-de-France.
+              Nous intervenons <strong>partout en France</strong> pour vos travaux d'isolation des combles et planchers bas.
             </p>
             <div className="flex flex-wrap gap-2">
               {CITIES.map((city) => (
