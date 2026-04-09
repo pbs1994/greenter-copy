@@ -102,7 +102,7 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <div className={`${compact ? "bg-slate-50 rounded-xl p-4" : "bg-gradient-to-br from-slate-50 to-orange-50/50 rounded-2xl p-5 border border-slate-100"}`}>
+    <div className={`${compact ? "bg-slate-50 rounded-xl p-4" : "bg-gradient-to-br from-slate-50 to-sky-50/50 rounded-2xl p-5 border border-slate-100"}`}>
       <p className={`text-slate-700 ${compact ? "text-sm mb-3" : "text-base mb-4"} text-center font-medium`}>
         Pas le temps d&apos;appeler ? On vous rappelle !
       </p>
@@ -114,14 +114,14 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Votre numéro de téléphone"
-            className={`w-full ${compact ? "pl-11 pr-4 py-3 text-base" : "pl-12 pr-4 py-4 text-lg"} bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all`}
+            className={`w-full ${compact ? "pl-11 pr-4 py-3 text-base" : "pl-12 pr-4 py-4 text-lg"} bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all`}
             required
           />
         </div>
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`w-full ${compact ? "py-3 text-base" : "py-4 text-lg"} bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 shadow-sm hover:shadow-md flex items-center justify-center gap-2`}
+          className={`w-full ${compact ? "py-3 text-base" : "py-4 text-lg"} bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-xl transition-all disabled:opacity-50 shadow-sm hover:shadow-md flex items-center justify-center gap-2`}
         >
           {status === "loading" ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Être rappelé gratuitement</>}
         </button>
@@ -205,69 +205,74 @@ export default function IsolationPage() {
         {/* ============================================================= */}
         {/* HERO - Design premium avec image isolation */}
         {/* ============================================================= */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <Image
-              src="/isolation.jpg"
-              alt="Isolation des combles à 1 euro en Seine-et-Marne par Greenter"
-              fill
-              className="object-cover object-[70%_60%]"
-              priority
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-950/90 via-amber-900/80 to-orange-900/70" />
+        <section className="flex-1 relative overflow-hidden min-h-[100dvh] lg:min-h-0">
+          {/* Background with deep blue-slate gradient — no photo behind overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900" />
 
           {/* MOBILE */}
           <div className="lg:hidden relative flex flex-col justify-between min-h-[100dvh] px-5 py-8">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-6">
-                <Shield className="w-4 h-4 text-orange-300" />
-                <span className="text-orange-200 text-sm font-medium">Certifié RGE Qualibat</span>
+                <Shield className="w-4 h-4 text-sky-300" />
+                <span className="text-sky-200 text-sm font-medium">Certifié RGE Qualibat</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
                 Isolation des combles
                 <br />
                 à partir de{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-amber-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-300">
                   1€
                 </span>
                 <span className="text-white">*</span>
               </h1>
-              <p className="text-orange-100/80 text-base leading-relaxed mb-2">
+              <p className="text-sky-100/80 text-base leading-relaxed mb-2">
                 Grâce aux aides 2026 (MaPrimeRénov&apos; + CEE bonifiés).
               </p>
-              <p className="text-orange-100/60 text-sm">Seine-et-Marne (77) & Île-de-France</p>
+              <p className="text-sky-100/60 text-sm">Seine-et-Marne (77) & Île-de-France</p>
             </div>
 
-            <div className="my-6">
+            {/* Photo isolation - cadre contenu arrondi */}
+            <div className="my-4 mx-auto w-full max-w-sm">
+              <div className="relative h-44 rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src="/isolation.jpg"
+                  alt="Artisan soufflant de la ouate de cellulose dans des combles"
+                  fill
+                  className="object-cover object-[70%_50%]"
+                  priority
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
               <div className="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-2xl">
                 <ul className="space-y-4 mb-5">
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <span className="text-slate-700">Combles perdus & </span>
-                      <span className="text-orange-600 font-bold">planchers bas</span>
+                      <span className="text-sky-700 font-bold">planchers bas</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <span className="text-slate-700">Aides </span>
-                      <span className="text-orange-600 font-bold">déduites</span>
+                      <span className="text-sky-700 font-bold">déduites</span>
                       <span className="text-slate-500 text-sm"> du devis</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-6 h-6 bg-sky-600 rounded-md flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <span className="text-slate-700">Chantier en </span>
-                      <span className="text-orange-600 font-bold">1 journée</span>
+                      <span className="text-sky-700 font-bold">1 journée</span>
                     </div>
                   </li>
                 </ul>
@@ -312,118 +317,136 @@ export default function IsolationPage() {
           </div>
 
           {/* DESKTOP */}
-          <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-10 pb-12 w-full">
+          <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
             <div className="grid lg:grid-cols-12 gap-8 items-start">
-              {/* Left */}
-              <div className="lg:col-span-7 text-white pt-6">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-                  <Shield className="w-4 h-4 text-orange-300" />
-                  <span className="text-orange-200 text-sm font-medium">Certifié RGE Qualibat • Seine-et-Marne (77)</span>
-                </div>
-                <h1 className="text-4xl xl:text-6xl font-bold leading-[1.05] mb-5">
-                  Isolation des combles
-                  <br />à partir de{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-amber-300 to-yellow-300">
-                    1€
-                  </span>
-                  <span className="text-white">*</span>
-                </h1>
-                <p className="text-orange-100/85 mb-6 leading-relaxed text-lg max-w-xl">
-                  Profitez des aides renforcées 2026 : <strong className="text-white">MaPrimeRénov&apos; Bleu/Jaune</strong>{" "}
-                  et <strong className="text-white">Prime CEE bonifiée</strong>. Un reste à charge réduit à 1€ pour les
-                  ménages très modestes sur l&apos;isolation des combles perdus.
-                </p>
-
-                {/* KPIs */}
-                <div className="grid grid-cols-3 gap-4 mb-6 max-w-xl">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">30%</p>
-                    <p className="text-xs text-orange-100/70 mt-1">pertes par la toiture</p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">1 jour</p>
-                    <p className="text-xs text-orange-100/70 mt-1">de travaux</p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                    <p className="text-3xl font-bold text-orange-300">-600 €</p>
-                    <p className="text-xs text-orange-100/70 mt-1">/ an de chauffage</p>
-                  </div>
-                </div>
-
-                {/* Badge Google + CTA tel */}
-                <div className="flex items-center gap-4 mb-6">
-                  <a
-                    href={googleData?.googleMapsUrl || "https://g.page/greenter"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-white rounded-2xl px-4 py-3 hover:shadow-xl transition-all"
-                  >
-                    <GoogleLogo className="w-8 h-8" />
-                    <div className="border-l border-slate-200 pl-3">
-                      <div className="flex items-center gap-0.5 mb-0.5">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        ))}
-                      </div>
-                      <p className="text-slate-900 font-bold text-sm">
-                        {rating}/5 <span className="font-normal text-slate-500">({reviewCount})</span>
-                      </p>
+              {/* Left — text + photo + KPIs (8 cols like PAC) */}
+              <div className="lg:col-span-8">
+                <div className="grid grid-cols-2 gap-6 items-start">
+                  {/* Text column */}
+                  <div className="text-white pt-2">
+                    <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
+                      <Shield className="w-4 h-4 text-sky-300" />
+                      <span className="text-sky-200 text-sm font-medium">Certifié RGE Qualibat</span>
                     </div>
-                  </a>
-                  <PhoneCallTracker
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-5 py-3 rounded-2xl shadow-lg shadow-orange-500/30"
-                    showIcon={false}
-                  >
-                    <Phone className="w-5 h-5" />
-                    <span className="text-sm">{PHONE}</span>
-                  </PhoneCallTracker>
+                    <h1 className="text-4xl xl:text-5xl font-bold leading-tight mb-4">
+                      Isolation des combles
+                      <br />à partir de{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-300">
+                        1€
+                      </span>
+                      <span className="text-white">*</span>
+                    </h1>
+                    <p className="text-sky-100/80 mb-6 leading-relaxed text-lg">
+                      Aides 2026 : <strong className="text-white">MaPrimeRénov&apos;</strong>{" "}
+                      + <strong className="text-white">CEE bonifiés</strong>.
+                      <br />Reste à charge réduit à 1€* pour les ménages très modestes.
+                    </p>
+
+                    {/* Badge Google + CTA tel */}
+                    <div className="flex items-center gap-4">
+                      <a
+                        href={googleData?.googleMapsUrl || "https://g.page/greenter"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 bg-white rounded-2xl px-4 py-3 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+                      >
+                        <GoogleLogo className="w-8 h-8" />
+                        <div className="border-l border-slate-200 pl-3">
+                          <div className="flex items-center gap-0.5 mb-0.5">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                              <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                            ))}
+                          </div>
+                          <p className="text-slate-900 font-bold text-sm">
+                            {rating}/5 <span className="font-normal text-slate-500">({reviewCount})</span>
+                          </p>
+                        </div>
+                      </a>
+                      <PhoneCallTracker
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-4 py-3 rounded-2xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02] transition-all"
+                        showIcon={false}
+                      >
+                        <Phone className="w-5 h-5" />
+                        <span className="text-sm">{PHONE}</span>
+                      </PhoneCallTracker>
+                    </div>
+                  </div>
+
+                  {/* Photo column — contained in rounded frame like PAC product */}
+                  <div className="flex justify-center items-start pt-2">
+                    <div className="relative w-full max-w-[420px] h-[340px] xl:h-[380px] rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
+                      <Image
+                        src="/isolation.jpg"
+                        alt="Artisan soufflant de la ouate de cellulose dans des combles perdus"
+                        fill
+                        className="object-cover object-[70%_50%]"
+                        priority
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-orange-100/50 text-xs italic max-w-xl">
+                {/* KPIs row beneath text+photo */}
+                <div className="grid grid-cols-3 gap-4 mt-6 max-w-2xl">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-3xl font-bold text-sky-300">30%</p>
+                    <p className="text-xs text-sky-100/70 mt-1">pertes par la toiture</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-3xl font-bold text-sky-300">1 jour</p>
+                    <p className="text-xs text-sky-100/70 mt-1">de travaux</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <p className="text-3xl font-bold text-sky-300">-600 €</p>
+                    <p className="text-xs text-sky-100/70 mt-1">/ an de chauffage</p>
+                  </div>
+                </div>
+
+                <p className="text-sky-100/40 text-xs italic mt-4 max-w-xl">
                   *Reste à charge minimum après déduction de MaPrimeRénov&apos; et Prime CEE bonifiée pour les ménages
                   très modestes (catégorie Bleu). Calcul personnalisé gratuit après visite technique.
                 </p>
               </div>
 
-              {/* Right - form card */}
-              <div className="lg:col-span-5">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
-                  <div className="bg-gradient-to-r from-orange-600 via-orange-500 to-red-500 px-6 py-5">
+              {/* Right — form card (4 cols like PAC) */}
+              <div className="lg:col-span-4">
+                <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
+                  <div className="bg-gradient-to-r from-slate-700 via-slate-600 to-sky-700 px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                         <Award className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <h2 className="text-lg font-bold text-white">Test d&apos;éligibilité gratuit</h2>
-                        <p className="text-orange-100 text-sm">Réponse en 2 min • Sans engagement</p>
+                        <p className="text-sky-100 text-sm">Réponse en 2 min • Sans engagement</p>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
                     <div className="space-y-3 mb-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Check className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Check className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">
                           Aides MaPrimeRénov&apos; + CEE calculées
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Clock className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">Visite technique sous 48h</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                          <Shield className="w-4 h-4 text-orange-600" />
+                        <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+                          <Shield className="w-4 h-4 text-sky-600" />
                         </div>
                         <span className="text-slate-700 text-sm">Garantie décennale</span>
                       </div>
                     </div>
                     <PhoneCallTracker
-                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 via-orange-500 to-red-500 hover:from-orange-600 hover:via-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]"
+                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]"
                       showIcon={false}
                     >
                       <Phone className="w-5 h-5" />
