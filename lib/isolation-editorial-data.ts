@@ -195,7 +195,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
   },
   {
     step: 5,
-    title: "Versement des aides",
+    title: "Vos économies commencent",
     duration: "2 à 6 semaines",
     description:
       "Après les travaux, nous finalisons les dossiers. Les aides sont versées directement à Greenter — vous ne payez que le reste à charge. Vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
@@ -293,7 +293,7 @@ export const ISOLATION_FAQS = [
       "Greenter s'occupe de toute la procédure : constitution du dossier MaPrimeRénov', dépôt sur la plateforme, suivi de l'instruction, puis envoi de la facture après travaux. Les aides (MaPrimeRénov' et CEE) sont versées directement à Greenter — vous ne payez que le reste à charge. Aucune avance de trésorerie de votre côté.",
   },
   {
-    question: "Comment éviter les arnaques à l'isolation ?",
+    question: "Comment choisir un artisan de confiance ?",
     answer:
       "Méfiez-vous du démarchage téléphonique — il est interdit depuis 2020 pour la rénovation énergétique. Fuyez les offres « 100 % gratuites sans étude » et les entreprises sans certification RGE vérifiable. Chez Greenter, vous pouvez vérifier notre RGE Qualibat directement sur france-renov.gouv.fr. Nous établissons toujours un devis détaillé après une visite technique gratuite, sans pression commerciale.",
   },

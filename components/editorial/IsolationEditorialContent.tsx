@@ -181,7 +181,7 @@ export function IsolationEditorialContent() {
           />
 
           <PullQuote
-            quote="Pour les ménages très modestes, isoler 100 m² de combles coûte moins cher qu'un plein d'essence."
+            quote="100 m² de combles isolés = jusqu'à 600 €/an d'économies sur votre facture de chauffage, dès le premier hiver."
             variant="stat"
           />
 
@@ -201,7 +201,7 @@ export function IsolationEditorialContent() {
         {/* ================================================================ */}
         {/* 2. INTRO COURTE — Le vrai du faux, version condensée */}
         {/* ================================================================ */}
-        <ArticleSection id="introduction" title="L'isolation à 1€ existe-t-elle encore ?">
+        <ArticleSection id="introduction" title="Comment fonctionne l'isolation à 1€ en 2026">
           <p>
             Le dispositif historique <strong>« Coup de Pouce Isolation à 1€ »</strong> a pris fin
             le <strong>1er juillet 2021</strong> (trop de fraudes). Mais en 2026, grâce au cumul de{' '}
@@ -524,7 +524,7 @@ export function IsolationEditorialContent() {
               Notre zone d'intervention
             </h2>
             <p className="text-slate-600 mb-4">
-              Nous intervenons <strong>partout en France</strong> pour vos travaux d'isolation des combles et planchers bas.
+              Nous intervenons pour vos travaux d'isolation des combles et planchers bas.
             </p>
             <div className="flex flex-wrap gap-2">
               {CITIES.map((city) => (

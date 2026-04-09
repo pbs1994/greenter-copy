@@ -228,7 +228,7 @@ export default function IsolationPage() {
               <p className="text-sky-100/80 text-base leading-relaxed mb-2">
                 Grâce aux aides 2026 (MaPrimeRénov&apos; + CEE bonifiés).
               </p>
-              <p className="text-sky-100/60 text-sm">Partout en France</p>
+              <p className="text-sky-100/60 text-sm">Devis gratuit • Sans engagement</p>
             </div>
 
             {/* Photo isolation - cadre contenu arrondi */}
