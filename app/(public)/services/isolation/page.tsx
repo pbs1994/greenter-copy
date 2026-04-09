@@ -475,19 +475,19 @@ export default function IsolationPage() {
         {/* ============================================================= */}
         {/* CTA FINAL */}
         {/* ============================================================= */}
-        <section className="py-16 md:py-20 bg-gradient-to-br from-orange-500 via-orange-600 to-red-600">
+        <section className="py-16 md:py-20 bg-gradient-to-br from-slate-800 via-slate-700 to-sky-800">
           <div className="container mx-auto max-w-4xl px-4 text-center">
             <Thermometer className="w-16 h-16 text-white/80 mx-auto mb-6" />
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
               Testez votre éligibilité à l&apos;isolation à 1€*
             </h2>
-            <p className="text-orange-100 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto">
               En 2 minutes au téléphone, nous vérifions votre catégorie MaPrimeRénov&apos;, calculons vos aides et
               vous envoyons un devis transparent. Sans engagement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <PhoneCallTracker
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-700 font-bold px-8 py-4 rounded-full hover:bg-orange-50 transition-colors shadow-xl"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-8 py-4 rounded-full hover:from-orange-600 hover:to-red-600 transition-colors shadow-xl"
                 showIcon={false}
               >
                 <Phone className="w-5 h-5" />
@@ -501,7 +501,7 @@ export default function IsolationPage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
-            <p className="text-orange-200/80 text-xs mt-6 max-w-2xl mx-auto">
+            <p className="text-sky-200/70 text-xs mt-6 max-w-2xl mx-auto">
               *Reste à charge réduit jusqu&apos;à 1€ pour les ménages très modestes (catégorie MaPrimeRénov&apos;
               Bleu) sur l&apos;isolation des combles perdus, grâce au cumul MaPrimeRénov&apos; + Prime CEE bonifiée.
               Montant variable selon la situation personnelle. Devis détaillé établi après visite technique gratuite.
@@ -520,13 +520,13 @@ export default function IsolationPage() {
             <div className="grid sm:grid-cols-3 gap-4">
               <Link
                 href="/services/pompe-a-chaleur"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <Flame className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <Flame className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Pompe à chaleur
                   </p>
                   <p className="text-sm text-neutral-500">Jusqu&apos;à -70% sur le chauffage</p>
@@ -534,13 +534,13 @@ export default function IsolationPage() {
               </Link>
               <Link
                 href="/services/panneaux-solaires"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <Wind className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <Wind className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Panneaux solaires
                   </p>
                   <p className="text-sm text-neutral-500">Produisez votre électricité</p>
@@ -548,13 +548,13 @@ export default function IsolationPage() {
               </Link>
               <Link
                 href="/services/audit"
-                className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl hover:shadow-md hover:bg-orange-50 transition-all group"
+                className="flex items-center gap-4 p-4 bg-slate-50/50 rounded-xl hover:shadow-md hover:bg-slate-50 transition-all group"
               >
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                  <FileCheck className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-200 transition-colors">
+                  <FileCheck className="w-6 h-6 text-sky-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 group-hover:text-orange-700 transition-colors">
+                  <p className="font-semibold text-neutral-900 group-hover:text-sky-700 transition-colors">
                     Audit énergétique
                   </p>
                   <p className="text-sm text-neutral-500">Priorisez vos travaux</p>
