@@ -76,7 +76,7 @@ export const ISOLATION_ZONES: IsolationZone[] = [
     name: "Planchers bas",
     percentage: "7-10%",
     description:
-      "Sur vide sanitaire, cave ou garage non chauffé. Projection de mousse ou panneaux rigides, chantier rapide en 1 journée.",
+      "Sur vide sanitaire, cave ou garage non chauffé. Projection de mousse ou panneaux rigides selon le support.",
     rMin: "R ≥ 3 m².K/W",
     priority: "élevée",
   },
@@ -188,9 +188,9 @@ export const ISOLATION_STEPS: InstallationStep[] = [
   {
     step: 4,
     title: "Chantier d'isolation",
-    duration: "1/2 journée à 1 jour",
+    duration: "Selon surface",
     description:
-      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W), pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur.",
+      "Protection du logement, pose du pare-vapeur, soufflage ou déroulé de l'isolant à la densité et à l'épaisseur réglementaires (R ≥ 7 m².K/W). Pose des déflecteurs en sous-toiture, des rehausses de trappe et des piges témoin d'épaisseur. Contrôle qualité sur site.",
     icon: "wrench",
   },
   {
@@ -198,7 +198,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Vos économies commencent",
     duration: "2 à 6 semaines",
     description:
-      "Après les travaux, nous finalisons les dossiers. Les aides sont versées directement à Greenter — vous ne payez que le reste à charge. Vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
+      "Après les travaux, nous finalisons les dossiers d'aides. Vous ne payez que le reste à charge — aucune avance de trésorerie. Vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
     icon: "euro",
   },
 ]
@@ -280,7 +280,7 @@ export const ISOLATION_FAQS = [
   {
     question: "Combien de temps durent les travaux d'isolation des combles ?",
     answer:
-      "L'isolation des combles perdus par soufflage est très rapide : pour une maison de 80 à 120 m², le chantier se termine en une demi-journée à une journée complète. L'isolation des planchers bas par projection de mousse polyuréthane ou pose de panneaux rigides nécessite 1 à 2 jours selon la surface. Vous profitez des économies d'énergie immédiatement après la fin du chantier, jusqu'à 600 €/an sur votre facture de chauffage pour 100 m² de combles.",
+      "La durée dépend de la surface et du type de travaux. Pour les combles perdus par soufflage (80 à 120 m²), notre équipe intervient sur une session de chantier complète avec contrôle qualité. Pour les planchers bas, comptez 1 à 2 sessions selon la surface et les contraintes d'accès. Vous profitez des économies d'énergie dès la fin des travaux, jusqu'à 600 €/an sur votre facture de chauffage pour 100 m² de combles.",
   },
   {
     question: "Quel matériau isolant choisir pour les combles ?",
@@ -290,7 +290,7 @@ export const ISOLATION_FAQS = [
   {
     question: "Comment se passe le dépôt du dossier MaPrimeRénov' ?",
     answer:
-      "Greenter s'occupe de toute la procédure : constitution du dossier MaPrimeRénov', dépôt sur la plateforme, suivi de l'instruction, puis envoi de la facture après travaux. Les aides (MaPrimeRénov' et CEE) sont versées directement à Greenter — vous ne payez que le reste à charge. Aucune avance de trésorerie de votre côté.",
+      "Greenter s'occupe de toute la procédure : constitution du dossier MaPrimeRénov', dépôt sur la plateforme, suivi de l'instruction, puis envoi de la facture après travaux. Vous ne payez que le reste à charge — aucune avance de trésorerie de votre côté.",
   },
   {
     question: "Comment choisir un artisan de confiance ?",

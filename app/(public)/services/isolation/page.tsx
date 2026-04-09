@@ -276,7 +276,7 @@ export default function IsolationPage() {
                   </li>
                 </ul>
                 <p className="text-xs text-slate-400 text-center mb-4 italic">
-                  *Sous conditions de ressources. Aides versées à l&apos;entreprise, vous ne payez que le reste.
+                  *Sous conditions de ressources. Vous ne payez que le reste à charge, sans avance.
                 </p>
                 <PhoneCallTracker
                   className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-orange-500/30"
@@ -402,7 +402,7 @@ export default function IsolationPage() {
                 </div>
 
                 <p className="text-sky-100/40 text-xs italic mt-4 max-w-xl">
-                  *Les aides (MaPrimeRénov&apos; + CEE) sont versées directement à Greenter. Vous ne payez que le reste à charge.
+                  *Sous conditions de ressources. Vous ne payez que le reste à charge — aucune avance de trésorerie.
                   Montant selon catégorie de revenus. Calcul personnalisé gratuit après visite technique.
                 </p>
               </div>
@@ -501,9 +501,8 @@ export default function IsolationPage() {
               </Link>
             </div>
             <p className="text-sky-200/70 text-xs mt-6 max-w-2xl mx-auto">
-              *Les aides MaPrimeRénov&apos; et Prime CEE sont versées directement à Greenter. Vous ne payez que
-              le reste à charge (à partir de 1€ pour les ménages très modestes, catégorie Bleu).
-              Montant variable selon votre situation. Devis détaillé après visite technique gratuite.
+              *Vous ne payez que le reste à charge (à partir de 1€ pour les ménages très modestes, catégorie Bleu).
+              Aucune avance de trésorerie. Montant variable selon votre situation. Devis détaillé après visite technique gratuite.
             </p>
           </div>
         </section>
