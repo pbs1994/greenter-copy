@@ -211,11 +211,11 @@ export default function IsolationPage() {
               src="/isolation.jpg"
               alt="Isolation des combles à 1 euro en Seine-et-Marne par Greenter"
               fill
-              className="object-cover object-center"
+              className="object-cover object-[70%_60%]"
               priority
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-950/95 via-amber-900/90 to-orange-900/85" />
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-950/90 via-amber-900/80 to-orange-900/70" />
 
           {/* MOBILE */}
           <div className="lg:hidden relative flex flex-col justify-between min-h-[100dvh] px-5 py-8">
