@@ -276,7 +276,7 @@ export default function IsolationPage() {
                   </li>
                 </ul>
                 <p className="text-xs text-slate-400 text-center mb-4 italic">
-                  *Sous conditions de ressources. Reste à charge selon catégorie MaPrimeRénov&apos;.
+                  *Sous conditions de ressources. Aides versées à l&apos;entreprise, vous ne payez que le reste.
                 </p>
                 <PhoneCallTracker
                   className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-orange-500/30"
@@ -402,8 +402,8 @@ export default function IsolationPage() {
                 </div>
 
                 <p className="text-sky-100/40 text-xs italic mt-4 max-w-xl">
-                  *Reste à charge minimum après déduction de MaPrimeRénov&apos; et Prime CEE bonifiée pour les ménages
-                  très modestes (catégorie Bleu). Calcul personnalisé gratuit après visite technique.
+                  *Les aides (MaPrimeRénov&apos; + CEE) sont versées directement à Greenter. Vous ne payez que le reste à charge.
+                  Montant selon catégorie de revenus. Calcul personnalisé gratuit après visite technique.
                 </p>
               </div>
 
@@ -501,9 +501,9 @@ export default function IsolationPage() {
               </Link>
             </div>
             <p className="text-sky-200/70 text-xs mt-6 max-w-2xl mx-auto">
-              *Reste à charge réduit jusqu&apos;à 1€ pour les ménages très modestes (catégorie MaPrimeRénov&apos;
-              Bleu) sur l&apos;isolation des combles perdus, grâce au cumul MaPrimeRénov&apos; + Prime CEE bonifiée.
-              Montant variable selon la situation personnelle. Devis détaillé établi après visite technique gratuite.
+              *Les aides MaPrimeRénov&apos; et Prime CEE sont versées directement à Greenter. Vous ne payez que
+              le reste à charge (à partir de 1€ pour les ménages très modestes, catégorie Bleu).
+              Montant variable selon votre situation. Devis détaillé après visite technique gratuite.
             </p>
           </div>
         </section>

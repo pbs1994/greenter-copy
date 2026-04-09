@@ -309,13 +309,13 @@ export function IsolationEditorialContent() {
         {/* ================================================================ */}
         <ArticleSection id="processus" title="Comment ça se passe ? 5 étapes, zéro tracas">
           <p>
-            Du premier appel au versement des aides, <strong>nous gérons toutes les démarches administratives</strong> pour vous.
+            Du premier appel à la fin du chantier, <strong>nous gérons toutes les démarches administratives</strong>. Les aides sont versées directement à Greenter — vous ne payez que le reste à charge.
           </p>
 
           <InfographicBlock
             type="timeline"
             data={{ steps: ISOLATION_STEPS }}
-            caption="De l'éligibilité au versement des aides"
+            caption="De l'éligibilité à la fin du chantier"
           />
 
           <p className="mt-6">

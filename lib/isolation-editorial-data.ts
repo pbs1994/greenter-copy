@@ -198,7 +198,7 @@ export const ISOLATION_STEPS: InstallationStep[] = [
     title: "Versement des aides",
     duration: "2 à 6 semaines",
     description:
-      "Après les travaux, nous finalisons les dossiers d'aides. Les aides sont versées et vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
+      "Après les travaux, nous finalisons les dossiers. Les aides sont versées directement à Greenter — vous ne payez que le reste à charge. Vous profitez immédiatement des économies de chauffage, jusqu'à 600 €/an pour 100 m² de combles.",
     icon: "euro",
   },
 ]
@@ -290,7 +290,7 @@ export const ISOLATION_FAQS = [
   {
     question: "Comment se passe le dépôt du dossier MaPrimeRénov' ?",
     answer:
-      "Greenter s'occupe de toute la procédure : création de votre compte sur maprimerenov.gouv.fr, constitution du dossier, téléversement du devis, suivi de l'instruction Anah, puis envoi de la facture après travaux pour déclencher le versement. Les aides CEE sont quant à elles directement déduites de notre devis (mention « prime déduite »). Vous n'avez qu'à signer le devis et profiter de vos travaux.",
+      "Greenter s'occupe de toute la procédure : constitution du dossier MaPrimeRénov', dépôt sur la plateforme, suivi de l'instruction, puis envoi de la facture après travaux. Les aides (MaPrimeRénov' et CEE) sont versées directement à Greenter — vous ne payez que le reste à charge. Aucune avance de trésorerie de votre côté.",
   },
   {
     question: "Comment éviter les arnaques à l'isolation ?",
