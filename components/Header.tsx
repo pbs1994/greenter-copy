@@ -59,16 +59,8 @@ const services = [
     badge: null,
   },
   {
-    title: "Isolation thermique",
-    href: "/services/isolation",
-    description: "Stoppez les déperditions",
-    icon: Home,
-    image: "/isolation.jpg",
-    badge: null,
-  },
-  {
     title: "Isolation à 1€",
-    href: "/services/isolation-1-euro",
+    href: "/services/isolation",
     description: "Combles & planchers bas — aides 2026",
     icon: Home,
     image: "/isolation.jpg",
