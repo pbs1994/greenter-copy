@@ -44,50 +44,49 @@ async function submitToSearchEngines() {
   const urls = getAllUrls()
   const results: Record<string, string> = {}
 
-  // 1. IndexNow (Bing, Yandex, Seznam, Naver) — bulk submit
+  // 1. IndexNow — submit directly to Bing (more reliable than api.indexnow.org)
   try {
-    const response = await fetch('https://api.indexnow.org/indexnow', {
+    const response = await fetch('https://www.bing.com/indexnow', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         host: 'greenter.fr',
         key: INDEXNOW_KEY,
         keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
-        urlList: urls,
+        urlList: urls.slice(0, 100),
       }),
     })
-    results.indexnow = `${response.status} ${response.statusText}`
+    results.indexnow_bing = `${response.status} ${response.statusText}`
   } catch (error) {
-    results.indexnow = `Error: ${error instanceof Error ? error.message : 'Unknown'}`
+    results.indexnow_bing = `Error: ${error instanceof Error ? error.message : 'Unknown'}`
   }
 
-  // 2. Google sitemap ping
+  // 2. IndexNow — Yandex
   try {
-    const response = await fetch(
-      `https://www.google.com/ping?sitemap=${encodeURIComponent(`${SITE_URL}/sitemap.xml`)}`
-    )
-    results.google_sitemap = `${response.status} ${response.statusText}`
+    const response = await fetch('https://yandex.com/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        host: 'greenter.fr',
+        key: INDEXNOW_KEY,
+        keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
+        urlList: urls.slice(0, 100),
+      }),
+    })
+    results.indexnow_yandex = `${response.status} ${response.statusText}`
   } catch (error) {
-    results.google_sitemap = `Error: ${error instanceof Error ? error.message : 'Unknown'}`
+    results.indexnow_yandex = `Error: ${error instanceof Error ? error.message : 'Unknown'}`
   }
 
-  // 3. Bing sitemap ping
-  try {
-    const response = await fetch(
-      `https://www.bing.com/ping?sitemap=${encodeURIComponent(`${SITE_URL}/sitemap.xml`)}`
-    )
-    results.bing_sitemap = `${response.status} ${response.statusText}`
-  } catch (error) {
-    results.bing_sitemap = `Error: ${error instanceof Error ? error.message : 'Unknown'}`
-  }
-
-  // 4. Ping Google with individual important URLs
+  // 3. Ping Google with individual important URLs
   // Google sometimes picks up URLs faster when directly fetched
   const priorityUrls = [
     `${SITE_URL}/services/pompe-a-chaleur`,
     `${SITE_URL}/services/panneaux-solaires`,
     `${SITE_URL}/services/isolation`,
     `${SITE_URL}/services/audit`,
+    `${SITE_URL}/blog`,
+    `${SITE_URL}/blog/guide-prix-pompe-a-chaleur-2026`,
     // Top 10 city pages (highest search volume cities)
     ...['ozoir-la-ferriere', 'pontault-combault', 'melun', 'meaux', 'chelles',
         'creteil', 'noisy-le-grand', 'champigny-sur-marne', 'saint-maur-des-fosses', 'paris'
