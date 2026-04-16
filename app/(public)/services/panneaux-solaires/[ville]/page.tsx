@@ -100,10 +100,34 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
   const cityData = getCityData(city.slug)
 
   const faqs = [
-    { question: `Combien coûte une installation solaire à ${city.name} ?`, answer: `Le prix d'une installation de panneaux solaires à ${city.name} varie entre 7 000€ et 20 000€ selon la puissance (3 à 9 kWc). Avec les aides (prime à l'autoconsommation, TVA réduite), le retour sur investissement est de 7 à 10 ans.` },
-    { question: `Mon toit à ${city.name} est-il adapté au solaire ?`, answer: `La plupart des toitures en ${city.department} sont adaptées. L'idéal est une orientation sud avec une inclinaison de 30°, mais les orientations est/ouest fonctionnent aussi. Greenter réalise une étude gratuite de votre toiture.` },
-    { question: `Quelles aides pour le solaire à ${city.name} (${city.postalCode}) ?`, answer: `Les habitants de ${city.name} bénéficient de la prime à l'autoconsommation (jusqu'à 2 340€), de la TVA réduite à 10%, du tarif de rachat EDF OA, et de l'éco-PTZ. Greenter vous accompagne dans toutes les démarches.` },
-    { question: `Greenter installe-t-il des panneaux solaires à ${city.name} ?`, answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. Nos installateurs certifiés RGE QualiPV assurent l'étude, la pose et le raccordement. Devis gratuit sous 48h.` },
+    {
+      question: `Combien coûte une installation solaire à ${city.name} ?`,
+      answer: cityData
+        ? `À ${city.name}, avec ${cityData.pctMaisons}% de maisons individuelles, la plupart des toitures sont adaptées au photovoltaïque. Le prix d'une installation varie entre 7 000€ et 20 000€ selon la puissance (3 à 9 kWc). Avec une consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an dans la commune, une installation de 6 kWc permet de couvrir 50 à 70% de vos besoins électriques. La prime à l'autoconsommation et la TVA réduite ramènent le retour sur investissement à 7 à 10 ans.`
+        : `Le prix d'une installation de panneaux solaires à ${city.name} varie entre 7 000€ et 20 000€ selon la puissance (3 à 9 kWc). Avec les aides (prime à l'autoconsommation, TVA réduite), le retour sur investissement est de 7 à 10 ans.`,
+    },
+    {
+      question: `Mon toit à ${city.name} est-il adapté au solaire ?`,
+      answer: cityData
+        ? `À ${city.name}, ${cityData.pctMaisons}% des logements sont des maisons individuelles avec toiture exploitable. Le parc construit ${cityData.anneeConstruction} offre des charpentes solides adaptées aux panneaux. L'idéal est une orientation sud avec une inclinaison de 30°, mais les orientations est/ouest fonctionnent aussi. Greenter réalise une étude gratuite de votre toiture avec simulation de production personnalisée.`
+        : `La plupart des toitures en ${city.department} sont adaptées. L'idéal est une orientation sud avec une inclinaison de 30°, mais les orientations est/ouest fonctionnent aussi. Greenter réalise une étude gratuite de votre toiture.`,
+    },
+    {
+      question: `Quelles aides pour le solaire à ${city.name} (${city.postalCode}) ?`,
+      answer: cityData
+        ? `Avec ${cityData.pctChauffageElec}% de logements chauffés à l'électricité à ${city.name}, l'autoconsommation solaire est particulièrement rentable car elle réduit directement la facture de chauffage. Les habitants de ${city.name} bénéficient de la prime à l'autoconsommation (jusqu'à 2 340€), de la TVA réduite à 10%, du tarif de rachat EDF OA, et de l'éco-PTZ. ${cityData.pctPassoiresThermiques >= 15 ? `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques dans la commune, le solaire contribue à améliorer le DPE de votre logement.` : ''} Greenter vous accompagne dans toutes les démarches.`
+        : `Les habitants de ${city.name} bénéficient de la prime à l'autoconsommation (jusqu'à 2 340€), de la TVA réduite à 10%, du tarif de rachat EDF OA, et de l'éco-PTZ. Greenter vous accompagne dans toutes les démarches.`,
+    },
+    {
+      question: `Greenter installe-t-il des panneaux solaires à ${city.name} ?`,
+      answer: cityData
+        ? `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. Nous connaissons bien le parc immobilier local, construit majoritairement ${cityData.anneeConstruction}, avec ${cityData.pctMaisons}% de maisons individuelles. Nos installateurs certifiés RGE QualiPV assurent l'étude, la pose et le raccordement de vos panneaux solaires. Devis gratuit sous 48h.`
+        : `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. Nos installateurs certifiés RGE QualiPV assurent l'étude, la pose et le raccordement. Devis gratuit sous 48h.`,
+    },
+    ...(cityData && cityData.pctChauffageElec >= 25 ? [{
+      question: `Peut-on coupler panneaux solaires et pompe à chaleur à ${city.name} ?`,
+      answer: `Absolument, et c'est une combinaison idéale à ${city.name} où ${cityData.pctChauffageElec}% des logements sont chauffés à l'électricité. Les panneaux solaires produisent l'électricité consommée par la pompe à chaleur, ce qui réduit encore davantage votre facture énergétique. Avec une consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an dans la commune, le couplage PAC + solaire permet de couvrir jusqu'à 70% de vos besoins en chauffage et eau chaude grâce à l'énergie solaire. Greenter, certifié RGE QualiPV et QualiPAC, installe les deux équipements de manière coordonnée pour une performance optimale.`,
+    }] : []),
   ]
 
   const breadcrumbItems = [

@@ -99,11 +99,37 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
 
   const cityData = getCityData(city.slug)
 
-  const faqs = [
-    { question: `Combien coûte un audit énergétique à ${city.name} ?`, answer: `Le prix d'un audit énergétique à ${city.name} (${city.postalCode}) varie entre 800€ et 1 500€ selon la taille du logement et la complexité du bâti. Des aides comme MaPrimeRénov' peuvent couvrir une partie du coût. Greenter vous accompagne dans les démarches pour obtenir ces financements.` },
-    { question: `Que comprend un audit énergétique à ${city.name} ?`, answer: `L'audit énergétique réalisé par Greenter à ${city.name} comprend l'analyse complète du bâti (isolation, menuiseries, ventilation), le bilan des consommations énergétiques, un diagnostic thermique avec identification des déperditions, le classement DPE, et un plan de rénovation priorisé avec estimation des économies et des aides disponibles.` },
-    { question: `Quand l'audit énergétique est-il obligatoire à ${city.name} (${city.postalCode}) ?`, answer: `En ${city.department}, l'audit énergétique est obligatoire depuis avril 2023 pour la vente de logements classés F ou G au DPE, et depuis janvier 2025 pour les logements classés E. Il est également fortement recommandé avant tout projet de rénovation énergétique pour bénéficier des aides MaPrimeRénov'.` },
-    { question: `Greenter réalise-t-il des audits énergétiques à ${city.name} ?`, answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour réaliser des audits énergétiques certifiés RGE. Nos diagnostiqueurs qualifiés assurent l'étude complète de votre logement et vous remettent un rapport détaillé. Devis gratuit sous 48h.` },
+  const faqs: { question: string; answer: string }[] = [
+    {
+      question: `Combien coûte un audit énergétique à ${city.name} ?`,
+      answer: cityData
+        ? `À ${city.name}, où le DPE moyen est ${cityData.dpeMoyen} et ${cityData.pctPassoiresThermiques}% des logements sont des passoires thermiques, l'audit coûte entre 800€ et 1 500€ selon la taille du logement et la complexité du bâti. Avec une consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an sur la commune, l'audit permet d'identifier des économies substantielles. Des aides comme MaPrimeRénov' peuvent couvrir une partie du coût. Greenter vous accompagne dans les démarches pour obtenir ces financements.`
+        : `Le prix d'un audit énergétique à ${city.name} (${city.postalCode}) varie entre 800€ et 1 500€ selon la taille du logement et la complexité du bâti. Des aides comme MaPrimeRénov' peuvent couvrir une partie du coût. Greenter vous accompagne dans les démarches pour obtenir ces financements.`,
+    },
+    {
+      question: `Que comprend un audit énergétique à ${city.name} ?`,
+      answer: cityData
+        ? `Pour le parc immobilier de ${city.name}, construit ${cityData.anneeConstruction} et consommant en moyenne ${cityData.consommationMoyenne} kWh/m²/an, notre audit identifie les déperditions spécifiques liées à l'âge et au type de construction. L'audit comprend l'analyse complète du bâti (isolation, menuiseries, ventilation), le bilan des consommations énergétiques, un diagnostic thermique avec identification des déperditions, le classement DPE, et un plan de rénovation priorisé avec estimation des économies et des aides disponibles.`
+        : `L'audit énergétique réalisé par Greenter à ${city.name} comprend l'analyse complète du bâti (isolation, menuiseries, ventilation), le bilan des consommations énergétiques, un diagnostic thermique avec identification des déperditions, le classement DPE, et un plan de rénovation priorisé avec estimation des économies et des aides disponibles.`,
+    },
+    {
+      question: `Quand l'audit énergétique est-il obligatoire à ${city.name} (${city.postalCode}) ?`,
+      answer: cityData
+        ? `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques à ${city.name}, de nombreux logements sont concernés par l'obligation d'audit énergétique. En ${city.department}, l'audit est obligatoire depuis avril 2023 pour la vente de logements classés F ou G au DPE, et depuis janvier 2025 pour les logements classés E. Il est également fortement recommandé avant tout projet de rénovation énergétique pour bénéficier des aides MaPrimeRénov'.`
+        : `En ${city.department}, l'audit énergétique est obligatoire depuis avril 2023 pour la vente de logements classés F ou G au DPE, et depuis janvier 2025 pour les logements classés E. Il est également fortement recommandé avant tout projet de rénovation énergétique pour bénéficier des aides MaPrimeRénov'.`,
+    },
+    {
+      question: `Greenter réalise-t-il des audits énergétiques à ${city.name} ?`,
+      answer: cityData
+        ? `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour réaliser des audits énergétiques certifiés RGE. Avec ${cityData.logements.toLocaleString('fr-FR')} logements sur la commune et un DPE moyen de ${cityData.dpeMoyen}, nos diagnostiqueurs qualifiés connaissent parfaitement les problématiques du parc immobilier local construit ${cityData.anneeConstruction}. Nous assurons l'étude complète de votre logement et vous remettons un rapport détaillé. Devis gratuit sous 48h.`
+        : `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour réaliser des audits énergétiques certifiés RGE. Nos diagnostiqueurs qualifiés assurent l'étude complète de votre logement et vous remettent un rapport détaillé. Devis gratuit sous 48h.`,
+    },
+    ...(cityData && cityData.pctPassoiresThermiques >= 15
+      ? [{
+          question: `Quel est l'état du parc immobilier à ${city.name} ?`,
+          answer: `${city.name} compte ${cityData.population.toLocaleString('fr-FR')} habitants et ${cityData.logements.toLocaleString('fr-FR')} logements. Le DPE moyen est ${cityData.dpeMoyen}, avec ${cityData.pctPassoiresThermiques}% de logements classés F ou G (passoires thermiques) et une consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an. Le parc est construit majoritairement ${cityData.anneeConstruction}. L'audit énergétique permet d'identifier les travaux prioritaires pour améliorer la performance de ces logements et réduire durablement les factures d'énergie.`,
+        }]
+      : []),
   ]
 
   const breadcrumbItems = [

@@ -100,10 +100,36 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
   const cityData = getCityData(city.slug)
 
   const faqs = [
-    { question: `Combien coûte une isolation thermique à ${city.name} ?`, answer: `Le coût de l'isolation thermique à ${city.name} (${city.postalCode}) dépend du type de travaux : isolation des combles à partir de 20€/m², isolation des murs par l'extérieur entre 100€ et 180€/m², isolation des planchers bas à partir de 30€/m². Avec les aides MaPrimeRénov' et les CEE, le reste à charge peut être considérablement réduit.` },
-    { question: `Quels types d'isolation propose Greenter à ${city.name} ?`, answer: `Greenter réalise tous les types d'isolation thermique à ${city.name} et en ${city.department} : isolation des combles perdus et aménagés, isolation des murs par l'intérieur (ITI) et par l'extérieur (ITE), ainsi que l'isolation des planchers bas. Nos techniciens certifiés RGE Qualibat utilisent des matériaux performants et durables.` },
-    { question: `Quelles aides pour l'isolation à ${city.name} (${city.postalCode}) ?`, answer: `Les habitants de ${city.name} peuvent bénéficier de MaPrimeRénov' (jusqu'à 75€/m² pour l'ITE), des Certificats d'Économies d'Énergie (CEE), de la TVA réduite à 5,5%, et de l'éco-PTZ jusqu'à 50 000€. Greenter vous accompagne dans le montage de tous vos dossiers d'aides en ${city.department}.` },
-    { question: `Greenter réalise-t-il des travaux d'isolation à ${city.name} ?`, answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour vos travaux d'isolation thermique. Nos artisans certifiés RGE Qualibat assurent l'étude thermique, la préconisation des travaux et la réalisation. Devis gratuit sous 48h.` },
+    {
+      question: `Combien coûte une isolation thermique à ${city.name} ?`,
+      answer: cityData
+        ? `À ${city.name}, où la consommation moyenne atteint ${cityData.consommationMoyenne} kWh/m²/an et ${cityData.pctPassoiresThermiques}% des logements sont des passoires thermiques, l'isolation est un investissement particulièrement rentable. Le coût dépend du type de travaux : isolation des combles à partir de 20€/m², isolation des murs par l'extérieur (ITE) entre 100€ et 180€/m², isolation des planchers bas à partir de 30€/m². Avec les aides MaPrimeRénov' et les CEE, le reste à charge peut être considérablement réduit.`
+        : `Le coût de l'isolation thermique à ${city.name} (${city.postalCode}) dépend du type de travaux : isolation des combles à partir de 20€/m², isolation des murs par l'extérieur entre 100€ et 180€/m², isolation des planchers bas à partir de 30€/m². Avec les aides MaPrimeRénov' et les CEE, le reste à charge peut être considérablement réduit.`,
+    },
+    {
+      question: `Quels types d'isolation propose Greenter à ${city.name} ?`,
+      answer: cityData
+        ? `Le parc immobilier de ${city.name}, construit majoritairement ${cityData.anneeConstruction}, nécessite souvent une isolation des combles en priorité (30% des déperditions). Greenter réalise tous les types d'isolation thermique à ${city.name} et en ${city.department} : isolation des combles perdus et aménagés, isolation des murs par l'intérieur (ITI) et par l'extérieur (ITE), ainsi que l'isolation des planchers bas. Nos techniciens certifiés RGE Qualibat utilisent des matériaux performants et durables, adaptés aux constructions ${cityData.anneeConstruction} typiques de la commune.`
+        : `Greenter réalise tous les types d'isolation thermique à ${city.name} et en ${city.department} : isolation des combles perdus et aménagés, isolation des murs par l'intérieur (ITI) et par l'extérieur (ITE), ainsi que l'isolation des planchers bas. Nos techniciens certifiés RGE Qualibat utilisent des matériaux performants et durables.`,
+    },
+    {
+      question: `Quelles aides pour l'isolation à ${city.name} (${city.postalCode}) ?`,
+      answer: cityData
+        ? `Avec ${cityData.pctPassoiresThermiques}% de logements classés F ou G à ${city.name}, de nombreux foyers sont éligibles aux aides maximales. Les habitants peuvent bénéficier de MaPrimeRénov' (jusqu'à 75€/m² pour l'ITE), des Certificats d'Économies d'Énergie (CEE), de la TVA réduite à 5,5%, et de l'éco-PTZ jusqu'à 50 000€. Greenter vous accompagne dans le montage de tous vos dossiers d'aides en ${city.department}.`
+        : `Les habitants de ${city.name} peuvent bénéficier de MaPrimeRénov' (jusqu'à 75€/m² pour l'ITE), des Certificats d'Économies d'Énergie (CEE), de la TVA réduite à 5,5%, et de l'éco-PTZ jusqu'à 50 000€. Greenter vous accompagne dans le montage de tous vos dossiers d'aides en ${city.department}.`,
+    },
+    {
+      question: `Greenter réalise-t-il des travaux d'isolation à ${city.name} ?`,
+      answer: cityData
+        ? `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour vos travaux d'isolation thermique. Grâce à notre connaissance approfondie du parc immobilier local — ${cityData.pctMaisons}% de maisons individuelles, constructions ${cityData.anneeConstruction}, zone climatique ${cityData.zoneClimatique} (${cityData.dju} DJU) — nos artisans certifiés RGE Qualibat assurent l'étude thermique, la préconisation des travaux et la réalisation. Devis gratuit sous 48h.`
+        : `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department} pour vos travaux d'isolation thermique. Nos artisans certifiés RGE Qualibat assurent l'étude thermique, la préconisation des travaux et la réalisation. Devis gratuit sous 48h.`,
+    },
+    ...(cityData && cityData.pctPassoiresThermiques >= 20
+      ? [{
+          question: `Mon logement à ${city.name} est-il une passoire thermique ?`,
+          answer: `À ${city.name}, ${cityData.pctPassoiresThermiques}% des logements sont classés F ou G au DPE (Diagnostic de Performance Énergétique), ce qui les qualifie de passoires thermiques. Pour le savoir, consultez votre DPE existant ou demandez un nouveau diagnostic. Attention aux échéances réglementaires : depuis 2025, les logements classés G sont interdits à la location, les logements F le seront en 2028, et les logements E en 2034. Si votre bien est concerné, l'isolation thermique est la première étape pour améliorer votre classement DPE et rester en conformité. Greenter vous accompagne de l'audit à la réalisation des travaux.`,
+        }]
+      : []),
   ]
 
   const breadcrumbItems = [
