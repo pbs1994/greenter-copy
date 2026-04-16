@@ -47,27 +47,35 @@ interface Props {
 /**
  * Blog index page - displays published blog posts with pagination
  * Uses Payload Local API for data fetching.
- * 
+ *
  * @validates Requirements 20.1, 20.2
  */
 export default async function BlogPage({ searchParams }: Props) {
   const { page: pageParam } = await searchParams
   const currentPage = Math.max(1, parseInt(pageParam || '1', 10))
-  
-  const payload = await getPayloadClient()
-  
-  // Fetch published blog posts with pagination
-  const { docs: posts, totalPages, totalDocs } = await payload.find({
-    collection: 'blog-posts',
-    where: { status: { equals: 'published' } },
-    sort: '-published_date',
-    depth: 1, // Populate featured_image
-    limit: POSTS_PER_PAGE,
-    page: currentPage,
-  })
-  
-  const typedPosts = posts as BlogPost[]
-  
+
+  let typedPosts: BlogPost[] = []
+  let totalPages = 1
+
+  try {
+    const payload = await getPayloadClient()
+
+    // Fetch published blog posts with pagination
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      sort: '-published_date',
+      depth: 1, // Populate featured_image
+      limit: POSTS_PER_PAGE,
+      page: currentPage,
+    })
+
+    typedPosts = result.docs as BlogPost[]
+    totalPages = result.totalPages
+  } catch {
+    // If Payload is unavailable, show empty state gracefully
+  }
+
   // Helper to get image URL
   const getImageUrl = (post: BlogPost): string | null => {
     if (typeof post.featured_image === 'object' && post.featured_image?.url) {
@@ -75,7 +83,7 @@ export default async function BlogPage({ searchParams }: Props) {
     }
     return null
   }
-  
+
   // Format date in French
   const formatDate = (dateString: string | null | undefined): string => {
     if (!dateString) return ''
@@ -85,7 +93,7 @@ export default async function BlogPage({ searchParams }: Props) {
       year: 'numeric',
     })
   }
-  
+
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Blog", url: "https://greenter.fr/blog" }
@@ -112,10 +120,10 @@ export default async function BlogPage({ searchParams }: Props) {
               Notre blog
             </span>
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
-              Actualit�s & Conseils
+              Actualités & Conseils
             </h1>
             <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
-              D�couvrez nos articles sur l'�nergie solaire, les batteries de stockage, 
+              Découvrez nos articles sur l&apos;énergie solaire, les batteries de stockage,
               et les conseils pour optimiser votre autoconsommation.
             </p>
           </div>
@@ -135,13 +143,13 @@ export default async function BlogPage({ searchParams }: Props) {
                 Aucun article pour le moment
               </h2>
               <p className="text-neutral-600 mb-6">
-                Nos articles arrivent bient�t. Revenez nous voir !
+                Nos articles arrivent bientôt. Revenez nous voir !
               </p>
-              <Link 
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-full transition-colors"
               >
-                Retour � l'accueil
+                Retour à l&apos;accueil
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -152,7 +160,7 @@ export default async function BlogPage({ searchParams }: Props) {
                 {typedPosts.map((post) => {
                   const imageUrl = getImageUrl(post)
                   return (
-                    <Link 
+                    <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
                       className="group bg-white rounded-2xl overflow-hidden shadow-lg ring-1 ring-green-200 hover:ring-green-400 hover:shadow-xl transition-all"
@@ -182,11 +190,11 @@ export default async function BlogPage({ searchParams }: Props) {
                             {formatDate(post.published_date)}
                           </time>
                         </div>
-                        
+
                         <h2 className="font-heading text-xl font-bold text-neutral-900 group-hover:text-green-700 transition-colors mb-2 line-clamp-2">
                           {post.title}
                         </h2>
-                        
+
                         {post.excerpt && (
                           <p className="text-neutral-600 text-sm mb-4 line-clamp-3">
                             {post.excerpt}
@@ -195,7 +203,7 @@ export default async function BlogPage({ searchParams }: Props) {
 
                         {/* Read more */}
                         <span className="inline-flex items-center gap-1 text-green-700 font-semibold text-sm group-hover:gap-2 transition-all">
-                          Lire l'article
+                          Lire l&apos;article
                           <ArrowRight className="w-4 h-4" />
                         </span>
                       </div>
@@ -212,10 +220,10 @@ export default async function BlogPage({ searchParams }: Props) {
                       href={`/blog?page=${currentPage - 1}`}
                       className="px-4 py-2 rounded-lg border border-green-200 hover:border-green-400 hover:bg-green-50 transition-colors text-sm font-medium"
                     >
-                      Pr�c�dent
+                      Précédent
                     </Link>
                   )}
-                  
+
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <Link
                       key={page}
@@ -229,7 +237,7 @@ export default async function BlogPage({ searchParams }: Props) {
                       {page}
                     </Link>
                   ))}
-                  
+
                   {currentPage < totalPages && (
                     <Link
                       href={`/blog?page=${currentPage + 1}`}
