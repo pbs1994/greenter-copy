@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/commande/'],
+      disallow: ['/api/', '/admin/', '/commande/'],
     },
     sitemap: 'https://greenter.fr/sitemap.xml',
   }

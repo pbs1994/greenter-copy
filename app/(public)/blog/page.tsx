@@ -23,11 +23,11 @@ interface BlogPost {
 }
 
 export const metadata: Metadata = {
-  title: "Blog | Actualit�s �nergie Solaire | Greenter",
-  description: "D�couvrez nos articles sur l'�nergie solaire, les batteries de stockage, et les conseils pour optimiser votre autoconsommation.",
+  title: "Blog | Actualités Énergie Solaire & Rénovation | Greenter",
+  description: "Découvrez nos articles sur l'énergie solaire, les batteries de stockage, les pompes à chaleur et les conseils pour optimiser votre autoconsommation.",
   openGraph: {
-    title: "Blog | Greenter",
-    description: "Actualit�s et conseils sur l'�nergie solaire et l'autoconsommation.",
+    title: "Blog Rénovation Énergétique | Greenter",
+    description: "Actualités et conseils sur l'énergie solaire, pompes à chaleur et autoconsommation.",
     url: "https://greenter.fr/blog",
     siteName: "Greenter",
     locale: "fr_FR",

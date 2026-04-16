@@ -25,8 +25,8 @@ const inter = Inter({
 const GTM_ID = "GTM-NQZQZT3S";
 
 export const metadata: Metadata = {
-  title: "Greenter | Rénovation énergétique partout en France - Pompe à chaleur, Panneaux solaires",
-  description: "Expert certifié RGE en rénovation énergétique : installation pompe à chaleur, panneaux solaires, isolation thermique et audit énergétique. Économisez jusqu'à 70% sur vos factures. Accompagnement MaPrimeRénov' inclus.",
+  title: "Greenter | Rénovation Énergétique RGE en France",
+  description: "Expert certifié RGE : installation pompe à chaleur, panneaux solaires, isolation thermique et audit énergétique. Économisez jusqu'à 70% sur vos factures. Devis gratuit sous 48h.",
   keywords: ["rénovation énergétique", "pompe à chaleur", "panneaux solaires", "isolation thermique", "audit énergétique", "MaPrimeRénov", "RGE", "économies énergie", "chauffage", "autoconsommation"],
   authors: [{ name: "Greenter" }],
   creator: "Greenter",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "https://greenter.fr",
     siteName: "Greenter",
-    title: "Greenter | Rénovation énergétique - Pompe à chaleur & Panneaux solaires",
+    title: "Greenter | Rénovation Énergétique RGE en France",
     description: "Expert certifié RGE : pompe à chaleur, panneaux solaires, isolation. Économisez jusqu'à 70% sur vos factures. Devis gratuit.",
     images: [
       {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Greenter | Rénovation énergétique partout en France",
+    title: "Greenter | Rénovation Énergétique RGE en France",
     description: "Pompe à chaleur, panneaux solaires, isolation. Certifié RGE. Devis gratuit sous 48h.",
     images: ["https://greenter.fr/twitter_card.jpg"],
   },

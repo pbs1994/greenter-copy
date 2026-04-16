@@ -9,6 +9,7 @@ import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
@@ -29,8 +30,8 @@ export async function generateMetadata({
     return { title: "Page non trouvée | Greenter" }
   }
 
-  const title = `Installation Pompe à Chaleur ${city.name} | Devis Gratuit | Greenter`
-  const description = `Installation de pompe à chaleur à ${city.name} (${city.postalCode}). Certifié RGE. Jusqu'à 70% d'économies. Devis gratuit sous 48h. ☎ 07 66 97 50 99`
+  const title = `Pompe à Chaleur ${city.name} (${city.postalCode}) | Greenter`
+  const description = `Installation pompe à chaleur à ${city.name} par Greenter, certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. Intervention en Seine-et-Marne.`
 
   return {
     title,
@@ -121,6 +122,25 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
 
   if (!city) notFound()
 
+  const faqs = [
+    {
+      question: `Combien coûte l'installation d'une pompe à chaleur à ${city.name} ?`,
+      answer: `Le coût d'installation d'une pompe à chaleur à ${city.name} varie entre 8 000€ et 18 000€ selon le modèle (air-eau ou air-air) et la surface de votre logement. Grâce aux aides MaPrimeRénov' et CEE, le reste à charge peut être réduit de 50 à 70%.`,
+    },
+    {
+      question: `Quelles aides pour une pompe à chaleur à ${city.name} (${city.postalCode}) ?`,
+      answer: `Les habitants de ${city.name} peuvent bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE, de l'éco-PTZ (jusqu'à 50 000€) et d'une TVA réduite à 5,5%. Greenter vous accompagne dans toutes les démarches administratives.`,
+    },
+    {
+      question: `Greenter intervient-il à ${city.name} pour installer une PAC ?`,
+      answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. Nos techniciens certifiés RGE QualiPAC réalisent l'étude, l'installation et la mise en service de votre pompe à chaleur. Devis gratuit sous 48h.`,
+    },
+    {
+      question: `Quelle pompe à chaleur choisir à ${city.name} ?`,
+      answer: `Pour un logement à ${city.name}, nous recommandons généralement une PAC air-eau pour le chauffage central et l'eau chaude, ou une PAC air-air pour un chauffage d'appoint performant. Notre audit gratuit détermine la solution idéale pour votre logement.`,
+    },
+  ]
+
   const breadcrumbItems = [
     { name: "Accueil", url: "https://greenter.fr" },
     { name: "Services", url: "https://greenter.fr/services" },
@@ -132,6 +152,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
     <main>
       <LocalServiceSchema cityName={city.name} citySlug={city.slug} postalCode={city.postalCode} />
       <BreadcrumbSchema items={breadcrumbItems} />
+      <FAQPageSchema items={faqs} />
 
       <section className="relative bg-gradient-to-br from-green-900 via-green-800 to-teal-900 overflow-hidden">
         <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24 relative z-10">
@@ -187,6 +208,27 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">70%</p><p className="text-sm text-neutral-600">d&apos;économies sur le chauffage</p></div>
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour recevoir votre devis</p></div>
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">10 ans</p><p className="text-sm text-neutral-600">de garantie décennale</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 bg-neutral-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-8">
+            Questions fréquentes - Pompe à chaleur à {city.name}
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <details key={index} className="bg-white rounded-xl border border-neutral-200 overflow-hidden group">
+                <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-neutral-900 hover:text-green-700 transition-colors">
+                  {faq.question}
+                  <ArrowRight className="w-5 h-5 text-neutral-400 group-open:rotate-90 transition-transform flex-shrink-0 ml-4" />
+                </summary>
+                <div className="px-5 pb-5 text-neutral-600 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
