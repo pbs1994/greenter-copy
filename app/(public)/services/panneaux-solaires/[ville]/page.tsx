@@ -146,11 +146,11 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
       {/* ============================================================= */}
       {/* HERO SECTION                                                 */}
       {/* ============================================================= */}
-      <section className="relative min-h-[85vh] lg:min-h-[75vh] bg-gradient-to-br from-amber-800 via-orange-700 to-amber-900 overflow-hidden">
+      <section className="relative min-h-[85vh] lg:min-h-[75vh] bg-gradient-to-br from-sky-800 via-blue-700 to-sky-900 overflow-hidden">
         {/* Glow effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-yellow-400/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-400/15 rounded-full blur-[100px]" />
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-sky-400/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-400/15 rounded-full blur-[100px]" />
         </div>
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
@@ -160,7 +160,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
             {/* ---- COLONNE GAUCHE (7 cols) ---- */}
             <div className="lg:col-span-7 pt-4 lg:pt-8">
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="inline-flex items-center gap-1.5 bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-full">
+                <span className="inline-flex items-center gap-1.5 bg-sky-400/15 border border-sky-300/30 text-sky-200 text-xs font-semibold px-3 py-1.5 rounded-full">
                   <Shield className="w-3.5 h-3.5" /> Certifié RGE QualiPV
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-yellow-500/15 border border-yellow-400/30 text-yellow-300 text-xs font-semibold px-3 py-1.5 rounded-full">
@@ -173,11 +173,11 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
 
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-5">
                 Produisez votre{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-300">propre électricité</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-300">propre électricité</span>
                 {' '}à {city.name}
               </h1>
 
-              <p className="text-amber-100/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
+              <p className="text-sky-100/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
                 {cityData
                   ? `À ${city.name}, ${cityData.pctMaisons}% des logements sont des maisons avec toiture exploitable. Autoconsommation solaire + revente du surplus = jusqu'à 70% d'économies sur votre facture d'électricité.`
                   : `Installation panneaux solaires certifiée RGE à ${city.name}. Autoconsommation + revente du surplus. Jusqu'à 70% d'économies sur votre électricité.`
@@ -187,24 +187,24 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
               <div className="grid grid-cols-3 gap-3 mb-8">
                 <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">70%</p>
-                  <p className="text-xs text-amber-100 font-medium">d&apos;économies</p>
+                  <p className="text-xs text-sky-200 font-medium">d&apos;économies</p>
                 </div>
                 <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">25 ans</p>
-                  <p className="text-xs text-amber-100 font-medium">garantie panneaux</p>
+                  <p className="text-xs text-sky-200 font-medium">garantie panneaux</p>
                 </div>
                 <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">48h</p>
-                  <p className="text-xs text-amber-100 font-medium">devis gratuit</p>
+                  <p className="text-xs text-sky-200 font-medium">devis gratuit</p>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all hover:scale-[1.02]">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transition-all hover:scale-[1.02]">
                   Étude solaire gratuite
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a href="tel:+33766975099" className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-amber-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all">
+                <a href="tel:+33766975099" className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-sky-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all">
                   <Phone className="w-5 h-5" />07 66 97 50 99
                 </a>
               </div>
@@ -218,51 +218,51 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
             {/* ---- COLONNE DROITE (5 cols) — Card solaire ---- */}
             <div className="lg:col-span-5 lg:pt-4">
               <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
-                <div className="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 px-6 py-5">
+                <div className="bg-gradient-to-r from-sky-600 via-blue-500 to-sky-600 px-6 py-5">
                   <h2 className="text-lg font-bold text-white">Panneaux solaires à {city.name}</h2>
-                  <p className="text-amber-100 text-sm">Devis gratuit et personnalisé</p>
+                  <p className="text-sky-100 text-sm">Devis gratuit et personnalisé</p>
                 </div>
 
                 <div className="p-6">
                   <div className="grid grid-cols-2 gap-3 mb-5">
-                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
-                      <p className="text-amber-700 text-xs font-medium mb-1">Kit 3 kWc</p>
+                    <div className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 border border-sky-200">
+                      <p className="text-sky-700 text-xs font-medium mb-1">Kit 3 kWc</p>
                       <p className="text-2xl font-bold text-slate-900">4 000€</p>
-                      <p className="text-amber-600 text-xs">à partir de, pose incluse</p>
+                      <p className="text-sky-600 text-xs">à partir de, pose incluse</p>
                     </div>
-                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
-                      <p className="text-amber-700 text-xs font-medium mb-1">Kit 6 kWc</p>
+                    <div className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 border border-sky-200">
+                      <p className="text-sky-700 text-xs font-medium mb-1">Kit 6 kWc</p>
                       <p className="text-2xl font-bold text-slate-900">7 000€</p>
-                      <p className="text-amber-600 text-xs">à partir de, pose incluse</p>
+                      <p className="text-sky-600 text-xs">à partir de, pose incluse</p>
                     </div>
                   </div>
 
                   <div className="space-y-3 mb-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><CheckCircle className="w-4 h-4 text-amber-600" /></div>
+                      <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center shrink-0"><CheckCircle className="w-4 h-4 text-sky-600" /></div>
                       <span className="text-slate-700 text-sm">Étude toiture gratuite à {city.name}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Clock className="w-4 h-4 text-amber-600" /></div>
+                      <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center shrink-0"><Clock className="w-4 h-4 text-sky-600" /></div>
                       <span className="text-slate-700 text-sm">Devis sous 48h, pose rapide</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Shield className="w-4 h-4 text-amber-600" /></div>
+                      <div className="w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center shrink-0"><Shield className="w-4 h-4 text-sky-600" /></div>
                       <span className="text-slate-700 text-sm">Garantie 25 ans + onduleur 10 ans</span>
                     </div>
                   </div>
 
                   {cityData && (
-                    <div className="bg-amber-50 rounded-xl p-4 mb-5 text-center">
-                      <p className="text-sm text-amber-800 font-medium">Potentiel solaire à {city.name}</p>
-                      <p className="text-2xl font-bold text-amber-700 mt-1">{cityData.pctMaisons}% de maisons</p>
-                      <p className="text-xs text-amber-600 mt-1">avec toiture exploitable pour le solaire</p>
+                    <div className="bg-sky-50 rounded-xl p-4 mb-5 text-center">
+                      <p className="text-sm text-sky-800 font-medium">Potentiel solaire à {city.name}</p>
+                      <p className="text-2xl font-bold text-sky-700 mt-1">{cityData.pctMaisons}% de maisons</p>
+                      <p className="text-xs text-sky-600 mt-1">avec toiture exploitable pour le solaire</p>
                     </div>
                   )}
 
                   <p className="text-xs text-slate-400 text-center mb-4 italic">Tarifs selon étude personnalisée. Aides sous réserve d&apos;éligibilité.</p>
 
-                  <a href="tel:+33766975099" className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
+                  <a href="tel:+33766975099" className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-sky-500/30 hover:shadow-xl hover:scale-[1.02]">
                     <Phone className="w-5 h-5" /><span>Appeler maintenant</span>
                   </a>
 
@@ -279,7 +279,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
 
                 <div className="bg-slate-50 border-t border-slate-100 px-6 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    {[1,2,3,4,5].map(i => (<Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />))}
+                    {[1,2,3,4,5].map(i => (<Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />))}
                     <span className="text-sm font-bold text-slate-700 ml-1">4.9/5</span>
                   </div>
                   <p className="text-xs text-slate-500">+50 installations en IDF</p>
@@ -302,34 +302,34 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
             Nos techniciens interviennent à {city.name} et dans toute la {city.department} pour l&apos;installation de panneaux solaires en autoconsommation avec ou sans revente du surplus à EDF OA.
           </p>
           <div className="grid sm:grid-cols-3 gap-4 mt-8">
-            <div className="bg-amber-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-amber-700 mb-1">70%</p><p className="text-sm text-neutral-600">d&apos;économies sur l&apos;électricité</p></div>
-            <div className="bg-amber-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-amber-700 mb-1">25 ans</p><p className="text-sm text-neutral-600">de garantie panneaux</p></div>
-            <div className="bg-amber-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-amber-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour votre devis gratuit</p></div>
+            <div className="bg-sky-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-sky-700 mb-1">70%</p><p className="text-sm text-neutral-600">d&apos;économies sur l&apos;électricité</p></div>
+            <div className="bg-sky-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-sky-700 mb-1">25 ans</p><p className="text-sm text-neutral-600">de garantie panneaux</p></div>
+            <div className="bg-sky-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-sky-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour votre devis gratuit</p></div>
           </div>
 
           {cityData && (
             <>
               {/* Bloc chiffres clés */}
-              <div className="mt-10 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100">
+              <div className="mt-10 p-6 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100">
                 <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
                   {city.name} en chiffres — Potentiel solaire local
                 </h3>
                 <p className="text-neutral-600 mb-5">{cityData.caracteristique}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-amber-700">{cityData.population.toLocaleString('fr-FR')}</p>
+                    <p className="text-2xl font-bold text-sky-700">{cityData.population.toLocaleString('fr-FR')}</p>
                     <p className="text-xs text-neutral-500">habitants</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-amber-700">{cityData.pctMaisons}%</p>
+                    <p className="text-2xl font-bold text-sky-700">{cityData.pctMaisons}%</p>
                     <p className="text-xs text-neutral-500">de maisons individuelles</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-amber-700">{cityData.logements.toLocaleString('fr-FR')}</p>
+                    <p className="text-2xl font-bold text-sky-700">{cityData.logements.toLocaleString('fr-FR')}</p>
                     <p className="text-xs text-neutral-500">logements</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-amber-700">{cityData.potentielSolaire}</p>
+                    <p className="text-2xl font-bold text-sky-700">{cityData.potentielSolaire}</p>
                     <p className="text-xs text-neutral-500">potentiel solaire</p>
                   </div>
                 </div>
@@ -348,7 +348,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                     <div className="flex items-center gap-3">
                       <span className="text-xs text-neutral-500 w-20">Gaz</span>
                       <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
-                        <div className="bg-orange-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
+                        <div className="bg-sky-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
                       </div>
                       <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageGaz}%</span>
                     </div>
@@ -371,12 +371,12 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
 
                 {/* Stats clés énergie */}
                 <div className="grid sm:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-amber-50 rounded-xl p-4 text-center">
-                    <p className="text-2xl font-bold text-amber-600">{cityData.pctChauffageElec}%</p>
+                  <div className="bg-sky-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-sky-600">{cityData.pctChauffageElec}%</p>
                     <p className="text-xs text-neutral-600">de chauffage électrique</p>
                   </div>
-                  <div className="bg-orange-50 rounded-xl p-4 text-center">
-                    <p className="text-2xl font-bold text-orange-600">{cityData.consommationMoyenne} kWh/m²</p>
+                  <div className="bg-sky-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-blue-600">{cityData.consommationMoyenne} kWh/m²</p>
                     <p className="text-xs text-neutral-600">consommation moyenne/an</p>
                   </div>
                   <div className="bg-red-50 rounded-xl p-4 text-center">
@@ -392,9 +392,9 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                 </div>
 
                 {/* Recommandation solaire */}
-                <div className="mt-4 bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
-                  <h4 className="font-semibold text-amber-800 mb-1">Notre recommandation solaire pour {city.name}</h4>
-                  <p className="text-amber-700 text-sm">
+                <div className="mt-4 bg-sky-50 rounded-xl p-5 border-l-4 border-sky-500">
+                  <h4 className="font-semibold text-sky-800 mb-1">Notre recommandation solaire pour {city.name}</h4>
+                  <p className="text-sky-700 text-sm">
                     {cityData.pctChauffageElec >= 25
                       ? `Avec ${cityData.pctChauffageElec}% de chauffage électrique, les panneaux solaires en autoconsommation sont particulièrement rentables à ${city.name}. L'électricité produite couvre directement une partie de la consommation de chauffage et réduit significativement la facture.`
                       : `Avec ${cityData.pctMaisons}% de maisons individuelles, ${city.name} offre un excellent potentiel pour l'installation de panneaux solaires en toiture. L'autoconsommation permet de réduire vos factures d'électricité et de valoriser votre patrimoine immobilier.`
@@ -415,7 +415,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <details key={index} className="bg-white rounded-xl border border-neutral-200 overflow-hidden group">
-                <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-neutral-900 hover:text-amber-700 transition-colors">
+                <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-neutral-900 hover:text-sky-700 transition-colors">
                   {faq.question}
                   <ArrowRight className="w-5 h-5 text-neutral-400 group-open:rotate-90 transition-transform flex-shrink-0 ml-4" />
                 </summary>
@@ -430,13 +430,13 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
       <ServiceAreaSection className="bg-neutral-50" serviceSlug="panneaux-solaires" />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
-      <section className="py-16 md:py-20 bg-gradient-to-br from-amber-900 via-amber-800 to-orange-900">
+      <section className="py-16 md:py-20 bg-gradient-to-br from-sky-800 via-blue-700 to-sky-900">
         <div className="container mx-auto max-w-4xl px-4 text-center">
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">Prêt à passer au solaire à {city.name} ?</h2>
-          <p className="text-amber-100 text-lg mb-8 max-w-2xl mx-auto">Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et dans toute la {city.department}.</p>
+          <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto">Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et dans toute la {city.department}.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander mon devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-            <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-amber-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+            <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-sky-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
           </div>
         </div>
       </section>
