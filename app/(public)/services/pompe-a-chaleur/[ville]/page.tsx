@@ -8,6 +8,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
@@ -122,6 +123,8 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
 
   if (!city) notFound()
 
+  const cityData = getCityData(city.slug)
+
   const faqs = [
     {
       question: `Combien coûte l'installation d'une pompe à chaleur à ${city.name} ?`,
@@ -209,6 +212,36 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour recevoir votre devis</p></div>
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">10 ans</p><p className="text-sm text-neutral-600">de garantie décennale</p></div>
           </div>
+
+          {cityData && (
+            <>
+              <div className="mt-10 p-6 bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl border border-green-100">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  {city.name} en chiffres — Le parc immobilier local
+                </h3>
+                <p className="text-neutral-600 mb-4">{cityData.caracteristique}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-700">{cityData.population.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">habitants</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-700">{cityData.pctMaisons}%</p>
+                    <p className="text-xs text-neutral-500">de maisons individuelles</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-700">DPE {cityData.dpeMoyen}</p>
+                    <p className="text-xs text-neutral-500">étiquette moyenne</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-700">{cityData.economieChauffage}</p>
+                    <p className="text-xs text-neutral-500">d&apos;économies/an avec PAC</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-neutral-500 text-xs mt-3">Sources : INSEE 2022, ADEME, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}.</p>
+            </>
+          )}
         </div>
       </section>
 
