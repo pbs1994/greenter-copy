@@ -267,7 +267,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       </section>
 
       <GoogleReviewsCarousel className="bg-neutral-50" />
-      <ServiceAreaSection className="bg-white" />
+      <ServiceAreaSection className="bg-white" serviceSlug="pompe-a-chaleur" />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-green-900 via-green-800 to-teal-900">

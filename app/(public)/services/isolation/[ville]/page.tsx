@@ -181,7 +181,7 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
       </section>
 
       <GoogleReviewsCarousel className="bg-white" />
-      <ServiceAreaSection className="bg-neutral-50" />
+      <ServiceAreaSection className="bg-neutral-50" serviceSlug="isolation" />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900">

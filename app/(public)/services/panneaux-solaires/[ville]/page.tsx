@@ -181,7 +181,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
       </section>
 
       <GoogleReviewsCarousel className="bg-white" />
-      <ServiceAreaSection className="bg-neutral-50" />
+      <ServiceAreaSection className="bg-neutral-50" serviceSlug="panneaux-solaires" />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-amber-900 via-amber-800 to-orange-900">

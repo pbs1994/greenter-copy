@@ -17,6 +17,8 @@ interface ServiceAreaSectionProps {
   title?: string
   /** Afficher le CTA "Demander un devis" (défaut: true) */
   showCTA?: boolean
+  /** Slug du service pour les liens vers les pages villes (ex: "pompe-a-chaleur") */
+  serviceSlug?: string
   /** Classes CSS additionnelles */
   className?: string
 }
@@ -28,6 +30,7 @@ interface ServiceAreaSectionProps {
 export default function ServiceAreaSection({
   title = "Nous intervenons près de chez vous",
   showCTA = true,
+  serviceSlug,
   className,
 }: ServiceAreaSectionProps) {
   return (
@@ -55,7 +58,16 @@ export default function ServiceAreaSection({
               className="flex items-center gap-2 text-neutral-700"
             >
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-              <span className="text-sm sm:text-base">{city.name}</span>
+              {serviceSlug ? (
+                <Link
+                  href={`/services/${serviceSlug}/${city.slug}`}
+                  className="text-sm sm:text-base hover:text-green-700 hover:underline transition-colors"
+                >
+                  {city.name}
+                </Link>
+              ) : (
+                <span className="text-sm sm:text-base">{city.name}</span>
+              )}
             </li>
           ))}
         </ul>

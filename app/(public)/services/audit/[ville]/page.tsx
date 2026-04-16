@@ -181,7 +181,7 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
       </section>
 
       <GoogleReviewsCarousel className="bg-white" />
-      <ServiceAreaSection className="bg-neutral-50" />
+      <ServiceAreaSection className="bg-neutral-50" serviceSlug="audit" />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900">
