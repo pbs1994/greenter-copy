@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, Sun } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
@@ -96,6 +97,8 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
   const city = CITIES.find((c) => c.slug === ville)
   if (!city) notFound()
 
+  const cityData = getCityData(city.slug)
+
   const faqs = [
     { question: `Combien coûte une installation solaire à ${city.name} ?`, answer: `Le prix d'une installation de panneaux solaires à ${city.name} varie entre 7 000€ et 20 000€ selon la puissance (3 à 9 kWc). Avec les aides (prime à l'autoconsommation, TVA réduite), le retour sur investissement est de 7 à 10 ans.` },
     { question: `Mon toit à ${city.name} est-il adapté au solaire ?`, answer: `La plupart des toitures en ${city.department} sont adaptées. L'idéal est une orientation sud avec une inclinaison de 30°, mais les orientations est/ouest fonctionnent aussi. Greenter réalise une étude gratuite de votre toiture.` },
@@ -160,6 +163,106 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
             <div className="bg-amber-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-amber-700 mb-1">25 ans</p><p className="text-sm text-neutral-600">de garantie panneaux</p></div>
             <div className="bg-amber-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-amber-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour votre devis gratuit</p></div>
           </div>
+
+          {cityData && (
+            <>
+              {/* Bloc chiffres clés */}
+              <div className="mt-10 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  {city.name} en chiffres — Potentiel solaire local
+                </h3>
+                <p className="text-neutral-600 mb-5">{cityData.caracteristique}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-amber-700">{cityData.population.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">habitants</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-amber-700">{cityData.pctMaisons}%</p>
+                    <p className="text-xs text-neutral-500">de maisons individuelles</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-amber-700">{cityData.logements.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">logements</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-amber-700">{cityData.potentielSolaire}</p>
+                    <p className="text-xs text-neutral-500">potentiel solaire</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Profil énergétique détaillé */}
+              <div className="mt-6 p-6 bg-white rounded-2xl border border-neutral-200">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  Profil énergétique de {city.name}
+                </h3>
+
+                {/* Barres de répartition chauffage */}
+                <div className="mb-6">
+                  <p className="text-sm font-semibold text-neutral-700 mb-3">Répartition du chauffage à {city.name}</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Gaz</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-orange-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageGaz}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Électrique</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-blue-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageElec}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageElec}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Fioul</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-red-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageFioul}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageFioul}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats clés énergie */}
+                <div className="grid sm:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-amber-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-amber-600">{cityData.pctChauffageElec}%</p>
+                    <p className="text-xs text-neutral-600">de chauffage électrique</p>
+                  </div>
+                  <div className="bg-orange-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-orange-600">{cityData.consommationMoyenne} kWh/m²</p>
+                    <p className="text-xs text-neutral-600">consommation moyenne/an</p>
+                  </div>
+                  <div className="bg-red-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-600">de passoires thermiques (F-G)</p>
+                  </div>
+                </div>
+
+                {/* Contexte énergétique unique */}
+                <div className="bg-neutral-50 rounded-xl p-5">
+                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                </div>
+
+                {/* Recommandation solaire */}
+                <div className="mt-4 bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                  <h4 className="font-semibold text-amber-800 mb-1">Notre recommandation solaire pour {city.name}</h4>
+                  <p className="text-amber-700 text-sm">
+                    {cityData.pctChauffageElec >= 25
+                      ? `Avec ${cityData.pctChauffageElec}% de chauffage électrique, les panneaux solaires en autoconsommation sont particulièrement rentables à ${city.name}. L'électricité produite couvre directement une partie de la consommation de chauffage et réduit significativement la facture.`
+                      : `Avec ${cityData.pctMaisons}% de maisons individuelles, ${city.name} offre un excellent potentiel pour l'installation de panneaux solaires en toiture. L'autoconsommation permet de réduire vos factures d'électricité et de valoriser votre patrimoine immobilier.`
+                    }
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
+            </>
+          )}
         </div>
       </section>
 

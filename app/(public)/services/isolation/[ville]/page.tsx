@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, Shield } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
@@ -96,6 +97,8 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
   const city = CITIES.find((c) => c.slug === ville)
   if (!city) notFound()
 
+  const cityData = getCityData(city.slug)
+
   const faqs = [
     { question: `Combien coûte une isolation thermique à ${city.name} ?`, answer: `Le coût de l'isolation thermique à ${city.name} (${city.postalCode}) dépend du type de travaux : isolation des combles à partir de 20€/m², isolation des murs par l'extérieur entre 100€ et 180€/m², isolation des planchers bas à partir de 30€/m². Avec les aides MaPrimeRénov' et les CEE, le reste à charge peut être considérablement réduit.` },
     { question: `Quels types d'isolation propose Greenter à ${city.name} ?`, answer: `Greenter réalise tous les types d'isolation thermique à ${city.name} et en ${city.department} : isolation des combles perdus et aménagés, isolation des murs par l'intérieur (ITI) et par l'extérieur (ITE), ainsi que l'isolation des planchers bas. Nos techniciens certifiés RGE Qualibat utilisent des matériaux performants et durables.` },
@@ -160,6 +163,102 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
             <div className="bg-blue-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-blue-700 mb-1">10 ans</p><p className="text-sm text-neutral-600">de garantie travaux</p></div>
             <div className="bg-blue-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-blue-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour votre devis gratuit</p></div>
           </div>
+
+          {cityData && (
+            <>
+              {/* Bloc chiffres clés */}
+              <div className="mt-10 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl border border-blue-100">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  {city.name} en chiffres — Le parc immobilier local
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-700">{cityData.population.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">habitants</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-500">de passoires thermiques</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-700">{cityData.consommationMoyenne} kWh/m²</p>
+                    <p className="text-xs text-neutral-500">consommation moyenne/an</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-700">{cityData.anneeConstruction}</p>
+                    <p className="text-xs text-neutral-500">construction dominante</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Profil énergétique détaillé */}
+              <div className="mt-6 p-6 bg-white rounded-2xl border border-neutral-200">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  Profil énergétique de {city.name}
+                </h3>
+
+                {/* Barres de répartition chauffage */}
+                <div className="mb-6">
+                  <p className="text-sm font-semibold text-neutral-700 mb-3">Répartition du chauffage à {city.name}</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Gaz</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-orange-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageGaz}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Électrique</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-blue-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageElec}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageElec}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Fioul</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-red-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageFioul}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageFioul}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats clés énergie */}
+                <div className="grid sm:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-red-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-600">de passoires thermiques (F-G)</p>
+                  </div>
+                  <div className="bg-amber-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-amber-600">{cityData.consommationMoyenne} kWh/m²</p>
+                    <p className="text-xs text-neutral-600">consommation moyenne/an</p>
+                  </div>
+                  <div className="bg-blue-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-blue-600">{cityData.logements.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-600">logements au total</p>
+                  </div>
+                </div>
+
+                {/* Contexte énergétique unique */}
+                <div className="bg-neutral-50 rounded-xl p-5">
+                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                </div>
+
+                {/* Recommandation isolation */}
+                <div className="mt-4 bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
+                  <h4 className="font-semibold text-blue-800 mb-1">Notre recommandation isolation pour {city.name}</h4>
+                  <p className="text-blue-700 text-sm">
+                    Avec {cityData.pctPassoiresThermiques}% de passoires thermiques et un parc construit {cityData.anneeConstruction}, l&apos;isolation des combles et murs est prioritaire à {city.name}. La consommation moyenne de {cityData.consommationMoyenne} kWh/m²/an peut être réduite de 30% avec une isolation performante.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
+            </>
+          )}
         </div>
       </section>
 

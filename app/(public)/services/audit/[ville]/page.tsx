@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, ClipboardCheck } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
@@ -96,6 +97,8 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
   const city = CITIES.find((c) => c.slug === ville)
   if (!city) notFound()
 
+  const cityData = getCityData(city.slug)
+
   const faqs = [
     { question: `Combien coûte un audit énergétique à ${city.name} ?`, answer: `Le prix d'un audit énergétique à ${city.name} (${city.postalCode}) varie entre 800€ et 1 500€ selon la taille du logement et la complexité du bâti. Des aides comme MaPrimeRénov' peuvent couvrir une partie du coût. Greenter vous accompagne dans les démarches pour obtenir ces financements.` },
     { question: `Que comprend un audit énergétique à ${city.name} ?`, answer: `L'audit énergétique réalisé par Greenter à ${city.name} comprend l'analyse complète du bâti (isolation, menuiseries, ventilation), le bilan des consommations énergétiques, un diagnostic thermique avec identification des déperditions, le classement DPE, et un plan de rénovation priorisé avec estimation des économies et des aides disponibles.` },
@@ -160,6 +163,102 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
             <div className="bg-slate-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-slate-700 mb-1">DPE</p><p className="text-sm text-neutral-600">inclus dans l&apos;audit</p></div>
             <div className="bg-slate-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-slate-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour votre devis gratuit</p></div>
           </div>
+
+          {cityData && (
+            <>
+              {/* Bloc chiffres clés */}
+              <div className="mt-10 p-6 bg-gradient-to-r from-slate-50 to-gray-50 rounded-2xl border border-slate-200">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  {city.name} en chiffres — Diagnostic du parc immobilier
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-slate-700">{cityData.population.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">habitants</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-slate-700">DPE {cityData.dpeMoyen}</p>
+                    <p className="text-xs text-neutral-500">étiquette moyenne</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-500">passoires thermiques</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-slate-700">{cityData.logements.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-500">logements</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Profil énergétique */}
+              <div className="mt-6 p-6 bg-white rounded-2xl border border-neutral-200">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  Profil énergétique de {city.name}
+                </h3>
+
+                {/* Barres de répartition chauffage */}
+                <div className="mb-6">
+                  <p className="text-sm font-semibold text-neutral-700 mb-3">Répartition du chauffage à {city.name}</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Gaz</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-orange-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageGaz}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Électrique</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-blue-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageElec}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageElec}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Fioul</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-red-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageFioul}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageFioul}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats clés énergie */}
+                <div className="grid sm:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-slate-50 rounded-xl p-4 text-center">
+                    <p className="text-4xl font-bold text-slate-700">{cityData.dpeMoyen}</p>
+                    <p className="text-xs text-neutral-600">DPE moyen</p>
+                  </div>
+                  <div className="bg-red-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-600">de passoires thermiques (F-G)</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-slate-600">{cityData.consommationMoyenne} kWh/m²/an</p>
+                    <p className="text-xs text-neutral-600">consommation moyenne</p>
+                  </div>
+                </div>
+
+                {/* Contexte énergétique local */}
+                <div className="bg-neutral-50 rounded-xl p-5 mb-4">
+                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                </div>
+
+                {/* Recommandation audit */}
+                <div className="bg-slate-100 rounded-xl p-5 border-l-4 border-slate-500">
+                  <h4 className="font-semibold text-slate-800 mb-1">Pourquoi réaliser un audit énergétique à {city.name} ?</h4>
+                  <p className="text-slate-700 text-sm">
+                    Avec un DPE moyen de {cityData.dpeMoyen} et {cityData.pctPassoiresThermiques}% de passoires thermiques, {city.name} fait partie des communes où l&apos;audit énergétique est un investissement prioritaire. L&apos;audit permet d&apos;identifier les travaux les plus rentables et de prioriser votre budget rénovation.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
+            </>
+          )}
         </div>
       </section>
 
