@@ -128,20 +128,28 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
   const faqs = [
     {
       question: `Combien coûte l'installation d'une pompe à chaleur à ${city.name} ?`,
-      answer: `Le coût d'installation d'une pompe à chaleur à ${city.name} varie entre 8 000€ et 18 000€ selon le modèle (air-eau ou air-air) et la surface de votre logement. Grâce aux aides MaPrimeRénov' et CEE, le reste à charge peut être réduit de 50 à 70%.`,
+      answer: cityData
+        ? `À ${city.name}, où ${cityData.pctChauffageGaz}% des logements sont chauffés au gaz et la consommation moyenne atteint ${cityData.consommationMoyenne} kWh/m²/an, le coût d'une PAC varie entre 8 000€ et 18 000€ selon le modèle. Avec MaPrimeRénov' et les CEE, le reste à charge peut être réduit de 50 à 70%, soit une économie de ${cityData.economieChauffage} par an sur votre facture.`
+        : `Le coût d'installation d'une pompe à chaleur à ${city.name} varie entre 8 000€ et 18 000€ selon le modèle (air-eau ou air-air) et la surface de votre logement. Grâce aux aides MaPrimeRénov' et CEE, le reste à charge peut être réduit de 50 à 70%.`,
     },
     {
       question: `Quelles aides pour une pompe à chaleur à ${city.name} (${city.postalCode}) ?`,
-      answer: `Les habitants de ${city.name} peuvent bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE, de l'éco-PTZ (jusqu'à 50 000€) et d'une TVA réduite à 5,5%. Greenter vous accompagne dans toutes les démarches administratives.`,
+      answer: `Les habitants de ${city.name} (${city.postalCode}) en ${city.department} peuvent bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE, de l'éco-PTZ (jusqu'à 50 000€) et d'une TVA réduite à 5,5%. ${cityData ? `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques dans la commune, de nombreux foyers sont éligibles aux aides les plus élevées.` : ''} Greenter vous accompagne dans toutes les démarches.`,
     },
     {
       question: `Greenter intervient-il à ${city.name} pour installer une PAC ?`,
-      answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. Nos techniciens certifiés RGE QualiPAC réalisent l'étude, l'installation et la mise en service de votre pompe à chaleur. Devis gratuit sous 48h.`,
+      answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. ${cityData ? `Nous connaissons bien le parc immobilier local, construit majoritairement ${cityData.anneeConstruction}, avec ${cityData.pctMaisons}% de maisons individuelles.` : ''} Nos techniciens certifiés RGE QualiPAC réalisent l'étude, l'installation et la mise en service. Devis gratuit sous 48h.`,
     },
     {
       question: `Quelle pompe à chaleur choisir à ${city.name} ?`,
-      answer: `Pour un logement à ${city.name}, nous recommandons généralement une PAC air-eau pour le chauffage central et l'eau chaude, ou une PAC air-air pour un chauffage d'appoint performant. Notre audit gratuit détermine la solution idéale pour votre logement.`,
+      answer: cityData
+        ? `${cityData.recommendationPAC} À ${city.name}, avec un parc construit ${cityData.anneeConstruction} et ${cityData.pctChauffageGaz}% de chauffage gaz, la PAC air-eau est le choix le plus fréquent. Notre audit gratuit détermine la solution idéale pour votre logement.`
+        : `Pour un logement à ${city.name}, nous recommandons généralement une PAC air-eau pour le chauffage central et l'eau chaude, ou une PAC air-air pour un chauffage d'appoint performant. Notre audit gratuit détermine la solution idéale pour votre logement.`,
     },
+    ...(cityData && cityData.pctChauffageFioul >= 10 ? [{
+      question: `Peut-on remplacer une chaudière fioul par une PAC à ${city.name} ?`,
+      answer: `Absolument, et c'est même urgent : à ${city.name}, ${cityData.pctChauffageFioul}% des logements sont encore chauffés au fioul. L'interdiction d'installer de nouvelles chaudières fioul est en vigueur depuis 2022, et le remplacement sera obligatoire d'ici 2028. La PAC air-eau remplace directement la chaudière fioul sur le circuit de radiateurs existant. La prime "coup de pouce chauffage" peut atteindre 5 000€ pour ce type de remplacement.`,
+    }] : []),
   ]
 
   const breadcrumbItems = [
