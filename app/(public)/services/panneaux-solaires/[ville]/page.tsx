@@ -146,14 +146,13 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
       {/* ============================================================= */}
       {/* HERO SECTION                                                 */}
       {/* ============================================================= */}
-      <section className="relative min-h-[85vh] lg:min-h-[75vh] bg-gradient-to-br from-slate-950 via-amber-950 to-slate-950 overflow-hidden">
+      <section className="relative min-h-[85vh] lg:min-h-[75vh] bg-gradient-to-br from-amber-800 via-orange-700 to-amber-900 overflow-hidden">
         {/* Glow effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/15 rounded-full blur-[100px]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-yellow-500/10 rounded-full blur-[150px]" />
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-yellow-400/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-400/15 rounded-full blur-[100px]" />
         </div>
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 py-10 lg:py-14">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -186,17 +185,17 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
               </p>
 
               <div className="grid grid-cols-3 gap-3 mb-8">
-                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
+                <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">70%</p>
-                  <p className="text-xs text-amber-300/80 font-medium">d&apos;économies</p>
+                  <p className="text-xs text-amber-100 font-medium">d&apos;économies</p>
                 </div>
-                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">2 340€</p>
-                  <p className="text-xs text-amber-300/80 font-medium">prime autoconso</p>
-                </div>
-                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
+                <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">25 ans</p>
-                  <p className="text-xs text-amber-300/80 font-medium">garantie panneaux</p>
+                  <p className="text-xs text-amber-100 font-medium">garantie panneaux</p>
+                </div>
+                <div className="bg-white/[0.12] backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-center">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">48h</p>
+                  <p className="text-xs text-amber-100 font-medium">devis gratuit</p>
                 </div>
               </div>
 
@@ -210,31 +209,31 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                 </a>
               </div>
 
-              <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-400/30 rounded-xl px-4 py-2.5">
-                <Sun className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                <p className="text-amber-200/90 text-sm">Tarif rachat EDF OA garanti <strong>20 ans</strong> par l&apos;État — rentabilité assurée</p>
+              <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-xl px-4 py-2.5">
+                <Sun className="w-4 h-4 text-yellow-300 flex-shrink-0" />
+                <p className="text-white/90 text-sm">Autoconsommation + revente du surplus — <strong>rentabilité garantie</strong></p>
               </div>
             </div>
 
             {/* ---- COLONNE DROITE (5 cols) — Card solaire ---- */}
             <div className="lg:col-span-5 lg:pt-4">
               <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
-                <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 px-6 py-5">
+                <div className="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 px-6 py-5">
                   <h2 className="text-lg font-bold text-white">Panneaux solaires à {city.name}</h2>
-                  <p className="text-amber-100 text-sm">Prix après prime autoconsommation</p>
+                  <p className="text-amber-100 text-sm">Devis gratuit et personnalisé</p>
                 </div>
 
                 <div className="p-6">
                   <div className="grid grid-cols-2 gap-3 mb-5">
-                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
-                      <p className="text-slate-500 text-xs font-medium mb-1">Kit 3 kWc</p>
-                      <p className="text-2xl font-bold text-slate-900">5 500€</p>
-                      <p className="text-slate-400 text-xs">après prime</p>
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
+                      <p className="text-amber-700 text-xs font-medium mb-1">Kit 3 kWc</p>
+                      <p className="text-2xl font-bold text-slate-900">à partir de</p>
+                      <p className="text-amber-600 text-sm font-semibold">Devis sur mesure</p>
                     </div>
-                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
-                      <p className="text-slate-500 text-xs font-medium mb-1">Kit 6 kWc</p>
-                      <p className="text-2xl font-bold text-slate-900">9 000€</p>
-                      <p className="text-slate-400 text-xs">après prime</p>
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
+                      <p className="text-amber-700 text-xs font-medium mb-1">Kit 6 kWc</p>
+                      <p className="text-2xl font-bold text-slate-900">à partir de</p>
+                      <p className="text-amber-600 text-sm font-semibold">Devis sur mesure</p>
                     </div>
                   </div>
 
@@ -245,7 +244,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Clock className="w-4 h-4 text-amber-600" /></div>
-                      <span className="text-slate-700 text-sm">Installation en 1 journée</span>
+                      <span className="text-slate-700 text-sm">Devis sous 48h, pose rapide</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Shield className="w-4 h-4 text-amber-600" /></div>
@@ -261,7 +260,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                     </div>
                   )}
 
-                  <p className="text-xs text-slate-400 text-center mb-4 italic">Prix indicatifs. Étude personnalisée gratuite.</p>
+                  <p className="text-xs text-slate-400 text-center mb-4 italic">Tarifs selon étude personnalisée. Aides sous réserve d&apos;éligibilité.</p>
 
                   <a href="tel:+33766975099" className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
                     <Phone className="w-5 h-5" /><span>Appeler maintenant</span>
