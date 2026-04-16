@@ -151,3 +151,54 @@ DO $$ BEGIN
 EXCEPTION
     WHEN duplicate_column THEN null;
 END $$;
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS)
+-- ============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
+
+-- Categories: public read, service_role write
+DO $$ BEGIN
+    CREATE POLICY "categories_public_read" ON categories
+        FOR SELECT TO anon, authenticated USING (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+DO $$ BEGIN
+    CREATE POLICY "categories_service_role_all" ON categories
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Products: public read (active only), service_role write
+DO $$ BEGIN
+    CREATE POLICY "products_public_read" ON products
+        FOR SELECT TO anon, authenticated USING (is_active = true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+DO $$ BEGIN
+    CREATE POLICY "products_service_role_all" ON products
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Customers: service_role only (contains PII)
+DO $$ BEGIN
+    CREATE POLICY "customers_service_role_only" ON customers
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Orders: service_role only (sensitive order data)
+DO $$ BEGIN
+    CREATE POLICY "orders_service_role_only" ON orders
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Order items: service_role only
+DO $$ BEGIN
+    CREATE POLICY "order_items_service_role_only" ON order_items
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;

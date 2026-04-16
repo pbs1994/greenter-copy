@@ -215,11 +215,31 @@ function RenderImage({ node }: { node: LexicalNode }) {
   )
 }
 
+/**
+ * Validates that a URL is safe (no javascript: or data: URIs)
+ */
+function isSafeUrl(url: string): boolean {
+  if (!url || url === '#') return true
+  // Allow relative paths and anchors
+  if (url.startsWith('/') || url.startsWith('#')) return true
+  try {
+    const parsed = new URL(url)
+    return ['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)
+  } catch {
+    return false
+  }
+}
+
 function RenderLink({ node }: { node: LexicalNode }) {
   // Support both direct url and fields.url (Lexical format)
   const fields = (node as any).fields || {}
   const href = node.url || fields.url || '#'
   const target = node.target || (fields.newTab ? '_blank' : '_self')
+
+  // Block javascript: and data: URIs to prevent XSS
+  if (!isSafeUrl(href)) {
+    return <>{node.children?.map((child, index) => <RenderNode key={index} node={child} />)}</>
+  }
 
   return (
     <Link
@@ -244,6 +264,8 @@ function RenderText({ node }: { node: LexicalNode }) {
     const match = text.match(/\[IMAGE:(.+?)\|(.+?)\|(.+?)\]/)
     if (match) {
       const [, url, alt, caption] = match
+      // Validate image URL to prevent XSS via javascript: or data: URIs
+      if (!isSafeUrl(url)) return null
       return (
         <figure className="my-8">
           <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg">

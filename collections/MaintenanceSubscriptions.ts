@@ -18,11 +18,11 @@ export const MaintenanceSubscriptions: CollectionConfig = {
     group: 'Maintenance',
   },
   access: {
-    // Admin-only access for all operations - not public read
-    read: ({ req }) => !!req.user,
-    create: () => true, // Webhook can create subscriptions
-    update: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
+    // Admin-only access for all operations (contains customer subscription data)
+    read: ({ req }) => req.user?.role === 'admin',
+    create: () => true, // Webhook can create subscriptions - secured by Stripe signature
+    update: ({ req }) => req.user?.role === 'admin',
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     // Stripe subscription ID - Requirement 9.1

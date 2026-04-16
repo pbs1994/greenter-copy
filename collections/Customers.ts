@@ -8,11 +8,12 @@ export const Customers: CollectionConfig = {
     description: 'Gestion des clients',
   },
   access: {
-    // Admin-only access for all operations
-    read: ({ req }) => !!req.user,
-    create: ({ req }) => !!req.user,
-    update: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
+    // Admin-only access for all operations (contains PII)
+    read: ({ req }) => req.user?.role === 'admin',
+    // Webhook needs to create customers - secured by Stripe signature verification
+    create: () => true,
+    update: ({ req }) => req.user?.role === 'admin',
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {

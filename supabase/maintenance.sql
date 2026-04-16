@@ -197,3 +197,47 @@ ON CONFLICT (slug) DO UPDATE SET
     is_flat_fee = EXCLUDED.is_flat_fee,
     exempt_from_discount = EXCLUDED.exempt_from_discount,
     sort_order = EXCLUDED.sort_order;
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS)
+-- ============================================================================
+
+-- Enable RLS on all maintenance tables
+ALTER TABLE maintenance_services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE maintenance_options ENABLE ROW LEVEL SECURITY;
+ALTER TABLE maintenance_subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE maintenance_subscription_items ENABLE ROW LEVEL SECURITY;
+
+-- Maintenance services: public read (active only), service_role write
+DO $$ BEGIN
+    CREATE POLICY "maintenance_services_public_read" ON maintenance_services
+        FOR SELECT TO anon, authenticated USING (is_active = true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+DO $$ BEGIN
+    CREATE POLICY "maintenance_services_service_role_all" ON maintenance_services
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Maintenance options: public read (active only), service_role write
+DO $$ BEGIN
+    CREATE POLICY "maintenance_options_public_read" ON maintenance_options
+        FOR SELECT TO anon, authenticated USING (is_active = true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+DO $$ BEGIN
+    CREATE POLICY "maintenance_options_service_role_all" ON maintenance_options
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Maintenance subscriptions: service_role only (contains customer data)
+DO $$ BEGIN
+    CREATE POLICY "maintenance_subscriptions_service_role_only" ON maintenance_subscriptions
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+-- Maintenance subscription items: service_role only
+DO $$ BEGIN
+    CREATE POLICY "maintenance_sub_items_service_role_only" ON maintenance_subscription_items
+        FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN null; END $$;

@@ -19,11 +19,11 @@ ON storage.objects FOR SELECT
 TO public
 USING (bucket_id = 'images');
 
--- 4. Politique pour permettre la suppression aux utilisateurs authentifiés
-CREATE POLICY "Authenticated users can delete their images"
+-- 4. Politique pour permettre la suppression uniquement par le propriétaire du fichier
+CREATE POLICY "Authenticated users can delete their own images"
 ON storage.objects FOR DELETE
 TO authenticated
-USING (bucket_id = 'images');
+USING (bucket_id = 'images' AND (auth.uid())::text = owner_id::text);
 
 -- ============================================
 -- INSTRUCTIONS

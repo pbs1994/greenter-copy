@@ -71,13 +71,13 @@ export const Orders: CollectionConfig = {
   },
   access: {
     // Admin-only read access - Requirement 6.8
-    read: ({ req }) => !!req.user,
-    // Webhook can create orders (no auth required)
+    read: ({ req }) => req.user?.role === 'admin',
+    // Webhook can create orders (no auth required) - secured by Stripe signature verification
     create: () => true,
     // Admin-only update access - Requirement 6.8
-    update: ({ req }) => !!req.user,
+    update: ({ req }) => req.user?.role === 'admin',
     // Admin-only delete access - Requirement 6.8
-    delete: ({ req }) => !!req.user,
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   hooks: {
     beforeChange: [generateOrderNumber],

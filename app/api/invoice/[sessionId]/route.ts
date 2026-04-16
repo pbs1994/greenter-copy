@@ -74,6 +74,11 @@ export async function GET(
       return NextResponse.json({ error: 'Session ID manquant' }, { status: 400 })
     }
 
+    // Validate Stripe session ID format (cs_test_... or cs_live_...)
+    if (!/^cs_(test|live)_[a-zA-Z0-9]+$/.test(sessionId)) {
+      return NextResponse.json({ error: 'Format de Session ID invalide' }, { status: 400 })
+    }
+
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items', 'line_items.data.price.product'],
     })

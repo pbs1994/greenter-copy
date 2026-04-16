@@ -7,8 +7,36 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
 
+// Rate limiting
+const requestCounts = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT = 10
+const RATE_WINDOW = 60 * 1000
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const record = requestCounts.get(ip)
+  if (!record || now > record.resetTime) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
+    return false
+  }
+  if (record.count >= RATE_LIMIT) return true
+  record.count++
+  return false
+}
+
+// UUID format validation
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const MAX_SERVICE_IDS = 20
+const MAX_OPTION_IDS = 20
+
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
+    }
+
     const body = await request.json()
     const { serviceIds, optionIds, billingPeriod } = body
 
@@ -25,6 +53,18 @@ export async function POST(request: NextRequest) {
         { error: 'Format des options invalide' },
         { status: 400 }
       )
+    }
+
+    // Validate array sizes
+    if (serviceIds.length > MAX_SERVICE_IDS || optionIds.length > MAX_OPTION_IDS) {
+      return NextResponse.json({ error: 'Trop d\'éléments sélectionnés' }, { status: 400 })
+    }
+
+    // Validate UUID format for all IDs
+    for (const id of [...serviceIds, ...optionIds]) {
+      if (typeof id !== 'string' || !UUID_REGEX.test(id)) {
+        return NextResponse.json({ error: 'Format d\'identifiant invalide' }, { status: 400 })
+      }
     }
 
     if (serviceIds.length === 0 && optionIds.length === 0) {
