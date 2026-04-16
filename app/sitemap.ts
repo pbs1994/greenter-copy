@@ -25,13 +25,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/retours`, lastModified: currentDate, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  // Pages locales SEO (villes)
-  const localPages: MetadataRoute.Sitemap = CITIES.map((city) => ({
-    url: `${baseUrl}/services/pompe-a-chaleur/${city.slug}`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
+  // Pages locales SEO (villes × services)
+  const localServices = ['pompe-a-chaleur', 'panneaux-solaires', 'isolation', 'audit']
+  const localPages: MetadataRoute.Sitemap = localServices.flatMap((service) =>
+    CITIES.map((city) => ({
+      url: `${baseUrl}/services/${service}/${city.slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }))
+  )
 
   // Produits dynamiques depuis Supabase (catégories + produits)
   let productPages: MetadataRoute.Sitemap = []
