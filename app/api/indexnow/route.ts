@@ -108,14 +108,14 @@ async function submitToSearchEngines() {
   return { urls_count: urls.length, results, timestamp: new Date().toISOString() }
 }
 
-// GET — for Vercel Cron
+// GET — for Vercel Cron or browser call with ?key=
 export async function GET(request: NextRequest) {
-  // Verify cron secret (Vercel sends this header)
   const authHeader = request.headers.get('authorization')
   const cronHeader = request.headers.get('x-vercel-cron')
+  const urlKey = request.nextUrl.searchParams.get('key')
 
-  // Allow Vercel Cron (has x-vercel-cron header) or manual with Bearer token
-  if (!cronHeader && authHeader !== `Bearer ${CRON_SECRET}`) {
+  // Allow: Vercel Cron header, Bearer token, or ?key= query param
+  if (!cronHeader && authHeader !== `Bearer ${CRON_SECRET}` && urlKey !== CRON_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
