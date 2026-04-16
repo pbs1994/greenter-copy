@@ -521,12 +521,13 @@ export function PACEditorialContent() {
             </p>
             <div className="flex flex-wrap gap-2">
               {CITIES.map((city) => (
-                <span 
+                <Link
                   key={city.slug}
-                  className="inline-block bg-white border border-slate-200 rounded-full px-3 py-1 text-sm text-slate-600"
+                  href={`/services/pompe-a-chaleur/${city.slug}`}
+                  className="inline-block bg-white border border-slate-200 rounded-full px-3 py-1 text-sm text-slate-600 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition-colors"
                 >
                   {city.name}
-                </span>
+                </Link>
               ))}
               <span className="inline-block bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1 text-sm text-emerald-700">
                 + communes environnantes
