@@ -215,11 +215,12 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
 
           {cityData && (
             <>
+              {/* Bloc chiffres clés */}
               <div className="mt-10 p-6 bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl border border-green-100">
                 <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
                   {city.name} en chiffres — Le parc immobilier local
                 </h3>
-                <p className="text-neutral-600 mb-4">{cityData.caracteristique}</p>
+                <p className="text-neutral-600 mb-5">{cityData.caracteristique}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-green-700">{cityData.population.toLocaleString('fr-FR')}</p>
@@ -239,7 +240,71 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                   </div>
                 </div>
               </div>
-              <p className="text-neutral-500 text-xs mt-3">Sources : INSEE 2022, ADEME, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}.</p>
+
+              {/* Profil énergétique détaillé */}
+              <div className="mt-6 p-6 bg-white rounded-2xl border border-neutral-200">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">
+                  Profil énergétique de {city.name}
+                </h3>
+
+                {/* Barres de répartition chauffage */}
+                <div className="mb-6">
+                  <p className="text-sm font-semibold text-neutral-700 mb-3">Répartition du chauffage à {city.name}</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Gaz</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-orange-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageGaz}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageGaz}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Électrique</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-blue-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageElec}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageElec}%</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-500 w-20">Fioul</span>
+                      <div className="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+                        <div className="bg-red-400 h-full rounded-full" style={{ width: `${cityData.pctChauffageFioul}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-neutral-700 w-10 text-right">{cityData.pctChauffageFioul}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats clés énergie */}
+                <div className="grid sm:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-red-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-red-600">{cityData.pctPassoiresThermiques}%</p>
+                    <p className="text-xs text-neutral-600">de passoires thermiques (F-G)</p>
+                  </div>
+                  <div className="bg-amber-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-amber-600">{cityData.consommationMoyenne} kWh/m²</p>
+                    <p className="text-xs text-neutral-600">consommation moyenne/an</p>
+                  </div>
+                  <div className="bg-green-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-green-600">{cityData.logements.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs text-neutral-600">logements au total</p>
+                  </div>
+                </div>
+
+                {/* Contexte énergétique unique */}
+                <div className="bg-neutral-50 rounded-xl p-5">
+                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                </div>
+
+                {/* Recommandation PAC */}
+                <div className="mt-4 bg-green-50 rounded-xl p-5 border-l-4 border-green-500">
+                  <h4 className="font-semibold text-green-800 mb-1">Notre recommandation pour {city.name}</h4>
+                  <p className="text-green-700 text-sm">{cityData.recommendationPAC}</p>
+                </div>
+              </div>
+
+              <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
             </>
           )}
         </div>

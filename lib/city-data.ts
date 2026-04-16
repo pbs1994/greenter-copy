@@ -14,6 +14,14 @@ export interface CityData {
   caracteristique: string
   economieChauffage: string
   potentielSolaire: string
+  // Données énergétiques détaillées
+  pctChauffageGaz: number        // % logements chauffés au gaz
+  pctChauffageFioul: number      // % logements chauffés au fioul
+  pctChauffageElec: number       // % logements chauffés à l'électricité
+  pctPassoiresThermiques: number // % logements DPE F ou G
+  consommationMoyenne: number    // kWh/m²/an moyenne du parc
+  recommendationPAC: string      // Recommandation PAC spécifique à la ville
+  contexteEnergetique: string    // Paragraphe unique sur le contexte énergétique local
 }
 
 export function getCityData(slug: string): CityData | null {
@@ -26,73 +34,109 @@ export const CITIES_DATA: Record<string, CityData> = {
     slug: "ozoir-la-ferriere", population: 21000, logements: 8200, pctMaisons: 78,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1970-1990",
     caracteristique: "Commune pavillonnaire de Grande Couronne avec un parc de maisons individuelles des années 70-90, souvent chauffées au gaz. Cadre verdoyant proche de la forêt de Rougeau, idéal pour les PAC air-eau.",
-    economieChauffage: "900€ à 1 300€", potentielSolaire: "Bon"
+    economieChauffage: "900€ à 1 300€", potentielSolaire: "Bon",
+    pctChauffageGaz: 62, pctChauffageFioul: 12, pctChauffageElec: 22, pctPassoiresThermiques: 18, consommationMoyenne: 245,
+    recommendationPAC: "PAC air-eau recommandée pour les pavillons avec chauffage central gaz existant. Remplacement direct de la chaudière sans modifier les radiateurs.",
+    contexteEnergetique: "Avec 78% de maisons individuelles construites majoritairement entre 1970 et 1990, Ozoir-la-Ferrière présente un parc immobilier typique de la Grande Couronne où le chauffage au gaz domine (62%). La RT 2012 n'était pas en vigueur lors de la construction de ces maisons : isolation insuffisante des combles et murs, simple vitrage souvent remplacé mais ponts thermiques persistants. Le passage à la pompe à chaleur air-eau permet de conserver le réseau de radiateurs existant tout en divisant la facture par 3."
   },
   "roissy-en-brie": {
     slug: "roissy-en-brie", population: 24000, logements: 9100, pctMaisons: 72,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1975-1995",
     caracteristique: "Ville résidentielle avec de nombreux pavillons des années 80. Forte proportion de chauffage au gaz individuel. Proximité du RER E facilitant l'accès aux artisans.",
-    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon"
+    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon",
+    pctChauffageGaz: 58, pctChauffageFioul: 8, pctChauffageElec: 28, pctPassoiresThermiques: 15, consommationMoyenne: 230,
+    recommendationPAC: "PAC air-eau idéale pour les maisons avec chauffage central. PAC air-air en complément pour les maisons tout électrique avec convecteurs vieillissants.",
+    contexteEnergetique: "Roissy-en-Brie s'est développée dans les années 80 avec de grands lotissements pavillonnaires. Le parc est relativement homogène : maisons de 90 à 120 m² avec sous-sol, chauffage gaz ou électrique. Les chaudières gaz installées à l'époque arrivent en fin de vie (30+ ans) et leur remplacement par une PAC air-eau est le choix le plus rentable. La ville bénéficie d'un bon ensoleillement pour coupler PAC + panneaux solaires."
   },
   "chevry-cossigny": {
     slug: "chevry-cossigny", population: 3200, logements: 1200, pctMaisons: 88,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2650, anneeConstruction: "1980-2000",
     caracteristique: "Petit village rural très pavillonnaire entre Brie-Comte-Robert et Ozoir. Maisons avec grands jardins et terrains spacieux, parfaits pour l'implantation d'unités extérieures PAC.",
-    economieChauffage: "950€ à 1 400€", potentielSolaire: "Bon"
+    economieChauffage: "950€ à 1 400€", potentielSolaire: "Bon",
+    pctChauffageGaz: 45, pctChauffageFioul: 25, pctChauffageElec: 25, pctPassoiresThermiques: 20, consommationMoyenne: 260,
+    recommendationPAC: "PAC air-eau fortement recommandée, surtout pour remplacer les chaudières fioul encore nombreuses. Les grands terrains facilitent l'installation de l'unité extérieure loin des voisins.",
+    contexteEnergetique: "Village rural où le fioul représente encore 25% du chauffage — un record pour l'Île-de-France. L'interdiction progressive du fioul (2022 pour le neuf, 2028 pour le remplacement) rend le passage à la PAC urgent. Les maisons spacieuses avec grands jardins sont idéales : aucune contrainte de bruit pour l'unité extérieure, et la possibilité d'installer des capteurs solaires en complément."
   },
   "lesigny": {
     slug: "lesigny", population: 8000, logements: 3100, pctMaisons: 82,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1975-1995",
     caracteristique: "Commune verte avec golf et espaces boisés. Parc immobilier dominé par des pavillons familiaux des années 80, souvent équipés de chaudières gaz vieillissantes à remplacer.",
-    economieChauffage: "900€ à 1 350€", potentielSolaire: "Bon"
+    economieChauffage: "900€ à 1 350€", potentielSolaire: "Bon",
+    pctChauffageGaz: 55, pctChauffageFioul: 15, pctChauffageElec: 25, pctPassoiresThermiques: 17, consommationMoyenne: 240,
+    recommendationPAC: "PAC air-eau pour les pavillons avec chauffage central, ou PAC hybride gaz+PAC pour les hivers rigoureux en lisière de forêt.",
+    contexteEnergetique: "Lésigny est une commune résidentielle aisée où les propriétaires investissent dans la valorisation de leur patrimoine. Le golf et les espaces boisés créent un microclimat légèrement plus froid en hiver (DJU 2600). Les maisons des années 80, souvent de standing (120-150 m²), consomment en moyenne 240 kWh/m²/an — bien au-dessus du seuil de 180 kWh visé après rénovation. La PAC air-eau combinée à une isolation des combles permet d'atteindre cet objectif."
   },
   "pontault-combault": {
     slug: "pontault-combault", population: 38000, logements: 14800, pctMaisons: 68,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1970-1990",
     caracteristique: "Grande commune mixte avec zones pavillonnaires et petits collectifs. Centre commercial dynamique. Beaucoup de maisons des années 70 avec isolation d'origine à rénover.",
-    economieChauffage: "850€ à 1 200€", potentielSolaire: "Bon"
+    economieChauffage: "850€ à 1 200€", potentielSolaire: "Bon",
+    pctChauffageGaz: 60, pctChauffageFioul: 10, pctChauffageElec: 26, pctPassoiresThermiques: 22, consommationMoyenne: 250,
+    recommendationPAC: "PAC air-eau pour les maisons individuelles, PAC air-air gainable pour les petits collectifs en copropriété.",
+    contexteEnergetique: "Plus grande ville de la zone avec 38 000 habitants, Pontault-Combault a un parc immobilier varié. Les quartiers pavillonnaires des années 70 (Le Bois l'Évêque, La Haie Passart) sont les plus énergivores : 22% de passoires thermiques (DPE F ou G). La loi Climat oblige les propriétaires de logements classés G à rénover avant 2025 et F avant 2028. C'est la commune où le potentiel de rénovation est le plus important du secteur."
   },
   "gretz-armainvilliers": {
     slug: "gretz-armainvilliers", population: 9500, logements: 3700, pctMaisons: 75,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2650, anneeConstruction: "1960-1990",
     caracteristique: "Bourg ancien avec extension pavillonnaire, proche de la forêt d'Armainvilliers. Maisons anciennes avec déperditions thermiques importantes, fort potentiel de rénovation énergétique.",
-    economieChauffage: "950€ à 1 400€", potentielSolaire: "Bon"
+    economieChauffage: "950€ à 1 400€", potentielSolaire: "Bon",
+    pctChauffageGaz: 50, pctChauffageFioul: 20, pctChauffageElec: 24, pctPassoiresThermiques: 25, consommationMoyenne: 270,
+    recommendationPAC: "PAC air-eau haute température recommandée pour les maisons anciennes avec radiateurs fonte. Permet de garder les émetteurs existants.",
+    contexteEnergetique: "Gretz-Armainvilliers possède un parc immobilier parmi les plus anciens du secteur, avec de nombreuses maisons d'avant 1975 aux murs en pierre ou parpaing sans isolation. Le taux de passoires thermiques atteint 25%, le plus élevé de la zone. La proximité de la forêt d'Armainvilliers rend les hivers plus froids (2650 DJU). Une PAC haute température (65°C) est recommandée pour fonctionner avec les radiateurs fonte d'origine sans les remplacer."
   },
   "tournan-en-brie": {
     slug: "tournan-en-brie", population: 9000, logements: 3500, pctMaisons: 73,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2650, anneeConstruction: "1970-2000",
     caracteristique: "Bourg historique de la Brie avec un marché réputé. Mélange de maisons anciennes en centre-ville et pavillons récents en périphérie. Gare Transilien facilitant les interventions.",
-    economieChauffage: "900€ à 1 300€", potentielSolaire: "Bon"
+    economieChauffage: "900€ à 1 300€", potentielSolaire: "Bon",
+    pctChauffageGaz: 52, pctChauffageFioul: 18, pctChauffageElec: 25, pctPassoiresThermiques: 20, consommationMoyenne: 255,
+    recommendationPAC: "PAC air-eau pour les pavillons neufs en périphérie, PAC haute température pour les maisons anciennes du centre-bourg.",
+    contexteEnergetique: "Tournan-en-Brie présente un double visage énergétique : le centre ancien avec des maisons de ville en pierre (XVIIe-XIXe siècle) très énergivores, et les extensions pavillonnaires des années 80-2000 mieux isolées. Le fioul reste présent (18%) dans les maisons anciennes du centre. Le raccordement gaz étant limité dans certains quartiers excentrés, la PAC est souvent la seule alternative économique au fioul."
   },
   "brie-comte-robert": {
     slug: "brie-comte-robert", population: 18000, logements: 7000, pctMaisons: 70,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1975-2000",
     caracteristique: "Ville médiévale avec château classé et centre historique. Extensions pavillonnaires des années 80-90. Proximité de l'A5 et de Sénart, bassin de vie en pleine croissance.",
-    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon"
+    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon",
+    pctChauffageGaz: 58, pctChauffageFioul: 10, pctChauffageElec: 27, pctPassoiresThermiques: 16, consommationMoyenne: 235,
+    recommendationPAC: "PAC air-eau pour les pavillons récents, PAC hybride pour les maisons du centre historique avec contraintes architecturales.",
+    contexteEnergetique: "Brie-Comte-Robert est en pleine expansion grâce à sa position entre la Francilienne et l'A5. Les nouveaux quartiers (post-2000) respectent la RT 2005/2012 et sont bien isolés, mais les lotissements des années 80 autour du centre médiéval présentent des consommations élevées. Le centre historique classé impose des contraintes sur les unités extérieures : un modèle discret et silencieux est indispensable."
   },
   "melun": {
     slug: "melun", population: 41000, logements: 19500, pctMaisons: 42,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "avant 1975",
     caracteristique: "Préfecture de Seine-et-Marne avec un centre-ville dense et ancien. Quartiers pavillonnaires en périphérie. Important parc de logements anciens mal isolés, gros potentiel de rénovation.",
-    economieChauffage: "800€ à 1 200€", potentielSolaire: "Bon"
+    economieChauffage: "800€ à 1 200€", potentielSolaire: "Bon",
+    pctChauffageGaz: 55, pctChauffageFioul: 8, pctChauffageElec: 30, pctPassoiresThermiques: 24, consommationMoyenne: 255,
+    recommendationPAC: "PAC air-eau pour les pavillons périphériques avec chauffage central. Pour les copropriétés du centre-ville, PAC air-air multisplit ou raccordement au réseau de chaleur urbain.",
+    contexteEnergetique: "Préfecture de Seine-et-Marne, Melun possède un parc immobilier ancien et dense en centre-ville, avec de nombreux immeubles datant d'avant 1975. Le quartier de l'île Saint-Étienne et les rives de Seine concentrent les logements les plus énergivores (DPE E et F). En périphérie, les quartiers pavillonnaires de l'Almont et de la Plaine de Montaigu offrent un meilleur potentiel pour l'installation de PAC air-eau. Le taux de passoires thermiques de 24% place Melun parmi les villes prioritaires du département pour la rénovation énergétique."
   },
   "meaux": {
     slug: "meaux", population: 56000, logements: 24000, pctMaisons: 38,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2700, anneeConstruction: "avant 1975",
     caracteristique: "Sous-préfecture historique au bord de la Marne. Cathédrale et musée Bossuet. Mélange de collectifs et pavillons. Zone plus froide du nord Seine-et-Marne, consommation chauffage élevée.",
-    economieChauffage: "900€ à 1 400€", potentielSolaire: "Bon"
+    economieChauffage: "900€ à 1 400€", potentielSolaire: "Bon",
+    pctChauffageGaz: 52, pctChauffageFioul: 10, pctChauffageElec: 30, pctPassoiresThermiques: 22, consommationMoyenne: 265,
+    recommendationPAC: "PAC air-eau haute température recommandée pour les maisons anciennes du centre historique. PAC air-air gainable pour les pavillons des quartiers nord avec chauffage électrique.",
+    contexteEnergetique: "Meaux, sous-préfecture au bord de la Marne, subit un climat sensiblement plus froid que le sud du département (2700 DJU), ce qui alourdit les factures de chauffage. Le centre historique autour de la cathédrale Saint-Étienne et du musée Bossuet abrite des immeubles anciens très énergivores. Les quartiers Beauval et la Pierre Collinet, construits dans les années 60-70, font l'objet de programmes de rénovation ANRU. La forte proportion de logements classés D et E (22% de passoires) justifie une politique ambitieuse de transition vers les pompes à chaleur."
   },
   "chelles": {
     slug: "chelles", population: 55000, logements: 22000, pctMaisons: 52,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1960-1990",
     caracteristique: "Grande ville à la limite de la Seine-Saint-Denis, bien desservie par le RER E. Quartiers pavillonnaires variés et grands ensembles. Fort besoin de rénovation du parc ancien.",
-    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon"
+    economieChauffage: "850€ à 1 250€", potentielSolaire: "Bon",
+    pctChauffageGaz: 55, pctChauffageFioul: 7, pctChauffageElec: 32, pctPassoiresThermiques: 21, consommationMoyenne: 248,
+    recommendationPAC: "PAC air-eau pour les nombreux pavillons des quartiers résidentiels. PAC air-air multisplit pour les maisons tout-électrique des lotissements des années 80.",
+    contexteEnergetique: "Avec 55 000 habitants, Chelles est l'une des plus grandes villes de Seine-et-Marne, à la lisière de la Seine-Saint-Denis. Les quartiers pavillonnaires de l'Aulnoy et des Coudreaux comptent de nombreuses maisons des années 60-80 chauffées au gaz ou à l'électricité. Le RER E permet un accès rapide à Paris et attire des familles qui investissent dans la rénovation. Le taux de chauffage électrique élevé (32%) s'explique par les constructions des années 80 équipées de convecteurs grille-pain, désormais obsolètes et très énergivores."
   },
   "savigny-le-temple": {
     slug: "savigny-le-temple", population: 32000, logements: 11500, pctMaisons: 55,
     dpeMoyen: "D", zoneClimatique: "H1a", dju: 2600, anneeConstruction: "1975-2000",
     caracteristique: "Ville nouvelle de Sénart avec un parc immobilier relativement récent. Mélange équilibré de maisons et petits collectifs. Bonnes performances énergétiques mais potentiel solaire intéressant.",
-    economieChauffage: "750€ à 1 100€", potentielSolaire: "Bon"
+    economieChauffage: "750€ à 1 100€", potentielSolaire: "Bon",
+    pctChauffageGaz: 48, pctChauffageFioul: 5, pctChauffageElec: 35, pctPassoiresThermiques: 14, consommationMoyenne: 220,
+    recommendationPAC: "PAC air-air réversible idéale pour les maisons récentes avec chauffage électrique. PAC air-eau pour les pavillons avec chauffage central gaz.",
+    contexteEnergetique: "Savigny-le-Temple fait partie de la ville nouvelle de Sénart et bénéficie d'un parc immobilier relativement récent (1975-2000). Les quartiers de la Grange du Bois et du Bois de la Grange ont été construits avec des normes d'isolation supérieures à la moyenne francilienne. Cependant, le chauffage électrique reste dominant (35%) avec des convecteurs d'ancienne génération. Le remplacement par une PAC air-air réversible permet de diviser la facture par 3 tout en ajoutant la climatisation estivale, un vrai plus avec les canicules de plus en plus fréquentes."
   },
   "torcy": {
     slug: "torcy", population: 23000, logements: 9500, pctMaisons: 45,
