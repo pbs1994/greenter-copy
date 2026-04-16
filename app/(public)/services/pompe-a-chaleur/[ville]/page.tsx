@@ -166,39 +166,93 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       <FAQPageSchema items={faqs} />
 
       <section className="relative bg-gradient-to-br from-green-900 via-green-800 to-teal-900 overflow-hidden">
-        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-10 w-72 h-72 bg-teal-400 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-96 h-96 bg-green-400 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container mx-auto max-w-6xl px-4 py-14 md:py-20 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="inline-block bg-teal-500/20 text-teal-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-                Certifié RGE QualiPAC
-              </span>
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-                Installation Pompe à Chaleur à {city.name}
-              </h1>
-              <p className="text-green-100 text-lg leading-relaxed mb-8">
-                Votre installateur de pompe à chaleur certifié RGE à {city.name} ({city.postalCode}), en {city.department}.
-                Profitez d&apos;un chauffage performant et économique, éligible aux aides de l&apos;État. Jusqu&apos;à 70% d&apos;économies sur vos factures.
-              </p>
-              <div className="flex flex-wrap gap-4 mb-8">
-                <div className="flex items-center gap-2 text-white"><CheckCircle className="w-5 h-5 text-teal-400" /><span>Jusqu&apos;à 70% d&apos;économies</span></div>
-                <div className="flex items-center gap-2 text-white"><CheckCircle className="w-5 h-5 text-teal-400" /><span>Éligible MaPrimeRénov&apos;</span></div>
-                <div className="flex items-center gap-2 text-white"><CheckCircle className="w-5 h-5 text-teal-400" /><span>Devis gratuit sous 48h</span></div>
+              {/* Badges */}
+              <div className="flex flex-wrap gap-2 mb-5">
+                <span className="inline-flex items-center gap-1.5 bg-teal-500/20 text-teal-300 text-sm font-semibold px-3 py-1 rounded-full">
+                  <CheckCircle className="w-3.5 h-3.5" /> RGE QualiPAC
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 text-sm font-semibold px-3 py-1 rounded-full">
+                  ★ 4.9/5 Google
+                </span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander un devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-                <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+
+              {/* Headline percutant */}
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
+                Divisez votre facture chauffage par 3 à {city.name}
+              </h1>
+
+              {/* Sous-titre avec données locales */}
+              <p className="text-green-100 text-lg leading-relaxed mb-6">
+                {cityData
+                  ? `À ${city.name} (${city.postalCode}), ${cityData.pctChauffageGaz}% des maisons sont encore chauffées au gaz. Passez à la pompe à chaleur et économisez ${cityData.economieChauffage}/an. Installation en 1 à 2 jours par nos techniciens certifiés.`
+                  : `Installation pompe à chaleur à ${city.name} (${city.postalCode}) par Greenter, certifié RGE. Économisez jusqu'à 70% sur votre chauffage. Installation en 1 à 2 jours.`
+                }
+              </p>
+
+              {/* Chiffres clés en gros */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
+                  <p className="text-2xl sm:text-3xl font-bold text-white">÷3</p>
+                  <p className="text-xs text-green-200">votre facture</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
+                  <p className="text-2xl sm:text-3xl font-bold text-white">11 000€</p>
+                  <p className="text-xs text-green-200">d&apos;aides max</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
+                  <p className="text-2xl sm:text-3xl font-bold text-white">48h</p>
+                  <p className="text-xs text-green-200">devis gratuit</p>
+                </div>
+              </div>
+
+              {/* Urgence */}
+              <div className="bg-amber-500/20 border border-amber-400/30 rounded-lg px-4 py-2.5 mb-6">
+                <p className="text-amber-200 text-sm font-medium">⚡ Aides MaPrimeRénov&apos; 2026 : jusqu&apos;à 11 000€ — profitez-en avant la baisse prévue en 2027</p>
+              </div>
+
+              {/* CTA */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/contact" className="btn-primary text-base px-8 py-4 shadow-lg shadow-green-900/50">
+                  Devis gratuit en 48h
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4">
+                  <Phone className="w-5 h-5" />07 66 97 50 99
+                </a>
               </div>
             </div>
+
+            {/* Colonne droite : image + social proof */}
             <div className="relative">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                 <Image src="/pac.jpg" alt={`Installation pompe à chaleur à ${city.name} par Greenter`} fill className="object-cover" priority />
+                {/* Badge overlay sur l'image */}
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-neutral-900">+50 installations en Île-de-France</p>
+                    <p className="text-xs text-neutral-500">Garantie décennale 10 ans</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-bold text-green-700">4.9/5</p>
+                    <p className="text-xs text-amber-500">★★★★★</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-6 bg-white">
+      <section className="py-4 bg-white border-b border-neutral-100">
         <div className="container mx-auto max-w-6xl px-4 flex justify-center">
           <GoogleRatingBadgeClient />
         </div>
