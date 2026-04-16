@@ -227,13 +227,13 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                   <div className="grid grid-cols-2 gap-3 mb-5">
                     <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
                       <p className="text-amber-700 text-xs font-medium mb-1">Kit 3 kWc</p>
-                      <p className="text-2xl font-bold text-slate-900">à partir de</p>
-                      <p className="text-amber-600 text-sm font-semibold">Devis sur mesure</p>
+                      <p className="text-2xl font-bold text-slate-900">4 000€</p>
+                      <p className="text-amber-600 text-xs">à partir de, pose incluse</p>
                     </div>
                     <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
                       <p className="text-amber-700 text-xs font-medium mb-1">Kit 6 kWc</p>
-                      <p className="text-2xl font-bold text-slate-900">à partir de</p>
-                      <p className="text-amber-600 text-sm font-semibold">Devis sur mesure</p>
+                      <p className="text-2xl font-bold text-slate-900">7 000€</p>
+                      <p className="text-amber-600 text-xs">à partir de, pose incluse</p>
                     </div>
                   </div>
 
