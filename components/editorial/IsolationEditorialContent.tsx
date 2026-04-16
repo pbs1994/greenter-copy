@@ -528,12 +528,13 @@ export function IsolationEditorialContent() {
             </p>
             <div className="flex flex-wrap gap-2">
               {CITIES.map((city) => (
-                <span
+                <Link
                   key={city.slug}
-                  className="inline-block bg-white border border-slate-200 rounded-full px-3 py-1 text-sm text-slate-600"
+                  href={`/services/isolation/${city.slug}`}
+                  className="inline-block bg-white border border-slate-200 rounded-full px-3 py-1 text-sm text-slate-600 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
                 >
                   {city.name}
-                </span>
+                </Link>
               ))}
               <span className="inline-block bg-sky-50 border border-sky-200 rounded-full px-3 py-1 text-sm text-sky-700">
                 + communes environnantes

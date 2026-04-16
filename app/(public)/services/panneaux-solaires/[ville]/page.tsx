@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, CheckCircle, Phone, MapPin, Sun } from "lucide-react"
+import { ArrowRight, CheckCircle, Phone, MapPin, Sun, Shield, Star, Zap, Clock } from "lucide-react"
 import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
 import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
@@ -143,35 +143,155 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
 
-      <section className="relative bg-gradient-to-br from-amber-900 via-amber-800 to-orange-900 overflow-hidden">
-        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="inline-block bg-amber-500/20 text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">Certifié RGE QualiPV</span>
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-6">Installation Panneaux Solaires à {city.name}</h1>
-              <p className="text-amber-100 text-lg leading-relaxed mb-8">
-                Votre installateur de panneaux solaires certifié RGE à {city.name} ({city.postalCode}), en {city.department}. Passez à l&apos;autoconsommation et réduisez vos factures d&apos;électricité jusqu&apos;à 70%.
-              </p>
-              <div className="flex flex-wrap gap-4 mb-8">
-                <div className="flex items-center gap-2 text-white"><Sun className="w-5 h-5 text-amber-400" /><span>Jusqu&apos;à 70% d&apos;économies</span></div>
-                <div className="flex items-center gap-2 text-white"><CheckCircle className="w-5 h-5 text-amber-400" /><span>Prime autoconsommation</span></div>
-                <div className="flex items-center gap-2 text-white"><CheckCircle className="w-5 h-5 text-amber-400" /><span>Devis gratuit sous 48h</span></div>
+      {/* ============================================================= */}
+      {/* HERO SECTION                                                 */}
+      {/* ============================================================= */}
+      <section className="relative min-h-[85vh] lg:min-h-[75vh] bg-gradient-to-br from-slate-950 via-amber-950 to-slate-950 overflow-hidden">
+        {/* Glow effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/15 rounded-full blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-yellow-500/10 rounded-full blur-[150px]" />
+        </div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+        <div className="relative z-10 container mx-auto max-w-7xl px-4 py-10 lg:py-14">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+            {/* ---- COLONNE GAUCHE (7 cols) ---- */}
+            <div className="lg:col-span-7 pt-4 lg:pt-8">
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="inline-flex items-center gap-1.5 bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-full">
+                  <Shield className="w-3.5 h-3.5" /> Certifié RGE QualiPV
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-yellow-500/15 border border-yellow-400/30 text-yellow-300 text-xs font-semibold px-3 py-1.5 rounded-full">
+                  <Star className="w-3.5 h-3.5 fill-yellow-300" /> 4.9/5 sur Google
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white/70 text-xs font-semibold px-3 py-1.5 rounded-full">
+                  <Sun className="w-3.5 h-3.5" /> +50 installations
+                </span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander un devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-                <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-amber-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+
+              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-5">
+                Produisez votre{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-300">propre électricité</span>
+                {' '}à {city.name}
+              </h1>
+
+              <p className="text-amber-100/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
+                {cityData
+                  ? `À ${city.name}, ${cityData.pctMaisons}% des logements sont des maisons avec toiture exploitable. Autoconsommation solaire + revente du surplus = jusqu'à 70% d'économies sur votre facture d'électricité.`
+                  : `Installation panneaux solaires certifiée RGE à ${city.name}. Autoconsommation + revente du surplus. Jusqu'à 70% d'économies sur votre électricité.`
+                }
+              </p>
+
+              <div className="grid grid-cols-3 gap-3 mb-8">
+                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">70%</p>
+                  <p className="text-xs text-amber-300/80 font-medium">d&apos;économies</p>
+                </div>
+                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">2 340€</p>
+                  <p className="text-xs text-amber-300/80 font-medium">prime autoconso</p>
+                </div>
+                <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">25 ans</p>
+                  <p className="text-xs text-amber-300/80 font-medium">garantie panneaux</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all hover:scale-[1.02]">
+                  Étude solaire gratuite
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a href="tel:+33766975099" className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-amber-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all">
+                  <Phone className="w-5 h-5" />07 66 97 50 99
+                </a>
+              </div>
+
+              <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-400/30 rounded-xl px-4 py-2.5">
+                <Sun className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                <p className="text-amber-200/90 text-sm">Tarif rachat EDF OA garanti <strong>20 ans</strong> par l&apos;État — rentabilité assurée</p>
               </div>
             </div>
-            <div className="relative">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <Image src="/solaire.jpg" alt={`Installation panneaux solaires à ${city.name} par Greenter`} fill className="object-cover" priority />
+
+            {/* ---- COLONNE DROITE (5 cols) — Card solaire ---- */}
+            <div className="lg:col-span-5 lg:pt-4">
+              <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+                <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 px-6 py-5">
+                  <h2 className="text-lg font-bold text-white">Panneaux solaires à {city.name}</h2>
+                  <p className="text-amber-100 text-sm">Prix après prime autoconsommation</p>
+                </div>
+
+                <div className="p-6">
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
+                      <p className="text-slate-500 text-xs font-medium mb-1">Kit 3 kWc</p>
+                      <p className="text-2xl font-bold text-slate-900">5 500€</p>
+                      <p className="text-slate-400 text-xs">après prime</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
+                      <p className="text-slate-500 text-xs font-medium mb-1">Kit 6 kWc</p>
+                      <p className="text-2xl font-bold text-slate-900">9 000€</p>
+                      <p className="text-slate-400 text-xs">après prime</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><CheckCircle className="w-4 h-4 text-amber-600" /></div>
+                      <span className="text-slate-700 text-sm">Étude toiture gratuite à {city.name}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Clock className="w-4 h-4 text-amber-600" /></div>
+                      <span className="text-slate-700 text-sm">Installation en 1 journée</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center shrink-0"><Shield className="w-4 h-4 text-amber-600" /></div>
+                      <span className="text-slate-700 text-sm">Garantie 25 ans + onduleur 10 ans</span>
+                    </div>
+                  </div>
+
+                  {cityData && (
+                    <div className="bg-amber-50 rounded-xl p-4 mb-5 text-center">
+                      <p className="text-sm text-amber-800 font-medium">Potentiel solaire à {city.name}</p>
+                      <p className="text-2xl font-bold text-amber-700 mt-1">{cityData.pctMaisons}% de maisons</p>
+                      <p className="text-xs text-amber-600 mt-1">avec toiture exploitable pour le solaire</p>
+                    </div>
+                  )}
+
+                  <p className="text-xs text-slate-400 text-center mb-4 italic">Prix indicatifs. Étude personnalisée gratuite.</p>
+
+                  <a href="tel:+33766975099" className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
+                    <Phone className="w-5 h-5" /><span>Appeler maintenant</span>
+                  </a>
+
+                  <div className="flex items-center gap-3 my-4">
+                    <div className="flex-1 h-px bg-slate-200" />
+                    <span className="text-slate-400 text-xs uppercase tracking-wide">ou</span>
+                    <div className="flex-1 h-px bg-slate-200" />
+                  </div>
+
+                  <Link href="/contact" className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 rounded-2xl transition-all">
+                    Étude solaire gratuite<ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+
+                <div className="bg-slate-50 border-t border-slate-100 px-6 py-3 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    {[1,2,3,4,5].map(i => (<Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />))}
+                    <span className="text-sm font-bold text-slate-700 ml-1">4.9/5</span>
+                  </div>
+                  <p className="text-xs text-slate-500">+50 installations en IDF</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-6 bg-white"><div className="container mx-auto max-w-6xl px-4 flex justify-center"><GoogleRatingBadgeClient /></div></section>
+      <section className="py-4 bg-white border-b border-neutral-100"><div className="container mx-auto max-w-6xl px-4 flex justify-center"><GoogleRatingBadgeClient /></div></section>
 
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto max-w-4xl px-4">
