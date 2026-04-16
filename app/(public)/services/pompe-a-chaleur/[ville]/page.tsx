@@ -219,7 +219,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                   <p className="text-xs text-emerald-300/80 font-medium">votre facture</p>
                 </div>
                 <div className="relative bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">11k€</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">8 000€</p>
                   <p className="text-xs text-emerald-300/80 font-medium">d&apos;aides MaPrimeRénov&apos;</p>
                 </div>
                 <div className="relative bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
@@ -242,7 +242,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
               {/* Urgence banner */}
               <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-400/30 rounded-xl px-4 py-2.5">
                 <Zap className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                <p className="text-amber-200/90 text-sm">Aides MaPrimeRénov&apos; 2026 : <strong>jusqu&apos;à 11 000€</strong> — avant la baisse prévue en 2027</p>
+                <p className="text-amber-200/90 text-sm">Aides MaPrimeRénov&apos; 2026 : <strong>jusqu&apos;à 8 000€</strong> — avant la baisse prévue en 2027</p>
               </div>
             </div>
 

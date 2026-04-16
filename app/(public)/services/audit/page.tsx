@@ -7,6 +7,7 @@ import { useState } from "react"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
+import ServiceAreaSection from "@/components/ServiceAreaSection"
 
 const auditSteps = [
   {
@@ -499,6 +500,8 @@ export default function AuditPage() {
           </div>
         </div>
       </section>
+
+      <ServiceAreaSection serviceSlug="audit" title="Audit énergétique près de chez vous" className="bg-white" />
     </main>
   )
 }

@@ -7,6 +7,7 @@ import { useState } from "react"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
+import ServiceAreaSection from "@/components/ServiceAreaSection"
 
 const CURRENT_YEAR = new Date().getFullYear()
 
@@ -580,6 +581,8 @@ export default function PanneauxSolairesPage() {
           </div>
         </div>
       </section>
+
+      <ServiceAreaSection serviceSlug="panneaux-solaires" title="Installation solaire près de chez vous" className="bg-white" />
     </main>
   )
 }
