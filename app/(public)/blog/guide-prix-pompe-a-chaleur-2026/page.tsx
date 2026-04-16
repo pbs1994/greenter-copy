@@ -39,6 +39,8 @@ export default function GuidePrixPAC2026() {
         description={ARTICLE_META.subtitle}
         datePublished={ARTICLE_META.dateISO}
         dateModified={ARTICLE_META.dateISO}
+        author={{ name: "Greenter", url: "https://greenter.fr" }}
+        publisher={{ name: "Greenter", logo: "https://greenter.fr/logo.png" }}
         image="https://greenter.fr/pac.jpg"
         url={`https://greenter.fr/blog/${ARTICLE_META.slug}`}
       />
