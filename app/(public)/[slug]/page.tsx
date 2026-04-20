@@ -78,7 +78,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = page.seo as { meta_title?: string; meta_description?: string; og_image?: Media } | null
   
   const title = seo?.meta_title || page.title
-  const description = seo?.meta_description || ''
+  const description =
+    seo?.meta_description && seo.meta_description.length >= 140
+      ? seo.meta_description
+      : `${page.title} — Greenter, expert certifié RGE en rénovation énergétique : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Devis gratuit sous 48h et intervention partout en Île-de-France par des techniciens qualifiés QualiPAC, QualiPV et Qualibat.`
   
   const ogImage = seo?.og_image
   const imageUrl = typeof ogImage === 'object' && ogImage?.url ? ogImage.url : null

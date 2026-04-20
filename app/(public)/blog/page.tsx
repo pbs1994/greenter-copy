@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   description: "Guides pratiques, conseils et actualités sur la rénovation énergétique : pompe à chaleur, panneaux solaires, isolation, aides MaPrimeRénov'. Par Greenter.",
   openGraph: {
     title: "Blog Rénovation Énergétique | Greenter",
-    description: "Guides et conseils sur la rénovation énergétique par Greenter.",
+    description: "Blog Greenter : guides pratiques, retours d'expérience et actualités sur la rénovation énergétique — pompe à chaleur, panneaux solaires, isolation et aides MaPrimeRénov'. Par un expert certifié RGE en Île-de-France.",
     url: "https://www.greenter.fr/blog",
     siteName: "Greenter",
     locale: "fr_FR",

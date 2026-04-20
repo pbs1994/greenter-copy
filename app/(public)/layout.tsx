@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Greenter | Rénovation Énergétique RGE en France",
-    description: "Pompe à chaleur, panneaux solaires, isolation. Certifié RGE. Devis gratuit sous 48h.",
+    description: "Expert certifié RGE : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Économisez jusqu'à 70% sur vos factures avec MaPrimeRénov'. Devis gratuit sous 48h en Île-de-France.",
     images: ["https://www.greenter.fr/twitter_card.jpg"],
   },
   alternates: {

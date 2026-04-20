@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Installation Panneaux Solaires | Greenter",
-    description: "Autoconsommation et revente. Certifié RGE. Étude gratuite de votre toiture.",
+    description: "Installation de panneaux solaires photovoltaïques par Greenter, certifié RGE QualiPV : autoconsommation, revente du surplus à EDF OA, jusqu'à 70% d'économies. Étude gratuite sous 48h.",
     images: ["https://www.greenter.fr/solaire.jpg"],
   },
   alternates: {

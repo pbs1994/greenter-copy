@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Contact | Devis Gratuit | Greenter",
-    description: "Demandez votre devis gratuit pour votre projet de rénovation énergétique. Réponse sous 48h.",
+    description: "Contactez Greenter pour votre projet de rénovation énergétique : pompe à chaleur, panneaux solaires, isolation, audit. Devis gratuit sous 48h et intervention partout en Île-de-France par des techniciens certifiés RGE.",
     url: "https://www.greenter.fr/contact",
     siteName: "Greenter",
     locale: "fr_FR",

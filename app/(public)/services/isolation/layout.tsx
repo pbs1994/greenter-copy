@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Isolation à 1€ en 2026 | Greenter",
     description:
-      "Isolation combles et planchers à partir de 1€* avec les aides 2026. Artisan certifié RGE. Devis gratuit.",
+      "Isolation combles perdus et planchers bas à partir de 1€* par Greenter, artisan certifié RGE Qualibat : aides MaPrimeRénov' et CEE bonifiés 2026 pour les ménages modestes. Devis gratuit sous 48h.",
     images: ["https://www.greenter.fr/isolation.jpg"],
   },
   alternates: {

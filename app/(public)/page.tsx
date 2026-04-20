@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   keywords: ["rénovation énergétique", "pompe à chaleur", "panneaux solaires", "isolation thermique", "audit énergétique", "RGE", "Île-de-France", "Seine-et-Marne"],
   openGraph: {
     title: "Greenter | Rénovation Énergétique",
-    description: "Expert en rénovation énergétique : PAC, solaire, isolation. Devis gratuit, certifié RGE.",
+    description: "Greenter, expert certifié RGE en rénovation énergétique : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Devis gratuit sous 48h, installations partout en Île-de-France avec aides MaPrimeRénov'.",
     url: "https://www.greenter.fr",
     siteName: "Greenter",
     locale: "fr_FR",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Greenter | Rénovation Énergétique",
-    description: "Expert en rénovation énergétique : PAC, solaire, isolation. Devis gratuit, certifié RGE.",
+    description: "Greenter, expert certifié RGE en rénovation énergétique : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Devis gratuit sous 48h, installations partout en Île-de-France avec aides MaPrimeRénov'.",
   },
   alternates: {
     canonical: "https://www.greenter.fr",

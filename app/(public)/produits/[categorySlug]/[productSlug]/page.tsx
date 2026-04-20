@@ -68,8 +68,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const typedProduct = product as Product
   const typedCategory = category as Category
   
-  const description = typedProduct.short_description || typedProduct.description || 
-    `Découvrez ${typedProduct.name} dans notre catégorie ${typedCategory.name}.`
+  const rawDescription =
+    typedProduct.short_description ||
+    (typedProduct.description ? typedProduct.description.replace(/<[^>]+>/g, '').trim() : '')
+
+  const description =
+    rawDescription && rawDescription.length >= 140
+      ? rawDescription.slice(0, 300)
+      : `${typedProduct.name} — ${typedCategory.name} Greenter${rawDescription ? ` : ${rawDescription}` : ''}. Équipement certifié pour l'autoconsommation et la rénovation énergétique. Livraison et installation incluses partout en Île-de-France par des techniciens RGE, avec garantie constructeur.`
   
   return {
     title: `${typedProduct.name} | ${typedCategory.name} | Greenter`,

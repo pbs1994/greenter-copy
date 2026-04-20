@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Installation Pompe à Chaleur | Greenter",
-    description: "Jusqu'à 70% d'économies sur votre chauffage. Certifié RGE. Devis gratuit sous 48h.",
+    description: "Installation de pompe à chaleur air-eau et air-air par Greenter, certifié RGE QualiPAC : jusqu'à 70% d'économies, éligible MaPrimeRénov'. Devis gratuit sous 48h.",
     images: ["https://www.greenter.fr/pac.jpg"],
   },
   alternates: {

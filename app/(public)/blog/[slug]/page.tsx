@@ -124,7 +124,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = post.seo as { meta_title?: string; meta_description?: string; og_image?: Media } | null
   
   const title = seo?.meta_title || post.title
-  const description = seo?.meta_description || post.excerpt || ''
+  const candidate = seo?.meta_description || post.excerpt || ''
+  const description =
+    candidate && candidate.length >= 140
+      ? candidate
+      : `${post.title} — Guide Greenter sur la rénovation énergétique : ${candidate || 'conseils pratiques, aides 2026 et retours d\'expérience'}. Lecture claire et chiffrée par un expert certifié RGE (QualiPAC, QualiPV, Qualibat) en Île-de-France.`
   
   const imageUrl = typeof post.featured_image === 'object' && post.featured_image?.url
     ? post.featured_image.url

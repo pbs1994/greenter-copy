@@ -43,12 +43,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
   
+  const cat = category.name.toLowerCase()
+  const description = `Catalogue ${cat} Greenter : équipements certifiés pour l'autoconsommation et la rénovation énergétique, avec livraison et installation par nos techniciens RGE partout en Île-de-France. Garantie constructeur, paiement sécurisé et conseil personnalisé avant commande.`
+
   return {
     title: `${category.name} | Greenter`,
-    description: `Découvrez notre sélection de ${category.name.toLowerCase()}. Produits de qualité avec livraison et installation incluses.`,
+    description,
     openGraph: {
       title: `${category.name} | Greenter`,
-      description: `Découvrez notre sélection de ${category.name.toLowerCase()}. Produits de qualité avec livraison et installation incluses.`,
+      description,
       url: `https://www.greenter.fr/produits/${categorySlug}`,
       siteName: "Greenter",
       locale: "fr_FR",

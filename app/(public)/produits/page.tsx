@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   keywords: ["stockage solaire", "batterie solaire", "onduleur hybride", "KSTAR", "LiFePO4", "autoconsommation"],
   openGraph: {
     title: "Nos Produits | Greenter",
-    description: "Stockage solaire et équipements pour l'autoconsommation. Livraison et installation offerts.",
+    description: "Boutique Greenter : batteries LiFePO4, onduleurs hybrides et équipements pour l'autoconsommation solaire. Livraison et installation offerts partout en Île-de-France par des techniciens certifiés RGE.",
     url: "https://www.greenter.fr/produits",
     siteName: "Greenter",
     locale: "fr_FR",
