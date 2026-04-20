@@ -27,22 +27,27 @@ export function ArticleLayout({
 }: ArticleLayoutProps) {
   return (
     <article className="min-h-screen bg-white">
-      {/* Full-width Hero Image */}
-      <div className="relative h-[45vh] sm:h-[55vh] lg:h-[65vh] bg-slate-900">
+      {/* ============================================================
+          MOBILE: image on top (16:9), title below on dark background.
+          ≥md: full-width hero with overlaid title (editorial look).
+          ============================================================ */}
+
+      {/* Hero image — mobile: fixed 16:9 ratio, md+: full-viewport height */}
+      <div className="relative bg-slate-900 aspect-[16/9] md:aspect-auto md:h-[55vh] lg:h-[65vh]">
         <Image
           src={heroImage}
           alt={heroAlt}
           fill
           className="object-cover"
           priority
+          sizes="100vw"
         />
-        {/* Bottom-only dark gradient for text readability — keeps top 55% of image fully visible */}
-        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-slate-900 via-slate-900/75 to-transparent" />
+        {/* Gradient overlay — only on md+ where title is overlaid */}
+        <div className="hidden md:block absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-slate-900 via-slate-900/75 to-transparent" />
 
-        {/* Content overlay */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="container mx-auto max-w-4xl px-4 pb-8 md:pb-12">
-            {/* Breadcrumb */}
+        {/* Overlaid content — md+ only */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 z-10">
+          <div className="container mx-auto max-w-4xl px-4 pb-10 lg:pb-12">
             <nav className="flex items-center gap-1.5 text-sm mb-5">
               {breadcrumbs.map((crumb, i) => (
                 <span key={crumb.url} className="flex items-center gap-1.5">
@@ -57,15 +62,38 @@ export function ArticleLayout({
                 </span>
               ))}
             </nav>
-
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
+            <h1 className="font-heading text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
               {title}
             </h1>
-            <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-2xl drop-shadow-md">
+            <p className="text-lg text-white/90 leading-relaxed max-w-2xl drop-shadow-md">
               {subtitle}
             </p>
           </div>
         </div>
+      </div>
+
+      {/* MOBILE-ONLY title block — under the image */}
+      <div className="md:hidden bg-slate-900 px-5 py-8">
+        <nav className="flex items-center gap-1.5 text-xs mb-4 flex-wrap">
+          {breadcrumbs.map((crumb, i) => (
+            <span key={crumb.url} className="flex items-center gap-1.5">
+              {i > 0 && <ChevronRight className="w-3 h-3 text-white/40" />}
+              {i < breadcrumbs.length - 1 ? (
+                <Link href={crumb.url} className="text-white/60 hover:text-white transition-colors">
+                  {crumb.name}
+                </Link>
+              ) : (
+                <span className="text-white/90 font-medium">{crumb.name}</span>
+              )}
+            </span>
+          ))}
+        </nav>
+        <h1 className="font-heading text-2xl font-bold text-white leading-tight mb-3">
+          {title}
+        </h1>
+        <p className="text-base text-white/80 leading-relaxed">
+          {subtitle}
+        </p>
       </div>
 
       {/* Meta bar */}
