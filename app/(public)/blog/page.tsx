@@ -25,6 +25,17 @@ interface BlogPost {
 // Articles statiques (créés en dur, pas via Payload CMS)
 const STATIC_ARTICLES = [
   {
+    id: 'remplacer-chaudiere-gaz-pac-2026',
+    title: "Remplacer sa chaudière gaz par une pompe à chaleur en 2026 : le guide complet",
+    slug: 'remplacer-chaudiere-gaz-pompe-a-chaleur-2026',
+    excerpt: "TVA à 20 % sur les chaudières gaz, prime EDF de 1 000 €, bonus MaPrimeRénov' +1 000 € du 15 avril, Coup de pouce CEE x3 : pourquoi 2026 est l'année idéale pour basculer du gaz à la PAC, et comment s'y prendre.",
+    published_date: '2026-04-20',
+    image: '/images/blog/remplacer-chaudiere-gaz-pac-hero.png',
+    readingTime: 15,
+    category: 'Guide',
+    featured: true,
+  },
+  {
     id: 'guide-prix-pac-2026',
     title: "Prix d'une pompe à chaleur en 2026 : coûts, aides et rentabilité",
     slug: 'guide-prix-pompe-a-chaleur-2026',
