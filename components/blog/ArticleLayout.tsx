@@ -28,39 +28,40 @@ export function ArticleLayout({
   return (
     <article className="min-h-screen bg-white">
       {/* Full-width Hero Image */}
-      <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] bg-slate-900">
+      <div className="relative h-[45vh] sm:h-[55vh] lg:h-[65vh] bg-slate-900">
         <Image
           src={heroImage}
           alt={heroAlt}
           fill
-          className="object-cover opacity-60"
+          className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
+        {/* Bottom-only dark gradient for text readability — keeps top 55% of image fully visible */}
+        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-slate-900 via-slate-900/75 to-transparent" />
 
         {/* Content overlay */}
         <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="container mx-auto max-w-4xl px-4 pb-10 md:pb-14">
+          <div className="container mx-auto max-w-4xl px-4 pb-8 md:pb-12">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-1.5 text-sm mb-6">
+            <nav className="flex items-center gap-1.5 text-sm mb-5">
               {breadcrumbs.map((crumb, i) => (
                 <span key={crumb.url} className="flex items-center gap-1.5">
-                  {i > 0 && <ChevronRight className="w-3.5 h-3.5 text-white/40" />}
+                  {i > 0 && <ChevronRight className="w-3.5 h-3.5 text-white/50" />}
                   {i < breadcrumbs.length - 1 ? (
-                    <Link href={crumb.url} className="text-white/60 hover:text-white transition-colors">
+                    <Link href={crumb.url} className="text-white/70 hover:text-white transition-colors">
                       {crumb.name}
                     </Link>
                   ) : (
-                    <span className="text-white/80 font-medium">{crumb.name}</span>
+                    <span className="text-white font-medium">{crumb.name}</span>
                   )}
                 </span>
               ))}
             </nav>
 
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
               {title}
             </h1>
-            <p className="text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl">
+            <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-2xl drop-shadow-md">
               {subtitle}
             </p>
           </div>
