@@ -38,12 +38,12 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `https://greenter.fr/services/pompe-a-chaleur/${city.slug}`,
+      canonical: `https://www.greenter.fr/services/pompe-a-chaleur/${city.slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://greenter.fr/services/pompe-a-chaleur/${city.slug}`,
+      url: `https://www.greenter.fr/services/pompe-a-chaleur/${city.slug}`,
       siteName: "Greenter",
       type: "website",
     },
@@ -56,11 +56,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
     "@type": "Service",
     name: `Installation Pompe à Chaleur ${cityName}`,
     description: `Installation de pompe à chaleur à ${cityName} (${postalCode}). Certifié RGE QualiPAC. Jusqu'à 70% d'économies sur votre chauffage.`,
-    url: `https://greenter.fr/services/pompe-a-chaleur/${citySlug}`,
+    url: `https://www.greenter.fr/services/pompe-a-chaleur/${citySlug}`,
     provider: {
       "@type": "LocalBusiness",
       name: "Greenter",
-      url: "https://greenter.fr",
+      url: "https://www.greenter.fr",
       telephone: "+33609455056",
       address: {
         "@type": "PostalAddress",
@@ -153,10 +153,10 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
   ]
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Pompe à chaleur", url: "https://greenter.fr/services/pompe-a-chaleur" },
-    { name: city.name, url: `https://greenter.fr/services/pompe-a-chaleur/${city.slug}` },
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Pompe à chaleur", url: "https://www.greenter.fr/services/pompe-a-chaleur" },
+    { name: city.name, url: `https://www.greenter.fr/services/pompe-a-chaleur/${city.slug}` },
   ]
 
   return (

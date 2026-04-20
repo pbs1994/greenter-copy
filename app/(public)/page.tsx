@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Greenter | Rénovation Énergétique",
     description: "Expert en rénovation énergétique : PAC, solaire, isolation. Devis gratuit, certifié RGE.",
-    url: "https://greenter.fr",
+    url: "https://www.greenter.fr",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "Expert en rénovation énergétique : PAC, solaire, isolation. Devis gratuit, certifié RGE.",
   },
   alternates: {
-    canonical: "https://greenter.fr",
+    canonical: "https://www.greenter.fr",
   },
 }
 

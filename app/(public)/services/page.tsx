@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Nos Services | Rénovation Énergétique | Greenter",
   description: "Découvrez tous nos services de rénovation énergétique : pompe à chaleur, panneaux solaires, isolation thermique, audit énergétique et maintenance. Certifié RGE partout en France.",
   alternates: {
-    canonical: "https://greenter.fr/services",
+    canonical: "https://www.greenter.fr/services",
   },
 }
 
@@ -57,8 +57,8 @@ const services = [
 
 export default function ServicesPage() {
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" }
   ]
 
   return (

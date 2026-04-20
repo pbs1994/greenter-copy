@@ -106,9 +106,9 @@ export default function PanneauxSolairesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Panneaux solaires", url: "https://greenter.fr/services/panneaux-solaires" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Panneaux solaires", url: "https://www.greenter.fr/services/panneaux-solaires" }
   ]
 
   return (
@@ -116,8 +116,8 @@ export default function PanneauxSolairesPage() {
       <ServiceSchema
         name="Installation Panneaux Solaires Photovoltaïques"
         description="Installation de panneaux solaires photovoltaïques partout en France. Autoconsommation et revente surplus. Certifié RGE QualiPV. Jusqu'à 70% d'économies. Prime autoconsommation incluse."
-        url="https://greenter.fr/services/panneaux-solaires"
-        image="https://greenter.fr/solaire.jpg"
+        url="https://www.greenter.fr/services/panneaux-solaires"
+        image="https://www.greenter.fr/solaire.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />

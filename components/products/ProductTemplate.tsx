@@ -98,7 +98,7 @@ export function ProductTemplate({ product }: ProductTemplateProps) {
   const [quantity, setQuantity] = useState(1)
 
   const { category } = product
-  const baseUrl = 'https://greenter.fr'
+  const baseUrl = 'https://www.greenter.fr'
 
   const breadcrumbItems = [
     { name: 'Accueil', url: baseUrl },

@@ -70,7 +70,7 @@ function generateArticleJsonLd(post: BlogPost) {
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt || '',
-    image: imageUrl ? `https://greenter.fr${imageUrl}` : undefined,
+    image: imageUrl ? `https://www.greenter.fr${imageUrl}` : undefined,
     author: post.author ? {
       '@type': 'Person',
       name: post.author,
@@ -85,12 +85,12 @@ function generateArticleJsonLd(post: BlogPost) {
       name: 'Greenter',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://greenter.fr/logo.png',
+        url: 'https://www.greenter.fr/logo.png',
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://greenter.fr/blog/${post.slug}`,
+      '@id': `https://www.greenter.fr/blog/${post.slug}`,
     },
   }
 }
@@ -136,21 +136,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://greenter.fr/blog/${slug}`,
+      url: `https://www.greenter.fr/blog/${slug}`,
       siteName: "Greenter",
       locale: "fr_FR",
       type: "article",
       publishedTime: post.published_date || undefined,
       authors: post.author ? [post.author] : undefined,
       images: imageUrl ? [{
-        url: `https://greenter.fr${imageUrl}`,
+        url: `https://www.greenter.fr${imageUrl}`,
         width: 1200,
         height: 630,
         alt: post.title,
       }] : undefined,
     },
     alternates: {
-      canonical: `https://greenter.fr/blog/${slug}`,
+      canonical: `https://www.greenter.fr/blog/${slug}`,
     },
   }
 }
@@ -260,9 +260,9 @@ export default async function BlogPostPage({ params }: Props) {
   const jsonLd = generateArticleJsonLd(post)
   
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Blog", url: "https://greenter.fr/blog" },
-    { name: post.title, url: `https://greenter.fr/blog/${slug}` }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Blog", url: "https://www.greenter.fr/blog" },
+    { name: post.title, url: `https://www.greenter.fr/blog/${slug}` }
   ]
 
   return (

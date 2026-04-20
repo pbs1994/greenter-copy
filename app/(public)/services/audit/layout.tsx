@@ -19,13 +19,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Audit Énergétique | Diagnostic Certifié RGE | Greenter",
     description: "Identifiez vos pertes d'énergie. Audit obligatoire vente F/G. Rapport complet avec scénarios de travaux et aides.",
-    url: "https://greenter.fr/services/audit",
+    url: "https://www.greenter.fr/services/audit",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "https://greenter.fr/audit.png",
+        url: "https://www.greenter.fr/audit.png",
         width: 1200,
         height: 630,
         alt: "Audit énergétique Greenter",
@@ -36,10 +36,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Audit Énergétique | Greenter",
     description: "Diagnostic complet certifié RGE. Rapport détaillé sous 15 jours.",
-    images: ["https://greenter.fr/audit.png"],
+    images: ["https://www.greenter.fr/audit.png"],
   },
   alternates: {
-    canonical: "https://greenter.fr/services/audit",
+    canonical: "https://www.greenter.fr/services/audit",
   },
 }
 

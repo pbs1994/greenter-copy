@@ -20,13 +20,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Installation Panneaux Solaires | Autoconsommation | Greenter",
     description: "Produisez votre propre électricité. Installation certifiée RGE QualiPV. Jusqu'à 70% d'économies sur votre facture. Étude gratuite.",
-    url: "https://greenter.fr/services/panneaux-solaires",
+    url: "https://www.greenter.fr/services/panneaux-solaires",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "https://greenter.fr/solaire.jpg",
+        url: "https://www.greenter.fr/solaire.jpg",
         width: 1200,
         height: 630,
         alt: "Installation panneaux solaires Greenter",
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Installation Panneaux Solaires | Greenter",
     description: "Autoconsommation et revente. Certifié RGE. Étude gratuite de votre toiture.",
-    images: ["https://greenter.fr/solaire.jpg"],
+    images: ["https://www.greenter.fr/solaire.jpg"],
   },
   alternates: {
-    canonical: "https://greenter.fr/services/panneaux-solaires",
+    canonical: "https://www.greenter.fr/services/panneaux-solaires",
   },
 }
 

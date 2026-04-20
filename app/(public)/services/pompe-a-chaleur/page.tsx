@@ -160,27 +160,27 @@ export default function PompeAChaleurPage() {
   const reviewCount = googleData?.reviewCount ?? 47
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Pompe à chaleur", url: "https://greenter.fr/services/pompe-a-chaleur" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Pompe à chaleur", url: "https://www.greenter.fr/services/pompe-a-chaleur" }
   ]
 
   return (
     <>
-      <ServiceSchema name="Installation Pompe à Chaleur Seine-et-Marne" description="Installation PAC certifié RGE. Prix transparents." url="https://greenter.fr/services/pompe-a-chaleur" image="https://greenter.fr/pac.png" />
+      <ServiceSchema name="Installation Pompe à Chaleur Seine-et-Marne" description="Installation PAC certifié RGE. Prix transparents." url="https://www.greenter.fr/services/pompe-a-chaleur" image="https://www.greenter.fr/pac.png" />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
-      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone="+33609455056" email="contact@greenter.fr" url="https://greenter.fr" image="https://greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
+      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone="+33609455056" email="contact@greenter.fr" url="https://www.greenter.fr" image="https://www.greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
       <AggregateRatingSchema itemReviewed={{ type: "LocalBusiness", name: "Greenter" }} ratingValue={rating} reviewCount={reviewCount} />
       <ArticleSchema
         headline="Guide complet de la pompe à chaleur en 2026 : types, prix, aides et installation"
         description="Tout savoir sur les pompes à chaleur en 2026 : comparatif des types (air/air, air/eau, géothermique), prix, aides MaPrimeRénov' et processus d'installation par un artisan RGE en Seine-et-Marne."
         datePublished="2024-01-15"
         dateModified="2026-03-01"
-        author={{ name: "Greenter", url: "https://greenter.fr" }}
-        publisher={{ name: "Greenter", logo: "https://greenter.fr/logo.png" }}
-        image="https://greenter.fr/pac.png"
-        url="https://greenter.fr/services/pompe-a-chaleur"
+        author={{ name: "Greenter", url: "https://www.greenter.fr" }}
+        publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
+        image="https://www.greenter.fr/pac.png"
+        url="https://www.greenter.fr/services/pompe-a-chaleur"
         wordCount={2400}
       />
 

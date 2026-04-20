@@ -20,13 +20,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Installation Pompe à Chaleur | Jusqu'à 70% d'économies | Greenter",
     description: "Divisez vos factures de chauffage par 3 avec une pompe à chaleur. Installation certifiée RGE, éligible aux aides. Devis gratuit.",
-    url: "https://greenter.fr/services/pompe-a-chaleur",
+    url: "https://www.greenter.fr/services/pompe-a-chaleur",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "https://greenter.fr/pac.jpg",
+        url: "https://www.greenter.fr/pac.jpg",
         width: 1200,
         height: 630,
         alt: "Installation pompe à chaleur Greenter",
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Installation Pompe à Chaleur | Greenter",
     description: "Jusqu'à 70% d'économies sur votre chauffage. Certifié RGE. Devis gratuit sous 48h.",
-    images: ["https://greenter.fr/pac.jpg"],
+    images: ["https://www.greenter.fr/pac.jpg"],
   },
   alternates: {
-    canonical: "https://greenter.fr/services/pompe-a-chaleur",
+    canonical: "https://www.greenter.fr/services/pompe-a-chaleur",
   },
 }
 

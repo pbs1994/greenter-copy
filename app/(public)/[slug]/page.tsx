@@ -89,19 +89,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://greenter.fr/${slug}`,
+      url: `https://www.greenter.fr/${slug}`,
       siteName: "Greenter",
       locale: "fr_FR",
       type: "website",
       images: imageUrl ? [{
-        url: `https://greenter.fr${imageUrl}`,
+        url: `https://www.greenter.fr${imageUrl}`,
         width: 1200,
         height: 630,
         alt: title,
       }] : undefined,
     },
     alternates: {
-      canonical: `https://greenter.fr/${slug}`,
+      canonical: `https://www.greenter.fr/${slug}`,
     },
   }
 }
@@ -144,8 +144,8 @@ export default async function DynamicPage({ params }: Props) {
   const page = pages[0] as Page
   
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: page.title, url: `https://greenter.fr/${slug}` }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: page.title, url: `https://www.greenter.fr/${slug}` }
   ]
 
   return (

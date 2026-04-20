@@ -111,9 +111,9 @@ export default function AuditPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Audit énergétique", url: "https://greenter.fr/services/audit" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Audit énergétique", url: "https://www.greenter.fr/services/audit" }
   ]
 
   return (
@@ -121,8 +121,8 @@ export default function AuditPage() {
       <ServiceSchema
         name="Audit Énergétique"
         description="Audit énergétique certifié RGE partout en France. Obligatoire pour vente passoire thermique (F/G) et MaPrimeRénov' Parcours accompagné. Rapport détaillé avec scénarios de travaux. Devis gratuit."
-        url="https://greenter.fr/services/audit"
-        image="https://greenter.fr/audit.png"
+        url="https://www.greenter.fr/services/audit"
+        image="https://www.greenter.fr/audit.png"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />

@@ -45,13 +45,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://greenter.fr",
+    url: "https://www.greenter.fr",
     siteName: "Greenter",
     title: "Greenter | Rénovation Énergétique RGE en France",
     description: "Expert certifié RGE : pompe à chaleur, panneaux solaires, isolation. Économisez jusqu'à 70% sur vos factures. Devis gratuit.",
     images: [
       {
-        url: "https://greenter.fr/twitter_card.jpg",
+        url: "https://www.greenter.fr/twitter_card.jpg",
         width: 1200,
         height: 630,
         alt: "Greenter - Rénovation énergétique",
@@ -62,11 +62,19 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Greenter | Rénovation Énergétique RGE en France",
     description: "Pompe à chaleur, panneaux solaires, isolation. Certifié RGE. Devis gratuit sous 48h.",
-    images: ["https://greenter.fr/twitter_card.jpg"],
+    images: ["https://www.greenter.fr/twitter_card.jpg"],
   },
   alternates: {
-    canonical: "https://greenter.fr",
+    canonical: "https://www.greenter.fr",
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.YANDEX_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.BING_SITE_VERIFICATION || "",
+    },
+  },
+  metadataBase: new URL("https://www.greenter.fr"),
 };
 
 export default async function PublicLayout({

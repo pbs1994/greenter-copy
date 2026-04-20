@@ -16,22 +16,22 @@ import {
 export const metadata: Metadata = {
   title: ARTICLE_META.title + ' | Greenter',
   description: ARTICLE_META.subtitle,
-  alternates: { canonical: `https://greenter.fr/blog/${ARTICLE_META.slug}` },
+  alternates: { canonical: `https://www.greenter.fr/blog/${ARTICLE_META.slug}` },
   openGraph: {
     title: ARTICLE_META.title,
     description: ARTICLE_META.subtitle,
-    url: `https://greenter.fr/blog/${ARTICLE_META.slug}`,
+    url: `https://www.greenter.fr/blog/${ARTICLE_META.slug}`,
     type: 'article',
     siteName: 'Greenter',
     locale: 'fr_FR',
-    images: [{ url: 'https://greenter.fr/pac.jpg', width: 1200, height: 630 }],
+    images: [{ url: 'https://www.greenter.fr/pac.jpg', width: 1200, height: 630 }],
   },
 }
 
 const breadcrumbs = [
-  { name: 'Accueil', url: 'https://greenter.fr' },
-  { name: 'Blog', url: 'https://greenter.fr/blog' },
-  { name: 'Guide prix PAC 2026', url: `https://greenter.fr/blog/${ARTICLE_META.slug}` },
+  { name: 'Accueil', url: 'https://www.greenter.fr' },
+  { name: 'Blog', url: 'https://www.greenter.fr/blog' },
+  { name: 'Guide prix PAC 2026', url: `https://www.greenter.fr/blog/${ARTICLE_META.slug}` },
 ]
 
 export default function GuidePrixPAC2026() {
@@ -43,10 +43,10 @@ export default function GuidePrixPAC2026() {
         description={ARTICLE_META.subtitle}
         datePublished={ARTICLE_META.dateISO}
         dateModified={ARTICLE_META.dateISO}
-        author={{ name: "Greenter", url: "https://greenter.fr" }}
-        publisher={{ name: "Greenter", logo: "https://greenter.fr/logo.png" }}
-        image="https://greenter.fr/pac.jpg"
-        url={`https://greenter.fr/blog/${ARTICLE_META.slug}`}
+        author={{ name: "Greenter", url: "https://www.greenter.fr" }}
+        publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
+        image="https://www.greenter.fr/pac.jpg"
+        url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
       />
       <FAQPageSchema items={FAQ_ITEMS} />
 

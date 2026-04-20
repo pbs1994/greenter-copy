@@ -77,13 +77,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${typedProduct.name} | Greenter`,
       description: description,
-      url: `https://greenter.fr/produits/${categorySlug}/${productSlug}`,
+      url: `https://www.greenter.fr/produits/${categorySlug}/${productSlug}`,
       siteName: "Greenter",
       locale: "fr_FR",
       type: "website",
       images: typedProduct.image_url ? [
         {
-          url: `https://greenter.fr${typedProduct.image_url}`,
+          url: `https://www.greenter.fr${typedProduct.image_url}`,
           width: 800,
           height: 800,
           alt: typedProduct.name,
@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ] : undefined,
     },
     alternates: {
-      canonical: `https://greenter.fr/produits/${categorySlug}/${productSlug}`,
+      canonical: `https://www.greenter.fr/produits/${categorySlug}/${productSlug}`,
     },
   }
 }

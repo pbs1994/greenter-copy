@@ -70,9 +70,9 @@ export default async function MaintenancePage() {
     : 1500
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Contrats d'entretien", url: "https://greenter.fr/services/maintenance" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Contrats d'entretien", url: "https://www.greenter.fr/services/maintenance" }
   ]
 
   return (
@@ -80,8 +80,8 @@ export default async function MaintenancePage() {
       <ServiceSchema
         name="Contrats d'entretien"
         description={`Contrats d'entretien pompe à chaleur, chaudière, panneaux solaires à partir de ${formatEUR(minPrice)}/mois. Entretien obligatoire, techniciens certifiés, sans engagement.`}
-        url="https://greenter.fr/services/maintenance"
-        image="https://greenter.fr/maintenance.jpg"
+        url="https://www.greenter.fr/services/maintenance"
+        image="https://www.greenter.fr/maintenance.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
