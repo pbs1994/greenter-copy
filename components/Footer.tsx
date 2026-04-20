@@ -90,6 +90,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/blog" className="text-green-200 hover:text-white transition-colors text-sm">
+                  Blog &amp; guides
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-green-200 hover:text-white transition-colors text-sm">
                   Contact
                 </Link>
@@ -171,6 +176,43 @@ export function Footer() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Articles récents du blog */}
+      <div className="border-t border-green-900">
+        <div className="container mx-auto max-w-6xl px-4 py-8">
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+            <h4 className="font-heading font-semibold text-lg">Guides récents</h4>
+            <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm text-green-200 hover:text-white transition-colors">
+              Voir tous les articles
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <ul className="grid md:grid-cols-2 gap-3">
+            <li>
+              <Link
+                href="/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026"
+                className="block group p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:border-white/20"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wide text-teal-300">Guide 2026</span>
+                <span className="block mt-1 font-medium text-white group-hover:text-teal-200 transition-colors">
+                  Remplacer sa chaudière gaz par une pompe à chaleur en 2026
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blog/guide-prix-pompe-a-chaleur-2026"
+                className="block group p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:border-white/20"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wide text-teal-300">Guide 2026</span>
+                <span className="block mt-1 font-medium text-white group-hover:text-teal-200 transition-colors">
+                  Prix d&apos;une pompe à chaleur en 2026 : coûts, aides et rentabilité
+                </span>
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
 

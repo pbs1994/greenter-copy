@@ -5,6 +5,7 @@ import { ProductShowcase } from "@/components/ProductShowcase"
 import { Certifications } from "@/components/Certifications"
 import { Banner } from "@/components/Banner"
 import { FAQ } from "@/components/FAQ"
+import { BlogTeaser } from "@/components/BlogTeaser"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
 
@@ -39,6 +40,7 @@ export default function Home() {
       <GoogleReviewsCarousel className="bg-neutral-50" />
       <Certifications />
       <FAQ />
+      <BlogTeaser />
       <ServiceAreaSection className="bg-white" />
       <Banner />
     </main>
