@@ -1,0 +1,4 @@
+Contact: mailto:contact@greenter.fr
+Expires: 2027-04-20T00:00:00.000Z
+Preferred-Languages: fr, en
+Canonical: https://www.greenter.fr/.well-known/security.txt

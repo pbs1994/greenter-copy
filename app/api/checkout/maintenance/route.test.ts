@@ -100,7 +100,7 @@ describe('POST /api/checkout/maintenance', () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key'
     process.env.STRIPE_SECRET_KEY = 'sk_test_123'
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://greenter.fr'
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://www.greenter.fr'
   })
 
   it('returns 400 when serviceIds is missing', async () => {

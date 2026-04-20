@@ -30,8 +30,8 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `https://greenter.fr/services/panneaux-solaires/${city.slug}` },
-    openGraph: { title, description, url: `https://greenter.fr/services/panneaux-solaires/${city.slug}`, siteName: "Greenter", type: "website" },
+    alternates: { canonical: `https://www.greenter.fr/services/panneaux-solaires/${city.slug}` },
+    openGraph: { title, description, url: `https://www.greenter.fr/services/panneaux-solaires/${city.slug}`, siteName: "Greenter", type: "website" },
   }
 }
 
@@ -41,11 +41,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
     "@type": "Service",
     name: `Installation Panneaux Solaires ${cityName}`,
     description: `Installation de panneaux solaires photovoltaïques à ${cityName} (${postalCode}). Certifié RGE QualiPV. Autoconsommation et revente.`,
-    url: `https://greenter.fr/services/panneaux-solaires/${citySlug}`,
+    url: `https://www.greenter.fr/services/panneaux-solaires/${citySlug}`,
     provider: {
       "@type": "LocalBusiness",
       name: "Greenter",
-      url: "https://greenter.fr",
+      url: "https://www.greenter.fr",
       telephone: "+33609455056",
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
     },
@@ -131,10 +131,10 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
   ]
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Panneaux solaires", url: "https://greenter.fr/services/panneaux-solaires" },
-    { name: city.name, url: `https://greenter.fr/services/panneaux-solaires/${city.slug}` },
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Panneaux solaires", url: "https://www.greenter.fr/services/panneaux-solaires" },
+    { name: city.name, url: `https://www.greenter.fr/services/panneaux-solaires/${city.slug}` },
   ]
 
   return (

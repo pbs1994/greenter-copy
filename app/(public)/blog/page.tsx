@@ -42,14 +42,14 @@ export const metadata: Metadata = {
   description: "Guides pratiques, conseils et actualités sur la rénovation énergétique : pompe à chaleur, panneaux solaires, isolation, aides MaPrimeRénov'. Par Greenter.",
   openGraph: {
     title: "Blog Rénovation Énergétique | Greenter",
-    description: "Guides et conseils sur la rénovation énergétique par Greenter.",
-    url: "https://greenter.fr/blog",
+    description: "Blog Greenter : guides pratiques, retours d'expérience et actualités sur la rénovation énergétique — pompe à chaleur, panneaux solaires, isolation et aides MaPrimeRénov'. Par un expert certifié RGE en Île-de-France.",
+    url: "https://www.greenter.fr/blog",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
   },
   alternates: {
-    canonical: "https://greenter.fr/blog",
+    canonical: "https://www.greenter.fr/blog",
   },
 }
 
@@ -63,8 +63,8 @@ const formatDate = (dateString: string | null | undefined): string => {
 }
 
 const breadcrumbItems = [
-  { name: "Accueil", url: "https://greenter.fr" },
-  { name: "Blog", url: "https://greenter.fr/blog" }
+  { name: "Accueil", url: "https://www.greenter.fr" },
+  { name: "Blog", url: "https://www.greenter.fr/blog" }
 ]
 
 export default async function BlogPage() {

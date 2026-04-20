@@ -18,14 +18,14 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Audit Énergétique | Diagnostic Certifié RGE | Greenter",
-    description: "Identifiez vos pertes d'énergie. Audit obligatoire vente F/G. Rapport complet avec scénarios de travaux et aides.",
-    url: "https://greenter.fr/services/audit",
+    description: "Audit énergétique certifié RGE par Greenter : diagnostic complet, obligatoire pour vendre un logement F ou G, rapport détaillé avec scénarios de travaux chiffrés, aides MaPrimeRénov' incluses. Devis gratuit.",
+    url: "https://www.greenter.fr/services/audit",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "https://greenter.fr/audit.png",
+        url: "https://www.greenter.fr/audit.png",
         width: 1200,
         height: 630,
         alt: "Audit énergétique Greenter",
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Audit Énergétique | Greenter",
-    description: "Diagnostic complet certifié RGE. Rapport détaillé sous 15 jours.",
-    images: ["https://greenter.fr/audit.png"],
+    description: "Audit énergétique certifié RGE : diagnostic complet, rapport détaillé sous 15 jours, scénarios de travaux chiffrés et aides MaPrimeRénov' intégrées. Devis gratuit.",
+    images: ["https://www.greenter.fr/audit.png"],
   },
   alternates: {
-    canonical: "https://greenter.fr/services/audit",
+    canonical: "https://www.greenter.fr/services/audit",
   },
 }
 

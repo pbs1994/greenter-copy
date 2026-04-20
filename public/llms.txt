@@ -94,18 +94,18 @@ Système de stockage solaire tout-en-un :
 
 - **Téléphone** : 06 09 45 50 56 / 07 66 97 50 99
 - **Adresse** : 38 Rue de Ménilmontant, 75020 Paris
-- **Site web** : https://greenter.fr
+- **Site web** : https://www.greenter.fr
 - **Horaires** : Lundi au Vendredi, 9h - 19h
 
 ## Pages du site
 
-- Accueil : https://greenter.fr
-- Pompe à chaleur : https://greenter.fr/services/pompe-a-chaleur
-- Panneaux solaires : https://greenter.fr/services/panneaux-solaires
-- Isolation : https://greenter.fr/services/isolation
-- Audit énergétique : https://greenter.fr/services/audit
-- Maintenance : https://greenter.fr/services/maintenance
-- Produits : https://greenter.fr/produits
-- Blog : https://greenter.fr/blog
-- Contact : https://greenter.fr/contact
-- Simulateur solaire : https://greenter.fr/simulateur-solaire
+- Accueil : https://www.greenter.fr
+- Pompe à chaleur : https://www.greenter.fr/services/pompe-a-chaleur
+- Panneaux solaires : https://www.greenter.fr/services/panneaux-solaires
+- Isolation : https://www.greenter.fr/services/isolation
+- Audit énergétique : https://www.greenter.fr/services/audit
+- Maintenance : https://www.greenter.fr/services/maintenance
+- Produits : https://www.greenter.fr/produits
+- Blog : https://www.greenter.fr/blog
+- Contact : https://www.greenter.fr/contact
+- Simulateur solaire : https://www.greenter.fr/simulateur-solaire

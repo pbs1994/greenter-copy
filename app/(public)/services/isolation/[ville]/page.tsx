@@ -30,8 +30,8 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `https://greenter.fr/services/isolation/${city.slug}` },
-    openGraph: { title, description, url: `https://greenter.fr/services/isolation/${city.slug}`, siteName: "Greenter", type: "website" },
+    alternates: { canonical: `https://www.greenter.fr/services/isolation/${city.slug}` },
+    openGraph: { title, description, url: `https://www.greenter.fr/services/isolation/${city.slug}`, siteName: "Greenter", type: "website" },
   }
 }
 
@@ -41,11 +41,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
     "@type": "Service",
     name: `Isolation Thermique ${cityName}`,
     description: `Travaux d'isolation thermique à ${cityName} (${postalCode}). Certifié RGE Qualibat. Combles, murs extérieurs et planchers bas.`,
-    url: `https://greenter.fr/services/isolation/${citySlug}`,
+    url: `https://www.greenter.fr/services/isolation/${citySlug}`,
     provider: {
       "@type": "LocalBusiness",
       name: "Greenter",
-      url: "https://greenter.fr",
+      url: "https://www.greenter.fr",
       telephone: "+33609455056",
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
     },
@@ -133,10 +133,10 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
   ]
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Isolation thermique", url: "https://greenter.fr/services/isolation" },
-    { name: city.name, url: `https://greenter.fr/services/isolation/${city.slug}` },
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Isolation thermique", url: "https://www.greenter.fr/services/isolation" },
+    { name: city.name, url: `https://www.greenter.fr/services/isolation/${city.slug}` },
   ]
 
   return (

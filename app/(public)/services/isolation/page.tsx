@@ -148,9 +148,9 @@ export default function IsolationPage() {
   const reviewCount = googleData?.reviewCount ?? 47
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Isolation à 1€", url: "https://greenter.fr/services/isolation" },
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Isolation à 1€", url: "https://www.greenter.fr/services/isolation" },
   ]
 
   return (
@@ -158,8 +158,8 @@ export default function IsolationPage() {
       <ServiceSchema
         name="Isolation à 1€ - Combles et planchers bas"
         description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat."
-        url="https://greenter.fr/services/isolation"
-        image="https://greenter.fr/isolation.jpg"
+        url="https://www.greenter.fr/services/isolation"
+        image="https://www.greenter.fr/isolation.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={ISOLATION_FAQS} />
@@ -174,8 +174,8 @@ export default function IsolationPage() {
         }}
         telephone="+33766975099"
         email="contact@greenter.fr"
-        url="https://greenter.fr/services/isolation"
-        image="https://greenter.fr/logo.png"
+        url="https://www.greenter.fr/services/isolation"
+        image="https://www.greenter.fr/logo.png"
         priceRange="€"
         areaServed={CITIES.map((c) => c.name)}
         aggregateRating={{ ratingValue: rating, reviewCount }}
@@ -190,10 +190,10 @@ export default function IsolationPage() {
         description="Tout savoir sur l'isolation à 1€ en 2026 : aides actuelles (MaPrimeRénov', CEE bonifiés), plafonds de ressources, matériaux et processus d'installation."
         datePublished="2026-01-10"
         dateModified="2026-04-08"
-        author={{ name: "Greenter", url: "https://greenter.fr" }}
-        publisher={{ name: "Greenter", logo: "https://greenter.fr/logo.png" }}
-        image="https://greenter.fr/isolation.jpg"
-        url="https://greenter.fr/services/isolation"
+        author={{ name: "Greenter", url: "https://www.greenter.fr" }}
+        publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
+        image="https://www.greenter.fr/isolation.jpg"
+        url="https://www.greenter.fr/services/isolation"
         wordCount={2600}
       />
 

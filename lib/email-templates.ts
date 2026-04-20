@@ -39,7 +39,7 @@ export const orderConfirmationTemplate = (order: OrderData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
+                    <img src="https://www.greenter.fr/logo-white.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
                   </td>
                 </tr>
                 <tr>
@@ -88,7 +88,7 @@ export const orderConfirmationTemplate = (order: OrderData) => `
                       <tr>
                         <td width="80" style="vertical-align: top;">
                           <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #EBF7EE 0%, #D4ECDB 100%); border-radius: 12px; text-align: center; line-height: 80px;">
-                            <img src="https://greenter.fr/kstar.png" alt="${order.productName}" width="60" style="vertical-align: middle;">
+                            <img src="https://www.greenter.fr/kstar.png" alt="${order.productName}" width="60" style="vertical-align: middle;">
                           </div>
                         </td>
                         <td style="padding-left: 20px; vertical-align: top;">
@@ -326,7 +326,7 @@ export const orderNotificationTemplate = (order: OrderData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
+                    <img src="https://www.greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
                   </td>
                   <td style="text-align: right;">
                     <span style="display: inline-block; background-color: #22C55E; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">
@@ -513,7 +513,7 @@ export const contactRequestTemplate = (contact: ContactData) => `
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block;">
+                    <img src="https://www.greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block;">
                   </td>
                   <td style="text-align: right;">
                     <span style="display: inline-block; background-color: #F59E0B; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;">
@@ -730,7 +730,7 @@ export const maintenanceClientEmailTemplate = (data: MaintenanceSubscriptionData
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
+                    <img src="https://www.greenter.fr/logo-white.png" alt="Greenter" width="140" style="display: block; margin-bottom: 24px;">
                   </td>
                 </tr>
                 <tr>
@@ -962,7 +962,7 @@ export const maintenanceAdminEmailTemplate = (data: MaintenanceSubscriptionData)
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <img src="https://greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
+                    <img src="https://www.greenter.fr/logo-white.png" alt="Greenter" width="120" style="display: block; margin-bottom: 16px;">
                   </td>
                   <td style="text-align: right;">
                     <span style="display: inline-block; background-color: #22C55E; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">

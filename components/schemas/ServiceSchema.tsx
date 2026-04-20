@@ -23,7 +23,7 @@ export function ServiceSchema({
     "provider": {
       "@type": "LocalBusiness",
       "name": "Greenter",
-      "url": "https://greenter.fr",
+      "url": "https://www.greenter.fr",
       "telephone": "+33609455056",
       "address": {
         "@type": "PostalAddress",

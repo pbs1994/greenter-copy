@@ -9,13 +9,13 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://greenter.fr/#organization",
+    "@id": "https://www.greenter.fr/#organization",
     name: "Greenter",
     description:
       "Expert en rénovation énergétique : installation de pompes à chaleur, panneaux solaires, isolation thermique et audit énergétique à Ozoir-la-Ferrière et en Seine-et-Marne. Certifié RGE.",
-    url: "https://greenter.fr",
-    logo: "https://greenter.fr/logo.png",
-    image: "https://greenter.fr/logo.png",
+    url: "https://www.greenter.fr",
+    logo: "https://www.greenter.fr/logo.png",
+    image: "https://www.greenter.fr/logo.png",
     telephone: "+33609455056",
     email: "contact@greenter.fr",
     address: {
@@ -46,10 +46,13 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         opens: "09:00",
-        closes: "18:00",
+        closes: "19:00",
       },
     ],
-    sameAs: [],
+    sameAs: (process.env.NEXT_PUBLIC_SOCIAL_PROFILES || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Services de rénovation énergétique",
@@ -94,10 +97,10 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Greenter",
-    url: "https://greenter.fr",
+    url: "https://www.greenter.fr",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://greenter.fr/recherche?q={search_term_string}",
+      target: "https://www.greenter.fr/recherche?q={search_term_string}",
       "query-input": "required name=search_term_string",
     },
   }
@@ -110,7 +113,7 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
         "@type": "ListItem",
         position: 1,
         name: "Accueil",
-        item: "https://greenter.fr",
+        item: "https://www.greenter.fr",
       },
     ],
   }

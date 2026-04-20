@@ -1,0 +1,18 @@
+/* TEAM */
+Entreprise: Greenter
+Rôle: Rénovation énergétique certifiée RGE en Île-de-France
+Contact: contact [at] greenter.fr
+Site: https://www.greenter.fr
+
+/* SITE */
+Dernière mise à jour: 2026/04
+Langue: Français
+Localisation: Ozoir-la-Ferrière / Paris, France
+Technologies: Next.js, React, TypeScript, Payload CMS, Supabase, Stripe, Tailwind CSS
+Hébergement: Vercel
+
+/* CERTIFICATIONS */
+RGE — Reconnu Garant de l'Environnement
+QualiPAC — Spécialiste pompes à chaleur
+QualiPV — Spécialiste photovoltaïque
+Qualibat — Certification bâtiment

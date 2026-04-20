@@ -15,14 +15,14 @@ export const metadata: Metadata = {
   keywords: ["stockage solaire", "batterie solaire", "onduleur hybride", "KSTAR", "LiFePO4", "autoconsommation"],
   openGraph: {
     title: "Nos Produits | Greenter",
-    description: "Stockage solaire et équipements pour l'autoconsommation. Livraison et installation offerts.",
-    url: "https://greenter.fr/produits",
+    description: "Boutique Greenter : batteries LiFePO4, onduleurs hybrides et équipements pour l'autoconsommation solaire. Livraison et installation offerts partout en Île-de-France par des techniciens certifiés RGE.",
+    url: "https://www.greenter.fr/produits",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
   },
   alternates: {
-    canonical: "https://greenter.fr/produits",
+    canonical: "https://www.greenter.fr/produits",
   },
 }
 
@@ -50,8 +50,8 @@ export default async function ProduitsPage() {
   })).filter(group => group.products.length > 0)
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Produits", url: "https://greenter.fr/produits" }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Produits", url: "https://www.greenter.fr/produits" }
   ]
 
   // Schema for all products
@@ -65,8 +65,8 @@ export default async function ProduitsPage() {
         "@type": "Product",
         "name": product.name,
         "description": product.short_description || product.description,
-        "image": product.image_url ? `https://greenter.fr${product.image_url}` : undefined,
-        "url": `https://greenter.fr/produits/${product.category.slug}/${product.slug}`,
+        "image": product.image_url ? `https://www.greenter.fr${product.image_url}` : undefined,
+        "url": `https://www.greenter.fr/produits/${product.category.slug}/${product.slug}`,
         "offers": {
           "@type": "Offer",
           "price": product.price / 100,

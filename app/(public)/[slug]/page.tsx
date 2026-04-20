@@ -78,7 +78,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = page.seo as { meta_title?: string; meta_description?: string; og_image?: Media } | null
   
   const title = seo?.meta_title || page.title
-  const description = seo?.meta_description || ''
+  const description =
+    seo?.meta_description && seo.meta_description.length >= 140
+      ? seo.meta_description
+      : `${page.title} — Greenter, expert certifié RGE en rénovation énergétique : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Devis gratuit sous 48h et intervention partout en Île-de-France par des techniciens qualifiés QualiPAC, QualiPV et Qualibat.`
   
   const ogImage = seo?.og_image
   const imageUrl = typeof ogImage === 'object' && ogImage?.url ? ogImage.url : null
@@ -89,19 +92,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://greenter.fr/${slug}`,
+      url: `https://www.greenter.fr/${slug}`,
       siteName: "Greenter",
       locale: "fr_FR",
       type: "website",
       images: imageUrl ? [{
-        url: `https://greenter.fr${imageUrl}`,
+        url: `https://www.greenter.fr${imageUrl}`,
         width: 1200,
         height: 630,
         alt: title,
       }] : undefined,
     },
     alternates: {
-      canonical: `https://greenter.fr/${slug}`,
+      canonical: `https://www.greenter.fr/${slug}`,
     },
   }
 }
@@ -144,8 +147,8 @@ export default async function DynamicPage({ params }: Props) {
   const page = pages[0] as Page
   
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: page.title, url: `https://greenter.fr/${slug}` }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: page.title, url: `https://www.greenter.fr/${slug}` }
   ]
 
   return (

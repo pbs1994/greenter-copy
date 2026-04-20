@@ -30,8 +30,8 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `https://greenter.fr/services/audit/${city.slug}` },
-    openGraph: { title, description, url: `https://greenter.fr/services/audit/${city.slug}`, siteName: "Greenter", type: "website" },
+    alternates: { canonical: `https://www.greenter.fr/services/audit/${city.slug}` },
+    openGraph: { title, description, url: `https://www.greenter.fr/services/audit/${city.slug}`, siteName: "Greenter", type: "website" },
   }
 }
 
@@ -41,11 +41,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
     "@type": "Service",
     name: `Audit Énergétique ${cityName}`,
     description: `Audit énergétique et diagnostic de performance énergétique (DPE) à ${cityName} (${postalCode}). Certifié RGE. Identification des économies d'énergie et plan de rénovation.`,
-    url: `https://greenter.fr/services/audit/${citySlug}`,
+    url: `https://www.greenter.fr/services/audit/${citySlug}`,
     provider: {
       "@type": "LocalBusiness",
       name: "Greenter",
-      url: "https://greenter.fr",
+      url: "https://www.greenter.fr",
       telephone: "+33766975099",
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
     },
@@ -133,10 +133,10 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
   ]
 
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Services", url: "https://greenter.fr/services" },
-    { name: "Audit énergétique", url: "https://greenter.fr/services/audit" },
-    { name: city.name, url: `https://greenter.fr/services/audit/${city.slug}` },
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Services", url: "https://www.greenter.fr/services" },
+    { name: "Audit énergétique", url: "https://www.greenter.fr/services/audit" },
+    { name: city.name, url: `https://www.greenter.fr/services/audit/${city.slug}` },
   ]
 
   return (

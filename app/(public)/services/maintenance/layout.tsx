@@ -17,14 +17,14 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Maintenance & Conformité | Entretien Équipements | Greenter",
-    description: "Contrats d'entretien PAC et solaire. Dépannage sous 48h. Mise en conformité. Techniciens certifiés.",
-    url: "https://greenter.fr/services/maintenance",
+    description: "Contrats d'entretien PAC et solaire par Greenter, techniciens certifiés RGE : visite annuelle obligatoire, dépannage sous 48h, mise en conformité Consuel et intervention partout en Île-de-France.",
+    url: "https://www.greenter.fr/services/maintenance",
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "https://greenter.fr/maintenance.jpg",
+        url: "https://www.greenter.fr/maintenance.jpg",
         width: 1200,
         height: 630,
         alt: "Maintenance équipements Greenter",
@@ -34,11 +34,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Maintenance & Conformité | Greenter",
-    description: "Entretien PAC et solaire. Dépannage rapide. Contrats sur mesure.",
-    images: ["https://greenter.fr/maintenance.jpg"],
+    description: "Entretien annuel PAC et panneaux solaires, contrats sur mesure, dépannage sous 48h et mise en conformité Consuel par Greenter, techniciens RGE en Île-de-France.",
+    images: ["https://www.greenter.fr/maintenance.jpg"],
   },
   alternates: {
-    canonical: "https://greenter.fr/services/maintenance",
+    canonical: "https://www.greenter.fr/services/maintenance",
   },
 }
 

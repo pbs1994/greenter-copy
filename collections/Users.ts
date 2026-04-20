@@ -18,7 +18,7 @@ export const Users: CollectionConfig = {
     forgotPassword: {
       generateEmailHTML: (args) => {
         const token = args?.token
-        const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://greenter.fr'}/admin/reset-password?token=${token}`
+        const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.greenter.fr'}/admin/reset-password?token=${token}`
         return `
           <!DOCTYPE html>
           <html lang="fr">
@@ -77,7 +77,7 @@ export const Users: CollectionConfig = {
                     <tr>
                       <td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:24px 40px;text-align:center;">
                         <p style="margin:0;color:#9ca3af;font-size:12px;">
-                          © ${new Date().getFullYear()} Greenter · <a href="https://greenter.fr" style="color:#16a34a;text-decoration:none;">greenter.fr</a>
+                          © ${new Date().getFullYear()} Greenter · <a href="https://www.greenter.fr" style="color:#16a34a;text-decoration:none;">greenter.fr</a>
                         </p>
                       </td>
                     </tr>

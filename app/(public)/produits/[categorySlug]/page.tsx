@@ -43,19 +43,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
   
+  const cat = category.name.toLowerCase()
+  const description = `Catalogue ${cat} Greenter : équipements certifiés pour l'autoconsommation et la rénovation énergétique, avec livraison et installation par nos techniciens RGE partout en Île-de-France. Garantie constructeur, paiement sécurisé et conseil personnalisé avant commande.`
+
   return {
     title: `${category.name} | Greenter`,
-    description: `Découvrez notre sélection de ${category.name.toLowerCase()}. Produits de qualité avec livraison et installation incluses.`,
+    description,
     openGraph: {
       title: `${category.name} | Greenter`,
-      description: `Découvrez notre sélection de ${category.name.toLowerCase()}. Produits de qualité avec livraison et installation incluses.`,
-      url: `https://greenter.fr/produits/${categorySlug}`,
+      description,
+      url: `https://www.greenter.fr/produits/${categorySlug}`,
       siteName: "Greenter",
       locale: "fr_FR",
       type: "website",
     },
     alternates: {
-      canonical: `https://greenter.fr/produits/${categorySlug}`,
+      canonical: `https://www.greenter.fr/produits/${categorySlug}`,
     },
   }
 }
@@ -92,9 +95,9 @@ export default async function CategoryPage({ params }: Props) {
 
   // Breadcrumb items for SEO schema
   const breadcrumbItems = [
-    { name: "Accueil", url: "https://greenter.fr" },
-    { name: "Produits", url: "https://greenter.fr/produits" },
-    { name: typedCategory.name, url: `https://greenter.fr/produits/${categorySlug}` }
+    { name: "Accueil", url: "https://www.greenter.fr" },
+    { name: "Produits", url: "https://www.greenter.fr/produits" },
+    { name: typedCategory.name, url: `https://www.greenter.fr/produits/${categorySlug}` }
   ]
   
   // ItemList schema for SEO
@@ -108,8 +111,8 @@ export default async function CategoryPage({ params }: Props) {
         "@type": "Product",
         "name": product.name,
         "description": product.short_description || product.description,
-        "image": product.image_url ? `https://greenter.fr${product.image_url}` : undefined,
-        "url": `https://greenter.fr/produits/${categorySlug}/${product.slug}`,
+        "image": product.image_url ? `https://www.greenter.fr${product.image_url}` : undefined,
+        "url": `https://www.greenter.fr/produits/${categorySlug}/${product.slug}`,
         "offers": {
           "@type": "Offer",
           "price": product.price / 100,
