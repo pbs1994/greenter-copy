@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE_META.dateISO,
     authors: ['Greenter'],
     images: [{
-      url: 'https://www.greenter.fr/blog/remplacer-chaudiere-gaz-pac-hero.png',
+      url: 'https://www.greenter.fr/images/blog/remplacer-chaudiere-gaz-pac-hero.png',
       width: 1200,
       height: 630,
       alt: 'Remplacer sa chaudière gaz par une pompe à chaleur',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: ARTICLE_META.title,
     description: ARTICLE_META.subtitle,
-    images: ['https://www.greenter.fr/blog/remplacer-chaudiere-gaz-pac-hero.png'],
+    images: ['https://www.greenter.fr/images/blog/remplacer-chaudiere-gaz-pac-hero.png'],
   },
 }
 
@@ -59,7 +59,7 @@ export default function RemplacerChaudiereGazPAC2026() {
         dateModified={ARTICLE_META.dateISO}
         author={{ name: "Greenter", url: "https://www.greenter.fr" }}
         publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
-        image="https://www.greenter.fr/blog/remplacer-chaudiere-gaz-pac-hero.png"
+        image="https://www.greenter.fr/images/blog/remplacer-chaudiere-gaz-pac-hero.png"
         url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
       />
       <FAQPageSchema items={FAQ_ITEMS} />
@@ -69,7 +69,7 @@ export default function RemplacerChaudiereGazPAC2026() {
         subtitle={ARTICLE_META.subtitle}
         date={ARTICLE_META.date}
         readingTime={ARTICLE_META.readingTime}
-        heroImage="/blog/remplacer-chaudiere-gaz-pac-hero.png"
+        heroImage="/images/blog/remplacer-chaudiere-gaz-pac-hero.png"
         heroAlt="Chaudière gaz en cours de remplacement par une pompe à chaleur air-eau"
         breadcrumbs={breadcrumbs}
       >
@@ -107,7 +107,7 @@ export default function RemplacerChaudiereGazPAC2026() {
         </h2>
 
         <ArticleImageSection
-          image="/blog/transition-gaz-pac-economies.png"
+          image="/images/blog/transition-gaz-pac-economies.png"
           alt="Comparaison économies chauffage gaz et pompe à chaleur"
           imagePosition="left"
         >
@@ -203,7 +203,7 @@ export default function RemplacerChaudiereGazPAC2026() {
         </ArticleCallout>
 
         <ArticleFullImage
-          image="/blog/pac-installation-exterieure.png"
+          image="/images/blog/pac-installation-exterieure.png"
           alt="Unité extérieure d'une pompe à chaleur air-eau installée sur un pavillon"
           caption="Unité extérieure d'une PAC air-eau — positionnement à l'extérieur à 1 m des limites, sur socle antivibratile"
         />
@@ -278,7 +278,7 @@ export default function RemplacerChaudiereGazPAC2026() {
         </h2>
 
         <ArticleImageSection
-          image="/blog/depose-chaudiere-gaz.png"
+          image="/images/blog/depose-chaudiere-gaz.png"
           alt="Technicien RGE déposant une ancienne chaudière gaz murale"
           imagePosition="right"
         >
