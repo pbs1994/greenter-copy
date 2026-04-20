@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Flame, Wind, Droplets, SunMedium, SunDim, Zap, type LucideIcon } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Flame, Wind, Droplets, SunMedium, SunDim, Zap, BookOpen, type LucideIcon } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -400,6 +400,15 @@ export function Header() {
                 className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
                 asChild
               >
+                <Link href="/blog">Blog</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
+                asChild
+              >
                 <Link href="/contact">Contact</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
@@ -615,6 +624,28 @@ export function Header() {
                   <ChevronRight className="w-5 h-5 text-neutral-300 group-hover:text-teal-500 transition-all group-hover:translate-x-1" />
                 </Link>
               ))}
+            </div>
+
+            {/* Blog */}
+            <div className="px-3 pb-3">
+              <Link
+                href="/blog"
+                onClick={closeMenu}
+                className="group flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-neutral-200 hover:border-emerald-400 hover:shadow-md transition-all"
+              >
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <span className="block font-semibold text-neutral-900 group-hover:text-emerald-700 transition-colors">
+                    Blog &amp; Guides
+                  </span>
+                  <span className="block text-xs text-neutral-500">
+                    Conseils rénovation énergétique &amp; aides 2026
+                  </span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-emerald-500 transition-all group-hover:translate-x-1" />
+              </Link>
             </div>
 
             {/* Contact */}

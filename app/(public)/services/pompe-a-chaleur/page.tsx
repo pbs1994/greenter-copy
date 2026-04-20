@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Phone, Star, Check, Shield, Clock, Award, Loader2 } from "lucide-react"
+import Link from "next/link"
+import { Phone, Star, Check, Shield, Clock, Award, Loader2, ArrowRight, BookOpen } from "lucide-react"
 import Image from "next/image"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
@@ -542,6 +543,74 @@ export default function PompeAChaleurPage() {
         {/* Editorial Content - Replaces old sections */}
         {/* ============================================================= */}
         <PACEditorialContent />
+
+        {/* ============================================================= */}
+        {/* Blog guides — internal linking to drive SEO equity to /blog */}
+        {/* ============================================================= */}
+        <section className="bg-neutral-50 py-16">
+          <div className="container mx-auto max-w-5xl px-4">
+            <div className="mb-8 text-center">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                <BookOpen className="h-3.5 w-3.5" />
+                Pour aller plus loin
+              </div>
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900">
+                Guides pompe à chaleur 2026
+              </h2>
+              <p className="mt-2 text-neutral-600">
+                Décryptage complet des aides, prix et démarches par nos experts RGE.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Link
+                href="/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026"
+                className="group flex gap-4 rounded-xl bg-white p-5 ring-1 ring-neutral-200 transition-all hover:ring-emerald-300 hover:shadow-md"
+              >
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-600">
+                    Nouveau · avril 2026
+                  </span>
+                  <h3 className="mt-1 font-bold text-neutral-900 leading-tight group-hover:text-emerald-700 transition-colors">
+                    Remplacer sa chaudière gaz par une pompe à chaleur en 2026
+                  </h3>
+                  <p className="mt-1 text-sm text-neutral-600 line-clamp-2">
+                    Prime EDF 1 000&nbsp;€, bonus MaPrimeRénov&apos; +1 000&nbsp;€, Coup de pouce x3 :
+                    toutes les aides pour passer du gaz à la PAC.
+                  </p>
+                  <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700">
+                    Lire le guide <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </Link>
+              <Link
+                href="/blog/guide-prix-pompe-a-chaleur-2026"
+                className="group flex gap-4 rounded-xl bg-white p-5 ring-1 ring-neutral-200 transition-all hover:ring-emerald-300 hover:shadow-md"
+              >
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-600">
+                    Guide complet
+                  </span>
+                  <h3 className="mt-1 font-bold text-neutral-900 leading-tight group-hover:text-emerald-700 transition-colors">
+                    Prix d&apos;une pompe à chaleur en 2026
+                  </h3>
+                  <p className="mt-1 text-sm text-neutral-600 line-clamp-2">
+                    Coûts par type de PAC, barème MaPrimeRénov&apos;, exemple chiffré et
+                    calcul du retour sur investissement.
+                  </p>
+                  <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700">
+                    Lire le guide <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   )
