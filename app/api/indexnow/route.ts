@@ -159,6 +159,7 @@ async function submitToSearchEngines() {
     `${SITE_URL}/produits`,
     `${SITE_URL}/blog`,
     `${SITE_URL}/blog/guide-prix-pompe-a-chaleur-2026`,
+    `${SITE_URL}/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026`,
     ...['ozoir-la-ferriere', 'pontault-combault', 'melun', 'meaux', 'chelles',
         'creteil', 'noisy-le-grand', 'champigny-sur-marne', 'saint-maur-des-fosses', 'paris'
     ].map((slug) => `${SITE_URL}/services/pompe-a-chaleur/${slug}`),
