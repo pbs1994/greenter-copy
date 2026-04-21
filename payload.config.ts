@@ -12,11 +12,8 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Categories } from './collections/Categories'
 import { Products } from './collections/Products'
-import { Customers } from './collections/Customers'
-import { Orders } from './collections/Orders'
 import { MaintenanceServices } from './collections/MaintenanceServices'
 import { MaintenanceOptions } from './collections/MaintenanceOptions'
-import { MaintenanceSubscriptions } from './collections/MaintenanceSubscriptions'
 import { BlogPosts } from './collections/BlogPosts'
 import { Pages } from './collections/Pages'
 
@@ -69,11 +66,8 @@ export default buildConfig({
     Media,
     Categories,
     Products,
-    Customers,
-    Orders,
     MaintenanceServices,
     MaintenanceOptions,
-    MaintenanceSubscriptions,
     BlogPosts,
     Pages,
   ],
