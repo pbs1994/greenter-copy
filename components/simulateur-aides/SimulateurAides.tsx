@@ -7,7 +7,6 @@ import { Step1Foyer } from './steps/Step1Foyer'
 import { Step2Revenu } from './steps/Step2Revenu'
 import { Step3Equipement } from './steps/Step3Equipement'
 import { Step4Situation } from './steps/Step4Situation'
-import { Step5Devis } from './steps/Step5Devis'
 import { StepResultat } from './steps/StepResultat'
 import type {
   Equipement,
@@ -18,15 +17,14 @@ import type {
 } from '@/lib/maprimerenov-2026'
 import { calculate, MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
 
-const STEP_LABELS = ['Foyer', 'Revenus', 'Équipements', 'Situation', 'Devis', 'Résultat']
+const STEP_LABELS = ['Foyer', 'Revenus', 'Équipements', 'Situation', 'Résultat']
 
 interface State {
   personnes: number
   zone: ZoneRevenu
   revenuFiscal: number
-  /** Liste des équipements sélectionnés */
   equipements: Equipement[]
-  /** Coût TTC + surface par équipement */
+  /** map equipement → { surfaceM2?, coutTTC? } — coutTTC renseigné seulement si l'utilisateur a un devis */
   values: Record<string, EquipementInput | undefined>
   chauffageActuel: ChauffageActuel
   surfaceLogementM2: number
@@ -52,7 +50,6 @@ export function SimulateurAides() {
       const nextList = exists ? s.equipements.filter((e) => e !== eq) : [...s.equipements, eq]
       const nextValues = { ...s.values }
       if (!exists) {
-        // Initialise l'entrée vide
         nextValues[eq] = { equipement: eq, coutTTC: 0 }
       } else {
         delete nextValues[eq]
@@ -61,7 +58,7 @@ export function SimulateurAides() {
     })
   }
 
-  const patchEquipementValue = (eq: Equipement, patch: Partial<EquipementInput>) => {
+  const setSurfaceForEquipement = (eq: Equipement, surfaceM2: number) => {
     setState((s) => ({
       ...s,
       values: {
@@ -70,7 +67,21 @@ export function SimulateurAides() {
           equipement: eq,
           coutTTC: 0,
           ...(s.values[eq] ?? {}),
-          ...patch,
+          surfaceM2,
+        } as EquipementInput,
+      },
+    }))
+  }
+
+  const setCoutForEquipement = (eq: Equipement, coutTTC: number) => {
+    setState((s) => ({
+      ...s,
+      values: {
+        ...s.values,
+        [eq]: {
+          equipement: eq,
+          ...(s.values[eq] ?? { coutTTC: 0 }),
+          coutTTC,
         } as EquipementInput,
       },
     }))
@@ -82,32 +93,32 @@ export function SimulateurAides() {
         return state.personnes >= 1 && !!state.zone
       case 1:
         return state.revenuFiscal > 0
-      case 2:
-        return state.equipements.length >= 1
-      case 3:
-        return !!state.chauffageActuel && state.surfaceLogementM2 >= 20
-      case 4: {
-        // Tous les équipements ont un coût > 0, et surface > 0 si isolation
+      case 2: {
+        if (state.equipements.length === 0) return false
         return state.equipements.every((eq) => {
-          const v = state.values[eq]
-          if (!v || v.coutTTC <= 0) return false
           const info = MPR_GESTE_2026[eq]
-          if (info.unite === 'eur_m2' && (!v.surfaceM2 || v.surfaceM2 <= 0)) return false
-          return true
+          if (info.unite !== 'eur_m2') return true
+          const v = state.values[eq]
+          return !!v && !!v.surfaceM2 && v.surfaceM2 > 0
         })
       }
+      case 3:
+        return !!state.chauffageActuel && state.surfaceLogementM2 >= 20
       default:
         return false
     }
   }, [step, state])
 
   const result = useMemo(() => {
-    if (step !== 5 || state.equipements.length === 0) return null
-    const equipements: EquipementInput[] = state.equipements
-      .map((eq) => state.values[eq])
-      .filter((v): v is EquipementInput => !!v && v.coutTTC > 0)
-    if (equipements.length === 0) return null
-
+    if (step !== 4 || state.equipements.length === 0) return null
+    const equipements: EquipementInput[] = state.equipements.map((eq) => {
+      const v = state.values[eq]
+      return {
+        equipement: eq,
+        coutTTC: v?.coutTTC ?? 0,
+        surfaceM2: v?.surfaceM2,
+      }
+    })
     const input: SimulationInput = {
       foyer: { personnes: state.personnes, zone: state.zone },
       revenuFiscal: state.revenuFiscal,
@@ -122,12 +133,14 @@ export function SimulateurAides() {
     }
   }, [step, state])
 
-  const next = () => setStep((s) => Math.min(s + 1, 5))
+  const next = () => setStep((s) => Math.min(s + 1, 4))
   const prev = () => setStep((s) => Math.max(0, s - 1))
   const reset = () => {
     setState(INITIAL)
     setStep(0)
   }
+
+  const hasDevis = state.equipements.some((eq) => (state.values[eq]?.coutTTC ?? 0) > 0)
 
   return (
     <div className="bg-white rounded-2xl shadow-lg shadow-neutral-200/60 border border-neutral-100 p-5 md:p-8">
@@ -155,7 +168,9 @@ export function SimulateurAides() {
         {step === 2 && (
           <Step3Equipement
             equipements={state.equipements}
+            values={state.values}
             onToggle={toggleEquipement}
+            onSurfaceChange={setSurfaceForEquipement}
           />
         )}
         {step === 3 && (
@@ -166,17 +181,19 @@ export function SimulateurAides() {
             onSurface={(n) => setState((s) => ({ ...s, surfaceLogementM2: n }))}
           />
         )}
-        {step === 4 && (
-          <Step5Devis
+        {step === 4 && result && (
+          <StepResultat
+            result={result}
             equipements={state.equipements}
             values={state.values}
-            onChange={patchEquipementValue}
+            hasDevis={hasDevis}
+            onCoutChange={setCoutForEquipement}
+            onRestart={reset}
           />
         )}
-        {step === 5 && result && <StepResultat result={result} onRestart={reset} />}
       </div>
 
-      {step < 5 && (
+      {step < 4 && (
         <div className="mt-8 pt-6 border-t border-neutral-100 flex items-center justify-between gap-3">
           <button
             type="button"
@@ -201,7 +218,7 @@ export function SimulateurAides() {
                 : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
             }`}
           >
-            {step === 4 ? 'Voir mes aides' : 'Continuer'}
+            {step === 3 ? 'Voir mes aides' : 'Continuer'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

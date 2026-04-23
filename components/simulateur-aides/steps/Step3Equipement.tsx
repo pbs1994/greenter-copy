@@ -1,10 +1,13 @@
-import { Thermometer, Flame, Sun, Droplets, Wind, FileSearch, Home as HomeIcon, Check } from 'lucide-react'
-import type { Equipement } from '@/lib/maprimerenov-2026'
+import { Thermometer, Flame, Sun, Droplets, Wind, FileSearch, Home as HomeIcon, Check, Ruler } from 'lucide-react'
+import type { Equipement, EquipementInput } from '@/lib/maprimerenov-2026'
 import { MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
 
 interface Step3EquipementProps {
   equipements: Equipement[]
+  /** map equipement → { surfaceM2? } — seule la surface est pertinente ici (pas le coût) */
+  values: Record<string, EquipementInput | undefined>
   onToggle: (e: Equipement) => void
+  onSurfaceChange: (e: Equipement, surfaceM2: number) => void
 }
 
 type Option = {
@@ -23,12 +26,17 @@ const OPTIONS: Option[] = [
   { value: 'ssc', title: 'Système solaire combiné', desc: "Chauffage + ECS solaire, aide max 10 000 €", icon: Sun },
   { value: 'chauffe_eau_thermo', title: 'Chauffe-eau thermodynamique', desc: "ECS via pompe à chaleur", icon: Droplets },
   { value: 'poele_granules', title: 'Poêle à granulés', desc: "Chauffage bois performant", icon: Flame },
-  { value: 'iso_combles_perdus', title: 'Isolation des combles perdus', desc: "25 €/m² en Bleu, plafond 75 €/m²", icon: HomeIcon },
+  { value: 'iso_combles_perdus', title: 'Isolation des combles perdus', desc: "Aide calculée au m² isolé", icon: HomeIcon },
   { value: 'iso_rampants', title: 'Isolation rampants / toiture', desc: "Rampants de toiture et plafonds de combles", icon: HomeIcon },
   { value: 'audit_energetique', title: 'Audit énergétique', desc: "Conditionné à au moins un geste de travaux", icon: FileSearch },
 ]
 
-export function Step3Equipement({ equipements, onToggle }: Step3EquipementProps) {
+export function Step3Equipement({
+  equipements,
+  values,
+  onToggle,
+  onSurfaceChange,
+}: Step3EquipementProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -36,8 +44,8 @@ export function Step3Equipement({ equipements, onToggle }: Step3EquipementProps)
           Quels équipements souhaitez-vous installer ?
         </h3>
         <p className="text-neutral-500 text-sm">
-          Sélectionnez un ou plusieurs équipements — chacun a son propre barème MaPrimeRénov&apos; et
-          un bouquet de 2 ou 3 gestes ouvre un plafond éco-PTZ plus élevé (25 000 € / 30 000 €).
+          Sélectionnez un ou plusieurs équipements. Un bouquet de 2 ou 3 gestes ouvre un plafond
+          éco-PTZ plus élevé (25 000 € / 30 000 €).
         </p>
       </div>
 
@@ -46,51 +54,81 @@ export function Step3Equipement({ equipements, onToggle }: Step3EquipementProps)
           const selected = equipements.includes(value)
           const info = MPR_GESTE_2026[value]
           const nonEligible = !info.eligible
+          const needsSurface = info.unite === 'eur_m2'
+          const currentSurface = values[value]?.surfaceM2 || 0
           return (
-            <button
+            <div
               key={value}
-              type="button"
-              onClick={() => onToggle(value)}
-              aria-pressed={selected}
-              className={`relative flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all ${
-                selected
-                  ? 'border-emerald-500 bg-emerald-50'
-                  : 'border-neutral-200 bg-white hover:border-neutral-300'
+              className={`rounded-xl border-2 transition-all ${
+                selected ? 'border-emerald-500 bg-emerald-50' : 'border-neutral-200 bg-white hover:border-neutral-300'
               }`}
             >
-              <div
-                className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                  selected ? 'bg-emerald-600 text-white' : 'bg-neutral-100 text-neutral-600'
-                }`}
+              <button
+                type="button"
+                onClick={() => onToggle(value)}
+                aria-pressed={selected}
+                className="relative flex items-start gap-3 w-full p-4 text-left"
               >
-                <Icon className="w-5 h-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                  <span className="font-semibold text-neutral-900">{title}</span>
-                  {badge && (
-                    <span className="text-[10px] uppercase font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded">
-                      {badge}
-                    </span>
-                  )}
-                  {nonEligible && (
-                    <span className="text-[10px] uppercase font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded">
-                      CEE uniquement
-                    </span>
-                  )}
+                <div
+                  className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    selected ? 'bg-emerald-600 text-white' : 'bg-neutral-100 text-neutral-600'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
                 </div>
-                <p className="text-xs text-neutral-500">{desc}</p>
-              </div>
-              {/* Checkmark */}
-              <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                  selected ? 'bg-emerald-600 border-emerald-600' : 'bg-white border-neutral-300'
-                }`}
-                aria-hidden
-              >
-                {selected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
-              </div>
-            </button>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                    <span className="font-semibold text-neutral-900">{title}</span>
+                    {badge && (
+                      <span className="text-[10px] uppercase font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded">
+                        {badge}
+                      </span>
+                    )}
+                    {nonEligible && (
+                      <span className="text-[10px] uppercase font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded">
+                        CEE uniquement
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500">{desc}</p>
+                </div>
+                <div
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                    selected ? 'bg-emerald-600 border-emerald-600' : 'bg-white border-neutral-300'
+                  }`}
+                  aria-hidden
+                >
+                  {selected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+                </div>
+              </button>
+
+              {/* Surface input — uniquement pour les gestes d'isolation sélectionnés */}
+              {selected && needsSurface && (
+                <div className="px-4 pb-4 pt-1 border-t border-emerald-200/60">
+                  <label className="flex items-center gap-2 text-xs text-neutral-600 mb-1.5">
+                    <Ruler className="w-3 h-3 text-emerald-600" />
+                    Surface à isoler
+                  </label>
+                  <div className="relative max-w-[160px]">
+                    <input
+                      type="number"
+                      min={1}
+                      max={500}
+                      step={1}
+                      value={currentSurface || ''}
+                      onChange={(e) =>
+                        onSurfaceChange(value, Math.max(1, parseInt(e.target.value) || 0))
+                      }
+                      placeholder="80"
+                      className="w-full pl-3 pr-10 py-2 text-sm border-2 border-neutral-200 rounded-lg focus:border-emerald-500 outline-none"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-medium">
+                      m²
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
           )
         })}
       </div>
@@ -100,9 +138,9 @@ export function Step3Equipement({ equipements, onToggle }: Step3EquipementProps)
           <strong>{equipements.length}</strong> équipement{equipements.length > 1 ? 's' : ''} sélectionné
           {equipements.length > 1 ? 's' : ''}
           {equipements.length >= 3
-            ? ' — bouquet 3 gestes, éligible éco-PTZ 30 000 € (hors couplage MPR).'
+            ? ' — bouquet 3 gestes, éligible éco-PTZ 30 000 €.'
             : equipements.length === 2
-              ? ' — bouquet 2 gestes, éligible éco-PTZ 25 000 € (hors couplage MPR).'
+              ? ' — bouquet 2 gestes, éligible éco-PTZ 25 000 €.'
               : '.'}
         </div>
       )}
