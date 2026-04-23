@@ -11,7 +11,8 @@ interface Step4SituationProps {
 const OPTIONS: { value: ChauffageActuel; label: string; icon: typeof Flame; desc: string }[] = [
   { value: 'gaz', label: 'Chaudière gaz', icon: Flame, desc: 'Éligible prime EDF + CEE bonifié ×5' },
   { value: 'fioul', label: 'Chaudière fioul', icon: Flame, desc: 'Éligible prime EDF + CEE bonifié ×5' },
-  { value: 'electrique', label: 'Chauffage électrique', icon: Zap, desc: 'Non éligible prime EDF' },
+  { value: 'charbon', label: 'Chaudière charbon', icon: Flame, desc: 'Éligible CEE bonifié ×5 (mais pas la prime EDF)' },
+  { value: 'electrique', label: 'Chauffage électrique', icon: Zap, desc: 'Non éligible prime EDF / CEE bonifié' },
   { value: 'bois', label: 'Bois / granulés', icon: Trees, desc: 'Non éligible prime EDF' },
   { value: 'autre', label: 'Autre / aucun', icon: HelpCircle, desc: '—' },
 ]

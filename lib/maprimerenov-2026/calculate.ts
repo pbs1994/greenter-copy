@@ -19,24 +19,20 @@ import {
 import { primeEDF, SOURCE_PRIME_EDF } from './prime-edf'
 import { estimationCEEMedian, estimationCEEMontant, SOURCE_CEE } from './cee'
 import { economieTVA, tauxTVA, SOURCE_TVA } from './tva'
-import { ECO_PTZ_2026, SOURCE_ECO_PTZ } from './eco-ptz'
+import { plafondEcoPTZ, estEligibleEcoPTZ, SOURCE_ECO_PTZ } from './eco-ptz'
 
 function coutHT(coutTTC: number, taux: number): number {
   return coutTTC / (1 + taux)
 }
 
-/** Nombre de gestes comptant pour le bouquet éco-PTZ (audit exclu). */
+/**
+ * Nombre de gestes comptant pour le bouquet éco-PTZ.
+ * Exclut les équipements non éligibles (audit, PAC air-air, …)
+ * Note : on n'exige PAS un coût TTC renseigné — l'éco-PTZ peut être
+ * envisagé même sans devis encore connu.
+ */
 function nombreGestesEcoPTZ(equipements: EquipementInput[]): number {
-  return equipements.filter(
-    (e) => e.equipement !== 'audit_energetique' && e.coutTTC > 0,
-  ).length
-}
-
-function plafondEcoPTZForBouquet(nbGestes: number, coupleAvecMPR: boolean) {
-  if (coupleAvecMPR) return ECO_PTZ_2026.couple_mpr
-  if (nbGestes >= 3) return ECO_PTZ_2026.bouquet_3_plus
-  if (nbGestes === 2) return ECO_PTZ_2026.bouquet_2
-  return ECO_PTZ_2026.monogeste
+  return equipements.filter((e) => estEligibleEcoPTZ(e.equipement)).length
 }
 
 export function calculate(input: SimulationInput): SimulationResult {
@@ -212,20 +208,31 @@ export function calculate(input: SimulationInput): SimulationResult {
   const totalAides = aides.reduce((s, a) => s + (a.montant || 0), 0)
   const resteACharge = Math.max(0, Math.round(coutTTCGlobal - totalAides))
 
+  // L'éco-PTZ "couplé MPR" exige que MaPrimeRénov' soit effectivement perçue
+  // (pas juste qu'on ait des CEE/TVA/EDF). On teste donc spécifiquement
+  // le total des lignes MPR > 0.
+  const mprTotalCalc = aides
+    .filter((a) => a.libelle.startsWith("MaPrimeRénov'"))
+    .reduce((s, a) => s + a.montant, 0)
   const nbGestes = nombreGestesEcoPTZ(input.equipements)
-  const coupleAvecMPR = totalAides > 0
-  const ptz = plafondEcoPTZForBouquet(nbGestes, coupleAvecMPR)
-  const commentairePTZ = coupleAvecMPR
-    ? `Éco-PTZ couplé MaPrimeRénov' — jusqu'à ${ptz.plafond.toLocaleString('fr-FR')} € sur ${ptz.dureeMaxAns} ans.`
-    : nbGestes >= 3
-      ? `Bouquet de ${nbGestes} actions — éco-PTZ jusqu'à 30 000 € sur 15 ans.`
-      : nbGestes === 2
-        ? "Bouquet de 2 actions — éco-PTZ jusqu'à 25 000 € sur 15 ans."
-        : "Éco-PTZ monogeste — jusqu'à 15 000 € sur 15 ans."
+  const coupleAvecMPR = mprTotalCalc > 0
+  const ptz = plafondEcoPTZ(nbGestes, coupleAvecMPR)
 
-  disclaimers.push(
-    `Vous pouvez financer le reste à charge via l'${commentairePTZ} (source : ${SOURCE_ECO_PTZ}).`,
-  )
+  // Disclaimer si certains équipements sélectionnés ne comptent pas pour l'éco-PTZ
+  const exclus = input.equipements
+    .map((e) => e.equipement)
+    .filter((eq) => !estEligibleEcoPTZ(eq))
+  if (exclus.length > 0) {
+    disclaimers.push(
+      `Pour le calcul du bouquet éco-PTZ, ${exclus.length === 1 ? 'cet équipement n\'est pas éligible' : 'ces équipements ne sont pas éligibles'} et ${exclus.length === 1 ? 'a' : 'ont'} été exclu${exclus.length === 1 ? '' : 's'} : ${exclus.map((e) => MPR_GESTE_2026[e]?.libelle ?? e).join(', ')}.`,
+    )
+  }
+
+  if (ptz.plafond > 0) {
+    disclaimers.push(`Vous pouvez financer le reste à charge via l'${ptz.commentaire} (source : ${SOURCE_ECO_PTZ}).`)
+  } else {
+    disclaimers.push(ptz.commentaire)
+  }
 
   disclaimers.push(
     "Revenu fiscal de référence à renseigner : celui de l'année N-1 (RFR 2024 pour une demande en 2026).",
@@ -241,7 +248,7 @@ export function calculate(input: SimulationInput): SimulationResult {
     ecoPTZ: {
       plafond: ptz.plafond,
       dureeMaxAns: ptz.dureeMaxAns,
-      commentaire: commentairePTZ,
+      commentaire: ptz.commentaire,
     },
   }
 }

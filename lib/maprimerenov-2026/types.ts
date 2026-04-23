@@ -25,7 +25,7 @@ export type Equipement =
   | 'vmc_double_flux'
 
 /** Mode de chauffage actuel (pour EDF + CEE) */
-export type ChauffageActuel = 'gaz' | 'fioul' | 'electrique' | 'bois' | 'autre'
+export type ChauffageActuel = 'gaz' | 'fioul' | 'charbon' | 'electrique' | 'bois' | 'autre'
 
 /** Un équipement choisi par l'utilisateur, avec son coût et — si isolation — sa surface. */
 export interface EquipementInput {

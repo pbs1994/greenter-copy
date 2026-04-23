@@ -11,6 +11,11 @@ export const SOURCE_PRIME_EDF = "EDF Particulier — Prime Je passe à l'électr
 export const PRIME_EDF_2026 = {
   montant: 1000,
   dateDebut: '2026-04-08',
+  /** Date limite de DÉPÔT du dossier */
+  dateFinDepot: '2027-04-07',
+  /** Date limite d'ACHÈVEMENT des travaux */
+  dateFinTravaux: '2027-12-31',
+  /** Conservé pour rétro-compatibilité — alias sur dateFinDepot */
   dateFin: '2027-04-07',
   dossiersMax: 80_000,
   /** Tranches éligibles : uniquement Bleu + Jaune (modestes) */

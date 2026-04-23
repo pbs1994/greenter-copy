@@ -74,10 +74,14 @@ export const MPR_GESTE_2026: Record<Equipement, MontantsTranche> = {
     libelle: "Poêle à bûches",
   },
   iso_combles_perdus: {
-    // Combles perdus = rampants/plafonds dans le barème ANAH 2026
-    bleu: 25, jaune: 20, violet: 15, rose: null, plafond: 75,
-    unite: 'eur_m2', eligible: true,
+    // Retirée du parcours par geste au 1er janvier 2026.
+    // Reste éligible en rénovation d'ampleur (parcours accompagné) — non
+    // couvert par ce simulateur — et au CEE Coup de pouce isolation.
+    bleu: null, jaune: null, violet: null, rose: null, plafond: null,
+    unite: 'eur_m2', eligible: false,
     libelle: "Isolation des combles perdus",
+    note:
+      "Retirée du barème MaPrimeRénov' parcours par geste au 1er janvier 2026. Reste éligible en rénovation d'ampleur ou via les CEE.",
   },
   iso_rampants: {
     bleu: 25, jaune: 20, violet: 15, rose: null, plafond: 75,
@@ -97,10 +101,15 @@ export const MPR_GESTE_2026: Record<Equipement, MontantsTranche> = {
       "Conditionné à la réalisation d'au moins un geste de travaux éligible.",
   },
   vmc_double_flux: {
-    bleu: 2500, jaune: 2000, violet: 1500, rose: null, plafond: 6000,
-    unite: 'forfait', eligible: true,
+    // Depuis le 1er janvier 2026, la VMC double flux n'est plus aidée en
+    // monogeste : elle doit faire partie d'un BOUQUET cohérent de travaux
+    // (rénovation d'ampleur ou parcours accompagné). On désactive donc
+    // explicitement le calcul en parcours par geste.
+    bleu: null, jaune: null, violet: null, rose: null, plafond: null,
+    unite: 'forfait', eligible: false,
     libelle: "VMC double flux",
-    note: "Conditionnée à un geste d'isolation préalable.",
+    note:
+      "Depuis le 1er janvier 2026, plus éligible en monogeste — uniquement dans le cadre d'un bouquet de travaux (rénovation d'ampleur).",
   },
 } as const
 

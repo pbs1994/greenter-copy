@@ -1,6 +1,6 @@
 import { Thermometer, Flame, Sun, Droplets, Wind, FileSearch, Home as HomeIcon, Check, Ruler } from 'lucide-react'
 import type { Equipement, EquipementInput } from '@/lib/maprimerenov-2026'
-import { MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
+import { MPR_GESTE_2026, estEligibleEcoPTZ } from '@/lib/maprimerenov-2026'
 
 interface Step3EquipementProps {
   equipements: Equipement[]
@@ -133,17 +133,31 @@ export function Step3Equipement({
         })}
       </div>
 
-      {equipements.length > 0 && (
-        <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-xl text-sm text-emerald-900">
-          <strong>{equipements.length}</strong> équipement{equipements.length > 1 ? 's' : ''} sélectionné
-          {equipements.length > 1 ? 's' : ''}
-          {equipements.length >= 3
-            ? ' — bouquet 3 gestes, éligible éco-PTZ 30 000 €.'
-            : equipements.length === 2
-              ? ' — bouquet 2 gestes, éligible éco-PTZ 25 000 €.'
-              : '.'}
-        </div>
-      )}
+      {equipements.length > 0 && (() => {
+        const ecoPTZEligibles = equipements.filter(estEligibleEcoPTZ)
+        const nbEco = ecoPTZEligibles.length
+        const nbExclus = equipements.length - nbEco
+        return (
+          <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-xl text-sm text-emerald-900">
+            <div>
+              <strong>{equipements.length}</strong> équipement{equipements.length > 1 ? 's' : ''}{' '}
+              sélectionné{equipements.length > 1 ? 's' : ''}.
+            </div>
+            <div className="mt-1 text-xs text-emerald-800/80">
+              {nbEco === 0 && "Aucun équipement éligible à l'éco-PTZ dans votre sélection."}
+              {nbEco === 1 && "Éco-PTZ monogeste — jusqu'à 15 000 € sur 15 ans."}
+              {nbEco === 2 && "Bouquet 2 actions — éco-PTZ jusqu'à 25 000 € sur 15 ans."}
+              {nbEco >= 3 && "Bouquet 3 actions ou plus — éco-PTZ jusqu'à 30 000 € sur 15 ans."}
+              {nbExclus > 0 && (
+                <span className="block mt-0.5 italic">
+                  ({nbExclus} équipement{nbExclus > 1 ? 's' : ''} non éligible
+                  {nbExclus > 1 ? 's' : ''} à l&apos;éco-PTZ — audit énergétique et PAC air-air sont exclus)
+                </span>
+              )}
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }

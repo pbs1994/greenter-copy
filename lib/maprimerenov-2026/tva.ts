@@ -19,15 +19,18 @@ export const TVA_2026 = {
 
 /**
  * Taux TVA applicable selon l'équipement (logement > 2 ans).
+ *
+ * Note importante : la PAC air-air (climatisation réversible) est en zone
+ * grise depuis l'arrêté du 4 décembre 2024 — plusieurs sources tierces
+ * indiquent un retour au taux 10 % (travaux d'amélioration) plutôt que 5,5 %.
+ * Par prudence, on applique 10 % à la PAC air-air en attendant clarification
+ * BOFiP. Cela sous-estime éventuellement l'économie TVA mais évite de la
+ * sur-promettre.
  */
 export function tauxTVA(equipement: Equipement): number {
-  // Tous les équipements éligibles MPR + climatisation réversible sont au 5,5 %
-  // si logement > 2 ans. Seules les chaudières fossiles (gaz) restent à 20 %
-  // depuis l'arrêté du 4 décembre 2024 — jamais présentes dans notre simulateur.
   switch (equipement) {
     case 'pac_air_eau':
     case 'pac_geothermique':
-    case 'pac_air_air':
     case 'cesi':
     case 'ssc':
     case 'chauffe_eau_thermo':
@@ -39,6 +42,9 @@ export function tauxTVA(equipement: Equipement): number {
     case 'vmc_double_flux':
     case 'audit_energetique':
       return TVA_2026.reduit_5_5
+    case 'pac_air_air':
+      // Zone grise — 10 % par prudence (à confirmer BOFiP)
+      return TVA_2026.reduit_10
     default:
       return TVA_2026.reduit_10
   }

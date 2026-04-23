@@ -42,7 +42,9 @@ export function estimationCEEMontant(
 ): { min: number; max: number } | null {
   const coef = COEFFICIENTS_CEE_2026[equipement]
   if (!coef) return null
-  const remplacementEligible = chauffageActuel === 'gaz' || chauffageActuel === 'fioul'
+  // Remplacement éligible : chauffage fossile (gaz, fioul OU charbon)
+  const remplacementEligible =
+    chauffageActuel === 'gaz' || chauffageActuel === 'fioul' || chauffageActuel === 'charbon'
   if (!remplacementEligible) return null
 
   const surface = Math.max(40, Math.min(300, surfaceM2))

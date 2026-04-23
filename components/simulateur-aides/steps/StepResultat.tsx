@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { ArrowRight, Check, AlertCircle, Phone, Sparkles, Receipt, FileText } from 'lucide-react'
+import { Check, AlertCircle, Phone, Sparkles, Receipt } from 'lucide-react'
 import type { Equipement, EquipementInput, SimulationResult, ZoneRevenu, ChauffageActuel } from '@/lib/maprimerenov-2026'
 import { MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
 import { SimulationContactForm } from '../SimulationContactForm'
@@ -125,87 +124,59 @@ export function StepResultat({
       </div>
 
       {/* ======================================================
-          2 OPTIONS : J'ai un devis / Pas encore de devis
+          Section affinage (optionnelle) : si l'utilisateur a un
+          devis, il saisit les coûts ici pour calculer son reste
+          à charge précis. Sinon il ignore cette section et passe
+          directement au formulaire ci-dessous — qui enverra TOUT
+          (simulation + coordonnées) à Greenter en une seule fois.
           ====================================================== */}
-      <div className="bg-gradient-to-br from-slate-50 to-neutral-50 rounded-2xl p-5 md:p-6 border border-neutral-200">
-        <h4 className="font-bold text-lg text-neutral-900 mb-1">
-          Pour affiner votre simulation :
-        </h4>
-        <p className="text-sm text-neutral-500 mb-5">
-          Les aides ci-dessus ne dépendent pas du prix. Pour calculer votre{' '}
-          <strong>reste à charge précis</strong> et l&apos;<strong>économie TVA</strong>, nous avons
-          besoin du montant de votre devis.
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-3 mb-5">
-          {/* Option A — J'ai un devis */}
-          <div
-            className={`p-4 rounded-xl border-2 ${
-              hasDevis ? 'border-emerald-500 bg-emerald-50' : 'border-neutral-200 bg-white'
-            }`}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <Receipt className="w-5 h-5 text-emerald-600" />
-              <h5 className="font-bold text-neutral-900">J&apos;ai déjà un devis</h5>
-            </div>
-            <p className="text-xs text-neutral-500 mb-3">
-              Saisissez le coût TTC (matériel + pose) pour chaque équipement — nous calculerons
-              votre reste à charge exact.
+      <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5 md:p-6">
+        <div className="flex items-start gap-3 mb-4">
+          <Receipt className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+          <div>
+            <h4 className="font-bold text-neutral-900">
+              Vous avez déjà un devis ? <span className="text-neutral-400 font-normal">(facultatif)</span>
+            </h4>
+            <p className="text-xs text-neutral-500 mt-0.5">
+              Indiquez le coût TTC par équipement pour calculer votre <strong>reste à charge précis</strong> et l&apos;<strong>économie TVA</strong>.
+              Sinon, passez directement à l&apos;envoi de votre demande ci-dessous.
             </p>
-            <div className="space-y-2.5">
-              {equipements.map((eq) => {
-                const info = MPR_GESTE_2026[eq]
-                const v = values[eq]
-                return (
-                  <div key={eq}>
-                    <label className="block text-[11px] font-semibold text-neutral-600 mb-1">
-                      {info.libelle}
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        min={0}
-                        step={100}
-                        value={v?.coutTTC || ''}
-                        onChange={(e) =>
-                          onCoutChange(eq, Math.max(0, parseInt(e.target.value) || 0))
-                        }
-                        placeholder="Coût TTC de votre devis"
-                        className="w-full pl-3 pr-8 py-2 text-sm border-2 border-neutral-200 rounded-lg focus:border-emerald-500 outline-none"
-                      />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-medium">
-                        €
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Option B — Pas de devis */}
-          <div className="p-4 rounded-xl border-2 border-neutral-200 bg-white flex flex-col">
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-5 h-5 text-slate-600" />
-              <h5 className="font-bold text-neutral-900">Pas encore de devis</h5>
-            </div>
-            <p className="text-xs text-neutral-500 mb-4 flex-1">
-              Nos techniciens certifiés RGE se déplacent gratuitement à domicile, évaluent votre
-              projet et vous remettent un devis détaillé sous 48 h avec vos aides pré-calculées.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-all"
-            >
-              Demander un devis gratuit
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
 
-        {/* Breakdown du reste à charge — uniquement si l'utilisateur a renseigné au moins un coût */}
+        <div className="grid sm:grid-cols-2 gap-3">
+          {equipements.map((eq) => {
+            const info = MPR_GESTE_2026[eq]
+            const v = values[eq]
+            return (
+              <div key={eq}>
+                <label className="block text-[11px] font-semibold text-neutral-600 mb-1">
+                  {info.libelle}
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min={0}
+                    step={100}
+                    value={v?.coutTTC || ''}
+                    onChange={(e) =>
+                      onCoutChange(eq, Math.max(0, parseInt(e.target.value) || 0))
+                    }
+                    placeholder="Coût TTC du devis"
+                    className="w-full pl-3 pr-8 py-2 text-sm border-2 border-neutral-200 rounded-lg focus:border-emerald-500 outline-none bg-white"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-medium">
+                    €
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Breakdown du reste à charge — uniquement si au moins un coût renseigné */}
         {hasDevis && (
-          <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+          <div className="mt-5 bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
             <h5 className="font-bold text-sm text-neutral-900">Reste à charge calculé</h5>
             {aidesTVA.length > 0 && (
               <div className="space-y-1.5">
@@ -218,9 +189,7 @@ export function StepResultat({
               </div>
             )}
             <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
-              <span className="font-bold text-neutral-900">
-                Coût TTC total
-              </span>
+              <span className="font-bold text-neutral-900">Coût TTC total</span>
               <span className="font-bold text-neutral-900">{fmt(result.coutTTC)} €</span>
             </div>
             <div className="flex items-center justify-between">
