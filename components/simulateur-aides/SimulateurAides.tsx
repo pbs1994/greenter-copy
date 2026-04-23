@@ -59,32 +59,38 @@ export function SimulateurAides() {
   }
 
   const setSurfaceForEquipement = (eq: Equipement, surfaceM2: number) => {
-    setState((s) => ({
-      ...s,
-      values: {
-        ...s.values,
-        [eq]: {
-          equipement: eq,
-          coutTTC: 0,
-          ...(s.values[eq] ?? {}),
-          surfaceM2,
-        } as EquipementInput,
-      },
-    }))
+    setState((s) => {
+      const prev = s.values[eq]
+      return {
+        ...s,
+        values: {
+          ...s.values,
+          [eq]: {
+            coutTTC: prev?.coutTTC ?? 0,
+            ...prev,
+            equipement: eq,
+            surfaceM2,
+          },
+        },
+      }
+    })
   }
 
   const setCoutForEquipement = (eq: Equipement, coutTTC: number) => {
-    setState((s) => ({
-      ...s,
-      values: {
-        ...s.values,
-        [eq]: {
-          equipement: eq,
-          ...(s.values[eq] ?? { coutTTC: 0 }),
-          coutTTC,
-        } as EquipementInput,
-      },
-    }))
+    setState((s) => {
+      const prev = s.values[eq]
+      return {
+        ...s,
+        values: {
+          ...s.values,
+          [eq]: {
+            ...prev,
+            equipement: eq,
+            coutTTC,
+          },
+        },
+      }
+    })
   }
 
   const canNext = useMemo(() => {
