@@ -7,6 +7,7 @@ export type {
   ZoneRevenu,
   Equipement,
   ChauffageActuel,
+  EquipementInput,
   SimulationInput,
   SimulationResult,
   AideLigne,

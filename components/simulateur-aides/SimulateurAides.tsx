@@ -13,35 +13,68 @@ import type {
   Equipement,
   ChauffageActuel,
   ZoneRevenu,
+  EquipementInput,
   SimulationInput,
 } from '@/lib/maprimerenov-2026'
-import { calculate } from '@/lib/maprimerenov-2026'
+import { calculate, MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
 
-const STEP_LABELS = ['Foyer', 'Revenus', 'Équipement', 'Situation', 'Devis', 'Résultat']
+const STEP_LABELS = ['Foyer', 'Revenus', 'Équipements', 'Situation', 'Devis', 'Résultat']
 
 interface State {
   personnes: number
   zone: ZoneRevenu
   revenuFiscal: number
-  equipement: Equipement | null
+  /** Liste des équipements sélectionnés */
+  equipements: Equipement[]
+  /** Coût TTC + surface par équipement */
+  values: Record<string, EquipementInput | undefined>
   chauffageActuel: ChauffageActuel
-  surfaceM2: number
-  coutTTC: number
+  surfaceLogementM2: number
 }
 
 const INITIAL: State = {
   personnes: 2,
   zone: 'idf',
   revenuFiscal: 0,
-  equipement: null,
+  equipements: [],
+  values: {},
   chauffageActuel: 'gaz',
-  surfaceM2: 100,
-  coutTTC: 0,
+  surfaceLogementM2: 100,
 }
 
 export function SimulateurAides() {
   const [step, setStep] = useState(0)
   const [state, setState] = useState<State>(INITIAL)
+
+  const toggleEquipement = (eq: Equipement) => {
+    setState((s) => {
+      const exists = s.equipements.includes(eq)
+      const nextList = exists ? s.equipements.filter((e) => e !== eq) : [...s.equipements, eq]
+      const nextValues = { ...s.values }
+      if (!exists) {
+        // Initialise l'entrée vide
+        nextValues[eq] = { equipement: eq, coutTTC: 0 }
+      } else {
+        delete nextValues[eq]
+      }
+      return { ...s, equipements: nextList, values: nextValues }
+    })
+  }
+
+  const patchEquipementValue = (eq: Equipement, patch: Partial<EquipementInput>) => {
+    setState((s) => ({
+      ...s,
+      values: {
+        ...s.values,
+        [eq]: {
+          equipement: eq,
+          coutTTC: 0,
+          ...(s.values[eq] ?? {}),
+          ...patch,
+        } as EquipementInput,
+      },
+    }))
+  }
 
   const canNext = useMemo(() => {
     switch (step) {
@@ -50,25 +83,37 @@ export function SimulateurAides() {
       case 1:
         return state.revenuFiscal > 0
       case 2:
-        return !!state.equipement
+        return state.equipements.length >= 1
       case 3:
-        return !!state.chauffageActuel && state.surfaceM2 >= 20
-      case 4:
-        return state.coutTTC > 0
+        return !!state.chauffageActuel && state.surfaceLogementM2 >= 20
+      case 4: {
+        // Tous les équipements ont un coût > 0, et surface > 0 si isolation
+        return state.equipements.every((eq) => {
+          const v = state.values[eq]
+          if (!v || v.coutTTC <= 0) return false
+          const info = MPR_GESTE_2026[eq]
+          if (info.unite === 'eur_m2' && (!v.surfaceM2 || v.surfaceM2 <= 0)) return false
+          return true
+        })
+      }
       default:
         return false
     }
   }, [step, state])
 
   const result = useMemo(() => {
-    if (step !== 5 || !state.equipement) return null
+    if (step !== 5 || state.equipements.length === 0) return null
+    const equipements: EquipementInput[] = state.equipements
+      .map((eq) => state.values[eq])
+      .filter((v): v is EquipementInput => !!v && v.coutTTC > 0)
+    if (equipements.length === 0) return null
+
     const input: SimulationInput = {
       foyer: { personnes: state.personnes, zone: state.zone },
       revenuFiscal: state.revenuFiscal,
-      equipement: state.equipement,
       chauffageActuel: state.chauffageActuel,
-      coutTTC: state.coutTTC,
-      surfaceM2: state.surfaceM2,
+      surfaceLogementM2: state.surfaceLogementM2,
+      equipements,
     }
     try {
       return calculate(input)
@@ -86,12 +131,10 @@ export function SimulateurAides() {
 
   return (
     <div className="bg-white rounded-2xl shadow-lg shadow-neutral-200/60 border border-neutral-100 p-5 md:p-8">
-      {/* Progress */}
       <div className="mb-8">
         <ProgressBar current={step} total={STEP_LABELS.length} labels={STEP_LABELS} />
       </div>
 
-      {/* Current step */}
       <div className="min-h-[400px]">
         {step === 0 && (
           <Step1Foyer
@@ -111,29 +154,28 @@ export function SimulateurAides() {
         )}
         {step === 2 && (
           <Step3Equipement
-            equipement={state.equipement}
-            onEquipement={(e) => setState((s) => ({ ...s, equipement: e }))}
+            equipements={state.equipements}
+            onToggle={toggleEquipement}
           />
         )}
         {step === 3 && (
           <Step4Situation
             chauffageActuel={state.chauffageActuel}
-            surfaceM2={state.surfaceM2}
+            surfaceM2={state.surfaceLogementM2}
             onChauffage={(c) => setState((s) => ({ ...s, chauffageActuel: c }))}
-            onSurface={(n) => setState((s) => ({ ...s, surfaceM2: n }))}
+            onSurface={(n) => setState((s) => ({ ...s, surfaceLogementM2: n }))}
           />
         )}
         {step === 4 && (
           <Step5Devis
-            equipement={state.equipement}
-            coutTTC={state.coutTTC}
-            onCout={(n) => setState((s) => ({ ...s, coutTTC: n }))}
+            equipements={state.equipements}
+            values={state.values}
+            onChange={patchEquipementValue}
           />
         )}
         {step === 5 && result && <StepResultat result={result} onRestart={reset} />}
       </div>
 
-      {/* Navigation — hidden on the result step */}
       {step < 5 && (
         <div className="mt-8 pt-6 border-t border-neutral-100 flex items-center justify-between gap-3">
           <button

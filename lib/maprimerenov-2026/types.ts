@@ -27,18 +27,26 @@ export type Equipement =
 /** Mode de chauffage actuel (pour EDF + CEE) */
 export type ChauffageActuel = 'gaz' | 'fioul' | 'electrique' | 'bois' | 'autre'
 
-/** Entrée utilisateur consolidée */
+/** Un équipement choisi par l'utilisateur, avec son coût et — si isolation — sa surface. */
+export interface EquipementInput {
+  equipement: Equipement
+  coutTTC: number
+  /** Surface en m² — requise pour les gestes d'isolation (barème €/m²) */
+  surfaceM2?: number
+}
+
+/** Entrée utilisateur consolidée — une simulation peut couvrir 1 à N équipements */
 export interface SimulationInput {
   foyer: {
-    personnes: number // 1+
+    personnes: number
     zone: ZoneRevenu
   }
   revenuFiscal: number // RFR N-1 (pour demande 2026 → RFR 2024)
-  equipement: Equipement
   chauffageActuel: ChauffageActuel
-  coutTTC: number
-  /** Surface en m² — seulement pertinent pour l'isolation */
-  surfaceM2?: number
+  /** Surface chauffée totale du logement (pour estimation CEE) */
+  surfaceLogementM2: number
+  /** Liste d'équipements sélectionnés (au moins 1) */
+  equipements: EquipementInput[]
 }
 
 /** Ligne détaillée dans le résultat */
@@ -50,14 +58,23 @@ export interface AideLigne {
   estimation?: boolean
   /** Si non applicable, raison */
   nonApplicable?: string
+  /** Équipement auquel cette aide est rattachée (si applicable) */
+  equipement?: Equipement
 }
 
 /** Résultat complet de la simulation */
 export interface SimulationResult {
   tranche: Tranche
+  /** Coût TTC total (somme des équipements) */
   coutTTC: number
   aides: AideLigne[]
   totalAides: number
   resteACharge: number
   disclaimers: string[]
+  /** Plafond éco-PTZ mobilisable selon le nombre de gestes éligibles */
+  ecoPTZ: {
+    plafond: number
+    dureeMaxAns: number
+    commentaire: string
+  }
 }
