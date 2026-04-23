@@ -1,12 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Sun, Shield, Wrench, Fan, FileSearch } from "lucide-react"
+import { ArrowRight, Sun, Shield, Wrench, Fan, FileSearch, Wind } from "lucide-react"
 import type { Metadata } from "next"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 
 export const metadata: Metadata = {
-  title: "Nos Services | Rénovation Énergétique | Greenter",
-  description: "Découvrez tous nos services de rénovation énergétique : pompe à chaleur, panneaux solaires, isolation thermique, audit énergétique et maintenance. Certifié RGE partout en France.",
+  title: "Nos Services | Rénovation Énergétique & Climatisation | Greenter",
+  description: "Tous nos services de rénovation énergétique : pompe à chaleur, climatisation réversible (PAC air-air), panneaux solaires, isolation thermique, audit énergétique et maintenance. Installateur certifié RGE QualiPAC agréé toutes marques (Daikin, Mitsubishi, Atlantic…) en Île-de-France.",
   alternates: {
     canonical: "https://www.greenter.fr/services",
   },
@@ -20,6 +20,14 @@ const services = [
     image: "/pac.jpg",
     icon: Fan,
     benefits: ["Jusqu'à 70% d'économies", "Éligible MaPrimeRénov'", "Garantie décennale"],
+  },
+  {
+    slug: "climatisation",
+    title: "Climatisation réversible",
+    description: "Pose de clim réversible (PAC air-air) mono-split et multi-split. Installateur agréé toutes marques : Daikin, Mitsubishi, Atlantic, Panasonic, Toshiba, LG…",
+    image: "/pac.jpg",
+    icon: Wind,
+    benefits: ["Chauffe l'hiver, rafraîchit l'été", "Toutes marques", "Pose en 1 à 3 jours"],
   },
   {
     slug: "panneaux-solaires",

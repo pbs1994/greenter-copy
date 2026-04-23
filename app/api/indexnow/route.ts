@@ -25,12 +25,13 @@ const INDEXNOW_BATCH_SIZE = 1000
  */
 
 async function getAllUrls(): Promise<string[]> {
-  const services = ['pompe-a-chaleur', 'panneaux-solaires', 'isolation', 'audit']
+  const services = ['pompe-a-chaleur', 'climatisation', 'panneaux-solaires', 'isolation', 'audit']
 
   const staticUrls = [
     SITE_URL,
     `${SITE_URL}/services`,
     `${SITE_URL}/services/pompe-a-chaleur`,
+    `${SITE_URL}/services/climatisation`,
     `${SITE_URL}/services/panneaux-solaires`,
     `${SITE_URL}/services/isolation`,
     `${SITE_URL}/services/audit`,
@@ -148,10 +149,16 @@ async function submitToSearchEngines() {
 
   // Google no longer supports sitemap pings, but fetching individual URLs
   // with GoogleBot-friendly headers still nudges discovery for priority pages.
+  const topCitySlugs = [
+    'ozoir-la-ferriere', 'pontault-combault', 'melun', 'meaux', 'chelles',
+    'creteil', 'noisy-le-grand', 'champigny-sur-marne', 'saint-maur-des-fosses',
+    'sucy-en-brie', 'montgeron', 'chevry-cossigny', 'paris',
+  ]
   const priorityUrls = [
     SITE_URL,
     `${SITE_URL}/services`,
     `${SITE_URL}/services/pompe-a-chaleur`,
+    `${SITE_URL}/services/climatisation`,
     `${SITE_URL}/services/panneaux-solaires`,
     `${SITE_URL}/services/isolation`,
     `${SITE_URL}/services/audit`,
@@ -160,9 +167,8 @@ async function submitToSearchEngines() {
     `${SITE_URL}/blog`,
     `${SITE_URL}/blog/guide-prix-pompe-a-chaleur-2026`,
     `${SITE_URL}/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026`,
-    ...['ozoir-la-ferriere', 'pontault-combault', 'melun', 'meaux', 'chelles',
-        'creteil', 'noisy-le-grand', 'champigny-sur-marne', 'saint-maur-des-fosses', 'paris'
-    ].map((slug) => `${SITE_URL}/services/pompe-a-chaleur/${slug}`),
+    ...topCitySlugs.map((slug) => `${SITE_URL}/services/pompe-a-chaleur/${slug}`),
+    ...topCitySlugs.map((slug) => `${SITE_URL}/services/climatisation/${slug}`),
   ]
 
   let sitemapPings = 0

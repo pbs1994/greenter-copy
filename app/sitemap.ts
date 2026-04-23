@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: baseUrl, lastModified: currentDate, changeFrequency: 'weekly', priority: 1 },
     { url: `${baseUrl}/services`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/services/pompe-a-chaleur`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/services/climatisation`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/services/panneaux-solaires`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/services/isolation`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/services/audit`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.8 },
@@ -28,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   // Pages locales SEO (villes × services)
-  const localServices = ['pompe-a-chaleur', 'panneaux-solaires', 'isolation', 'audit']
+  const localServices = ['pompe-a-chaleur', 'climatisation', 'panneaux-solaires', 'isolation', 'audit']
   const localPages: MetadataRoute.Sitemap = localServices.flatMap((service) =>
     CITIES.map((city) => ({
       url: `${baseUrl}/services/${service}/${city.slug}`,

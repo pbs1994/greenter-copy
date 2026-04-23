@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Zap, BookOpen } from "lucide-react"
+import { Menu, Phone, ArrowRight, X, ChevronRight, Sun, Home, Thermometer, FileSearch, Wrench, ShoppingBag, MapPin, Zap, BookOpen, Wind } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -32,6 +32,14 @@ const services = [
     icon: Thermometer,
     image: "/pac.jpg",
     badge: "Populaire",
+  },
+  {
+    title: "Climatisation réversible",
+    href: "/services/climatisation",
+    description: "Chauffe l'hiver, rafraîchit l'été",
+    icon: Wind,
+    image: "/pac.jpg",
+    badge: null,
   },
   {
     title: "Panneaux solaires",
@@ -172,9 +180,9 @@ export function Header() {
                 Nos services
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="w-[680px] p-4 bg-white">
-                  {/* 5 services en grille horizontale */}
-                  <div className="grid grid-cols-5 gap-2">
+                <div className="w-[760px] p-4 bg-white">
+                  {/* 6 services en grille horizontale */}
+                  <div className="grid grid-cols-6 gap-2">
                     {services.map((service) => {
                       const Icon = service.icon
                       return (

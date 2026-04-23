@@ -31,12 +31,25 @@ export async function generateMetadata({
     return { title: "Page non trouvée | Greenter" }
   }
 
-  const title = `Pompe à Chaleur ${city.name} (${city.postalCode}) | Greenter`
-  const description = `Installation pompe à chaleur à ${city.name} par Greenter, certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. Intervention en Seine-et-Marne.`
+  const title = `Installation Pompe à Chaleur & Climatisation Réversible ${city.name} (${city.postalCode}) | Greenter`
+  const description = `Pose et installation de pompe à chaleur (PAC air-eau, air-air) et climatisation réversible à ${city.name} par Greenter, installateur certifié RGE QualiPAC agréé toutes marques (Daikin, Atlantic, Mitsubishi, Panasonic…). Jusqu'à 70 % d'économies, devis gratuit sous 48 h, intervention en ${city.department}.`
 
   return {
     title,
     description,
+    keywords: [
+      `pompe à chaleur ${city.name}`,
+      `installation PAC ${city.name}`,
+      `pose pompe à chaleur ${city.name}`,
+      `climatisation ${city.name}`,
+      `clim réversible ${city.name}`,
+      `pose clim ${city.name}`,
+      `installation climatisation ${city.name}`,
+      `installateur Daikin ${city.name}`,
+      `PAC air-air ${city.name}`,
+      `PAC air-eau ${city.name}`,
+      `RGE QualiPAC ${city.department}`,
+    ],
     alternates: {
       canonical: `https://www.greenter.fr/services/pompe-a-chaleur/${city.slug}`,
     },
@@ -357,14 +370,43 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto max-w-4xl px-4">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
-            Pourquoi installer une pompe à chaleur à {city.name} ?
+            Pose et installation de pompe à chaleur et climatisation réversible à {city.name}
           </h2>
           <p className="text-neutral-600 text-lg leading-relaxed mb-4">
-            À {city.name} ({city.postalCode}), en {city.department}, la pompe à chaleur est la solution idéale pour réduire vos factures de chauffage tout en améliorant votre confort. Greenter, votre installateur certifié RGE, vous accompagne dans votre projet de A à Z.
+            À {city.name} ({city.postalCode}), en {city.department}, la <strong>pompe à chaleur (PAC)</strong> est la
+            solution idéale pour réduire vos factures de chauffage tout en améliorant votre confort.
+            Pour rafraîchir votre logement en été tout en chauffant en hiver, la <strong>PAC air-air — aussi
+            appelée climatisation réversible</strong> — reste la référence. Greenter, votre installateur
+            certifié RGE QualiPAC à {city.name}, prend en charge la pose de A à Z.
           </p>
           <p className="text-neutral-600 text-lg leading-relaxed mb-4">
-            Nos techniciens interviennent à {city.name} et dans toute la {city.department} pour l&apos;installation de pompes à chaleur air-eau et air-air. Bénéficiez des aides MaPrimeRénov&apos; et des primes CEE pour réduire le coût de votre installation.
+            Nos techniciens interviennent à {city.name} et dans toute la {city.department} pour l&apos;installation
+            de <strong>pompes à chaleur air-eau et air-air</strong>, de <strong>climatisation réversible</strong> et
+            le <strong>remplacement de chaudière gaz ou fioul</strong>. Bénéficiez des aides MaPrimeRénov&apos;,
+            des primes CEE et du Coup de pouce chauffage pour réduire le coût de votre installation.
           </p>
+
+          {/* Brand installer block — captures "installateur [marque] [ville]" queries */}
+          <div className="mt-8 p-6 bg-gradient-to-br from-slate-50 to-neutral-100 rounded-2xl border border-neutral-200">
+            <h3 className="font-heading text-xl font-bold text-neutral-900 mb-3">
+              Installateur agréé toutes marques à {city.name}
+            </h3>
+            <p className="text-neutral-600 mb-4">
+              Greenter est installateur certifié RGE QualiPAC et agréé pour la pose de PAC et
+              climatisations réversibles des plus grandes marques du marché français. Nous vous
+              conseillons la marque la plus adaptée à votre logement et à votre budget.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {['Daikin', 'Atlantic', 'Mitsubishi Electric', 'Panasonic', 'Toshiba', 'LG', 'Hitachi', 'Samsung'].map((brand) => (
+                <div key={brand} className="bg-white rounded-lg px-3 py-2.5 text-center border border-neutral-200 text-sm font-semibold text-neutral-700">
+                  {brand}
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-neutral-400 mt-3 italic">
+              Installateur indépendant — agréments marques sur demande. Certifications RGE QualiPAC, Qualibat.
+            </p>
+          </div>
           <div className="grid sm:grid-cols-3 gap-4 mt-8">
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">70%</p><p className="text-sm text-neutral-600">d&apos;économies sur le chauffage</p></div>
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">48h</p><p className="text-sm text-neutral-600">pour recevoir votre devis</p></div>

@@ -128,6 +128,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/services/climatisation" className="text-green-200 hover:text-white transition-colors text-sm">
+                  Climatisation réversible
+                </Link>
+              </li>
+              <li>
                 <Link href="/services/panneaux-solaires" className="text-green-200 hover:text-white transition-colors text-sm">
                   Panneaux solaires
                 </Link>

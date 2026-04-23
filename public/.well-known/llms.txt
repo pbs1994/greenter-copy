@@ -101,6 +101,7 @@ Système de stockage solaire tout-en-un :
 
 - Accueil : https://www.greenter.fr
 - Pompe à chaleur : https://www.greenter.fr/services/pompe-a-chaleur
+- Climatisation réversible (PAC air-air) : https://www.greenter.fr/services/climatisation
 - Panneaux solaires : https://www.greenter.fr/services/panneaux-solaires
 - Isolation : https://www.greenter.fr/services/isolation
 - Audit énergétique : https://www.greenter.fr/services/audit

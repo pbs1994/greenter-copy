@@ -94,6 +94,11 @@ export const SERVICES: ServiceInfo[] = [
     shortDescription: "Installation PAC air-eau et air-air",
   },
   {
+    name: "Climatisation réversible",
+    slug: "climatisation",
+    shortDescription: "Pose de clim réversible et PAC air-air toutes marques",
+  },
+  {
     name: "Panneaux solaires",
     slug: "panneaux-solaires",
     shortDescription: "Installation de panneaux solaires photovoltaïques",

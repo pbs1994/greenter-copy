@@ -76,10 +76,53 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     rawDescription && rawDescription.length >= 140
       ? rawDescription.slice(0, 300)
       : `${typedProduct.name} — ${typedCategory.name} Greenter${rawDescription ? ` : ${rawDescription}` : ''}. Équipement certifié pour l'autoconsommation et la rénovation énergétique. Livraison et installation incluses partout en Île-de-France par des techniciens RGE, avec garantie constructeur.`
-  
+
+  // SEO keywords derived from product + category — helps surface battery /
+  // autoconsommation / LiFePO4 queries on products that carry those specs.
+  const baseKeywords = [
+    typedProduct.name,
+    `${typedProduct.name} prix`,
+    `${typedProduct.name} installation`,
+    `${typedProduct.name} avis`,
+    typedCategory.name,
+    `${typedCategory.name} ${typedProduct.name}`,
+    "autoconsommation solaire",
+    "stockage solaire",
+    "installation RGE",
+  ]
+
+  // Enrich with battery-specific keywords when the product title contains
+  // kWh / LiFePO4 / battery / batterie / onduleur hybride (KSTAR-style items).
+  const n = typedProduct.name.toLowerCase()
+  const kwhMatch = n.match(/(\d+(?:[.,]\d+)?)\s*kwh/)
+  const batteryKeywords: string[] = []
+  if (kwhMatch) {
+    const kwh = kwhMatch[1].replace(',', '.')
+    batteryKeywords.push(
+      `batterie ${kwh} kWh`,
+      `batterie lithium ${kwh} kWh`,
+      `batterie solaire ${kwh} kWh`,
+      `batterie LiFePO4 ${kwh} kWh`,
+      `stockage ${kwh} kWh`,
+      `batterie ${kwh}kwh`,
+    )
+  }
+  if (n.includes('lifepo') || n.includes('lifepo4')) {
+    batteryKeywords.push('batterie LiFePO4', 'batterie lithium fer phosphate', 'stockage LiFePO4')
+  }
+  if (n.includes('onduleur') || n.includes('hybride')) {
+    batteryKeywords.push('onduleur hybride', 'onduleur solaire hybride', 'onduleur photovoltaïque')
+  }
+  if (n.includes('kstar') || n.includes('blue-s') || n.includes('blues')) {
+    batteryKeywords.push('KSTAR BluE-S', 'stockage solaire KSTAR', 'KSTAR autoconsommation')
+  }
+
+  const keywords = [...baseKeywords, ...batteryKeywords]
+
   return {
     title: `${typedProduct.name} | ${typedCategory.name} | Greenter`,
     description: description,
+    keywords,
     openGraph: {
       title: `${typedProduct.name} | Greenter`,
       description: description,
