@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/blog`, lastModified: currentDate, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/blog/guide-prix-pompe-a-chaleur-2026`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/aides-renovation-2026`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/simulateur-solaire`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/mentions-legales`, lastModified: currentDate, changeFrequency: 'yearly', priority: 0.3 },

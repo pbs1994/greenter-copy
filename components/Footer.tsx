@@ -90,6 +90,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/aides-renovation-2026" className="text-green-200 hover:text-white transition-colors text-sm inline-flex items-center gap-1.5">
+                  Simulateur aides 2026
+                  <span className="text-[9px] font-bold bg-emerald-500 text-white px-1 py-0.5 rounded">NEW</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="text-green-200 hover:text-white transition-colors text-sm">
                   Blog &amp; guides
                 </Link>

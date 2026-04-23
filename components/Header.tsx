@@ -317,6 +317,20 @@ export function Header() {
                 className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
                 asChild
               >
+                <Link href="/aides-renovation-2026" className="relative">
+                  Aides 2026
+                  <span className="absolute -top-1 -right-2 text-[9px] font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded-full leading-none">
+                    NEW
+                  </span>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} text-neutral-700 font-medium`}
+                asChild
+              >
                 <Link href="/blog">Blog</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
