@@ -72,53 +72,6 @@ export interface Product {
   updatedAt: string
 }
 
-export interface Customer {
-  id: string
-  email: string
-  name?: string | null
-  phone?: string | null
-  createdAt: string
-  updatedAt: string
-}
-
-export interface Order {
-  id: string
-  order_number: string
-  stripe_session_id?: string | null
-  customer: Customer | string
-  status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled'
-  amount: number
-  shipping_address?: {
-    line1?: string | null
-    line2?: string | null
-    city?: string | null
-    postal_code?: string | null
-    state?: string | null
-    country?: string | null
-  } | null
-  billing_address?: {
-    line1?: string | null
-    line2?: string | null
-    city?: string | null
-    postal_code?: string | null
-    state?: string | null
-    country?: string | null
-  } | null
-  items?: Array<{
-    product_name: string
-    quantity: number
-    unit_price: number
-    product?: Product | string | null
-  }> | null
-  status_history?: Array<{
-    status: string
-    changed_at: string
-    changed_by?: string | null
-  }> | null
-  createdAt: string
-  updatedAt: string
-}
-
 export interface MaintenanceService {
   id: string
   name: string
@@ -144,34 +97,6 @@ export interface MaintenanceOption {
   is_flat_fee?: boolean | null
   exempt_from_discount?: boolean | null
   sort_order?: number | null
-  createdAt: string
-  updatedAt: string
-}
-
-export interface MaintenanceSubscription {
-  id: string
-  stripe_subscription_id: string
-  customer: Customer | string
-  billing_period: 'monthly' | 'annual'
-  status: 'active' | 'cancelled' | 'past_due' | 'paused'
-  totals?: {
-    subtotal?: number | null
-    discount_amount?: number | null
-    total?: number | null
-  } | null
-  discounts?: {
-    multi_service_discount?: number | null
-    annual_discount?: number | null
-  } | null
-  items?: Array<{
-    item_type: 'service' | 'option'
-    name: string
-    quantity: number
-    unit_price: number
-    service?: MaintenanceService | string | null
-    option?: MaintenanceOption | string | null
-  }> | null
-  cancelled_at?: string | null
   createdAt: string
   updatedAt: string
 }
