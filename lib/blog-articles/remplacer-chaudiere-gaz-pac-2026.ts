@@ -8,7 +8,7 @@
 export const ARTICLE_META = {
   title: "Remplacer sa chaudière gaz par une pompe à chaleur en 2026 : le guide complet",
   subtitle:
-    "TVA à 20 % sur les chaudières gaz, prime EDF de 1 000 €, bonus MaPrimeRénov' +1 000 € annoncé le 15 avril, Coup de pouce chauffage bonifié x3 : 2026 est l'année où basculer du gaz vers la pompe à chaleur devient la meilleure décision financière et écologique pour votre maison.",
+    "TVA à 20 % sur les chaudières gaz, prime EDF de 1 000 €, Coup de pouce chauffage bonifié ×5, MaPrimeRénov' jusqu'à 5 000 € : 2026 est l'année où basculer du gaz vers la pompe à chaleur devient la meilleure décision financière et écologique pour votre maison.",
   slug: "remplacer-chaudiere-gaz-pompe-a-chaleur-2026",
   date: "20 avril 2026",
   dateISO: "2026-04-20",
@@ -43,15 +43,15 @@ export const AIDES_TABLE = {
     { header: "Conditions", key: "conditions" },
   ],
   rows: [
-    { aide: "MaPrimeRénov' parcours par geste", modeste: "jusqu'à 5 000 €", conditions: "PAC air-eau ou géothermique, artisan RGE, guichet rouvert le 23/02/2026" },
-    { aide: "Bonus +1 000 € MaPrimeRénov' (sortie gaz/fioul)", modeste: "+ 1 000 €", conditions: "Annoncé le 15 avril 2026, applicable au remplacement d'un chauffage fossile" },
-    { aide: "Coup de pouce chauffage (CEE)", modeste: "bonification x3 à x4", conditions: "Remplacement chaudière gaz/fioul/charbon par PAC, barème au cas par cas depuis le 1er octobre 2025" },
-    { aide: "Prime EDF \"Ma Prime Chaleur\"", modeste: "1 000 € forfaitaires", conditions: "Devis signé après le 8 avril 2026, PAC air-eau ou eau-eau, fin des travaux au 31/12/2027, 80 000 dossiers" },
-    { aide: "TVA réduite 5,5 %", modeste: "≈ -14,5 % sur facture", conditions: "Logement de plus de 2 ans, travaux d'amélioration énergétique" },
-    { aide: "Éco-prêt à taux zéro", modeste: "jusqu'à 50 000 €", conditions: "Sans conditions de revenus, remboursable sur 20 ans" },
+    { aide: "MaPrimeRénov' parcours par geste (PAC air-eau)", modeste: "5 000 € (Bleu) / 4 000 € (Jaune) / 3 000 € (Violet)", conditions: "Plafond de dépenses éligibles : 12 000 €. Rose non éligible." },
+    { aide: "MaPrimeRénov' parcours par geste (PAC géothermique)", modeste: "11 000 € / 9 000 € / 6 000 €", conditions: "Plafond de dépenses éligibles : 18 000 €. Rose non éligible." },
+    { aide: "Coup de pouce chauffage CEE (bonification)", modeste: "×5 sur les kWh cumac", conditions: "Remplacement chaudière gaz/fioul/charbon par PAC air-eau ou eau-eau. Montant variable selon zone climatique et surface, négocié avec l'obligé CEE." },
+    { aide: "Prime EDF « Je passe à l'électrique »", modeste: "1 000 € forfaitaires", conditions: "Bleu + Jaune uniquement. Devis signé après le 8 avril 2026, PAC air-eau ou eau-eau, fin des travaux avant le 7 avril 2027, 80 000 dossiers disponibles." },
+    { aide: "TVA réduite 5,5 %", modeste: "≈ -14,5 % sur facture", conditions: "Logement de plus de 2 ans, travaux d'amélioration énergétique. Exclut les chaudières fossiles (gaz) qui restent à 20 % depuis l'arrêté du 4 décembre 2024." },
+    { aide: "Éco-prêt à taux zéro couplé MPR", modeste: "jusqu'à 50 000 €", conditions: "Sans conditions de revenus, remboursable sur 20 ans. Ne finance pas les chaudières gaz." },
   ],
   caption:
-    "Sources : economie.gouv.fr, ecologie.gouv.fr (avril 2026), EDF particulier. Cumul possible entre tous ces dispositifs pour une même opération.",
+    "Sources : Guide ANAH « Les aides financières en 2026 » (février 2026), ecologie.gouv.fr, EDF Particulier. Cumul MPR + CEE + EDF autorisé en parcours par geste, plafonné à 90/75/60 % de la dépense selon la tranche.",
 }
 
 // Étapes techniques du remplacement
@@ -97,18 +97,19 @@ export const STEPS = [
 // Exemple chiffré avec toutes les aides
 export const EXAMPLE_CALCULATION = {
   title:
-    "Exemple : maison de 120 m² en Seine-et-Marne, revenus modestes, chaudière gaz condensation remplacée par PAC air-eau 12 kW",
+    "Exemple : maison de 120 m² en Seine-et-Marne, revenus modestes (tranche Jaune), chaudière gaz condensation remplacée par PAC air-eau 12 kW",
   lines: [
     { label: "Prix PAC air-eau 12 kW (matériel + pose + ballon ECS)", amount: "15 000 €" },
-    { label: "MaPrimeRénov' parcours par geste (revenus modestes)", amount: "- 4 000 €", isDeduction: true },
-    { label: "Bonus +1 000 € MaPrimeRénov' sortie gaz (avril 2026)", amount: "- 1 000 €", isDeduction: true },
-    { label: "Prime EDF \"Ma Prime Chaleur\"", amount: "- 1 000 €", isDeduction: true },
-    { label: "Coup de pouce chauffage CEE (bonifié x3)", amount: "- 2 800 €", isDeduction: true },
+    { label: "MaPrimeRénov' parcours par geste (tranche Jaune)", amount: "- 4 000 €", isDeduction: true },
+    { label: "Prime EDF « Je passe à l'électrique »", amount: "- 1 000 €", isDeduction: true },
+    { label: "Coup de pouce chauffage CEE (bonifié ×5)", amount: "- 3 500 €", isDeduction: true },
     { label: "TVA réduite 5,5 % (vs 20 %)", amount: "- 1 950 €", isDeduction: true },
   ],
-  total: { label: "Reste à charge final", amount: "4 250 €" },
+  total: { label: "Reste à charge final", amount: "≈ 4 550 €" },
   savings: "770 €/an d'économies sur le chauffage (source ADEME 2025)",
   roi: "5 à 6 ans de retour sur investissement",
+  disclaimer:
+    "Le montant du Coup de pouce CEE varie selon la zone climatique, la surface et l'obligé CEE choisi. Simulation indicative — demandez votre devis pour un chiffrage exact.",
 }
 
 // Calendrier réglementaire spécifique "sortie du gaz"
@@ -117,8 +118,9 @@ export const REGULATORY_CALENDAR = [
   { date: "Janvier 2025", event: "Interdiction dans les logements collectifs neufs (sauf solutions hybrides)", source: "RE2020" },
   { date: "Mars 2025", event: "TVA sur les chaudières gaz relevée de 10 % à 20 %", source: "Loi de finances 2025" },
   { date: "Octobre 2025", event: "Refonte du Coup de pouce chauffage : barème au cas par cas, bonification x3 à x4 pour remplacer gaz/fioul par PAC", source: "ecologie.gouv.fr" },
+  { date: "Janvier 2026", event: "Retrait de l'isolation des murs (ITI/ITE) et des chaudières biomasse du parcours par geste MaPrimeRénov'", source: "Guide ANAH 2026" },
   { date: "Février 2026", event: "Réouverture complète de MaPrimeRénov' + rendez-vous France Rénov' obligatoire pour la rénovation d'ampleur", source: "economie.gouv.fr" },
-  { date: "Avril 2026", event: "Prime EDF de 1 000 € (80 000 dossiers) + bonus MaPrimeRénov' +1 000 € pour sortir du gaz/fioul", source: "ecologie.gouv.fr, EDF" },
+  { date: "8 avril 2026", event: "Lancement de la prime EDF « Je passe à l'électrique » (1 000 € forfaitaires, 80 000 dossiers, ménages modestes uniquement)", source: "EDF Particulier" },
   { date: "2040", event: "Objectif de sortie totale des équipements de chauffage fossiles", source: "Stratégie Nationale Bas Carbone" },
 ]
 
@@ -137,7 +139,7 @@ export const FAQ_ITEMS = [
   {
     question: "Combien coûte réellement le passage du gaz à la PAC en 2026 ?",
     answer:
-      "Pour une maison de 120 m² aux revenus modestes, le prix d'une PAC air-eau 12 kW posée tourne autour de 15 000 €. Après cumul des aides 2026 — MaPrimeRénov' (4 000 €), bonus sortie gaz (1 000 €), prime EDF (1 000 €), Coup de pouce CEE bonifié (2 800 €) et TVA à 5,5 % —, le reste à charge descend autour de 4 000 à 5 000 €. L'économie annuelle sur le chauffage est d'environ 770 €, soit un retour sur investissement de 5 à 6 ans.",
+      "Pour une maison de 120 m² aux revenus de la tranche Jaune (modestes), le prix d'une PAC air-eau 12 kW posée tourne autour de 15 000 €. Après cumul des aides 2026 — MaPrimeRénov' parcours par geste (4 000 €), prime EDF « Je passe à l'électrique » (1 000 €), Coup de pouce CEE bonifié ×5 (≈ 3 500 €) et TVA à 5,5 % (≈ 1 950 €) —, le reste à charge descend autour de 4 500 à 5 000 €. L'économie annuelle sur le chauffage est d'environ 770 €, soit un retour sur investissement de 5 à 6 ans.",
   },
   {
     question: "Combien de temps dure l'installation ?",

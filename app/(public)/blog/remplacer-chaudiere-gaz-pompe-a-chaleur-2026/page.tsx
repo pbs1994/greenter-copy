@@ -76,18 +76,17 @@ export default function RemplacerChaudiereGazPAC2026() {
         {/* ---- INTRO ---- */}
         <div className="text-lg text-slate-700 leading-relaxed space-y-4 mb-12">
           <p>
-            En avril 2026, la France accélère brutalement la <strong>sortie du gaz résidentiel</strong>. La TVA
-            sur les nouvelles chaudières gaz est passée à <strong>20 %</strong> depuis mars 2025, le
-            Coup de pouce chauffage est bonifié jusqu&apos;à <strong>x4</strong> pour un remplacement gaz → PAC,
-            EDF a lancé une <strong>prime forfaitaire de 1 000 €</strong> et le gouvernement a annoncé le
-            15 avril un <strong>bonus MaPrimeRénov&apos; supplémentaire de 1 000 €</strong> pour tout changement de
-            système fossile.
+            En avril 2026, la France accélère la <strong>sortie du gaz résidentiel</strong>. Depuis l&apos;arrêté
+            du 4 décembre 2024, la <strong>TVA sur les chaudières gaz est passée à 20 %</strong> (contre 10 %
+            auparavant). Le <strong>Coup de pouce chauffage CEE est bonifié ×5</strong> pour un remplacement
+            gaz → PAC air-eau, et EDF a lancé le 8 avril 2026 une <strong>prime forfaitaire de 1 000 €</strong>{' '}
+            pour les ménages modestes (80 000 dossiers disponibles).
           </p>
           <p>
-            Résultat : le reste à charge pour une PAC air-eau descend autour de{' '}
-            <strong>4 000 à 5 000 € pour une maison de 120 m²</strong> aux revenus modestes. Voici,
-            données officielles à l&apos;appui, pourquoi 2026 est le moment optimal pour basculer, et
-            exactement comment s&apos;y prendre.
+            Résultat : pour une maison de 120 m² aux revenus de la tranche Jaune, le reste à charge tombe
+            autour de <strong>4 500 à 5 000 €</strong> après cumul de MaPrimeRénov&apos;, prime EDF, CEE et
+            TVA réduite. Voici, données officielles à l&apos;appui, pourquoi 2026 est le moment optimal
+            pour basculer et comment s&apos;y prendre.
           </p>
         </div>
 
@@ -123,8 +122,8 @@ export default function RemplacerChaudiereGazPAC2026() {
           </p>
           <p>
             <strong>2. Les aides à la sortie du gaz sont à leur maximum historique.</strong> Cumul possible
-            entre MaPrimeRénov&apos;, le bonus +1 000 € annoncé le 15 avril, la prime EDF de 1 000 €, le Coup
-            de pouce CEE bonifié x3 à x4, la TVA à 5,5 % et l&apos;éco-PTZ.
+            entre MaPrimeRénov&apos; (jusqu&apos;à 5 000 € en tranche Bleu pour une PAC air-eau), la prime EDF
+            de 1 000 €, le Coup de pouce CEE bonifié ×5, la TVA à 5,5 % et l&apos;éco-PTZ jusqu&apos;à 50 000 €.
           </p>
           <p>
             <strong>3. Le coût de l&apos;immobilisme augmente.</strong> Depuis mars 2025, installer une
@@ -134,8 +133,8 @@ export default function RemplacerChaudiereGazPAC2026() {
 
         <ArticleStat stats={[
           { value: '÷2', label: 'votre facture énergie (source ADEME)', color: 'green' },
-          { value: '20 %', label: 'TVA chaudière gaz depuis mars 2025', color: 'blue' },
-          { value: '+1 000 €', label: 'bonus MaPrimeRénov\' sortie gaz (15 avril 2026)', color: 'green' },
+          { value: '20 %', label: 'TVA chaudière gaz depuis l\'arrêté du 4 déc. 2024', color: 'blue' },
+          { value: '×5', label: 'Coup de pouce CEE pour passer du gaz à la PAC', color: 'green' },
         ]} />
 
         {/* ---- SECTION 2 : CADRE RÉGLEMENTAIRE ---- */}
