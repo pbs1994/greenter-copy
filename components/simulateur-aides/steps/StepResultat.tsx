@@ -1,12 +1,17 @@
 import Link from 'next/link'
 import { ArrowRight, Check, AlertCircle, Phone, Sparkles, Receipt, FileText } from 'lucide-react'
-import type { Equipement, EquipementInput, SimulationResult } from '@/lib/maprimerenov-2026'
+import type { Equipement, EquipementInput, SimulationResult, ZoneRevenu, ChauffageActuel } from '@/lib/maprimerenov-2026'
 import { MPR_GESTE_2026 } from '@/lib/maprimerenov-2026'
+import { SimulationContactForm } from '../SimulationContactForm'
 
 interface StepResultatProps {
   result: SimulationResult
   equipements: Equipement[]
   values: Record<string, EquipementInput | undefined>
+  foyer: { personnes: number; zone: ZoneRevenu }
+  revenuFiscal: number
+  chauffageActuel: ChauffageActuel
+  surfaceLogementM2: number
   hasDevis: boolean
   onCoutChange: (equipement: Equipement, coutTTC: number) => void
   onRestart: () => void
@@ -18,10 +23,26 @@ export function StepResultat({
   result,
   equipements,
   values,
+  foyer,
+  revenuFiscal,
+  chauffageActuel,
+  surfaceLogementM2,
   hasDevis,
   onCoutChange,
   onRestart,
 }: StepResultatProps) {
+  const contactContext = {
+    foyer,
+    revenuFiscal,
+    chauffageActuel,
+    surfaceLogementM2,
+    equipements: equipements.map((eq) => ({
+      equipement: eq,
+      coutTTC: values[eq]?.coutTTC ?? 0,
+      surfaceM2: values[eq]?.surfaceM2,
+    })),
+    result,
+  }
   /**
    * Lignes "indépendantes du coût" (MPR forfait, Prime EDF, CEE estimé).
    * Celles qui dépendent du coût (TVA économie) ne sont calculées que
@@ -234,30 +255,19 @@ export function StepResultat({
         </div>
       )}
 
-      {/* CTA final */}
-      <div className="bg-slate-900 rounded-2xl p-6 md:p-8 text-white">
-        <h4 className="font-bold text-xl md:text-2xl mb-2">Prêt à passer à l&apos;action ?</h4>
-        <p className="text-slate-300 text-sm mb-5">
-          Greenter monte votre dossier d&apos;aides (MaPrimeRénov&apos; + EDF + CEE) et vous remet
-          un devis définitif sous 48 h. Installation sous 2 à 4 semaines en Île-de-France,
-          techniciens RGE QualiPAC.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-6 py-3.5 rounded-xl transition-all"
-          >
-            Demander mon devis personnalisé
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a
-            href="tel:+33766975099"
-            className="inline-flex items-center justify-center gap-2 border border-white/20 hover:bg-white hover:text-slate-900 text-white font-semibold px-6 py-3.5 rounded-xl transition-all"
-          >
-            <Phone className="w-4 h-4" />
-            07 66 97 50 99
-          </a>
-        </div>
+      {/* Formulaire — envoie la simulation + les coordonnées par email à Greenter */}
+      <SimulationContactForm context={contactContext} />
+
+      {/* Phone fallback */}
+      <div className="text-center text-sm text-neutral-500">
+        Ou appelez directement :{' '}
+        <a
+          href="tel:+33766975099"
+          className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 hover:text-emerald-800"
+        >
+          <Phone className="w-3.5 h-3.5" />
+          07 66 97 50 99
+        </a>
       </div>
 
       <div className="text-center pt-2">

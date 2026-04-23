@@ -186,6 +186,10 @@ export function SimulateurAides() {
             result={result}
             equipements={state.equipements}
             values={state.values}
+            foyer={{ personnes: state.personnes, zone: state.zone }}
+            revenuFiscal={state.revenuFiscal}
+            chauffageActuel={state.chauffageActuel}
+            surfaceLogementM2={state.surfaceLogementM2}
             hasDevis={hasDevis}
             onCoutChange={setCoutForEquipement}
             onRestart={reset}
