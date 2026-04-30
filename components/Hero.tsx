@@ -29,9 +29,11 @@ export function Hero() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center max-w-4xl mx-auto mb-8 md:mb-10">
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-5">
-              <span className="text-teal-600">Rénovation énergétique RGE</span>
-              <br />
-              <span className="text-green-700">à Ozoir-la-Ferrière &amp; en Île-de-France</span>
+              <span className="block text-teal-600">Jusqu&apos;à -70% sur vos factures</span>
+              <span className="block text-green-700">avec une rénovation énergétique RGE</span>
+              <span className="block text-base sm:text-lg md:text-xl text-neutral-600 font-medium mt-4">
+                Installateur certifié à Ozoir-la-Ferrière, en Seine-et-Marne &amp; Île-de-France
+              </span>
             </h1>
 
             <p className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-neutral-800 leading-snug mb-5 max-w-3xl mx-auto">
