@@ -1,110 +1,76 @@
 "use client"
 
-import { ArrowRight, CheckCircle } from "lucide-react"
+import { ArrowRight, CheckCircle, Phone, Shield } from "lucide-react"
 import Link from "next/link"
-import useEmblaCarousel from "embla-carousel-react"
-import AutoScroll from "embla-carousel-auto-scroll"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import { CompareSlider } from "@/components/CompareSlider"
-
-const benefits = [
-  "Jusqu'à 70% d'économies",
-  "Certifié RGE",
-  "Garantie décennale",
-  "+200 installations",
-  "Éligible MaPrimeRénov'",
-  "Devis gratuit sous 48h",
-  "Accompagnement complet",
-]
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 export function Hero() {
-  const [emblaRef] = useEmblaCarousel(
-    { loop: true, dragFree: true, align: "start" },
-    [AutoScroll({ speed: 0.5, stopOnInteraction: false, stopOnMouseEnter: true })]
-  )
-
   return (
     <section className="bg-gradient-to-b from-green-50 via-white to-white">
-      <div className="px-4 py-4 md:py-6 lg:py-8">
+      <div className="px-4 py-6 md:py-10 lg:py-14">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center max-w-4xl mx-auto mb-8 md:mb-10">
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-5">
-              <span className="block text-teal-600">Jusqu&apos;à -70% sur vos factures</span>
-              <span className="block text-green-700">avec une rénovation énergétique RGE</span>
-              <span className="block text-base sm:text-lg md:text-xl text-neutral-600 font-medium mt-4">
-                Installateur certifié à Ozoir-la-Ferrière, en Seine-et-Marne &amp; Île-de-France
+            {/* Trust pill — RGE + Google rating live */}
+            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-1.5 mb-6">
+              <Shield className="w-4 h-4 text-emerald-700" />
+              <span className="text-emerald-800 text-sm font-semibold">
+                Certifié RGE QualiPAC
+              </span>
+            </div>
+
+            {/* H1 — un seul, hiérarchie en 4 niveaux */}
+            <h1 className="font-heading font-bold leading-tight mb-5">
+              <span className="block text-4xl sm:text-5xl md:text-6xl text-neutral-900">
+                <span className="text-teal-600">−70%</span> sur vos factures d&apos;énergie
+              </span>
+              <span className="block text-2xl sm:text-3xl md:text-4xl text-green-700 mt-3">
+                avec une rénovation énergétique RGE
+              </span>
+              <span className="block text-base sm:text-lg text-neutral-700 font-semibold mt-4">
+                Pompe à chaleur · Panneaux solaires · Isolation · Audit énergétique
+              </span>
+              <span className="block text-sm sm:text-base text-neutral-500 font-medium mt-1">
+                Ozoir-la-Ferrière · Seine-et-Marne (77) · Île-de-France
               </span>
             </h1>
 
-            <p className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-neutral-800 leading-snug mb-5 max-w-3xl mx-auto">
-              Baissez vos factures, pas votre confort.
+            {/* Slogan baseline */}
+            <p className="font-heading text-lg md:text-xl italic text-neutral-600 mb-8">
+              «&nbsp;Baissez vos factures, pas votre confort.&nbsp;»
             </p>
 
-            <p className="text-neutral-600 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-3xl mx-auto">
-              Installation de <strong>pompes à chaleur</strong>, <strong>panneaux solaires</strong>,
-              <strong> isolation thermique</strong> et <strong>audit énergétique</strong> à
-              Ozoir-la-Ferrière, en Seine-et-Marne (77) et Île-de-France. Certifié RGE QualiPAC,
-              éligible MaPrimeRénov&apos; et CEE. Devis gratuit sous 48h.
-            </p>
-
-            <div className="mb-8">
-              <div className="hidden lg:block">
-                <div className="flex items-center justify-center gap-6 text-sm mb-3">
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Jusqu'à 70% d'économies</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Installateur certifié RGE</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Garantie décennale</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>+200 installations</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center gap-6 text-sm">
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Éligible MaPrimeRénov'</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Devis gratuit sous 48h</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-neutral-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span>Accompagnement complet</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:hidden overflow-hidden" ref={emblaRef}>
-                <div className="flex">
-                  {[...benefits, ...benefits].map((benefit, index) => (
-                    <div key={index} className="flex-none px-3">
-                      <span className="flex items-center gap-2 text-neutral-700 whitespace-nowrap">
-                        <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="text-sm">{benefit}</span>
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* CTA pair */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <Link href="/contact" className="btn-primary text-base px-8 py-4">
-                Demander mon étude gratuite
+                Étude gratuite sous 48h
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/produits" className="btn-secondary text-base px-8 py-4">
-                Voir les produits
-              </Link>
+              <a
+                href={`tel:${COMPANY_PHONES.primary.raw}`}
+                className="btn-secondary text-base px-8 py-4"
+              >
+                <Phone className="w-5 h-5" />
+                {COMPANY_PHONES.primary.display}
+              </a>
+            </div>
+
+            {/* Trust signals — 3 textes + vrai badge Google live */}
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-neutral-600">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                +200 installations
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                MaPrimeRénov&apos; &amp; CEE
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                Garantie décennale 10 ans
+              </span>
+              <GoogleRatingBadgeClient />
             </div>
           </div>
 
@@ -117,12 +83,9 @@ export function Hero() {
               afterLabel="Panneaux solaires"
             />
           </div>
-
-          <div className="mt-8 max-w-5xl mx-auto flex justify-center">
-            <GoogleRatingBadgeClient />
-          </div>
         </div>
       </div>
     </section>
   )
 }
+
