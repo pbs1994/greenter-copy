@@ -1,3 +1,5 @@
+import { COMPANY_ADDRESS, COMPANY_PHONES } from "@/lib/local-seo-data"
+
 interface ServiceSchemaProps {
   name: string
   description: string
@@ -11,7 +13,7 @@ export function ServiceSchema({
   description,
   url,
   image,
-  areaServed = 'France',
+  areaServed = 'Île-de-France',
 }: ServiceSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
@@ -24,20 +26,19 @@ export function ServiceSchema({
       "@type": "LocalBusiness",
       "name": "Greenter",
       "url": "https://www.greenter.fr",
-      "telephone": "+33609455056",
+      "telephone": COMPANY_PHONES.primary.raw,
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "38 Rue de Ménilmontant",
-        "addressLocality": "Paris",
-        "postalCode": "75020",
-        "addressCountry": "FR"
-      }
+        "addressLocality": COMPANY_ADDRESS.locality,
+        "postalCode": COMPANY_ADDRESS.postalCode,
+        "addressCountry": COMPANY_ADDRESS.country,
+      },
     },
     "areaServed": {
-      "@type": "Country",
-      "name": areaServed
+      "@type": "Place",
+      "name": areaServed,
     },
-    "serviceType": name
+    "serviceType": name,
   }
 
   return (

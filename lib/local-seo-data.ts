@@ -142,10 +142,41 @@ export const COMPANY_ADDRESS = {
 } as const
 
 // -----------------------------------------------------------------------------
-// Téléphone de l'entreprise
+// Téléphones de l'entreprise (multi-lignes : commercial + technique)
 // -----------------------------------------------------------------------------
 
-export const COMPANY_PHONE = {
-  raw: "+33766975099",        // Format international pour les liens tel:
-  display: "07 66 97 50 99",  // Format d'affichage
+export const COMPANY_PHONES = {
+  // Ligne principale affichée sur le site (CTA, header, hero)
+  primary: {
+    raw: "+33766975099",
+    display: "07 66 97 50 99",
+    contactType: "customer service",
+  },
+  // Ligne secondaire (commercial / direction)
+  secondary: {
+    raw: "+33609455056",
+    display: "06 09 45 50 56",
+    contactType: "sales",
+  },
 } as const
+
+// Conservé pour rétro-compatibilité — pointe vers la ligne principale
+export const COMPANY_PHONE = COMPANY_PHONES.primary
+
+// Tableau utilisable directement comme `contactPoint` schema.org
+export const COMPANY_CONTACT_POINTS = [
+  {
+    "@type": "ContactPoint",
+    telephone: COMPANY_PHONES.primary.raw,
+    contactType: COMPANY_PHONES.primary.contactType,
+    areaServed: "FR",
+    availableLanguage: ["French"],
+  },
+  {
+    "@type": "ContactPoint",
+    telephone: COMPANY_PHONES.secondary.raw,
+    contactType: COMPANY_PHONES.secondary.contactType,
+    areaServed: "FR",
+    availableLanguage: ["French"],
+  },
+] as const

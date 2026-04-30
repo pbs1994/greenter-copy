@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, Sun, Shield, Star, Zap, Clock } from "lucide-react"
-import { CITIES, SERVICES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { CITIES, SERVICES, COMPANY_ADDRESS, COMPANY_PHONES } from "@/lib/local-seo-data"
 import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
@@ -46,7 +46,7 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
       "@type": "LocalBusiness",
       name: "Greenter",
       url: "https://www.greenter.fr",
-      telephone: "+33609455056",
+      telephone: COMPANY_PHONES.primary.raw,
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
     },
     areaServed: { "@type": "City", name: cityName },

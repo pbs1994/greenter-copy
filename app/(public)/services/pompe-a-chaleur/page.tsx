@@ -7,7 +7,7 @@ import { LocalBusinessSchema } from "@/components/schemas/LocalBusinessSchema"
 import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchema"
 import { ArticleSchema } from "@/components/schemas/ArticleSchema"
 import { PACEditorialContent } from "@/components/editorial"
-import { CITIES } from "@/lib/local-seo-data"
+import { CITIES, COMPANY_PHONES } from "@/lib/local-seo-data"
 import { fetchGoogleReviews } from "@/lib/google-places"
 import { HeroSection } from "./HeroSection"
 
@@ -38,7 +38,7 @@ export default async function PompeAChaleurPage() {
       <ServiceSchema name="Installation Pompe à Chaleur Seine-et-Marne" description="Installation PAC certifié RGE. Prix transparents." url="https://www.greenter.fr/services/pompe-a-chaleur" image="https://www.greenter.fr/pac.png" />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
-      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone="+33609455056" email="contact@greenter.fr" url="https://www.greenter.fr" image="https://www.greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
+      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE à Ozoir-la-Ferrière, en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone={COMPANY_PHONES.primary.raw} email="contact@greenter.fr" url="https://www.greenter.fr" image="https://www.greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
       <AggregateRatingSchema itemReviewed={{ type: "LocalBusiness", name: "Greenter" }} ratingValue={rating} reviewCount={reviewCount} />
       <ArticleSchema
         headline="Guide complet de la pompe à chaleur en 2026 : types, prix, aides et installation"

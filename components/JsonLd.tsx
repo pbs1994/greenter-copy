@@ -1,4 +1,4 @@
-import { CITIES, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { CITIES, COMPANY_ADDRESS, COMPANY_PHONES, COMPANY_CONTACT_POINTS } from "@/lib/local-seo-data"
 
 interface JsonLdProps {
   ratingValue: number
@@ -16,8 +16,9 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
     url: "https://www.greenter.fr",
     logo: "https://www.greenter.fr/logo.png",
     image: "https://www.greenter.fr/logo.png",
-    telephone: "+33609455056",
+    telephone: COMPANY_PHONES.primary.raw,
     email: "contact@greenter.fr",
+    contactPoint: COMPANY_CONTACT_POINTS,
     address: {
       "@type": "PostalAddress",
       addressLocality: COMPANY_ADDRESS.locality,

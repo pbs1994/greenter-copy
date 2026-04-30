@@ -62,9 +62,12 @@ export function ArticleLayout({
                 </span>
               ))}
             </nav>
-            <h1 className="font-heading text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
+            <p
+              aria-hidden="true"
+              className="font-heading text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg"
+            >
               {title}
-            </h1>
+            </p>
             <p className="text-lg text-white/90 leading-relaxed max-w-2xl drop-shadow-md">
               {subtitle}
             </p>

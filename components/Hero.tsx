@@ -29,14 +29,20 @@ export function Hero() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center max-w-4xl mx-auto mb-8 md:mb-10">
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-5">
-              <span className="text-teal-600">Baissez vos factures,</span>
+              <span className="text-teal-600">Rénovation énergétique RGE</span>
               <br />
-              <span className="text-green-700">pas votre confort.</span>
+              <span className="text-green-700">à Ozoir-la-Ferrière &amp; en Île-de-France</span>
             </h1>
-            
+
+            <p className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-neutral-800 leading-snug mb-5 max-w-3xl mx-auto">
+              Baissez vos factures, pas votre confort.
+            </p>
+
             <p className="text-neutral-600 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-3xl mx-auto">
-              Installation de pompes à chaleur, panneaux solaires et isolation thermique 
-              à Ozoir-la-Ferrière et en Seine-et-Marne. Certifié RGE, éligible aux aides.
+              Installation de <strong>pompes à chaleur</strong>, <strong>panneaux solaires</strong>,
+              <strong> isolation thermique</strong> et <strong>audit énergétique</strong> à
+              Ozoir-la-Ferrière, en Seine-et-Marne (77) et Île-de-France. Certifié RGE QualiPAC,
+              éligible MaPrimeRénov&apos; et CEE. Devis gratuit sous 48h.
             </p>
 
             <div className="mb-8">

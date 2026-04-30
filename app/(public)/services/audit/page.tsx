@@ -1,9 +1,6 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, CheckCircle, FileSearch, Zap, TrendingDown, Shield, Phone, ChevronDown, ClipboardList, BarChart3, Lightbulb, FileText } from "lucide-react"
-import { useState } from "react"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
@@ -108,8 +105,6 @@ const faqs = [
 ]
 
 export default function AuditPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-
   const breadcrumbItems = [
     { name: "Accueil", url: "https://www.greenter.fr" },
     { name: "Services", url: "https://www.greenter.fr/services" },
@@ -407,33 +402,21 @@ export default function AuditPage() {
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div 
+              <details
                 key={index}
-                className="border border-neutral-200 rounded-xl overflow-hidden hover:border-green-300 transition-colors"
+                {...(index === 0 ? { open: true } : {})}
+                className="group border border-neutral-200 rounded-xl overflow-hidden hover:border-green-300 transition-colors"
               >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-green-50 transition-colors"
-                >
+                <summary className="w-full flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-green-50 transition-colors list-none">
                   <span className="font-semibold text-neutral-900 pr-4">
                     {faq.question}
                   </span>
-                  <ChevronDown 
-                    className={`w-5 h-5 text-green-700 shrink-0 transition-transform duration-300 ${
-                      openFaq === index ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <div 
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openFaq === index ? 'max-h-96' : 'max-h-0'
-                  }`}
-                >
-                  <p className="px-5 pb-5 text-neutral-600 leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
+                  <ChevronDown className="w-5 h-5 text-green-700 shrink-0 transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="px-5 pb-5 text-neutral-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
             ))}
           </div>
         </div>
