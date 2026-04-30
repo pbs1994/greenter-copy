@@ -172,6 +172,20 @@
     animation-play-state: paused;
   }
 
+  /* Marquee animation for hero brand/review carousels */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
   /* Bounce slow animation for calculator CTA */
   @keyframes bounce-slow {
     0%, 100% {
