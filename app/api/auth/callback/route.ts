@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
   if (!code) {
     const url = request.nextUrl.clone()
-    url.pathname = '/administrator/login'
+    url.pathname = '/login'
     url.search = '?error=missing_code'
     return NextResponse.redirect(url)
   }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
   if (error) {
     const url = request.nextUrl.clone()
-    url.pathname = '/administrator/login'
+    url.pathname = '/login'
     url.search = '?error=exchange_failed'
     return NextResponse.redirect(url)
   }

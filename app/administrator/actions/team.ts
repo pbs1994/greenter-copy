@@ -3,7 +3,7 @@
 /**
  * Server actions for /administrator/team — manage who can access the
  * admin. Adding an email here lets that person sign in via the magic-link
- * flow on /administrator/login.
+ * flow on /login.
  *
  * The current admin is intentionally allowed to remove themselves; we
  * just stop them from removing the LAST remaining admin (which would

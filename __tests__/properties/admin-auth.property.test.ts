@@ -6,9 +6,9 @@
  * 
  * **Validates: Requirements 2.2**
  * 
- * For any HTTP request to any `/administrator/*` route (except `/administrator/login`) without 
+ * For any HTTP request to any `/administrator/*` route (except `/login`) without 
  * a valid authentication session, the system SHALL respond with a redirect 
- * (302 or 307) to `/administrator/login`.
+ * (302 or 307) to `/login`.
  */
 
 import * as fc from 'fast-check'
@@ -41,7 +41,7 @@ jest.mock('@/lib/supabase-server', () => ({
 import { requireAdmin, getAdminUser } from '@/lib/admin-auth'
 
 /**
- * Arbitrary generator for valid admin route paths (excluding /administrator/login)
+ * Arbitrary generator for valid admin route paths (excluding /login)
  * Generates paths like /administrator, /administrator/categories, /administrator/products/123, etc.
  */
 const adminRoutePathArbitrary = fc.oneof(
@@ -85,7 +85,7 @@ const randomAdminRouteArbitrary = fc.array(
   ).map(chars => chars.join('')),
   { minLength: 0, maxLength: 4 }
 ).map(segments => '/administrator' + (segments.length > 0 ? '/' + segments.join('/') : ''))
-  .filter(path => path !== '/administrator/login') // Exclude login route
+  .filter(path => path !== '/login') // Exclude login route
 
 /**
  * Helper function to test unauthenticated redirect behavior
@@ -133,12 +133,12 @@ describe('Property 2: Unauthenticated Admin Route Redirect', () => {
   })
 
   /**
-   * Property: For any admin route path (except /administrator/login), when no user is 
-   * authenticated, requireAdmin() SHALL trigger a redirect to /administrator/login
+   * Property: For any admin route path (except /login), when no user is 
+   * authenticated, requireAdmin() SHALL trigger a redirect to /login
    * 
    * **Validates: Requirements 2.2**
    */
-  it('should redirect to /administrator/login when user is not authenticated for any admin route', async () => {
+  it('should redirect to /login when user is not authenticated for any admin route', async () => {
     // Generate test cases
     const testCases = fc.sample(adminRoutePathArbitrary, 100)
     
@@ -146,41 +146,41 @@ describe('Property 2: Unauthenticated Admin Route Redirect', () => {
       const result = await testUnauthenticatedRedirect()
       
       expect(result.redirected).toBe(true)
-      expect(result.redirectUrl).toBe('/administrator/login')
+      expect(result.redirectUrl).toBe('/login')
     }
   })
 
   /**
-   * Property: For any randomly generated admin route path (except /administrator/login),
-   * unauthenticated access SHALL trigger redirect to /administrator/login
+   * Property: For any randomly generated admin route path (except /login),
+   * unauthenticated access SHALL trigger redirect to /login
    * 
    * **Validates: Requirements 2.2**
    */
-  it('should redirect to /administrator/login for any random admin route when unauthenticated', async () => {
+  it('should redirect to /login for any random admin route when unauthenticated', async () => {
     const testCases = fc.sample(randomAdminRouteArbitrary, 100)
     
     for (const routePath of testCases) {
       const result = await testUnauthenticatedRedirect()
       
       expect(result.redirected).toBe(true)
-      expect(result.redirectUrl).toBe('/administrator/login')
+      expect(result.redirectUrl).toBe('/login')
     }
   })
 
   /**
-   * Property: The redirect target SHALL always be exactly '/administrator/login'
+   * Property: The redirect target SHALL always be exactly '/login'
    * regardless of which admin route was accessed
    * 
    * **Validates: Requirements 2.2**
    */
-  it('should always redirect to exactly /administrator/login (not a variant)', async () => {
+  it('should always redirect to exactly /login (not a variant)', async () => {
     const testCases = fc.sample(adminRoutePathArbitrary, 100)
     
     for (const routePath of testCases) {
       const result = await testUnauthenticatedRedirect()
       
-      // Verify exact match (not /administrator/login/, not /administrator/login?redirect=..., etc.)
-      expect(result.redirectUrl).toBe('/administrator/login')
+      // Verify exact match (not /login/, not /login?redirect=..., etc.)
+      expect(result.redirectUrl).toBe('/login')
       expect(result.redirectUrl).not.toMatch(/\/administrator\/login[/?]/)
     }
   })
@@ -269,7 +269,7 @@ describe('Authentication Redirect Edge Cases', () => {
     const result = await testUnauthenticatedRedirect()
     
     expect(result.redirected).toBe(true)
-    expect(result.redirectUrl).toBe('/administrator/login')
+    expect(result.redirectUrl).toBe('/login')
   })
 
   /**
@@ -281,7 +281,7 @@ describe('Authentication Redirect Edge Cases', () => {
     const result = await testUnauthenticatedRedirect()
     
     expect(result.redirected).toBe(true)
-    expect(result.redirectUrl).toBe('/administrator/login')
+    expect(result.redirectUrl).toBe('/login')
   })
 
   /**
@@ -298,7 +298,7 @@ describe('Authentication Redirect Edge Cases', () => {
     }
     
     expect(redirectCalls).toHaveLength(1)
-    expect(redirectCalls[0]).toBe('/administrator/login')
+    expect(redirectCalls[0]).toBe('/login')
   })
 })
 
@@ -325,11 +325,11 @@ describe('Specific Admin Routes Authentication', () => {
     /**
      * Test: Each specific admin route should redirect when unauthenticated
      */
-    it(`should redirect to /administrator/login for route: ${route}`, async () => {
+    it(`should redirect to /login for route: ${route}`, async () => {
       const result = await testUnauthenticatedRedirect()
       
       expect(result.redirected).toBe(true)
-      expect(result.redirectUrl).toBe('/administrator/login')
+      expect(result.redirectUrl).toBe('/login')
     })
   })
 })
@@ -345,11 +345,11 @@ describe('Redirect Consistency Properties', () => {
 
   /**
    * Property: Multiple consecutive unauthenticated requests should all redirect
-   * to the same location (/administrator/login)
+   * to the same location (/login)
    * 
    * **Validates: Requirements 2.2**
    */
-  it('should consistently redirect to /administrator/login across multiple requests', async () => {
+  it('should consistently redirect to /login across multiple requests', async () => {
     const numRequests = 100
     const redirectUrls: string[] = []
     
@@ -360,15 +360,15 @@ describe('Redirect Consistency Properties', () => {
       }
     }
     
-    // All redirects should be to /administrator/login
+    // All redirects should be to /login
     expect(redirectUrls).toHaveLength(numRequests)
     expect(new Set(redirectUrls).size).toBe(1)
-    expect(redirectUrls[0]).toBe('/administrator/login')
+    expect(redirectUrls[0]).toBe('/login')
   })
 
   /**
    * Property: The redirect behavior should be deterministic - 
-   * same input (unauthenticated) always produces same output (redirect to /administrator/login)
+   * same input (unauthenticated) always produces same output (redirect to /login)
    * 
    * **Validates: Requirements 2.2**
    */
@@ -387,7 +387,7 @@ describe('Redirect Consistency Properties', () => {
       // All should redirect
       expect(results.every(r => r === true)).toBe(true)
       // All should redirect to same URL
-      expect(urls.every(u => u === '/administrator/login')).toBe(true)
+      expect(urls.every(u => u === '/login')).toBe(true)
     }
   })
 })
