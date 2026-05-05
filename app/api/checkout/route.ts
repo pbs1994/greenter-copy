@@ -1,32 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
+import { isRateLimitedPerMinute } from '@/lib/rate-limit'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
 
-// Rate limiting
-const requestCounts = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT = 10
-const RATE_WINDOW = 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const record = requestCounts.get(ip)
-  if (!record || now > record.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
-    return false
-  }
-  if (record.count >= RATE_LIMIT) return true
-  record.count++
-  return false
-}
-
 // UUID format validation
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const MAX_ITEMS = 20
 const MAX_QUANTITY_PER_ITEM = 100
+
+// Allow-list of hosts Stripe is permitted to fetch product images from.
+// Stripe fetches `product_data.images[]` server-side; if a Payload editor
+// (or a sync bug) ever sets `image_url` to an arbitrary URL, this guard
+// prevents Stripe from being used as an SSRF target on our behalf.
+const ALLOWED_IMAGE_HOST_SUFFIXES = ['.supabase.co', '.public.blob.vercel-storage.com']
+
+function isAllowedImageUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url)
+    if (parsed.protocol !== 'https:') return false
+    const host = parsed.hostname.toLowerCase()
+    return ALLOWED_IMAGE_HOST_SUFFIXES.some((suffix) => host.endsWith(suffix))
+  } catch {
+    return false
+  }
+}
 
 interface CartItem {
   productId: string
@@ -35,9 +36,7 @@ interface CartItem {
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
-    if (isRateLimited(ip)) {
+    if (isRateLimitedPerMinute(request, 'checkout', 10)) {
       return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
     }
 
@@ -85,14 +84,27 @@ export async function POST(request: NextRequest) {
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map(item => {
       const product = products.find(p => p.id === item.productId)
       if (!product) throw new Error(`Produit ${item.productId} non trouvé`)
-      
+
+      // Resolve relative paths against our own host, then accept only
+      // URLs whose host is in our allow-list. Anything else → no image
+      // (Stripe falls back to its default), never an arbitrary fetch.
+      let images: string[] | undefined
+      if (product.image_url) {
+        const absoluteUrl = product.image_url.startsWith('http')
+          ? product.image_url
+          : `${process.env.NEXT_PUBLIC_SITE_URL}${product.image_url}`
+        if (isAllowedImageUrl(absoluteUrl)) {
+          images = [absoluteUrl]
+        }
+      }
+
       return {
         price_data: {
           currency: 'eur',
           product_data: {
             name: product.name,
             description: product.short_description || undefined,
-            images: product.image_url ? [product.image_url.startsWith('http') ? product.image_url : `${process.env.NEXT_PUBLIC_SITE_URL}${product.image_url}`] : undefined,
+            images,
           },
           unit_amount: product.price,
         },

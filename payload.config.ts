@@ -20,16 +20,23 @@ import { Pages } from './collections/Pages'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Production-only allow-list. If a non-prod environment (Vercel preview,
+// staging.greenter.fr, …) is ever introduced, add its origin to the
+// `PAYLOAD_TRUSTED_ORIGINS` env var (comma-separated). NEVER use a wildcard
+// — this list governs CORS *and* CSRF, so adding `*` would let any site
+// initiate logged-in admin requests on behalf of a signed-in admin.
+const TRUSTED_ORIGINS = [
+  'https://greenter.fr',
+  'https://www.greenter.fr',
+  ...(process.env.PAYLOAD_TRUSTED_ORIGINS
+    ? process.env.PAYLOAD_TRUSTED_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean)
+    : []),
+]
+
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.greenter.fr',
-  cors: [
-    'https://greenter.fr',
-    'https://www.greenter.fr',
-  ],
-  csrf: [
-    'https://greenter.fr',
-    'https://www.greenter.fr',
-  ],
+  cors: TRUSTED_ORIGINS,
+  csrf: TRUSTED_ORIGINS,
   secret: process.env.PAYLOAD_SECRET!,
   
   sharp,

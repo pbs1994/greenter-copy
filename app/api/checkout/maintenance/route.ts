@@ -2,27 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 import { calculatePricing } from '@/lib/maintenance-pricing'
+import { isRateLimitedPerMinute } from '@/lib/rate-limit'
+import type { MaintenanceService, MaintenanceOption } from '@/types/maintenance'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
-
-// Rate limiting
-const requestCounts = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT = 10
-const RATE_WINDOW = 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const record = requestCounts.get(ip)
-  if (!record || now > record.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
-    return false
-  }
-  if (record.count >= RATE_LIMIT) return true
-  record.count++
-  return false
-}
 
 // UUID format validation
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -31,9 +16,7 @@ const MAX_OPTION_IDS = 20
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
-    if (isRateLimited(ip)) {
+    if (isRateLimitedPerMinute(request, 'checkout-maintenance', 10)) {
       return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
     }
 
@@ -88,7 +71,7 @@ export async function POST(request: NextRequest) {
     )
 
     // Fetch services actifs depuis Supabase
-    let services: any[] = []
+    let services: MaintenanceService[] = []
     if (serviceIds.length > 0) {
       const { data: servicesData, error: servicesError } = await supabase
         .from('maintenance_services')
@@ -104,11 +87,11 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      services = servicesData || []
+      services = (servicesData as MaintenanceService[] | null) || []
     }
 
     // Fetch options si des IDs sont fournis
-    let options: any[] = []
+    let options: MaintenanceOption[] = []
     if (optionIds.length > 0) {
       const { data: optionsData, error: optionsError } = await supabase
         .from('maintenance_options')
@@ -124,7 +107,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      options = optionsData || []
+      options = (optionsData as MaintenanceOption[] | null) || []
     }
 
     // Vérifier qu'on a au moins un item valide
@@ -145,8 +128,8 @@ export async function POST(request: NextRequest) {
     )
 
     // Séparer options flat fee vs récurrentes
-    const flatFeeOptions = options.filter((o: any) => o.is_flat_fee)
-    const recurringOptions = options.filter((o: any) => !o.is_flat_fee)
+    const flatFeeOptions = options.filter((o) => o.is_flat_fee)
+    const recurringOptions = options.filter((o) => !o.is_flat_fee)
 
     // Déterminer si on a des items récurrents
     const hasRecurringItems = services.length > 0 || recurringOptions.length > 0
@@ -162,9 +145,9 @@ export async function POST(request: NextRequest) {
 
     // Ajouter chaque service comme line_item avec prix ajusté (remise multi appliquée)
     // Pour l'annuel: 10 mois au lieu de 12 (2 mois offerts)
-    const uniqueServiceIds = [...new Set(serviceIds)]
+    const uniqueServiceIds = [...new Set(serviceIds)] as string[]
     for (const serviceId of uniqueServiceIds) {
-      const service = services.find((s: any) => s.id === serviceId)
+      const service = services.find((s) => s.id === serviceId)
       if (!service) continue
 
       const qty = serviceQuantities[serviceId] || 1
@@ -211,7 +194,7 @@ export async function POST(request: NextRequest) {
 
     // Créer les line_items pour les forfaits uniques (one-time)
     const flatFeeLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = flatFeeOptions.map(
-      (option: any) => ({
+      (option) => ({
         price_data: {
           currency: 'eur',
           product_data: { name: option.name },
@@ -231,7 +214,7 @@ export async function POST(request: NextRequest) {
       discount_annual: String(pricing.discountAnnualPercent),
       total_monthly: String(pricing.totalMonthly),
       total_after_discounts: String(pricing.totalDisplay),
-      flat_fee_option_ids: flatFeeOptions.map((o: any) => o.id).join(','),
+      flat_fee_option_ids: flatFeeOptions.map((o) => o.id).join(','),
     }
 
     // Déterminer le mode de checkout

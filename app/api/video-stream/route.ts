@@ -1,32 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-
-// Rate limiting
-const requestCounts = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT = 20
-const RATE_WINDOW = 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const record = requestCounts.get(ip)
-  
-  if (!record || now > record.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
-    return false
-  }
-  
-  if (record.count >= RATE_LIMIT) return true
-  record.count++
-  return false
-}
+import { isRateLimitedPerMinute } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
   try {
-    const headersList = await headers()
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0] || 'unknown'
-    
-    if (isRateLimited(ip)) {
+    if (isRateLimitedPerMinute(request, 'video-stream', 20)) {
       return new NextResponse('Too many requests', { status: 429 })
     }
 
@@ -63,11 +41,14 @@ export async function GET(request: NextRequest) {
       return new NextResponse('Failed to fetch video', { status: 500 })
     }
 
-    // Stream the response
+    // Stream the response.
+    // `no-store` because the underlying signed URL only lives 60s — caching
+    // for longer at the CDN/edge would let us hand out responses backed by
+    // an expired URL and partially defeat the short TTL.
     const responseHeaders = new Headers({
       'Content-Type': 'video/mp4',
       'Accept-Ranges': 'bytes',
-      'Cache-Control': 'private, max-age=300',
+      'Cache-Control': 'private, no-store',
     })
 
     // Forward content headers for range requests

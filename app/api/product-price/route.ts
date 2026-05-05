@@ -1,29 +1,10 @@
-import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { isRateLimitedPerMinute } from '@/lib/rate-limit'
 
-// Rate limiting
-const requestCounts = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT = 30
-const RATE_WINDOW = 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const record = requestCounts.get(ip)
-  if (!record || now > record.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
-    return false
-  }
-  if (record.count >= RATE_LIMIT) return true
-  record.count++
-  return false
-}
-
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const headersList = await headers()
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0] || 'unknown'
-    if (isRateLimited(ip)) {
+    if (isRateLimitedPerMinute(request, 'product-price', 30)) {
       return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 })
     }
 
