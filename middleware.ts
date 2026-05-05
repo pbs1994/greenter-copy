@@ -9,6 +9,9 @@
  * This middleware also keeps the Supabase Auth cookies refreshed so the
  * session lives across navigations — that part runs on every request the
  * matcher accepts.
+ *
+ * The login form lives at /login (top-level), not under /administrator,
+ * so it's exempt from the auth gate.
  */
 
 import { NextResponse, type NextRequest } from 'next/server'
@@ -39,17 +42,17 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname
   const isAdminPath = path.startsWith('/administrator')
-  const isLoginPath = path === '/administrator/login'
+  const isLoginPath = path === '/login'
 
-  if (isAdminPath && !isLoginPath && !user) {
+  if (isAdminPath && !user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/administrator/login'
+    url.pathname = '/login'
     url.searchParams.set('next', path)
     return NextResponse.redirect(url)
   }
 
-  // If they're already logged in and visit /administrator/login, send them home.
-  // The layout will still re-check admin status; this is just a UX tweak.
+  // If they're already logged in and visit /login, send them home.
+  // The admin layout will still re-check admin status; this is just a UX tweak.
   if (isLoginPath && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/administrator'
@@ -61,6 +64,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Only intercept /administrator paths; the rest of the site is unaffected.
-  matcher: ['/administrator/:path*'],
+  // Intercept /administrator paths and the /login page (the latter so we
+  // can refresh the auth cookie + bounce already-logged-in users).
+  matcher: ['/administrator/:path*', '/login'],
 }

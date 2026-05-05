@@ -33,6 +33,8 @@ export async function getAdminUser(): Promise<AdminUser | null> {
   return { id: user.id, email: user.email }
 }
 
+const LOGIN_PATH = '/login'
+
 /**
  * Service-role client. Only callable from server code. Bypasses RLS — use
  * sparingly and never expose its results to the client.
@@ -66,21 +68,21 @@ export async function isAdminEmail(email: string): Promise<boolean> {
 /**
  * Use at the top of every /administrator/* server component, layout, server
  * action and route handler.
- *   - Not authenticated → redirect to /administrator/login.
+ *   - Not authenticated → redirect to /login.
  *   - Authenticated but email not in admins table → sign out + redirect to
- *     /administrator/login?error=not_authorized.
+ *     /login?error=not_authorized.
  *   - Otherwise → returns the AdminUser.
  */
 export async function requireAdmin(): Promise<AdminUser> {
   const user = await getAdminUser()
-  if (!user) redirect('/administrator/login')
+  if (!user) redirect(LOGIN_PATH)
 
   const ok = await isAdminEmail(user.email)
   if (!ok) {
     // Sign the user out so subsequent requests don't keep tripping this gate.
     const supabase = await createSupabaseServerActionClient()
     await supabase.auth.signOut()
-    redirect('/administrator/login?error=not_authorized')
+    redirect(`${LOGIN_PATH}?error=not_authorized`)
   }
   return user
 }
