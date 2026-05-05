@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 import { calculatePricing } from '@/lib/maintenance-pricing'
 import { isRateLimitedPerMinute } from '@/lib/rate-limit'
+import type { MaintenanceService, MaintenanceOption } from '@/types/maintenance'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
@@ -12,22 +13,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const MAX_SERVICE_IDS = 20
 const MAX_OPTION_IDS = 20
-
-interface MaintenanceServiceRow {
-  id: string
-  name: string
-  price_monthly: number
-  is_active: boolean
-}
-
-interface MaintenanceOptionRow {
-  id: string
-  name: string
-  price_monthly: number
-  is_active: boolean
-  is_flat_fee?: boolean
-  exempt_from_discount?: boolean
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -86,7 +71,7 @@ export async function POST(request: NextRequest) {
     )
 
     // Fetch services actifs depuis Supabase
-    let services: MaintenanceServiceRow[] = []
+    let services: MaintenanceService[] = []
     if (serviceIds.length > 0) {
       const { data: servicesData, error: servicesError } = await supabase
         .from('maintenance_services')
@@ -102,11 +87,11 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      services = (servicesData as MaintenanceServiceRow[] | null) || []
+      services = (servicesData as MaintenanceService[] | null) || []
     }
 
     // Fetch options si des IDs sont fournis
-    let options: MaintenanceOptionRow[] = []
+    let options: MaintenanceOption[] = []
     if (optionIds.length > 0) {
       const { data: optionsData, error: optionsError } = await supabase
         .from('maintenance_options')
@@ -122,7 +107,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      options = (optionsData as MaintenanceOptionRow[] | null) || []
+      options = (optionsData as MaintenanceOption[] | null) || []
     }
 
     // Vérifier qu'on a au moins un item valide

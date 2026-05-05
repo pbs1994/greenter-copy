@@ -7,20 +7,17 @@ const INDEXNOW_KEY = '85e908e620b042a3a0621df9da8a74d7'
 const SITE_URL = 'https://www.greenter.fr'
 const KEY_LOCATION = `${SITE_URL}/${INDEXNOW_KEY}.txt`
 
-// CRON_SECRET MUST be set in env. The previous fallback to INDEXNOW_KEY
-// was a public-by-design value (it's served at /<key>.txt for IndexNow
+// CRON_SECRET MUST be set at runtime. The previous fallback to INDEXNOW_KEY
+// was a public-by-design value (served at /<key>.txt for IndexNow
 // verification), so anyone reading that file could trigger this route's
 // fan-out to 5 search engines + database queries.
-function requireCronSecret(): string {
-  const s = process.env.CRON_SECRET
-  if (!s) {
-    throw new Error(
-      'CRON_SECRET must be set — the IndexNow route refuses to start without one'
-    )
-  }
-  return s
+//
+// Resolved per-request (not at module load) so `next build` doesn't crash
+// when CRON_SECRET isn't present in the build environment. If the env var
+// is missing in production, every request is rejected with 503.
+function getCronSecret(): string | null {
+  return process.env.CRON_SECRET || null
 }
-const CRON_SECRET = requireCronSecret()
 
 // IndexNow accepts up to 10,000 URLs per batch — we chunk to stay safe.
 const INDEXNOW_BATCH_SIZE = 1000
@@ -183,11 +180,16 @@ async function submitToSearchEngines() {
 }
 
 export async function GET(request: NextRequest) {
+  const secret = getCronSecret()
+  if (!secret) {
+    return NextResponse.json({ error: 'CRON_SECRET not configured' }, { status: 503 })
+  }
+
   const authHeader = request.headers.get('authorization')
   const cronHeader = request.headers.get('x-vercel-cron')
   const urlKey = request.nextUrl.searchParams.get('key')
 
-  if (!cronHeader && authHeader !== `Bearer ${CRON_SECRET}` && urlKey !== CRON_SECRET) {
+  if (!cronHeader && authHeader !== `Bearer ${secret}` && urlKey !== secret) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -200,8 +202,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const secret = getCronSecret()
+  if (!secret) {
+    return NextResponse.json({ error: 'CRON_SECRET not configured' }, { status: 503 })
+  }
+
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
