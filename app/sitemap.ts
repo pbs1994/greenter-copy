@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next'
 import { CITIES } from '@/lib/local-seo-data'
-import { getPayloadClient } from '@/lib/payload'
 import { supabase } from '@/lib/supabase'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -74,25 +73,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Silently continue if DB unavailable during build
   }
 
-  // Blog posts dynamiques depuis Payload
-  let blogPages: MetadataRoute.Sitemap = []
-  try {
-    const payload = await getPayloadClient()
-    const posts = await payload.find({
-      collection: 'blog-posts',
-      where: { status: { equals: 'published' } },
-      limit: 100,
-    })
+  // Blog posts: each article has its own hardcoded directory under
+  // app/(public)/blog/<slug>/page.tsx and is already listed in
+  // staticPages above.
 
-    blogPages = posts.docs.map((post) => ({
-      url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: post.updatedAt ? new Date(post.updatedAt) : currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }))
-  } catch {
-    // Silently continue if Payload unavailable during build
-  }
-
-  return [...staticPages, ...localPages, ...productPages, ...blogPages]
+  return [...staticPages, ...localPages, ...productPages]
 }

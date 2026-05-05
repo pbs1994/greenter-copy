@@ -38,7 +38,7 @@ jest.mock('@/lib/supabase-server', () => ({
 }))
 
 // Import after mocks are set up
-import { requireAdmin, getAdminUser } from '@/lib/auth'
+import { requireAdmin, getAdminUser } from '@/lib/admin-auth'
 
 /**
  * Arbitrary generator for valid admin route paths (excluding /administrator/login)
