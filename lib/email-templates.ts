@@ -484,6 +484,14 @@ interface ContactData {
   message: string
 }
 
+/**
+ * Defense in depth: even though `app/api/contact/route.ts` already strips
+ * everything but `[+\d\s().-]`, restrict the value here too before it
+ * lands in `href="tel:…"`. Any future caller that forgets to sanitize is
+ * still safe from a `javascript:` / quote / whitespace-smuggling payload.
+ */
+const sanitizeTelHref = (phone: string) => phone.replace(/[^+\d]/g, '').slice(0, 20)
+
 const serviceLabels: Record<string, string> = {
   pac: "Pompe à chaleur",
   solaire: "Panneaux solaires",
@@ -576,7 +584,7 @@ export const contactRequestTemplate = (contact: ContactData) => `
                             <tr>
                               <td width="100" style="color: #525252; font-size: 14px;">Téléphone</td>
                               <td>
-                                <a href="tel:${contact.phone}" style="color: #0D9488; font-size: 14px; text-decoration: none; font-weight: 500;">${contact.phone}</a>
+                                <a href="tel:${sanitizeTelHref(contact.phone)}" style="color: #0D9488; font-size: 14px; text-decoration: none; font-weight: 500;">${contact.phone}</a>
                               </td>
                             </tr>
                           </table>
@@ -628,7 +636,7 @@ export const contactRequestTemplate = (contact: ContactData) => `
                     </a>
                   </td>
                   <td>
-                    <a href="tel:${contact.phone}" style="display: inline-block; background-color: #0D9488; color: #ffffff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                    <a href="tel:${sanitizeTelHref(contact.phone)}" style="display: inline-block; background-color: #0D9488; color: #ffffff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600;">
                       📞 Appeler
                     </a>
                   </td>

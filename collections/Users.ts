@@ -13,7 +13,10 @@ export const Users: CollectionConfig = {
     lockTime: 600000,
     cookies: {
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
+      // Strict instead of Lax: the admin lives at /admin on the same origin,
+      // there is no top-level navigation flow that needs cross-site cookie
+      // sending. Strict eliminates the residual CSRF risk on top-level GETs.
+      sameSite: 'Strict',
     },
     forgotPassword: {
       generateEmailHTML: (args) => {

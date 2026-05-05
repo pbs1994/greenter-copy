@@ -6,7 +6,21 @@ import { supabase } from '@/lib/supabase'
 const INDEXNOW_KEY = '85e908e620b042a3a0621df9da8a74d7'
 const SITE_URL = 'https://www.greenter.fr'
 const KEY_LOCATION = `${SITE_URL}/${INDEXNOW_KEY}.txt`
-const CRON_SECRET = process.env.CRON_SECRET || INDEXNOW_KEY
+
+// CRON_SECRET MUST be set in env. The previous fallback to INDEXNOW_KEY
+// was a public-by-design value (it's served at /<key>.txt for IndexNow
+// verification), so anyone reading that file could trigger this route's
+// fan-out to 5 search engines + database queries.
+function requireCronSecret(): string {
+  const s = process.env.CRON_SECRET
+  if (!s) {
+    throw new Error(
+      'CRON_SECRET must be set — the IndexNow route refuses to start without one'
+    )
+  }
+  return s
+}
+const CRON_SECRET = requireCronSecret()
 
 // IndexNow accepts up to 10,000 URLs per batch — we chunk to stay safe.
 const INDEXNOW_BATCH_SIZE = 1000
@@ -145,25 +159,6 @@ async function submitToSearchEngines() {
     results.indexnow_seznam.push(seznam)
     results.indexnow_naver.push(naver)
   }
-
-  // Google no longer supports sitemap pings, but fetching individual URLs
-  // with GoogleBot-friendly headers still nudges discovery for priority pages.
-  const priorityUrls = [
-    SITE_URL,
-    `${SITE_URL}/services`,
-    `${SITE_URL}/services/pompe-a-chaleur`,
-    `${SITE_URL}/services/panneaux-solaires`,
-    `${SITE_URL}/services/isolation`,
-    `${SITE_URL}/services/audit`,
-    `${SITE_URL}/services/maintenance`,
-    `${SITE_URL}/produits`,
-    `${SITE_URL}/blog`,
-    `${SITE_URL}/blog/guide-prix-pompe-a-chaleur-2026`,
-    `${SITE_URL}/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026`,
-    ...['ozoir-la-ferriere', 'pontault-combault', 'melun', 'meaux', 'chelles',
-        'creteil', 'noisy-le-grand', 'champigny-sur-marne', 'saint-maur-des-fosses', 'paris'
-    ].map((slug) => `${SITE_URL}/services/pompe-a-chaleur/${slug}`),
-  ]
 
   let sitemapPings = 0
   for (const target of [

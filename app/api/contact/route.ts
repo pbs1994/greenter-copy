@@ -1,26 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { resend } from '@/lib/resend'
 import { contactRequestTemplate } from '@/lib/email-templates'
+import { isRateLimitedPerMinute } from '@/lib/rate-limit'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@greenter.fr'
 const FROM_EMAIL = process.env.FROM_EMAIL ? `Greenter <${process.env.FROM_EMAIL}>` : 'Greenter <contact@greenter.fr>'
-
-// Rate limiting
-const requestCounts = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT = 5
-const RATE_WINDOW = 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const record = requestCounts.get(ip)
-  if (!record || now > record.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW })
-    return false
-  }
-  if (record.count >= RATE_LIMIT) return true
-  record.count++
-  return false
-}
 
 /**
  * Sanitize user input: strip HTML tags and control characters
@@ -34,11 +18,20 @@ function sanitizeInput(input: string, maxLength = 500): string {
     .slice(0, maxLength)
 }
 
+/**
+ * Phone numbers go into `tel:` HTML hrefs in the admin email. Restrict to
+ * the strict set of characters a phone number can legally contain so that
+ * no URL scheme or HTML attribute can be smuggled in via a stray
+ * `javascript:` / quote / whitespace, even if `sanitizeInput` upstream
+ * changes one day.
+ */
+function sanitizePhone(input: string, maxLength = 20): string {
+  return input.replace(/[^+\d\s().-]/g, '').trim().slice(0, maxLength)
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
-    if (isRateLimited(ip)) {
+    if (isRateLimitedPerMinute(request, 'contact', 5)) {
       return NextResponse.json({ error: 'Trop de requêtes, veuillez réessayer plus tard' }, { status: 429 })
     }
 
@@ -73,7 +66,7 @@ export async function POST(request: NextRequest) {
       html: contactRequestTemplate({
         name: sanitizeInput(name, 100),
         email: sanitizedEmail || 'Non renseigné',
-        phone: sanitizeInput(phone, 20),
+        phone: sanitizePhone(phone),
         service: sanitizeInput(service || '', 100),
         message: sanitizeInput(message || 'Demande de devis', 2000),
       }),

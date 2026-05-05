@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
+  // TODO(security): set this to `false` once the existing lint debt
+  // (currently ~250 errors across pre-existing components) is paid down.
+  // Leaving lint disabled at build time means security-relevant rules
+  // (`react/no-danger`, `no-eval`, etc.) cannot block a regression. The
+  // intermediate fix is to keep `pnpm lint` green in CI even though the
+  // build itself doesn't enforce it.
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -5,10 +5,17 @@ import Stripe from 'stripe'
 import { notFound } from 'next/navigation'
 import { ConversionTracker } from './ConversionTracker'
 import { EmailButton } from './EmailButton'
+import { buildSignedInvoiceUrl } from '@/lib/invoice-signing'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
+
+// Window during which the success page will render full PII (name, email,
+// shipping address). After this expires we still confirm the order but show
+// only the order number — limits the blast radius of a leaked session_id
+// (URL is exposed to analytics, browser history, conversion trackers, …).
+const FULL_DETAILS_TTL_SECONDS = 30 * 60
 
 interface Props {
   searchParams: Promise<{ session_id?: string }>
@@ -20,6 +27,9 @@ async function getOrder(sessionId: string) {
   })
 
   if (!session || session.payment_status !== 'paid') return null
+
+  const ageSeconds = Math.floor(Date.now() / 1000) - session.created
+  if (ageSeconds > FULL_DETAILS_TTL_SECONDS) return 'expired' as const
 
   const paymentIntent = session.payment_intent as Stripe.PaymentIntent
   let receiptUrl = null
@@ -89,6 +99,35 @@ export default async function SuccessPage({ searchParams }: Props) {
       </main>
     )
   }
+
+  // Session is valid but the post-checkout window has elapsed. Render a
+  // minimal, no-PII confirmation so anyone who later finds the URL in
+  // browser history, server logs, or the conversion tracker can't enumerate
+  // the customer.
+  if (order === 'expired') {
+    return (
+      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-neutral-50 px-4">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-green-600" />
+          </div>
+          <h1 className="font-heading text-xl font-bold text-neutral-900 mb-3">
+            Commande confirmée
+          </h1>
+          <p className="text-neutral-600 text-sm mb-6">
+            Votre commande a bien été enregistrée. Pour récupérer le détail ou
+            la facture, consultez votre email de confirmation ou contactez-nous.
+          </p>
+          <a href="tel:+33609455056" className="btn-primary">
+            <Phone className="w-4 h-4" />
+            06 09 45 50 56
+          </a>
+        </div>
+      </main>
+    )
+  }
+
+  const invoiceHref = buildSignedInvoiceUrl(sessionId)
 
   const orderDate = new Date(order.createdAt).toLocaleDateString('fr-FR', {
     day: 'numeric', month: 'long', year: 'numeric',
@@ -288,7 +327,7 @@ export default async function SuccessPage({ searchParams }: Props) {
               {/* Bouton facture */}
               <div className="px-5 pb-5">
                 <a
-                  href={`/api/invoice/${sessionId}`}
+                  href={invoiceHref}
                   download={`facture-${order.orderNumber}.pdf`}
                   className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium text-sm py-2.5 rounded-lg transition-colors"
                 >
@@ -325,7 +364,7 @@ export default async function SuccessPage({ searchParams }: Props) {
             href="/"
             className="inline-flex items-center gap-1.5 text-neutral-500 hover:text-neutral-900 text-sm transition-colors"
           >
-            Retour à l'accueil
+            Retour à l&apos;accueil
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

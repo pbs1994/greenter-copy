@@ -7,6 +7,13 @@ export const Media: CollectionConfig = {
   },
   access: {
     read: () => true, // Public access for images
+    // Explicit auth-required rules. Payload defaults create/update/delete
+    // to "logged in", but with `clientUploads: true` enabled in
+    // payload.config.ts the upload-token issuance also goes through these
+    // checks — relying on framework defaults here is fragile.
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => !!req.user,
   },
   upload: {
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/gif'],
