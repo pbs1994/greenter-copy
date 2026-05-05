@@ -2,27 +2,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight, Calendar, ArrowRight, FileText, Clock, TrendingUp } from "lucide-react"
 import type { Metadata } from "next"
-import { getPayloadClient } from "@/lib/payload"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 
-// Temporary types until payload-types is generated
-interface Media {
-  id: string
-  url?: string | null
-  alt?: string | null
-}
-
-interface BlogPost {
-  id: string
-  title: string
-  slug?: string | null
-  excerpt?: string | null
-  published_date?: string | null
-  status: 'draft' | 'published'
-  featured_image?: Media | string | null
-}
-
-// Articles statiques (créés en dur, pas via Payload CMS)
+// Articles statiques — chacun a son propre app/(public)/blog/<slug>/page.tsx
+// avec le contenu en composant React. Ajouter un nouvel article = créer
+// un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
     id: 'remplacer-chaudiere-gaz-pac-2026',
@@ -78,23 +62,7 @@ const breadcrumbItems = [
   { name: "Blog", url: "https://www.greenter.fr/blog" }
 ]
 
-export default async function BlogPage() {
-  // Fetch CMS articles
-  let cmsArticles: BlogPost[] = []
-  try {
-    const payload = await getPayloadClient()
-    const result = await payload.find({
-      collection: 'blog-posts',
-      where: { status: { equals: 'published' } },
-      sort: '-published_date',
-      depth: 1,
-      limit: 20,
-    })
-    cmsArticles = result.docs as BlogPost[]
-  } catch {
-    // Payload unavailable
-  }
-
+export default function BlogPage() {
   // Article mis en avant (le plus récent des statiques)
   const featuredArticle = STATIC_ARTICLES.find(a => a.featured) || STATIC_ARTICLES[0]
 
@@ -184,11 +152,10 @@ export default async function BlogPage() {
 
       {/* ---- GRILLE ARTICLES ---- */}
       <section className="container mx-auto max-w-6xl px-4 pb-20">
-        {(otherStaticArticles.length > 0 || cmsArticles.length > 0) ? (
+        {otherStaticArticles.length > 0 ? (
           <>
             <h2 className="font-heading text-2xl font-bold text-slate-900 mb-8">Tous nos articles</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Articles statiques */}
               {otherStaticArticles.map((article) => (
                 <Link
                   key={article.id}
@@ -221,38 +188,6 @@ export default async function BlogPage() {
                   </div>
                 </Link>
               ))}
-
-              {/* Articles CMS Payload */}
-              {cmsArticles.map((post) => {
-                const imageUrl = typeof post.featured_image === 'object' && post.featured_image?.url ? post.featured_image.url : null
-                return (
-                  <Link
-                    key={post.id}
-                    href={`/blog/${post.slug}`}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-md ring-1 ring-slate-100 hover:ring-emerald-200 hover:shadow-xl transition-all"
-                  >
-                    <div className="relative h-48 overflow-hidden bg-gradient-to-b from-slate-100 to-slate-50">
-                      {imageUrl ? (
-                        <Image src={imageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center"><FileText className="w-12 h-12 text-slate-300" /></div>
-                      )}
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center gap-3 text-xs text-slate-400 mb-3">
-                        <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {formatDate(post.published_date)}</span>
-                      </div>
-                      <h3 className="font-heading text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors mb-2 line-clamp-2">
-                        {post.title}
-                      </h3>
-                      {post.excerpt && <p className="text-slate-500 text-sm line-clamp-2 mb-3">{post.excerpt}</p>}
-                      <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold text-sm group-hover:gap-2 transition-all">
-                        Lire <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </Link>
-                )
-              })}
             </div>
           </>
         ) : (

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { CITIES } from '@/lib/local-seo-data'
-import { getPayloadClient } from '@/lib/payload'
 import { supabase } from '@/lib/supabase'
 
 const INDEXNOW_KEY = '85e908e620b042a3a0621df9da8a74d7'
@@ -86,24 +85,11 @@ async function getAllUrls(): Promise<string[]> {
     // Continue without products if DB is unavailable
   }
 
-  // Blog posts from Payload
-  const blogUrls: string[] = []
-  try {
-    const payload = await getPayloadClient()
-    const posts = await payload.find({
-      collection: 'blog-posts',
-      where: { status: { equals: 'published' } },
-      limit: 500,
-    })
-    for (const post of posts.docs) {
-      if (post.slug) blogUrls.push(`${SITE_URL}/blog/${post.slug}`)
-    }
-  } catch {
-    // Continue without blog if Payload is unavailable
-  }
+  // Blog posts: each article has its own hardcoded directory under
+  // app/(public)/blog/<slug>/page.tsx; the URLs are already in `staticUrls`.
 
   // De-duplicate defensively
-  return Array.from(new Set([...staticUrls, ...localUrls, ...productUrls, ...blogUrls]))
+  return Array.from(new Set([...staticUrls, ...localUrls, ...productUrls]))
 }
 
 function chunk<T>(arr: T[], size: number): T[][] {
