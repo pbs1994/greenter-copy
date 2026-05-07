@@ -77,7 +77,7 @@ export default function MentionsLegalesPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
-                  <span><strong>Email :</strong> <button onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}`)} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</button></span>
+                  <span><strong>Email :</strong> <a href={decodedEmail ? `mailto:${decodedEmail}` : undefined} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</a></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
@@ -95,7 +95,7 @@ export default function MentionsLegalesPage() {
                 Le directeur de la publication du site <strong>greenter.fr</strong> est le représentant légal de la société GREEN TER, en sa qualité de Président de la SASU.
               </p>
               <p className="text-gray-600 mt-2">
-                Contact : <button onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}`)} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</button>
+                Contact : <a href={decodedEmail ? `mailto:${decodedEmail}` : undefined} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</a>
               </p>
             </div>
 

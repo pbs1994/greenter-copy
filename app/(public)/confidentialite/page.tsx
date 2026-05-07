@@ -49,7 +49,7 @@ export default function ConfidentialitePage() {
                 <p className="font-semibold text-gray-900">GREEN TER (SASU)</p>
                 <p className="text-gray-600">38 Rue de Ménilmontant, 75020 Paris</p>
                 <p className="text-gray-600">SIREN : 977 485 721</p>
-                <p className="text-gray-600">Email : <button onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}`)} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</button></p>
+                <p className="text-gray-600">Email : <a href={decodedEmail ? `mailto:${decodedEmail}` : undefined} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</a></p>
                 <p className="text-gray-600">Téléphone : 06 09 45 50 56</p>
               </div>
             </div>
@@ -382,7 +382,7 @@ export default function ConfidentialitePage() {
               <ul className="space-y-2 text-gray-700 mb-4">
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
-                  <span><strong>Par email :</strong> <button onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}`)} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</button> (objet : « Exercice droits RGPD »)</span>
+                  <span><strong>Par email :</strong> <a href={decodedEmail ? `mailto:${decodedEmail}?subject=${encodeURIComponent("Exercice droits RGPD")}` : undefined} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</a> (objet : « Exercice droits RGPD »)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
@@ -471,9 +471,8 @@ export default function ConfidentialitePage() {
                 Pour toute question concernant cette politique de confidentialité ou le traitement de vos données personnelles, n'hésitez pas à nous contacter.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a 
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); decodedEmail && (window.location.href = `mailto:${decodedEmail}`) }}
+                <a
+                  href={decodedEmail ? `mailto:${decodedEmail}` : undefined}
                   className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2.5 rounded-full text-sm transition-colors"
                 >
                   Nous contacter
