@@ -73,7 +73,7 @@ export default function MentionsLegalesPage() {
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
-                  <span><strong>Téléphone :</strong> 06 09 45 50 56</span>
+                  <span><strong>Téléphone :</strong> <a href="tel:+33609455056" className="text-teal-600 hover:underline">06 09 45 50 56</a></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-600 font-bold">•</span>
