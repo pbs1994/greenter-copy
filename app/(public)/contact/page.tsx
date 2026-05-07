@@ -279,7 +279,7 @@ export default function ContactPage() {
               </div>
             </a>
 
-            <button onClick={() => decodedEmail && (window.location.href = `mailto:${decodedEmail}`)}
+            <a href={decodedEmail ? `mailto:${decodedEmail}` : undefined}
               className="group w-full flex items-center gap-4 bg-white rounded-2xl p-5 ring-1 ring-neutral-100 hover:ring-green-200 hover:shadow-lg transition-all text-left">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
                 <Mail className="w-5 h-5 text-green-700" />
@@ -288,7 +288,7 @@ export default function ContactPage() {
                 <p className="text-neutral-500 text-sm">Email</p>
                 <p className="font-semibold text-neutral-900">{decodedEmail || "Chargement..."}</p>
               </div>
-            </button>
+            </a>
 
             <div className="flex items-center gap-4 bg-white rounded-2xl p-5 ring-1 ring-neutral-100">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
