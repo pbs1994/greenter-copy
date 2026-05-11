@@ -7,7 +7,7 @@ import {
   Phone, CheckCircle, Star, ChevronDown, ChevronUp,
   ArrowRight, Shield, Zap, Leaf, Clock, Euro, Award,
   AlertTriangle, Home, Thermometer, TrendingDown,
-  Info, Check, X, Flame,
+  Info, Check, Flame,
 } from "lucide-react"
 
 // ---------------------------------------------------------------------------
@@ -822,14 +822,6 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                 <Image src={c.src} alt={c.alt} width={120} height={70} className="h-12 w-auto object-contain" />
               </div>
             ))}
-          </div>
-          <div className="bg-red-50 border border-red-100 rounded-2xl p-5 flex items-start gap-4">
-            <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-red-800 text-sm">
-              <strong>Attention aux arnaques :</strong> Le démarchage téléphonique pour la rénovation énergétique est{" "}
-              <strong>interdit depuis 2020</strong>. Méfiez-vous des offres « 100% gratuites sans étude ».
-              Vérifiez toujours la certification RGE sur france-renov.gouv.fr avant de signer.
-            </p>
           </div>
         </div>
       </section>
