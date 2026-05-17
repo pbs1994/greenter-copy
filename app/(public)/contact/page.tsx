@@ -165,7 +165,7 @@ export default function ContactPage() {
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
 
           {/* ── Form ── */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
+          <div className="lg:col-span-3 order-1">
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-neutral-200/50 ring-1 ring-neutral-100">
 
               {formState === "success" ? (
@@ -362,7 +362,7 @@ export default function ContactPage() {
           </div>
 
           {/* ── Sidebar ── */}
-          <div className="lg:col-span-2 order-1 lg:order-2 space-y-4">
+          <div className="lg:col-span-2 order-2 space-y-4">
 
             <a href={`tel:${COMPANY_PHONES.primary.raw}`} className="group flex items-center gap-4 bg-white rounded-2xl p-5 ring-1 ring-neutral-100 hover:ring-green-200 hover:shadow-lg transition-all">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
