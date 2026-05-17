@@ -3,7 +3,7 @@
 // =============================================================================
 // Requirements: 3.1, 3.2, 3.4, 6.2, 6.3, 6.4
 
-import { MapPin, FileCheck, PhoneOff, Users, type LucideIcon } from "lucide-react"
+import { ShieldCheck, FileCheck, PhoneOff, Users, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // -----------------------------------------------------------------------------
@@ -28,9 +28,9 @@ interface Differentiator {
 
 const differentiators: Differentiator[] = [
   {
-    icon: MapPin,
-    title: "Proximité locale",
-    description: "Basé à Ozoir-la-Ferrière, intervention sous 48h en Seine-et-Marne.",
+    icon: ShieldCheck,
+    title: "Garantie décennale",
+    description: "Tous nos travaux sont couverts par une garantie décennale. Votre investissement est protégé 10 ans.",
     highlight: true,
   },
   {
