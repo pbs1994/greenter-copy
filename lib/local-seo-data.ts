@@ -95,9 +95,6 @@ export const CITIES: City[] = [
   { name: "Rosny-sous-Bois", slug: "rosny-sous-bois", postalCode: "93110", department: "Seine-Saint-Denis" },
   // ---- Paris (75) ----
   { name: "Paris", slug: "paris", postalCode: "75000", department: "Paris" },
-  { name: "Paris 20e", slug: "paris-20", postalCode: "75020", department: "Paris" },
-  { name: "Paris 12e", slug: "paris-12", postalCode: "75012", department: "Paris" },
-  { name: "Paris 11e", slug: "paris-11", postalCode: "75011", department: "Paris" },
 ]
 
 // -----------------------------------------------------------------------------
