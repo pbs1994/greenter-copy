@@ -97,7 +97,7 @@ export function QuickEstimate() {
             Quel est votre projet ?
           </h2>
           <p className="text-neutral-600 text-lg max-w-xl mx-auto">
-            Sélectionnez un projet pour découvrir vos économies potentielles et les aides disponibles en 2025.
+            Sélectionnez un projet pour découvrir vos économies potentielles et les aides disponibles en 2026.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ export function QuickEstimate() {
         <div className="mt-8 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3.5 max-w-2xl mx-auto">
           <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" aria-hidden="true" />
           <p className="text-sm text-amber-800">
-            <strong>Les aides MaPrimeRénov' 2025 sont conditionnées aux crédits disponibles.</strong>
+            <strong>Les aides MaPrimeRénov' 2026 sont conditionnées aux crédits disponibles.</strong>
             {" "}Déposez votre dossier maintenant pour bénéficier des montants actuels avant toute révision.
           </p>
         </div>
