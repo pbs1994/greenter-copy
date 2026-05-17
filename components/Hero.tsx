@@ -172,18 +172,19 @@ export function Hero() {
             {/* Main image */}
             <div className="relative h-64 sm:h-80 lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-green-200/60">
               <Image
-                src="/installation.jpg"
-                alt="Technicien Greenter certifié RGE réalisant une installation de rénovation énergétique en Île-de-France"
+                src="/famille-maison.jpg"
+                alt="Famille heureuse devant leur maison rénovée en Île-de-France grâce à Greenter"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover object-left"
               />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/65 via-transparent to-transparent" />
+              {/* Gradient overlay — right side darker to support overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-l from-neutral-900/30 via-transparent to-transparent" />
 
-              {/* Department chips inside image */}
-              <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
+              {/* Department chips — right side, over landscape */}
+              <div className="absolute bottom-4 right-4 flex flex-col gap-1.5 items-end">
                 {DEPARTMENTS.map((dept) => (
                   <span
                     key={dept}
@@ -193,28 +194,28 @@ export function Hero() {
                   </span>
                 ))}
               </div>
-            </div>
 
-            {/* Floating review card — desktop only */}
-            <div
-              className="hidden lg:block absolute -left-6 top-8 w-64 bg-white rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80"
-              aria-label="Avis client"
-            >
-              <div className="flex gap-0.5 mb-2" aria-label="5 étoiles sur 5">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-amber-400 text-amber-400"
-                    aria-hidden="true"
-                  />
-                ))}
+              {/* Floating review card — right side, desktop only */}
+              <div
+                className="hidden lg:block absolute top-6 right-4 w-56 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80"
+                aria-label="Avis client"
+              >
+                <div className="flex gap-0.5 mb-2" aria-label="5 étoiles sur 5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-amber-400 text-amber-400"
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-neutral-700 leading-relaxed mb-2">
+                  &ldquo;Installation rapide, équipe très professionnelle. Économies visibles dès la première facture !&rdquo;
+                </p>
+                <p className="text-xs text-neutral-400 font-medium">
+                  Sophie D. — Pontault-Combault (77)
+                </p>
               </div>
-              <p className="text-xs text-neutral-700 leading-relaxed mb-2">
-                &ldquo;Installation rapide, équipe très professionnelle. Économies visibles dès la première facture !&rdquo;
-              </p>
-              <p className="text-xs text-neutral-400 font-medium">
-                Sophie D. — Pontault-Combault (77)
-              </p>
             </div>
           </div>
         </div>
