@@ -3,7 +3,7 @@
 // =============================================================================
 // Requirements: 3.1, 3.2, 3.4, 6.2, 6.3, 6.4
 
-import { MapPin, FileCheck, PhoneOff, Users, ExternalLink, Building2, ShieldCheck, type LucideIcon } from "lucide-react"
+import { MapPin, FileCheck, PhoneOff, Users, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // -----------------------------------------------------------------------------
@@ -79,50 +79,6 @@ export default function WhyGreenterSection({ className }: WhyGreenterSectionProp
           {differentiators.map((item) => (
             <DifferentiatorCard key={item.title} differentiator={item} />
           ))}
-        </div>
-
-        {/* Bannière "Vérifiez notre légitimité" - Requirements 6.2, 6.3, 6.4 */}
-        <div className="mt-10 p-6 bg-white rounded-2xl ring-1 ring-green-200">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6 text-green-600" aria-hidden="true" />
-              </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-neutral-900 mb-1">
-                  Vérifiez notre légitimité
-                </h3>
-                <p className="text-neutral-600 text-sm">
-                  Greenter est certifié RGE. Vérifiez notre certification sur l'annuaire officiel.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
-              {/* Adresse physique - Requirement 6.3 */}
-              <div className="flex items-center gap-2 text-sm text-neutral-700">
-                <Building2 className="w-4 h-4 text-green-600 shrink-0" aria-hidden="true" />
-                <span>38 Rue de Ménilmontant, 75020 Paris</span>
-              </div>
-
-              {/* Pas de démarchage - Requirement 6.2 */}
-              <div className="flex items-center gap-2 text-sm text-neutral-700">
-                <PhoneOff className="w-4 h-4 text-green-600 shrink-0" aria-hidden="true" />
-                <span>Pas de démarchage téléphonique</span>
-              </div>
-
-              {/* Lien annuaire RGE - Requirement 6.4 */}
-              <a
-                href="https://france-renov.gouv.fr/annuaire-rge"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-green-700 hover:text-green-800 transition-colors"
-              >
-                Annuaire RGE officiel
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </section>
