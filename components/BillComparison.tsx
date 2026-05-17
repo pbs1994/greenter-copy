@@ -1,9 +1,25 @@
 import { ArrowRight, Zap, TrendingDown } from "lucide-react"
 import Link from "next/link"
 
-const BEFORE = { monthly: 248, annual: 2_976, label: "Facture actuelle" }
-const AFTER  = { monthly: 67,  annual: 804,   label: "Après rénovation" }
-const SAVING  = BEFORE.annual - AFTER.annual
+// Simulation : logement 100 m² (DPE D), chauffage électrique (convecteurs) → PAC air-eau
+//
+// AVANT — convecteurs (COP = 1) :
+//   Chauffage : ~8 000 kWh/an × 0,25 €  = 1 992 €/an  → 166 €/mois
+//   ECS (cumulus électrique) : ~1 200 kWh/an × 0,25 € = 300 €/an → 25 €/mois
+//   Appareils / éclairage : ~1 800 kWh/an × 0,25 € = 456 €/an → 38 €/mois
+//   Total : 229 €/mois
+//
+// APRÈS — PAC air-eau (SCOP 3,0) :
+//   Chauffage PAC : 8 000 / 3,0 = 2 667 kWh × 0,25 € = 667 €/an → 56 €/mois
+//   ECS (PAC thermodynamique) : 1 200 / 2,5 = 480 kWh × 0,25 € = 120 €/an → 10 €/mois
+//   Appareils / éclairage : inchangé → 38 €/mois
+//   Total : 104 €/mois
+//
+// Économie : 125 €/mois  → −55 %
+
+const BEFORE = { monthly: 229, annual: 2_748, label: "Facture actuelle" }
+const AFTER  = { monthly: 104, annual: 1_248, label: "Après rénovation" }
+const SAVING = BEFORE.annual - AFTER.annual
 
 function BillCard({
   data,
@@ -25,28 +41,25 @@ function BillCard({
         {data.label}
       </div>
 
-      {/* Mock bill header */}
       <div className={`text-xs font-medium mb-3 pb-3 border-b ${isBefore ? "border-red-200 text-red-400" : "border-green-200 text-green-600"}`}>
         Facture d'énergie — Logement 100 m²
       </div>
 
-      {/* Line items */}
       <div className="space-y-2 mb-4 text-sm">
         <div className="flex justify-between text-neutral-600">
-          <span>{isBefore ? "Fioul (chauffage)" : "Pompe à chaleur"}</span>
-          <span>{isBefore ? "185 €" : "35 €"}</span>
+          <span>{isBefore ? "Chauffage (convecteurs)" : "Pompe à chaleur"}</span>
+          <span>{isBefore ? "166 €" : "56 €"}</span>
         </div>
         <div className="flex justify-between text-neutral-600">
           <span>Eau chaude sanitaire</span>
-          <span>{isBefore ? "43 €" : "12 €"}</span>
+          <span>{isBefore ? "25 €" : "10 €"}</span>
         </div>
         <div className="flex justify-between text-neutral-600">
-          <span>Électricité</span>
-          <span>{isBefore ? "20 €" : "20 €"}</span>
+          <span>Appareils &amp; éclairage</span>
+          <span>38 €</span>
         </div>
       </div>
 
-      {/* Total */}
       <div className={`flex justify-between items-baseline pt-3 border-t-2 font-bold ${isBefore ? "border-red-200" : "border-green-300"}`}>
         <span className="text-sm text-neutral-700">Total / mois</span>
         <span className={`text-3xl font-heading ${isBefore ? "text-red-500" : "text-green-600"}`}>
@@ -60,7 +73,7 @@ function BillCard({
 
       {!isBefore && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
-          −70% sur la facture
+          −55% sur la facture
         </div>
       )}
     </div>
@@ -83,20 +96,18 @@ export function BillComparison() {
             Ce que ça change sur votre facture
           </h2>
           <p className="text-neutral-500 text-lg max-w-xl mx-auto">
-            Simulation pour un logement de 100 m² chauffé au fioul, après remplacement par une pompe à chaleur air-eau.
+            Simulation pour un logement de 100 m² chauffé aux convecteurs électriques, après installation d'une pompe à chaleur air-eau (SCOP 3,0).
           </p>
         </div>
 
-        {/* Cards comparison */}
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-10">
           <div className="w-full sm:flex-1">
             <BillCard data={BEFORE} variant="before" />
           </div>
 
-          {/* Arrow */}
           <div className="flex sm:flex-col items-center gap-2 shrink-0">
             <div className="w-12 h-12 rounded-full bg-teal-600 flex items-center justify-center shadow-lg">
-              <ArrowRight className="w-5 h-5 text-white sm:rotate-0 rotate-90 hidden sm:block" aria-hidden="true" />
+              <ArrowRight className="w-5 h-5 text-white hidden sm:block" aria-hidden="true" />
               <TrendingDown className="w-5 h-5 text-white sm:hidden" aria-hidden="true" />
             </div>
           </div>
@@ -106,7 +117,6 @@ export function BillComparison() {
           </div>
         </div>
 
-        {/* Saving callout */}
         <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-6 md:p-8 text-white text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <Zap className="w-6 h-6 text-green-200" aria-hidden="true" />
@@ -115,7 +125,7 @@ export function BillComparison() {
             </span>
           </div>
           <p className="text-green-100 text-sm mb-5">
-            L'investissement est généralement rentabilisé en 7 à 10 ans — puis ce sont des économies pures.
+            Retour sur investissement généralement atteint en 5 à 8 ans — puis ce sont des économies pures.
           </p>
           <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-xl hover:bg-green-50 transition-colors shadow-lg">
             Calculer mes économies réelles
@@ -124,7 +134,7 @@ export function BillComparison() {
         </div>
 
         <p className="text-xs text-neutral-400 text-center mt-4">
-          * Simulation indicative. Résultats réels variables selon le logement, la zone géographique et le profil de consommation.
+          * Simulation basée sur 8 000 kWh/an de chauffage (DPE D, 100 m²), tarif électricité 0,25 €/kWh, SCOP PAC 3,0. Résultats variables selon le logement et le profil de consommation.
         </p>
       </div>
     </section>
