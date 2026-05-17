@@ -125,11 +125,6 @@ export function Hero() {
               Seine-et-Marne (77) · Essonne (91) · Yvelines (78) · Île-de-France
             </p>
 
-            {/* Slogan */}
-            <p className="font-heading text-base sm:text-lg italic text-neutral-500 mb-6">
-              «&nbsp;Baissez vos factures, pas votre confort.&nbsp;»
-            </p>
-
             {/* CTA pair */}
             <div className="flex flex-col sm:flex-row gap-3 mb-2">
               <Link
