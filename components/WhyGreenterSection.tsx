@@ -1,5 +1,5 @@
 // =============================================================================
-// WhyGreenterSection - Section différenciateurs Greenter
+// WhyGreenterSection - Section diffÃ©renciateurs Greenter
 // =============================================================================
 // Requirements: 3.1, 3.2, 3.4, 6.2, 6.3, 6.4
 
@@ -29,24 +29,24 @@ interface Differentiator {
 const differentiators: Differentiator[] = [
   {
     icon: MapPin,
-    title: "Proximité locale",
-    description: "Basé à Ozoir-la-Ferrière, intervention sous 48h en Seine-et-Marne.",
+    title: "ProximitÃ© locale",
+    description: "BasÃ© Ã  Ozoir-la-FerriÃ¨re, intervention sous 48h en Seine-et-Marne.",
     highlight: true,
   },
   {
     icon: FileCheck,
     title: "Accompagnement aides",
-    description: "On s'occupe de vos dossiers MaPrimeRénov' et CEE.",
+    description: "On s'occupe de vos dossiers MaPrimeRÃ©nov' et CEE.",
   },
   {
     icon: PhoneOff,
-    title: "Pas de démarchage",
-    description: "Vous nous contactez, jamais l'inverse. Conformité loi 2020.",
+    title: "Pas de dÃ©marchage",
+    description: "Vous nous contactez, jamais l'inverse. ConformitÃ© loi 2020.",
   },
   {
     icon: Users,
-    title: "Équipe locale",
-    description: "Techniciens salariés, pas de sous-traitance.",
+    title: "Ã‰quipe locale",
+    description: "Techniciens salariÃ©s, pas de sous-traitance.",
   },
 ]
 
@@ -74,14 +74,14 @@ export default function WhyGreenterSection({ className }: WhyGreenterSectionProp
           </h2>
         </div>
 
-        {/* Grid des différenciateurs */}
+        {/* Grid des diffÃ©renciateurs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {differentiators.map((item) => (
             <DifferentiatorCard key={item.title} differentiator={item} />
           ))}
         </div>
 
-        {/* Bannière "Vérifiez notre légitimité" - Requirements 6.2, 6.3, 6.4 */}
+        {/* BanniÃ¨re "VÃ©rifiez notre lÃ©gitimitÃ©" - Requirements 6.2, 6.3, 6.4 */}
         <div className="mt-10 p-6 bg-white rounded-2xl ring-1 ring-green-200">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="flex items-start gap-4">
@@ -90,10 +90,10 @@ export default function WhyGreenterSection({ className }: WhyGreenterSectionProp
               </div>
               <div>
                 <h3 className="font-heading text-lg font-bold text-neutral-900 mb-1">
-                  Vérifiez notre légitimité
+                  VÃ©rifiez notre lÃ©gitimitÃ©
                 </h3>
                 <p className="text-neutral-600 text-sm">
-                  Greenter est certifié RGE. Vérifiez notre certification sur l'annuaire officiel.
+                  Greenter est certifiÃ© RGE. VÃ©rifiez notre certification sur l'annuaire officiel.
                 </p>
               </div>
             </div>
@@ -102,13 +102,13 @@ export default function WhyGreenterSection({ className }: WhyGreenterSectionProp
               {/* Adresse physique - Requirement 6.3 */}
               <div className="flex items-center gap-2 text-sm text-neutral-700">
                 <Building2 className="w-4 h-4 text-green-600 shrink-0" aria-hidden="true" />
-                <span>38 Rue de Ménilmontant, 75020 Paris</span>
+                <span>38 Rue de MÃ©nilmontant, 75020 Paris</span>
               </div>
 
-              {/* Pas de démarchage - Requirement 6.2 */}
+              {/* Pas de dÃ©marchage - Requirement 6.2 */}
               <div className="flex items-center gap-2 text-sm text-neutral-700">
                 <PhoneOff className="w-4 h-4 text-green-600 shrink-0" aria-hidden="true" />
-                <span>Pas de démarchage téléphonique</span>
+                <span>Pas de dÃ©marchage tÃ©lÃ©phonique</span>
               </div>
 
               {/* Lien annuaire RGE - Requirement 6.4 */}
