@@ -79,7 +79,7 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-8 lg:mb-10">
 
           {/* ── Left: Text block ─────────────────────────────────────── */}
-          <div className="text-center lg:text-left order-2 lg:order-1">
+          <div className="text-center lg:text-left order-1">
 
             {/* Trust pill with live ping */}
             <div className="inline-flex items-center gap-2 bg-white border border-green-200 shadow-sm rounded-full px-4 py-1.5 mb-5">
@@ -167,7 +167,7 @@ export function Hero() {
           </div>
 
           {/* ── Right: Visual block ──────────────────────────────────── */}
-          <div className="order-1 lg:order-2 relative">
+          <div className="order-2 relative">
 
             {/* Main image */}
             <div className="relative h-64 sm:h-80 lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-green-200/60">
