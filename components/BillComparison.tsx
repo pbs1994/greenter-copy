@@ -1,8 +1,8 @@
 import { ArrowRight, Zap, TrendingDown } from "lucide-react"
 import Link from "next/link"
 
-const BEFORE = { monthly: 183, annual: 2_196, label: "Facture actuelle" }
-const AFTER  = { monthly: 55,  annual: 660,   label: "Après rénovation" }
+const BEFORE = { monthly: 248, annual: 2_976, label: "Facture actuelle" }
+const AFTER  = { monthly: 67,  annual: 804,   label: "Après rénovation" }
 const SAVING  = BEFORE.annual - AFTER.annual
 
 function BillCard({
@@ -33,16 +33,16 @@ function BillCard({
       {/* Line items */}
       <div className="space-y-2 mb-4 text-sm">
         <div className="flex justify-between text-neutral-600">
-          <span>Chauffage</span>
-          <span>{isBefore ? "128 €" : "32 €"}</span>
+          <span>{isBefore ? "Fioul (chauffage)" : "Pompe à chaleur"}</span>
+          <span>{isBefore ? "185 €" : "35 €"}</span>
         </div>
         <div className="flex justify-between text-neutral-600">
           <span>Eau chaude sanitaire</span>
-          <span>{isBefore ? "38 €" : "14 €"}</span>
+          <span>{isBefore ? "43 €" : "12 €"}</span>
         </div>
         <div className="flex justify-between text-neutral-600">
           <span>Électricité</span>
-          <span>{isBefore ? "17 €" : "9 €"}</span>
+          <span>{isBefore ? "20 €" : "20 €"}</span>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export function BillComparison() {
             Ce que ça change sur votre facture
           </h2>
           <p className="text-neutral-500 text-lg max-w-xl mx-auto">
-            Simulation pour un logement de 100 m² chauffé au gaz, après installation d'une pompe à chaleur.
+            Simulation pour un logement de 100 m² chauffé au fioul, après remplacement par une pompe à chaleur air-eau.
           </p>
         </div>
 
