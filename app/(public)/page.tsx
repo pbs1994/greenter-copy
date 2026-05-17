@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero"
 import { TrustStrip } from "@/components/TrustStrip"
 import { Services } from "@/components/Services"
 import { QuickEstimate } from "@/components/QuickEstimate"
+import { BillComparison } from "@/components/BillComparison"
 import { HowItWorks } from "@/components/HowItWorks"
 import { ProductShowcase } from "@/components/ProductShowcase"
 import { Certifications } from "@/components/Certifications"
@@ -44,6 +45,7 @@ export default function Home() {
         <TrustStrip />
         <Services />
         <QuickEstimate />
+        <BillComparison />
         <HowItWorks />
         <ProductShowcase />
         <GoogleReviewsCarousel className="bg-neutral-50" />

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { fetchGoogleReviews } from "@/lib/google-places";
 import { CookieBanner } from "@/components/CookieBanner";
 import { VideoPreloader } from "@/components/VideoPreloader";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const GTM_ID = "GTM-T8J97XK3";
 
@@ -98,6 +99,7 @@ export default async function PublicLayout({
       {children}
       <Footer />
       <CookieBanner />
+      <WhatsAppButton />
     </>
   );
 }

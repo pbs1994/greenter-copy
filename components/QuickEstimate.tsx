@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Fan, Sun, Shield, FileSearch, ArrowRight, TrendingDown, Banknote, Info } from "lucide-react"
+import { Fan, Sun, Shield, FileSearch, ArrowRight, TrendingDown, Banknote, Info, Tag } from "lucide-react"
 
 type ProjectId = "pac" | "solaire" | "isolation" | "audit"
 
@@ -15,6 +15,8 @@ interface Project {
   aide: string
   savingsLabel: string
   aideLabel: string
+  costBefore: string
+  costAfter: string
   detail: string
   href: string
 }
@@ -29,6 +31,8 @@ const PROJECTS: Project[] = [
     aide: "jusqu'à 15 000€",
     savingsLabel: "économisés par an sur le chauffage",
     aideLabel: "via MaPrimeRénov' + CEE cumulables",
+    costBefore: "10 000 – 18 000€",
+    costAfter: "3 000 – 8 000€",
     detail:
       "Remplace votre chaudière gaz ou fioul. Chauffage et rafraîchissement inclus. Retour sur investissement généralement atteint en 7 à 10 ans selon votre profil.",
     href: "/services/pompe-a-chaleur",
@@ -42,6 +46,8 @@ const PROJECTS: Project[] = [
     aide: "jusqu'à 3 100€",
     savingsLabel: "économisés par an sur votre électricité",
     aideLabel: "prime à l'autoconsommation photovoltaïque",
+    costBefore: "7 000 – 12 000€",
+    costAfter: "6 000 – 11 000€",
     detail:
       "Produisez votre propre électricité et revendez le surplus à EDF OA. Garantie panneaux 25 ans. Rentable en 8 à 10 ans selon votre consommation.",
     href: "/services/panneaux-solaires",
@@ -55,6 +61,8 @@ const PROJECTS: Project[] = [
     aide: "jusqu'à 75%",
     savingsLabel: "économisés par an sur le chauffage",
     aideLabel: "des travaux pris en charge (MaPrimeRénov' + CEE)",
+    costBefore: "3 000 – 6 000€",
+    costAfter: "750 – 2 500€",
     detail:
       "Isolation des combles, murs et planchers. Confort thermique garanti hiver comme été. Solution souvent la plus rentable pour les logements énergivores.",
     href: "/services/isolation",
@@ -68,6 +76,8 @@ const PROJECTS: Project[] = [
     aide: "Obligatoire F/G",
     savingsLabel: "financement à taux 0 disponible",
     aideLabel: "pour la vente de passoires thermiques",
+    costBefore: "500 – 1 500€",
+    costAfter: "0 – 500€",
     detail:
       "Diagnostic complet de votre logement + plan d'action chiffré. Obligatoire pour la vente de biens classés F ou G. Prérequis pour les rénovations globales.",
     href: "/services/audit",
@@ -117,7 +127,6 @@ export function QuickEstimate() {
                     : "border-neutral-200 bg-white hover:border-green-300 hover:shadow-md"
                 }`}
               >
-                {/* Icon badge */}
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-all duration-200 ${
                     isSelected
@@ -149,7 +158,6 @@ export function QuickEstimate() {
                   {p.teaser}
                 </span>
 
-                {/* Check mark when selected */}
                 {isSelected && (
                   <div
                     className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-md"
@@ -169,16 +177,31 @@ export function QuickEstimate() {
           })}
         </div>
 
-        {/* Result panel — animated reveal */}
+        {/* Result panel */}
         <div
           className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            project ? "max-h-[700px] opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
+            project ? "max-h-[800px] opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
           }`}
           aria-live="polite"
           aria-atomic="true"
         >
           {project && (
             <div className="bg-white rounded-2xl shadow-xl ring-1 ring-green-200 p-6 md:p-8 animate-fade-slide-up">
+
+              {/* Price anchor — top banner */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-6 p-4 bg-neutral-50 rounded-xl">
+                <div className="flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-neutral-400 shrink-0" aria-hidden="true" />
+                  <span className="text-sm text-neutral-500">Coût avant aides&nbsp;:</span>
+                  <span className="text-base font-semibold text-neutral-400 line-through">{project.costBefore}</span>
+                </div>
+                <div className="hidden sm:block w-px h-6 bg-neutral-200" />
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-green-700 font-semibold">Votre coût réel estimé&nbsp;:</span>
+                  <span className="text-xl font-heading font-bold text-green-600">{project.costAfter}</span>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-3 gap-6 mb-6">
 
                 {/* Savings */}
