@@ -99,11 +99,6 @@ export function JsonLd({ ratingValue, reviewCount }: JsonLdProps) {
     "@type": "WebSite",
     name: "Greenter",
     url: "https://www.greenter.fr",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://www.greenter.fr/recherche?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
   }
 
   const breadcrumbSchema = {

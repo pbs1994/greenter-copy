@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Hero } from "@/components/Hero"
 import { Services } from "@/components/Services"
+import { HowItWorks } from "@/components/HowItWorks"
 import { ProductShowcase } from "@/components/ProductShowcase"
 import { Certifications } from "@/components/Certifications"
 import { Banner } from "@/components/Banner"
@@ -10,7 +11,7 @@ import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
 
 export const metadata: Metadata = {
-  title: "Greenter | Rénovation Énergétique en Île-de-France | PAC, Solaire, Isolation",
+  title: "Greenter | Rénovation Énergétique RGE — Île-de-France",
   description: "Greenter, votre expert en rénovation énergétique : pompe à chaleur, panneaux solaires, isolation thermique et audit énergétique. Devis gratuit, installation certifiée RGE.",
   keywords: ["rénovation énergétique", "pompe à chaleur", "panneaux solaires", "isolation thermique", "audit énergétique", "RGE", "Île-de-France", "Seine-et-Marne"],
   openGraph: {
@@ -36,6 +37,7 @@ export default function Home() {
     <main>
       <Hero />
       <Services />
+      <HowItWorks />
       <ProductShowcase />
       <GoogleReviewsCarousel className="bg-neutral-50" />
       <Certifications />

@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react"
 const services = [
   {
     image: "/solaire.jpg",
+    imageAlt: "Panneaux solaires photovoltaïques installés sur une toiture résidentielle en Île-de-France",
     icon: Sun,
     customIcon: null,
     customIconSize: 28,
@@ -19,6 +20,7 @@ const services = [
   },
   {
     image: "/pac.jpg",
+    imageAlt: "Unité extérieure de pompe à chaleur air-eau installée par technicien Greenter certifié RGE",
     icon: Fan,
     customIcon: null,
     customIconSize: 28,
@@ -28,6 +30,7 @@ const services = [
   },
   {
     image: "/audit.png",
+    imageAlt: "Audit énergétique et diagnostic de performance réalisés par un expert Greenter",
     icon: null,
     customIcon: "/audit-icon.svg",
     customIconSize: 32,
@@ -37,6 +40,7 @@ const services = [
   },
   {
     image: "/isolation.jpg",
+    imageAlt: "Isolation thermique des combles soufflée par un technicien Greenter certifié RGE",
     icon: null,
     customIcon: "/isolation-icon.svg",
     customIconSize: 20,
@@ -46,6 +50,7 @@ const services = [
   },
   {
     image: "/conformite.jpg",
+    imageAlt: "Mise en conformité d'installation énergétique par technicien Greenter certifié",
     icon: ShieldCheck,
     customIcon: null,
     customIconSize: 28,
@@ -55,6 +60,7 @@ const services = [
   },
   {
     image: "/maintenance.jpg",
+    imageAlt: "Entretien et maintenance de pompe à chaleur par technicien Greenter certifié",
     icon: Wrench,
     customIcon: null,
     customIconSize: 28,
@@ -168,13 +174,24 @@ export function Services() {
               key={index}
               onClick={() => emblaApi?.scrollTo(index)}
               className={`w-2 h-2 rounded-full transition-all ${
-                index === selectedIndex 
-                  ? "bg-green-600 w-6" 
+                index === selectedIndex
+                  ? "bg-green-600 w-6"
                   : "bg-neutral-300 hover:bg-neutral-400"
               }`}
               aria-label={`Aller au service ${index + 1}`}
             />
           ))}
+        </div>
+
+        {/* Lien vers la page services complète */}
+        <div className="flex justify-center mt-8">
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm hover:text-teal-600 transition-colors group border border-green-200 hover:border-green-400 rounded-full px-5 py-2.5 bg-white hover:bg-green-50"
+          >
+            Voir tous nos services
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+          </Link>
         </div>
       </div>
 
@@ -223,7 +240,7 @@ function ServiceCard({ service }: { service: ServiceType }) {
       <div className="relative h-44 overflow-hidden">
         <Image
           src={service.image}
-          alt={service.title}
+          alt={service.imageAlt}
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 33vw"
           quality={100}
