@@ -45,8 +45,8 @@ const differentiators: Differentiator[] = [
   },
   {
     icon: Users,
-    title: "Équipe locale",
-    description: "Techniciens salariés, pas de sous-traitance.",
+    title: "Équipe de proximité",
+    description: "Interventions en Seine-et-Marne (77), Essonne (91), Yvelines (78) et toute l'Île-de-France.",
   },
 ]
 
