@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Hero } from "@/components/Hero"
+import { TrustStrip } from "@/components/TrustStrip"
 import { Services } from "@/components/Services"
+import { QuickEstimate } from "@/components/QuickEstimate"
 import { HowItWorks } from "@/components/HowItWorks"
 import { ProductShowcase } from "@/components/ProductShowcase"
 import { Certifications } from "@/components/Certifications"
@@ -9,6 +11,8 @@ import { FAQ } from "@/components/FAQ"
 import { BlogTeaser } from "@/components/BlogTeaser"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
+import WhyGreenterSection from "@/components/WhyGreenterSection"
+import StickyCTA from "@/components/StickyCTA"
 
 export const metadata: Metadata = {
   title: "Greenter | Rénovation Énergétique RGE — Île-de-France",
@@ -34,17 +38,23 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-      <Services />
-      <HowItWorks />
-      <ProductShowcase />
-      <GoogleReviewsCarousel className="bg-neutral-50" />
-      <Certifications />
-      <FAQ />
-      <BlogTeaser />
-      <ServiceAreaSection className="bg-white" />
-      <Banner />
-    </main>
+    <>
+      <main>
+        <Hero />
+        <TrustStrip />
+        <Services />
+        <QuickEstimate />
+        <HowItWorks />
+        <ProductShowcase />
+        <GoogleReviewsCarousel className="bg-neutral-50" />
+        <WhyGreenterSection />
+        <Certifications />
+        <FAQ />
+        <BlogTeaser />
+        <ServiceAreaSection className="bg-neutral-50" />
+        <Banner />
+      </main>
+      <StickyCTA />
+    </>
   )
 }

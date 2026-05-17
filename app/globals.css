@@ -199,4 +199,40 @@
   .animate-bounce-slow {
     animation: bounce-slow 1.5s ease-in-out infinite;
   }
+
+  /* Hero background orb animations */
+  @keyframes orb-float {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+    33%       { transform: scale(1.07) translate(-18px, 12px); opacity: 0.65; }
+    66%       { transform: scale(0.95) translate(10px, -10px); opacity: 0.38; }
+  }
+
+  .animate-orb {
+    animation: orb-float 14s ease-in-out infinite;
+  }
+
+  .animate-orb-delayed {
+    animation: orb-float 14s ease-in-out 5s infinite;
+  }
+
+  /* Fade-slide-up for result panels */
+  @keyframes fade-slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-slide-up {
+    animation: fade-slide-up 0.35s ease-out both;
+  }
+
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-orb,
+    .animate-orb-delayed,
+    .animate-marquee,
+    .animate-scroll-infinite,
+    .animate-fade-slide-up {
+      animation: none;
+    }
+  }
 }
