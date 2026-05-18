@@ -195,27 +195,28 @@ export function Hero() {
                 ))}
               </div>
 
-              {/* Floating review card — left side, desktop only */}
-              <div
-                className="hidden lg:block absolute top-6 left-4 w-56 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80"
-                aria-label="Avis client"
-              >
-                <div className="flex gap-0.5 mb-2" aria-label="5 étoiles sur 5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-amber-400 text-amber-400"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="text-xs text-neutral-700 leading-relaxed mb-2">
-                  &ldquo;Installation rapide, équipe très professionnelle. Économies visibles dès la première facture !&rdquo;
-                </p>
-                <p className="text-xs text-neutral-400 font-medium">
-                  Sophie D. — Pontault-Combault (77)
-                </p>
+            </div>
+
+            {/* Floating review card — outside image, left edge of column, desktop only */}
+            <div
+              className="hidden lg:block absolute -left-6 top-10 w-56 bg-white rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80 z-10"
+              aria-label="Avis client"
+            >
+              <div className="flex gap-0.5 mb-2" aria-label="5 étoiles sur 5">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="w-4 h-4 fill-amber-400 text-amber-400"
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
+              <p className="text-xs text-neutral-700 leading-relaxed mb-2">
+                &ldquo;Installation rapide, équipe très professionnelle. Économies visibles dès la première facture !&rdquo;
+              </p>
+              <p className="text-xs text-neutral-400 font-medium">
+                Sophie D. — Pontault-Combault (77)
+              </p>
             </div>
           </div>
         </div>
