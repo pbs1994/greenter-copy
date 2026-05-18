@@ -172,19 +172,19 @@ export function Hero() {
             {/* Main image */}
             <div className="relative h-64 sm:h-80 lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-green-200/60">
               <Image
-                src="/famille-maison.jpg"
-                alt="Famille heureuse devant leur maison rénovée en Île-de-France grâce à Greenter"
+                src="/hero-maison-renovee.jpg"
+                alt="Couple heureux devant leur maison rénovée avec panneaux solaires et pompe à chaleur en Île-de-France"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-left"
+                className="object-cover object-right"
               />
-              {/* Gradient overlay — right side darker to support overlays */}
+              {/* Gradient overlays — left side to support overlays, bottom for depth */}
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-l from-neutral-900/30 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/35 via-transparent to-transparent" />
 
-              {/* Department chips — right side, over landscape */}
-              <div className="absolute bottom-4 right-4 flex flex-col gap-1.5 items-end">
+              {/* Department chips — left side, over sky/garden */}
+              <div className="absolute bottom-4 left-4 flex flex-col gap-1.5 items-start">
                 {DEPARTMENTS.map((dept) => (
                   <span
                     key={dept}
@@ -195,9 +195,9 @@ export function Hero() {
                 ))}
               </div>
 
-              {/* Floating review card — right side, desktop only */}
+              {/* Floating review card — left side, desktop only */}
               <div
-                className="hidden lg:block absolute top-6 right-4 w-56 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80"
+                className="hidden lg:block absolute top-6 left-4 w-56 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl ring-1 ring-neutral-100/80"
                 aria-label="Avis client"
               >
                 <div className="flex gap-0.5 mb-2" aria-label="5 étoiles sur 5">
