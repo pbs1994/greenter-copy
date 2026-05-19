@@ -15,8 +15,7 @@ const HowItWorks = dynamic(() =>
   import("@/components/HowItWorks").then((m) => ({ default: m.HowItWorks }))
 )
 const ProductShowcase = dynamic(() =>
-  import("@/components/ProductShowcase").then((m) => ({ default: m.ProductShowcase })),
-  { ssr: false }
+  import("@/components/ProductShowcase").then((m) => ({ default: m.ProductShowcase }))
 )
 const GoogleReviewsCarousel = dynamic(() => import("@/components/GoogleReviewsCarousel"))
 const WhyGreenterSection = dynamic(() => import("@/components/WhyGreenterSection"))
@@ -33,7 +32,7 @@ const ServiceAreaSection = dynamic(() => import("@/components/ServiceAreaSection
 const Banner = dynamic(() =>
   import("@/components/Banner").then((m) => ({ default: m.Banner }))
 )
-const StickyCTA = dynamic(() => import("@/components/StickyCTA"), { ssr: false })
+const StickyCTA = dynamic(() => import("@/components/StickyCTA"))
 
 export const metadata: Metadata = {
   title: "Greenter | Rénovation Énergétique RGE — Île-de-France",
