@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { ArrowRight, CheckCircle, Phone, Shield, MapPin, Star } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -59,7 +59,7 @@ function StatCard({ stat }: { stat: typeof STATS[0] }) {
 }
 
 /* ─── Hero ─────────────────────────────────────────────────────────────────── */
-export function Hero() {
+export function Hero({ imageSlot }: { imageSlot?: React.ReactNode }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-green-50 via-white to-white">
 
@@ -171,14 +171,16 @@ export function Hero() {
 
             {/* Main image */}
             <div className="relative h-64 sm:h-80 lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-green-200/60">
-              <Image
-                src="/hero-maison-renovee.jpg"
-                alt="Couple heureux devant leur maison rénovée avec panneaux solaires et pompe à chaleur en Île-de-France"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-right"
-              />
+              {imageSlot ?? (
+                <Image
+                  src="/hero-maison-renovee.jpg"
+                  alt="Couple heureux devant leur maison rénovée avec panneaux solaires et pompe à chaleur en Île-de-France"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-right"
+                />
+              )}
               {/* Gradient overlays — left side to support overlays, bottom for depth */}
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/35 via-transparent to-transparent" />

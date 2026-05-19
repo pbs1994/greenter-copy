@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import dynamic from "next/dynamic"
+import { preload } from "react-dom"
 import { Hero } from "@/components/Hero"
 import { TrustStrip } from "@/components/TrustStrip"
 import { Services } from "@/components/Services"
+import HeroImage from "@/components/HeroImage"
 
 // Below-fold: code-split to reduce initial JS bundle
 const QuickEstimate = dynamic(() =>
@@ -56,11 +58,25 @@ export const metadata: Metadata = {
   },
 }
 
+const IMG = "/hero-maison-renovee.jpg"
+const Q = 75
+const enc = encodeURIComponent(IMG)
+const heroSrcSet = [384, 640, 750, 828, 1080, 1200, 1920]
+  .map((w) => `/_next/image?url=${enc}&w=${w}&q=${Q} ${w}w`)
+  .join(", ")
+
 export default function Home() {
+  preload(`/_next/image?url=${enc}&w=1920&q=${Q}`, {
+    as: "image",
+    fetchPriority: "high",
+    imageSrcSet: heroSrcSet,
+    imageSizes: "(max-width: 1024px) 100vw, 50vw",
+  })
+
   return (
     <>
       <main>
-        <Hero />
+        <Hero imageSlot={<HeroImage />} />
         <TrustStrip />
         <Services />
         <QuickEstimate />
