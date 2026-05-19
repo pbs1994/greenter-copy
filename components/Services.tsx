@@ -2,10 +2,8 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Sun, ShieldCheck, Wrench, ChevronLeft, ChevronRight, Fan } from "lucide-react"
-import useEmblaCarousel from "embla-carousel-react"
-import AutoScroll from "embla-carousel-auto-scroll"
-import { useCallback, useEffect, useState } from "react"
+import { ArrowRight, Sun, ShieldCheck, Wrench, Fan } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 const services = [
   {
@@ -88,41 +86,34 @@ const partners = [
 ]
 
 export function Services() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: false, 
-    align: "start",
-    containScroll: "trimSnaps"
-  })
-
-  const [partnersRef] = useEmblaCarousel(
-    { loop: true, dragFree: true, align: "start" },
-    [AutoScroll({ speed: 0.8, stopOnInteraction: false, stopOnMouseEnter: true })]
-  )
-  
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(true)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return
-    setCanScrollPrev(emblaApi.canScrollPrev())
-    setCanScrollNext(emblaApi.canScrollNext())
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-  }, [emblaApi])
-
+  // IntersectionObserver — no layout reads, fires asynchronously
   useEffect(() => {
-    if (!emblaApi) return
-    onSelect()
-    emblaApi.on("select", onSelect)
-    return () => { emblaApi.off("select", onSelect) }
-  }, [emblaApi, onSelect])
+    const observers = cardRefs.current.map((card, i) => {
+      if (!card) return null
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setSelectedIndex(i) },
+        { threshold: 0.6 }
+      )
+      obs.observe(card)
+      return obs
+    })
+    return () => observers.forEach((obs) => obs?.disconnect())
+  }, [])
+
+  const scrollToCard = (index: number) => {
+    cardRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    })
+  }
 
   return (
     <section className="py-8 md:py-12 bg-white">
-      {/* Header - centered */}
+      {/* Header */}
       <div className="container mx-auto max-w-6xl px-4">
         <div className="text-center mb-10 md:mb-14">
           <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
@@ -132,58 +123,41 @@ export function Services() {
             Des solutions adaptées à votre projet
           </h2>
           <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
-            De l'audit à l'installation, un accompagnement complet éligible aux aides.
+            De l&apos;audit à l&apos;installation, un accompagnement complet éligible aux aides.
           </p>
         </div>
       </div>
 
-      {/* Carousel - Full width */}
+      {/* CSS scroll-snap carousel — no JS layout reads */}
       <div className="relative">
-        <div className="overflow-hidden px-4 lg:px-8 pb-4" ref={emblaRef}>
-          <div className="flex gap-4 lg:gap-6">
-            {services.map((service, index) => (
-              <div key={index} className="flex-none w-[80%] sm:w-[45%] lg:w-[320px]">
-                <ServiceCard service={service} />
-              </div>
-            ))}
-          </div>
+        <div className="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 lg:px-8 pb-4">
+          {services.map((service, index) => (
+            <div
+              key={index}
+              ref={(el) => { cardRefs.current[index] = el }}
+              className="flex-none w-[80%] sm:w-[45%] lg:w-[320px] snap-start"
+            >
+              <ServiceCard service={service} />
+            </div>
+          ))}
         </div>
 
-        {/* Navigation arrows - Desktop only */}
-        <button
-          onClick={scrollPrev}
-          disabled={!canScrollPrev}
-          className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg items-center justify-center text-neutral-700 hover:text-green-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          aria-label="Précédent"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={scrollNext}
-          disabled={!canScrollNext}
-          className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg items-center justify-center text-neutral-700 hover:text-green-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          aria-label="Suivant"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-
-        {/* Dots indicator */}
+        {/* Dots */}
         <div className="flex justify-center gap-2 mt-10">
           {services.map((_, index) => (
             <button
               key={index}
-              onClick={() => emblaApi?.scrollTo(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              onClick={() => scrollToCard(index)}
+              className={`h-2 rounded-full transition-all ${
                 index === selectedIndex
                   ? "bg-green-600 w-6"
-                  : "bg-neutral-300 hover:bg-neutral-400"
+                  : "bg-neutral-300 hover:bg-neutral-400 w-2"
               }`}
               aria-label={`Aller au service ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Lien vers la page services complète */}
         <div className="flex justify-center mt-8">
           <Link
             href="/services"
@@ -195,31 +169,28 @@ export function Services() {
         </div>
       </div>
 
-      {/* Partners Carousel - intégré */}
+      {/* Partners — pure CSS infinite scroll, zero JS */}
       <div className="mt-12 pt-10 border-t border-neutral-100">
         <p className="text-center text-sm text-neutral-500 mb-6">
           Nous installons les meilleures marques
         </p>
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white to-transparent z-10" />
-          
-          <div className="overflow-hidden" ref={partnersRef}>
-            <div className="flex">
-              {[...partners, ...partners].map((partner, index) => (
-                <div key={index} className="flex-none mx-4 md:mx-5">
-                  <div className="flex items-center justify-center h-12 w-28 md:w-32">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.name}
-                      width={120}
-                      height={40}
-                      className="h-6 md:h-7 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
+        <div className="relative overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="flex animate-scroll-infinite hover:[animation-play-state:paused]">
+            {[...partners, ...partners].map((partner, index) => (
+              <div key={index} className="flex-none mx-4 md:mx-5">
+                <div className="flex items-center justify-center h-12 w-28 md:w-32">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    width={120}
+                    height={40}
+                    className="h-6 md:h-7 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+                  />
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -231,9 +202,9 @@ type ServiceType = typeof services[0]
 
 function ServiceCard({ service }: { service: ServiceType }) {
   const IconComponent = service.icon
-  
+
   return (
-    <Link 
+    <Link
       href={service.href}
       className="group block h-[400px] bg-gradient-to-b from-green-50 to-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ring-1 ring-green-200 hover:ring-green-400"
     >
@@ -246,9 +217,8 @@ function ServiceCard({ service }: { service: ServiceType }) {
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
-      
+
       <div className="px-5 pb-6 pt-9 text-center relative h-[224px] flex flex-col">
-        {/* Icon centered between image and content */}
         <div className="absolute -top-7 left-1/2 -translate-x-1/2">
           <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg ring-2 ring-green-500 group-hover:ring-teal-500 transition-colors">
             {service.customIcon ? (
@@ -264,7 +234,7 @@ function ServiceCard({ service }: { service: ServiceType }) {
             ) : null}
           </div>
         </div>
-        
+
         <h3 className="font-heading text-lg font-bold text-neutral-900 group-hover:text-green-700 transition-colors mb-2">
           {service.title}
         </h3>

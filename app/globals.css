@@ -122,6 +122,14 @@
 }
 
 @layer components {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Primary CTA Button - Teal accent */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 
