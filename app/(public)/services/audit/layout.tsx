@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.greenter.fr/audit.png",
+        url: "https://www.greenter.fr/audit.jpg",
         width: 1200,
         height: 630,
         alt: "Audit énergétique Greenter",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Audit Énergétique | Greenter",
     description: "Audit énergétique certifié RGE : diagnostic complet, rapport détaillé sous 15 jours, scénarios de travaux chiffrés et aides MaPrimeRénov' intégrées. Devis gratuit.",
-    images: ["https://www.greenter.fr/audit.png"],
+    images: ["https://www.greenter.fr/audit.jpg"],
   },
   alternates: {
     canonical: "https://www.greenter.fr/services/audit",

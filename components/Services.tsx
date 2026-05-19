@@ -29,7 +29,7 @@ const services = [
     href: "/services/pompe-a-chaleur",
   },
   {
-    image: "/audit.png",
+    image: "/audit.jpg",
     imageAlt: "Audit énergétique et diagnostic de performance réalisés par un expert Greenter",
     icon: null,
     customIcon: "/audit-icon.svg",
@@ -243,7 +243,6 @@ function ServiceCard({ service }: { service: ServiceType }) {
           alt={service.imageAlt}
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 33vw"
-          quality={100}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>

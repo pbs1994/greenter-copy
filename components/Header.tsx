@@ -54,7 +54,7 @@ const services = [
     href: "/services/audit",
     description: "Diagnostic complet",
     icon: FileSearch,
-    image: "/audit.png",
+    image: "/audit.jpg",
     badge: null,
   },
   {

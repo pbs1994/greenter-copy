@@ -1,19 +1,39 @@
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 import { Hero } from "@/components/Hero"
 import { TrustStrip } from "@/components/TrustStrip"
 import { Services } from "@/components/Services"
-import { QuickEstimate } from "@/components/QuickEstimate"
-import { BillComparison } from "@/components/BillComparison"
-import { HowItWorks } from "@/components/HowItWorks"
-import { ProductShowcase } from "@/components/ProductShowcase"
-import { Certifications } from "@/components/Certifications"
-import { Banner } from "@/components/Banner"
-import { FAQ } from "@/components/FAQ"
-import { BlogTeaser } from "@/components/BlogTeaser"
-import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
-import ServiceAreaSection from "@/components/ServiceAreaSection"
-import WhyGreenterSection from "@/components/WhyGreenterSection"
-import StickyCTA from "@/components/StickyCTA"
+
+// Below-fold: code-split to reduce initial JS bundle
+const QuickEstimate = dynamic(() =>
+  import("@/components/QuickEstimate").then((m) => ({ default: m.QuickEstimate }))
+)
+const BillComparison = dynamic(() =>
+  import("@/components/BillComparison").then((m) => ({ default: m.BillComparison }))
+)
+const HowItWorks = dynamic(() =>
+  import("@/components/HowItWorks").then((m) => ({ default: m.HowItWorks }))
+)
+const ProductShowcase = dynamic(() =>
+  import("@/components/ProductShowcase").then((m) => ({ default: m.ProductShowcase })),
+  { ssr: false }
+)
+const GoogleReviewsCarousel = dynamic(() => import("@/components/GoogleReviewsCarousel"))
+const WhyGreenterSection = dynamic(() => import("@/components/WhyGreenterSection"))
+const Certifications = dynamic(() =>
+  import("@/components/Certifications").then((m) => ({ default: m.Certifications }))
+)
+const FAQ = dynamic(() =>
+  import("@/components/FAQ").then((m) => ({ default: m.FAQ }))
+)
+const BlogTeaser = dynamic(() =>
+  import("@/components/BlogTeaser").then((m) => ({ default: m.BlogTeaser }))
+)
+const ServiceAreaSection = dynamic(() => import("@/components/ServiceAreaSection"))
+const Banner = dynamic(() =>
+  import("@/components/Banner").then((m) => ({ default: m.Banner }))
+)
+const StickyCTA = dynamic(() => import("@/components/StickyCTA"), { ssr: false })
 
 export const metadata: Metadata = {
   title: "Greenter | Rénovation Énergétique RGE — Île-de-France",

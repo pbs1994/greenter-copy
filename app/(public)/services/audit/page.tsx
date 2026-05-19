@@ -117,7 +117,7 @@ export default function AuditPage() {
         name="Audit Énergétique"
         description="Audit énergétique certifié RGE partout en France. Obligatoire pour vente passoire thermique (F/G) et MaPrimeRénov' Parcours accompagné. Rapport détaillé avec scénarios de travaux. Devis gratuit."
         url="https://www.greenter.fr/services/audit"
-        image="https://www.greenter.fr/audit.png"
+        image="https://www.greenter.fr/audit.jpg"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
@@ -175,7 +175,7 @@ export default function AuditPage() {
             <div className="relative">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                 <Image
-                  src="/audit.png"
+                  src="/audit.jpg"
                   alt="Audit énergétique par Greenter"
                   fill
                   className="object-cover"

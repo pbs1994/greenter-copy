@@ -79,7 +79,7 @@ export default function GuidePrixPAC2026() {
         {/* ---- SECTION 1 : PRIX PAR TYPE ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">Combien coûte une pompe à chaleur en 2026 ?</h2>
 
-        <ArticleImageSection image="/pac2.png" alt="Pompe à chaleur air-eau unité extérieure" imagePosition="left">
+        <ArticleImageSection image="/pac2.jpg" alt="Pompe à chaleur air-eau unité extérieure" imagePosition="left">
           <p>Le prix d&apos;une PAC dépend principalement du <strong>type de technologie</strong> choisie. La PAC air-eau, la plus populaire en France, coûte entre 10 000€ et 18 000€ tout compris.</p>
           <p>La PAC air-air est plus abordable (1 500€ à 5 000€ par unité) mais ne produit pas d&apos;eau chaude et n&apos;est <strong>pas éligible à MaPrimeRénov&apos;</strong>.</p>
         </ArticleImageSection>
@@ -120,7 +120,7 @@ export default function GuidePrixPAC2026() {
         {/* ---- SECTION 3 : AIDES ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">Les aides financières en 2026</h2>
 
-        <ArticleImageSection image="/interieur.png" alt="Intérieur maison rénovée avec pompe à chaleur" imagePosition="right">
+        <ArticleImageSection image="/interieur.jpg" alt="Intérieur maison rénovée avec pompe à chaleur" imagePosition="right">
           <p>La France propose un dispositif d&apos;aides parmi les <strong>plus généreux d&apos;Europe</strong> pour la rénovation énergétique.</p>
           <p>Le cumul de MaPrimeRénov&apos; + prime CEE + TVA réduite peut couvrir <strong>jusqu&apos;à 60% du coût total</strong> d&apos;une PAC air-eau.</p>
         </ArticleImageSection>

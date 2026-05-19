@@ -77,7 +77,7 @@ const services = [
     title: "Audit énergétique",
     description:
       "Identifiez vos pertes d'énergie avec un diagnostic complet. Obligatoire pour la vente des passoires thermiques.",
-    image: "/audit.png",
+    image: "/audit.jpg",
     imageAlt:
       "Auditeur énergétique Greenter réalisant un diagnostic de performance dans un logement",
     icon: FileSearch,

@@ -166,7 +166,7 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
             </div>
             <div className="relative">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <Image src="/audit.png" alt={`Audit énergétique à ${city.name} par Greenter`} fill className="object-cover" priority />
+                <Image src="/audit.jpg" alt={`Audit énergétique à ${city.name} par Greenter`} fill className="object-cover" priority />
               </div>
             </div>
           </div>
