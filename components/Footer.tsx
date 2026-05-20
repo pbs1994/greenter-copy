@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Mail, Phone, MapPin, ArrowRight, Star } from "lucide-react"
-import { openCookiePreferences } from "./CookieConsent"
+import { openCookiePreferences } from "@/lib/cookie-preferences"
 import { ObfuscatedEmail } from "./ObfuscatedEmail"
 import { CITIES, GOOGLE_MAPS_URL, COMPANY_ADDRESS } from "@/lib/local-seo-data"
 
