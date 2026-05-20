@@ -1,4 +1,7 @@
 import type { Metadata } from "next"
+import { ServiceSchema } from "@/components/schemas/ServiceSchema"
+import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
+import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 
 export const metadata: Metadata = {
   title: "Installation Panneaux Solaires | Devis Gratuit | Greenter",
@@ -44,10 +47,32 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PanneauxSolairesLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return children
+const breadcrumbItems = [
+  { name: "Accueil", url: "https://www.greenter.fr" },
+  { name: "Services", url: "https://www.greenter.fr/services" },
+  { name: "Panneaux solaires", url: "https://www.greenter.fr/services/panneaux-solaires" },
+]
+
+const faqs = [
+  { question: "Les panneaux solaires sont-ils rentables en France ?", answer: "Oui, même en Île-de-France. L'ensoleillement est suffisant pour une rentabilité en 7 à 10 ans avec batterie. Les panneaux ont une durée de vie de 25 à 30 ans." },
+  { question: "Quelle puissance installer pour ma maison ?", answer: "Pour une maison de 100m², nous recommandons généralement 6 kWc (16 panneaux). Notre étude gratuite détermine le dimensionnement optimal selon votre consommation réelle." },
+  { question: "Quelles sont les aides pour le solaire en 2026 ?", answer: "Prime à l'autoconsommation de 80€/kWc + TVA réduite à 10%. Le tarif de rachat du surplus est passé à 4 cts/kWh depuis mars 2025." },
+  { question: "Revente ou stockage batterie en 2026 ?", answer: "Avec le tarif de rachat à 4 cts/kWh, la batterie est devenue la solution la plus rentable — vous consommez à 25 cts/kWh au lieu de revendre à 4 cts." },
+  { question: "Faut-il une autorisation pour installer des panneaux ?", answer: "Une déclaration préalable de travaux en mairie est obligatoire. Nous gérons toutes les démarches : mairie, Enedis, EDF OA, Consuel." },
+]
+
+export default function PanneauxSolairesLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <ServiceSchema
+        name="Installation Panneaux Solaires Photovoltaïques"
+        description="Installation de panneaux solaires photovoltaïques partout en France. Autoconsommation et revente surplus. Certifié RGE QualiPV."
+        url="https://www.greenter.fr/services/panneaux-solaires"
+        image="https://www.greenter.fr/solaire.jpg"
+      />
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <FAQPageSchema items={faqs} />
+      {children}
+    </>
+  )
 }
