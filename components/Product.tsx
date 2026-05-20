@@ -55,7 +55,7 @@ export function Product() {
             {/* Product Image */}
             <div className="relative bg-gradient-to-b from-green-100 to-green-50 p-6 mx-4 rounded-xl">
               <Image
-                src="/kstar.png"
+                src="/kstar.webp"
                 alt="KSTAR BluE-S 6kW - Batterie solaire onduleur hybride tout-en-un avec stockage LiFePO4"
                 width={300}
                 height={300}

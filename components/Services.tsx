@@ -47,7 +47,7 @@ const services = [
     href: "/services/isolation",
   },
   {
-    image: "/conformite.jpg",
+    image: "/conformite.webp",
     imageAlt: "Mise en conformité d'installation énergétique par technicien Greenter certifié",
     icon: ShieldCheck,
     customIcon: null,

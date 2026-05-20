@@ -332,7 +332,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
               <div className="flex justify-center items-start">
                 <div className="relative w-full max-w-[400px] h-[340px] xl:h-[380px]">
                   <Image
-                    src="/pac2.jpg"
+                    src="/pac2.webp"
                     alt="Pompe à chaleur air-eau installation Ozoir-la-Ferrière 77"
                     fill
                     className="object-contain drop-shadow-[0_25px_70px_rgba(255,255,255,0.25)]"

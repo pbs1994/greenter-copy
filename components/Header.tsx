@@ -113,7 +113,7 @@ export function Header() {
                 title: p.name,
                 href: `/produits/${categorySlug || 'stockage-solaire'}/${p.slug}`,
                 description: p.short_description || '',
-                image: p.image_url || '/kstar.png',
+                image: p.image_url || '/kstar.webp',
                 badge: p.slug.includes('kit') ? 'Populaire' : null,
                 slug: p.slug
               }
