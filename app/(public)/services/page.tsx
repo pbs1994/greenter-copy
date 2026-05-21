@@ -66,7 +66,7 @@ const services = [
     title: "Isolation thermique",
     description:
       "Stoppez les déperditions de chaleur. Isolation des combles, murs et planchers pour un confort optimal.",
-    image: "/isolation.jpg",
+    image: "/isolation.webp",
     imageAlt:
       "Travaux d'isolation thermique des combles soufflée réalisés par Greenter certifié RGE",
     icon: Shield,

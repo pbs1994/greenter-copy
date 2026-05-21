@@ -37,7 +37,7 @@ const services = [
     href: "/services/audit",
   },
   {
-    image: "/isolation.jpg",
+    image: "/isolation.webp",
     imageAlt: "Isolation thermique des combles soufflée par un technicien Greenter certifié RGE",
     icon: null,
     customIcon: "/isolation-icon.svg",

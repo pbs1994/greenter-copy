@@ -46,7 +46,7 @@ const services = [
     href: "/services/isolation",
     description: "Combles & planchers bas — aides 2026",
     icon: Home,
-    image: "/isolation.jpg",
+    image: "/isolation.webp",
     badge: "Nouveau",
   },
   {

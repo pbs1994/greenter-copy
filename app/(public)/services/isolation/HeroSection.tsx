@@ -170,7 +170,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
         <div className="my-4 mx-auto w-full max-w-sm">
           <div className="relative h-44 rounded-2xl overflow-hidden shadow-xl">
             <Image
-              src="/isolation.jpg"
+              src="/isolation.webp"
               alt="Artisan soufflant de la ouate de cellulose dans des combles"
               fill
               className="object-cover object-[70%_50%]"
@@ -306,7 +306,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
               <div className="flex justify-center items-start pt-2">
                 <div className="relative w-full max-w-[420px] h-[340px] xl:h-[380px] rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
                   <Image
-                    src="/isolation.jpg"
+                    src="/isolation.webp"
                     alt="Artisan soufflant de la ouate de cellulose dans des combles perdus"
                     fill
                     className="object-cover object-[70%_50%]"

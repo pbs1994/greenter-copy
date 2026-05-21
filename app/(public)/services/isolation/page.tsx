@@ -30,7 +30,7 @@ export default async function IsolationPage() {
         name="Isolation à 1€ - Combles et planchers bas"
         description="Isolation des combles perdus et planchers bas à partir de 1€* grâce aux aides 2026 (MaPrimeRénov', CEE bonifiés). Artisan certifié RGE Qualibat à Ozoir-la-Ferrière."
         url="https://www.greenter.fr/services/isolation"
-        image="https://www.greenter.fr/isolation.jpg"
+        image="https://www.greenter.fr/isolation.webp"
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={ISOLATION_FAQS} />
@@ -63,7 +63,7 @@ export default async function IsolationPage() {
         dateModified="2026-04-08"
         author={{ name: "Greenter", url: "https://www.greenter.fr" }}
         publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
-        image="https://www.greenter.fr/isolation.jpg"
+        image="https://www.greenter.fr/isolation.webp"
         url="https://www.greenter.fr/services/isolation"
         wordCount={2600}
       />
