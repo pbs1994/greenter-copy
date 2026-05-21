@@ -14,8 +14,8 @@ const CATEGORIES = [
     color: "blue",
     name: "Bleu",
     label: "Très modestes",
-    rfr1p: "24 031€",
-    rfr2p: "35 270€",
+    rfr1p: "≤ 24 031€",
+    rfr2p: "≤ 35 270€",
     prime: "Jusqu'à 25€/m²",
     highlight: true,
     cta: "Reste à charge : 1€*",
@@ -24,8 +24,8 @@ const CATEGORIES = [
     color: "yellow",
     name: "Jaune",
     label: "Modestes",
-    rfr1p: "30 020€",
-    rfr2p: "44 052€",
+    rfr1p: "≤ 30 020€",
+    rfr2p: "≤ 44 052€",
     prime: "Jusqu'à 20€/m²",
     highlight: false,
     cta: "Reste à charge réduit",
@@ -34,8 +34,8 @@ const CATEGORIES = [
     color: "violet",
     name: "Violet",
     label: "Intermédiaires",
-    rfr1p: "40 018€",
-    rfr2p: "58 755€",
+    rfr1p: "≤ 40 018€",
+    rfr2p: "≤ 58 755€",
     prime: "Jusqu'à 15€/m²",
     highlight: false,
     cta: "Aide significative",
@@ -213,11 +213,11 @@ export function IsolationEditorialContent() {
                   <div className="space-y-1.5 mb-4 text-sm text-neutral-500">
                     <div className="flex justify-between">
                       <span>1 personne</span>
-                      <span className="font-semibold text-neutral-700">≤ {cat.rfr1p}</span>
+                      <span className="font-semibold text-neutral-700">{cat.rfr1p}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>2 personnes</span>
-                      <span className="font-semibold text-neutral-700">≤ {cat.rfr2p}</span>
+                      <span className="font-semibold text-neutral-700">{cat.rfr2p}</span>
                     </div>
                   </div>
                   <div className="border-t border-current/10 pt-3">
