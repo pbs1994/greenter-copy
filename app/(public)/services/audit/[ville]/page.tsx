@@ -288,6 +288,101 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
         </div>
       </section>
 
+      {/* ===== SECTION : Contenu de l'audit ===== */}
+      <section className="py-12 md:py-16 bg-neutral-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            L&apos;audit énergétique à {city.name} : ce que ça révèle
+          </h2>
+          {cityData ? (
+            <>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                {cityData.contexteAudit ?? `L'audit énergétique de ${city.name} s'adapte aux caractéristiques locales : parc construit ${cityData.anneeConstruction}, DPE moyen ${cityData.dpeMoyen}, ${cityData.pctPassoiresThermiques}% de passoires thermiques. L'auditeur Greenter dresse un diagnostic complet de votre logement pour identifier les travaux les plus rentables.`}
+              </p>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                {cityData.pctMaisons >= 50
+                  ? `Les maisons individuelles de ${city.name} — ${cityData.pctMaisons}% du parc — présentent typiquement les mêmes points faibles identifiés par l'audit : combles mal isolés ou non isolés (perte de 25-30%), ponts thermiques des dalles et refends béton, menuiseries simple vitrage ou à vitrage dégradé, et souvent l'absence de VMC (ventilation mécanique contrôlée) dans les constructions d'avant 1982. L'audit chiffre chacun de ces postes et calcule le gain attendu après travaux.`
+                  : `Le parc de ${city.name}, majoritairement collectif (${100 - cityData.pctMaisons}% d'appartements), pose des problématiques spécifiques : isolation des façades en béton préfabriqué ou en brique, étanchéité des joints de menuiseries, et performance des chaufferies collectives. L'audit individuel permet néanmoins de cibler les interventions propres à chaque appartement : remplacement des fenêtres, isolation des combles si dernier étage, remplacement du convecteur.`
+                }
+              </p>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+                Avec une consommation moyenne de {cityData.consommationMoyenne} kWh/m²/an à {city.name} et un DPE moyen {cityData.dpeMoyen}, l&apos;audit énergétique calcule le gain réel après chaque scénario de travaux et simule les aides MaPrimeRénov&apos; associées. C&apos;est l&apos;outil indispensable pour prioriser vos investissements et maximiser le retour sur votre budget rénovation.
+              </p>
+            </>
+          ) : (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+              L&apos;audit énergétique réalisé par Greenter à {city.name} analyse l&apos;enveloppe thermique de votre logement (murs, toiture, planchers, menuiseries), les systèmes de chauffage et de ventilation, et calcule les économies potentielles pour chaque scénario de travaux.
+            </p>
+          )}
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { title: "Analyse de l'enveloppe thermique", items: ["Toiture et combles", "Murs et façades", "Planchers bas et vide sanitaire", "Menuiseries et vitrages", "Ponts thermiques"] },
+              { title: "Systèmes techniques", items: ["Chauffage et émetteurs", "Production d'eau chaude", "Ventilation (VMC, grilles)", "Éclairage et électricité", "Énergies renouvelables existantes"] },
+              { title: "Scenarios de travaux", items: ["Scénario minimal (gain DPE 1 lettre)", "Scénario intermédiaire (gain 2 lettres)", "Scénario BBC (étiquette B)", "Chiffrage des aides pour chaque scénario", "Planning de réalisation recommandé"] },
+              { title: "Livrables de l'audit", items: ["Rapport détaillé de 30-40 pages", "Simulations de consommation après travaux", "Tableau des aides MaPrimeRénov'", "Attestation pour démarches administratives", "Recommandations d'entreprises RGE"] },
+            ].map((block) => (
+              <div key={block.title} className="bg-white rounded-xl border border-neutral-200 p-5">
+                <h3 className="font-semibold text-neutral-900 mb-3">{block.title}</h3>
+                <ul className="space-y-1.5">
+                  {block.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-neutral-600">
+                      <CheckCircle className="w-4 h-4 text-slate-500 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION : Obligations légales ===== */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Audit obligatoire ou facultatif à {city.name} ?
+          </h2>
+          {cityData && (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-6">
+              À {city.name}, {cityData.pctPassoiresThermiques}% des logements sont classés F ou G. Depuis avril 2023, tout logement F ou G mis en vente doit obligatoirement être accompagné d&apos;un audit énergétique réglementaire (distinct du DPE). Avec un DPE moyen {cityData.dpeMoyen} dans la commune, de nombreux propriétaires vendeurs à {city.name} sont directement concernés.
+            </p>
+          )}
+          <div className="grid sm:grid-cols-3 gap-4 mb-6">
+            <div className="bg-red-50 rounded-xl p-5 border border-red-100">
+              <h3 className="font-semibold text-red-900 mb-2">Audit obligatoire</h3>
+              <ul className="space-y-1.5 text-sm text-red-800">
+                <li>• Vente d&apos;un logement classé F ou G</li>
+                <li>• Vente d&apos;un logement classé E (dès 2025)</li>
+                <li>• Demande MaPrimeRénov&apos; rénovation globale</li>
+              </ul>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
+              <h3 className="font-semibold text-amber-900 mb-2">Fortement recommandé</h3>
+              <ul className="space-y-1.5 text-sm text-amber-800">
+                <li>• Avant toute rénovation &gt; 15 000€</li>
+                <li>• Pour optimiser les aides MaPrimeRénov&apos;</li>
+                <li>• Pour un logement classé D ou E à rénover</li>
+              </ul>
+            </div>
+            <div className="bg-slate-50 rounded-xl p-5 border border-slate-200">
+              <h3 className="font-semibold text-slate-900 mb-2">Facultatif mais utile</h3>
+              <ul className="space-y-1.5 text-sm text-slate-700">
+                <li>• Logements classés A, B, C</li>
+                <li>• Avant achat pour évaluer le potentiel</li>
+                <li>• En copropriété pour planifier les travaux</li>
+              </ul>
+            </div>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-5">
+            <p className="text-neutral-700 text-sm leading-relaxed">
+              <strong>Tarif de l&apos;audit à {city.name} :</strong> Un audit réglementaire Greenter coûte entre 500€ et 800€ selon la surface et le type de logement. Il est partiellement finançable par MaPrimeRénov&apos; (jusqu&apos;à 500€ remboursés pour les ménages modestes). Le coût est généralement amorti dès les premiers travaux grâce à l&apos;optimisation des aides qu&apos;il permet.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 md:py-16 bg-neutral-50">
         <div className="container mx-auto max-w-4xl px-4">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-8">Questions fréquentes - Audit énergétique à {city.name}</h2>
