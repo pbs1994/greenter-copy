@@ -7,7 +7,6 @@ import { LocalBusinessSchema } from "@/components/schemas/LocalBusinessSchema"
 import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchema"
 import { ArticleSchema } from "@/components/schemas/ArticleSchema"
 import { CITIES, COMPANY_PHONES } from "@/lib/local-seo-data"
-import ServiceAreaSection from "@/components/ServiceAreaSection"
 import { IsolationEditorialContent } from "@/components/editorial"
 import { ISOLATION_FAQS } from "@/lib/isolation-editorial-data"
 import { fetchGoogleReviews } from "@/lib/google-places"
@@ -125,7 +124,6 @@ export default async function IsolationPage() {
           </div>
         </section>
 
-        <ServiceAreaSection serviceSlug="isolation" title="Isolation thermique près de chez vous" className="bg-white" />
       </main>
     </>
   )
