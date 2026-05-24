@@ -62,7 +62,7 @@ const services = [
     href: "/services/maintenance",
     description: "Entretien et dépannage",
     icon: Wrench,
-    image: "/maintenance.jpg",
+    image: "/maintenance.webp",
     badge: null,
   },
 ]
