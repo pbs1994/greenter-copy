@@ -1,564 +1,468 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ChevronDown } from 'lucide-react';
-import {
-  ReadingProgressBar,
-  ArticleHeader,
-  ArticleSection,
-  PullQuote,
-  InfographicBlock,
-  SidebarCTA,
-  SourceCitation,
-  SourcesSection,
-  FinalContactBox,
-} from '@/components/editorial';
-import {
-  PAC_TYPES,
-  AIDES_2026,
-  INSTALLATION_STEPS,
-  OFFICIAL_SOURCES,
-  R290_DATA,
-  ENVIRONMENTAL_DATA,
-} from '@/lib/pac-editorial-data';
-import { CITIES } from '@/lib/local-seo-data';
+import { useState } from "react"
+import Link from "next/link"
+import { ChevronDown, Fan, Droplets, Mountain, Zap, Phone, ArrowRight, Check, CheckCircle, Euro, Shield, Leaf, AlertTriangle } from "lucide-react"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { CITIES } from "@/lib/local-seo-data"
 
-// ============================================================================
-// Constants
-// ============================================================================
+const PHONE = "06 09 45 50 56"
 
-const PHONE_NUMBER = '06 09 45 50 56';
-const READING_TIME = 12; // minutes
-const LAST_UPDATED = 'mars 2026';
+const PAC_TYPES = [
+  {
+    icon: Fan,
+    color: "blue",
+    badge: "Entrée de gamme",
+    name: "Air / Air",
+    tagline: "Chauffage + climatisation réversible",
+    priceFrom: "1 500€",
+    cop: "3 – 5",
+    savings: "50 – 70%",
+    idealFor: "Appartements & maisons sans chauffage central",
+    pros: ["Installation rapide (1 jour)", "Climatisation incluse en été", "Prix d'entrée accessible"],
+    cons: ["Sans eau chaude sanitaire", "Moins adapté aux grandes surfaces"],
+  },
+  {
+    icon: Droplets,
+    color: "emerald",
+    badge: "Le plus populaire",
+    name: "Air / Eau",
+    tagline: "Remplace la chaudière intégralement",
+    priceFrom: "5 000€",
+    cop: "3 – 4,5",
+    savings: "50 – 70%",
+    idealFor: "Maisons avec chauffage central existant",
+    pros: ["Eau chaude sanitaire incluse", "Compatible vos radiateurs", "MaPrimeRénov' maximale"],
+    cons: ["Installation 1 à 2 jours", "Investissement plus élevé"],
+  },
+  {
+    icon: Mountain,
+    color: "teal",
+    badge: "Meilleur rendement",
+    name: "Géothermique",
+    tagline: "Énergie du sol, COP record",
+    priceFrom: "15 000€",
+    cop: "4 – 6",
+    savings: "70 – 80%",
+    idealFor: "Grandes maisons avec terrain disponible",
+    pros: ["Rendement stable même par -20°C", "Durée de vie 25 ans", "Indépendant de la météo"],
+    cons: ["Forage ou tranchée nécessaire", "Budget initial élevé"],
+  },
+  {
+    icon: Zap,
+    color: "amber",
+    badge: "Transition douce",
+    name: "Hybride",
+    tagline: "PAC + chaudière gaz de secours",
+    priceFrom: "6 000€",
+    cop: "3 – 4",
+    savings: "30 – 50%",
+    idealFor: "Maisons mal isolées ou régions très froides",
+    pros: ["Transition progressive", "Sécurité par grand froid", "Coût initial maîtrisé"],
+    cons: ["Toujours dépendant du gaz", "Économies moins importantes"],
+  },
+]
 
-// FAQ data for the editorial content
-const EDITORIAL_FAQS = [
-  {
-    question: 'Quel est le prix d\'une pompe à chaleur en 2026 ?',
-    answer: 'Le prix varie selon le type de PAC. Une PAC air/air coûte entre 2 000€ et 5 000€ par unité. Une PAC air/eau démarre à 5 000€ et peut atteindre 15 000€. Une PAC géothermique coûte entre 15 000€ et 25 000€. Ces prix sont hors aides (MaPrimeRénov\', CEE) qui peuvent réduire significativement le reste à charge.',
-  },
-  {
-    question: 'Quelles économies puis-je réaliser avec une PAC ?',
-    answer: 'Une pompe à chaleur permet de réduire votre facture de chauffage de 50 à 70% selon EDF. Cela s\'explique par son rendement exceptionnel : pour 1 kWh d\'électricité consommé, une PAC produit 3 à 5 kWh de chaleur. L\'énergie supplémentaire est puisée gratuitement dans l\'air extérieur.',
-  },
-  {
-    question: 'Une PAC fonctionne-t-elle par grand froid ?',
-    answer: 'Oui, les PAC modernes fonctionnent jusqu\'à -15°C voire -20°C pour certains modèles. Le rendement diminue légèrement par temps très froid, mais la PAC continue de chauffer. En Seine-et-Marne, les températures descendent rarement en dessous de -10°C, ce qui est parfaitement adapté.',
-  },
-  {
-    question: 'Qu\'est-ce que le fluide R290 ?',
-    answer: `Le R290 (propane) est un fluide frigorigène nouvelle génération avec un GWP (potentiel de réchauffement) de seulement ${R290_DATA.gwp}, contre ${R290_DATA.gwpR410A} pour le R410A traditionnel. Il est conforme à la réglementation européenne ${R290_DATA.regulation} et offre un meilleur rendement thermodynamique.`,
-  },
-  {
-    question: 'Quelles sont les aides disponibles en 2026 ?',
-    answer: 'MaPrimeRénov\' est rouvert depuis le 23 février 2026. Un ménage modeste peut recevoir jusqu\'à 4 000€ d\'aide pour une PAC air/eau (plafond 12 000€). L\'Éco-PTZ permet de financer jusqu\'à 50 000€ à taux zéro. Les CEE et la TVA à 5,5% sont cumulables. Condition obligatoire : artisan certifié RGE.',
-  },
-  {
-    question: 'Combien de temps dure une installation ?',
-    answer: 'L\'installation complète prend généralement 1 à 2 jours. Avant cela, comptez une visite technique (1h), une étude de dimensionnement (48h) et l\'établissement du devis (48h). Nous nous occupons également de toutes les démarches administratives pour les aides.',
-  },
-  {
-    question: 'Comment vérifier la certification RGE ?',
-    answer: 'La certification RGE est vérifiable sur le site officiel france-renov.gouv.fr. Cette certification est obligatoire pour bénéficier des aides de l\'État (MaPrimeRénov\', CEE, TVA réduite). Sans artisan RGE, pas d\'aides !',
-  },
-  {
-    question: 'Quel entretien pour une pompe à chaleur ?',
-    answer: 'Un entretien annuel est recommandé (et obligatoire pour les PAC de plus de 2kg de fluide). Il comprend : vérification du fluide frigorigène, nettoyage des filtres, contrôle des performances. Coût moyen : 150 à 200€/an.',
-  },
-];
-
-// ============================================================================
-// FAQ Section Component (internal)
-// ============================================================================
-
-function FAQAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  return (
-    <div className="space-y-3" data-testid="faq-accordion">
-      {EDITORIAL_FAQS.map((faq, index) => (
-        <div
-          key={index}
-          className="bg-white border border-slate-200 rounded-xl overflow-hidden"
-        >
-          <button
-            onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors"
-            aria-expanded={openIndex === index}
-          >
-            <span className="font-semibold text-slate-900 pr-4">{faq.question}</span>
-            <ChevronDown
-              className={`w-5 h-5 text-slate-400 shrink-0 transition-transform ${
-                openIndex === index ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${
-              openIndex === index ? 'max-h-96' : 'max-h-0'
-            }`}
-          >
-            <p className="px-5 pb-5 text-slate-600 leading-relaxed">{faq.answer}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+const PALETTE: Record<string, { tab: string; badge: string; icon: string; check: string; border: string; bg: string }> = {
+  blue:    { tab: "border-blue-500 text-blue-600",    badge: "bg-blue-100 text-blue-700",    icon: "bg-blue-100 text-blue-600",    check: "text-blue-500",   border: "border-blue-200",  bg: "bg-blue-50" },
+  emerald: { tab: "border-emerald-500 text-emerald-600", badge: "bg-emerald-100 text-emerald-700", icon: "bg-emerald-100 text-emerald-600", check: "text-emerald-500", border: "border-emerald-200", bg: "bg-emerald-50" },
+  teal:    { tab: "border-teal-500 text-teal-600",    badge: "bg-teal-100 text-teal-700",    icon: "bg-teal-100 text-teal-600",    check: "text-teal-500",   border: "border-teal-200",  bg: "bg-teal-50" },
+  amber:   { tab: "border-amber-500 text-amber-600",  badge: "bg-amber-100 text-amber-700",  icon: "bg-amber-100 text-amber-600",  check: "text-amber-500",  border: "border-amber-200", bg: "bg-amber-50" },
 }
 
-// ============================================================================
-// Main Component
-// ============================================================================
+const AIDS = [
+  {
+    color: "emerald",
+    name: "MaPrimeRénov'",
+    amount: "Jusqu'à 5 000€",
+    detail: "Ménages modestes & très modestes",
+    conditions: ["Logement > 15 ans", "Artisan certifié RGE", "Résidence principale"],
+    badge: "Rouverte le 23/02/2026",
+  },
+  {
+    color: "blue",
+    name: "Éco-PTZ",
+    amount: "Jusqu'à 50 000€",
+    detail: "Prêt à taux zéro — tous revenus",
+    conditions: ["Sans condition de revenus", "Logement > 2 ans", "Remboursable sur 20 ans"],
+    badge: "Cumulable",
+  },
+  {
+    color: "teal",
+    name: "Certificats d'Économies d'Énergie",
+    amount: "Jusqu'à 4 000€",
+    detail: "Prime versée par votre fournisseur d'énergie",
+    conditions: ["Cumulable avec MaPrimeRénov'", "Artisan RGE obligatoire", "Logement > 2 ans"],
+    badge: "Cumulable",
+  },
+  {
+    color: "amber",
+    name: "TVA réduite",
+    amount: "5,5 %",
+    detail: "Au lieu de 20% — automatique",
+    conditions: ["Logement > 2 ans", "Artisan RGE", "Résidence principale ou secondaire"],
+    badge: "Automatique",
+  },
+]
 
-/**
- * PACEditorialContent - Composant principal du contenu éditorial PAC
- * 
- * Structure:
- * - ArticleHeader (temps de lecture, date mise à jour)
- * - Introduction
- * - Types PAC (avec InfographicBlock comparison)
- * - SidebarCTA #1
- * - Innovation R290
- * - Design et intégration
- * - Aides 2026 (avec InfographicBlock table)
- * - Installation (avec InfographicBlock timeline)
- * - SidebarCTA #2
- * - Impact environnemental (avec InfographicBlock stats)
- * - FAQ
- * - Sources
- * - FinalContactBox
- * 
- * Requirements: 1.1-1.8, 2.1-2.6, 3.1-3.5, 4.1-4.5, 5.1-5.10, 6.1-6.6, 7.1-7.5, 8.1-8.6
- */
+const AID_PALETTE: Record<string, { border: string; amount: string; badge: string; bg: string; check: string }> = {
+  emerald: { border: "border-t-emerald-500", amount: "text-emerald-600", badge: "bg-emerald-100 text-emerald-700", bg: "bg-emerald-50", check: "text-emerald-500" },
+  blue:    { border: "border-t-blue-500",    amount: "text-blue-600",    badge: "bg-blue-100 text-blue-700",       bg: "bg-blue-50",    check: "text-blue-500" },
+  teal:    { border: "border-t-teal-500",    amount: "text-teal-600",    badge: "bg-teal-100 text-teal-700",       bg: "bg-teal-50",    check: "text-teal-500" },
+  amber:   { border: "border-t-amber-500",   amount: "text-amber-600",   badge: "bg-amber-100 text-amber-700",     bg: "bg-amber-50",   check: "text-amber-500" },
+}
+
+const STEPS = [
+  { n: "01", icon: "🔍", title: "Visite technique", duration: "Gratuite", desc: "Diagnostic thermique de votre logement, dimensionnement et étude personnalisée." },
+  { n: "02", icon: "📋", title: "Devis & dossier aides", duration: "Sous 48h", desc: "Devis transparent, dossier MaPrimeRénov' et CEE montés par notre équipe." },
+  { n: "03", icon: "🔧", title: "Installation", duration: "1 à 2 jours", desc: "Pose par nos techniciens certifiés RGE. Pas de mauvaise surprise." },
+  { n: "04", icon: "✅", title: "Mise en service", duration: "J+1", desc: "Réglage, formation à votre nouvelle installation. Garantie 10 ans." },
+]
+
+const FAQS = [
+  { q: "Quel est le prix d'une pompe à chaleur en 2026 ?", a: "Le prix varie selon le type : PAC air/air à partir de 1 500€/unité, PAC air/eau entre 5 000€ et 15 000€, PAC géothermique entre 15 000€ et 25 000€. Ces prix sont avant aides (MaPrimeRénov', CEE, TVA 5,5%) qui peuvent réduire significativement le reste à charge. Un devis précis est établi après visite technique gratuite." },
+  { q: "Quelles économies puis-je réaliser ?", a: "Une pompe à chaleur permet de réduire votre facture de chauffage de 50 à 70%. Pour 1 kWh d'électricité consommé, une PAC produit 3 à 5 kWh de chaleur — l'énergie supplémentaire est captée gratuitement dans l'air extérieur." },
+  { q: "Une PAC fonctionne-t-elle par grand froid ?", a: "Oui. Les PAC modernes fonctionnent jusqu'à -15°C voire -20°C (géothermique). En Seine-et-Marne, les températures descendent rarement sous -10°C : votre PAC sera parfaitement efficace tout l'hiver." },
+  { q: "Quelles sont les aides disponibles en 2026 ?", a: "MaPrimeRénov' est rouvert depuis le 23 février 2026. Un ménage modeste peut recevoir jusqu'à 5 000€ pour une PAC air/eau. L'Éco-PTZ permet de financer jusqu'à 50 000€ à taux zéro. CEE et TVA 5,5% sont cumulables. Condition obligatoire : artisan certifié RGE." },
+  { q: "Combien de temps dure l'installation ?", a: "1 à 2 jours pour la pose. Avant cela : visite technique gratuite, devis sous 48h, dossier aides. Nous gérons toutes les démarches administratives pour les aides de l'État." },
+  { q: "Faut-il un entretien régulier ?", a: "Un entretien annuel est recommandé (obligatoire pour les PAC > 2 kg de fluide). Il comprend : vérification du fluide, nettoyage des filtres, contrôle des performances. Coût moyen : 150 à 200€/an. Nous proposons des contrats de maintenance." },
+]
+
 export function PACEditorialContent() {
+  const [activeType, setActiveType] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const type = PAC_TYPES[activeType]
+  const pal = PALETTE[type.color]
+  const Icon = type.icon
+
   return (
-    <article
-      className="bg-white"
-      data-testid="pac-editorial-content"
-    >
-      {/* Reading Progress Bar */}
-      <ReadingProgressBar />
+    <div className="bg-white">
 
-      {/* Article Container */}
-      <div className="max-w-4xl mx-auto">
-        {/* Article Header */}
-        <div className="px-4 pt-12 pb-8">
-          <ArticleHeader readingTime={READING_TIME} lastUpdated={LAST_UPDATED} />
-        </div>
-
-        {/* ================================================================ */}
-        {/* SECTION: Introduction */}
-        {/* ================================================================ */}
-        <ArticleSection id="introduction" title="Tout savoir sur la pompe à chaleur en 2026">
-          <p>
-            La <strong>pompe à chaleur</strong> s'impose comme la solution de chauffage la plus efficace 
-            et économique. Avec des économies pouvant atteindre 
-            <strong> 50 à 70% sur votre facture de chauffage</strong>, cette technologie révolutionne 
-            notre façon de nous chauffer. En <strong>Seine-et-Marne (77)</strong> et dans toute 
-            l'<strong>Île-de-France</strong>, de plus en plus de propriétaires font ce choix.
-          </p>
-
-          <PullQuote
-            quote="Diviser sa facture de chauffage par 3, c'est possible avec une pompe à chaleur correctement dimensionnée."
-            source="EDF, février 2025"
-            variant="highlight"
-          />
-
-          <p>
-            Le principe est simple : pour 1 kWh d'électricité consommé, une PAC produit 3 à 5 kWh 
-            de chaleur. Cette performance exceptionnelle s'explique par le <strong>COP (Coefficient de Performance)</strong> : 
-            la PAC ne crée pas de chaleur, elle la capte dans l'air extérieur — une énergie gratuite et renouvelable.
-          </p>
-
-          <p>
-            En 2026, les aides financières sont plus accessibles que jamais. <strong>MaPrimeRénov' est rouvert 
-            depuis le 23 février 2026</strong> pour tous les ménages. Combinées à l'Éco-PTZ et aux CEE, 
-            ces aides peuvent couvrir une part significative de votre investissement. Pour une approche 
-            globale de votre rénovation énergétique, découvrez également nos solutions 
-            d'<Link href="/services/isolation" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">isolation thermique</Link>.
-          </p>
-
-          <SourceCitation
-            source="EDF"
-            url="https://www.edf.fr/groupe-edf/espaces-dedies/l-energie-de-a-a-z/tout-sur-l-energie/le-developpement-durable/la-pompe-a-chaleur"
-            date="février 2025"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: Types de PAC */}
-        {/* ================================================================ */}
-        <ArticleSection id="types-pac" title="Les 4 types de pompes à chaleur">
-          <p>
-            Chaque type de <strong>PAC</strong> répond à des besoins spécifiques. Le choix dépend de votre 
-            logement, de votre système de chauffage actuel et de votre budget. Voici un comparatif 
-            détaillé pour vous aider à choisir. Pour approfondir le sujet, consultez 
-            nos <Link href="/blog" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">articles de blog</Link> dédiés 
-            aux pompes à chaleur.
-          </p>
-
-          <InfographicBlock
-            type="comparison"
-            data={{ items: PAC_TYPES }}
-            caption="Comparatif des 4 types de pompes à chaleur disponibles en 2026"
-            source="EDF, ADEME"
-          />
-
-          <PullQuote
-            quote="Un COP de 4 signifie que pour 1 kWh d'électricité consommé, votre PAC produit 4 kWh de chaleur."
-            variant="stat"
-          />
-
-          <p>
-            La <strong>PAC air/eau</strong> reste le choix le plus populaire pour les maisons avec 
-            chauffage central existant. Elle remplace avantageusement une chaudière gaz ou fioul 
-            tout en produisant l'eau chaude sanitaire.
-          </p>
-
-          <p>
-            Pour les appartements ou maisons sans chauffage central, la <strong>PAC air/air</strong> 
-            (climatisation réversible) offre un excellent rapport qualité-prix avec l'avantage 
-            de la climatisation en été.
-          </p>
-
-          <SourceCitation
-            source="EDF"
-            url="https://www.edf.fr/groupe-edf/espaces-dedies/l-energie-de-a-a-z/tout-sur-l-energie/le-developpement-durable/la-pompe-a-chaleur"
-            date="février 2025"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SIDEBAR CTA #1 */}
-        {/* ================================================================ */}
-        <div className="px-4">
-          <SidebarCTA
-            title="Besoin d'un conseil personnalisé ?"
-            description="Nos experts vous aident à choisir la PAC adaptée à votre logement."
-            phone={PHONE_NUMBER}
-            variant="subtle"
-          />
-        </div>
-
-        {/* ================================================================ */}
-        {/* SECTION: Innovation R290 */}
-        {/* ================================================================ */}
-        <ArticleSection id="r290" title="L'innovation R290 : le fluide du futur">
-          <p>
-            Le <strong>fluide R290</strong> (propane) représente une avancée majeure pour l'environnement. 
-            Avec un GWP (potentiel de réchauffement global) de seulement <strong>{R290_DATA.gwp}</strong>, 
-            il est <strong>477 fois moins polluant</strong> que le R410A traditionnel (GWP de {R290_DATA.gwpR410A}).
-          </p>
-
-          <InfographicBlock
-            type="stats"
-            data={{
-              stats: [
-                { value: String(R290_DATA.gwp), label: 'GWP R290', description: 'Potentiel de réchauffement' },
-                { value: String(R290_DATA.gwpR410A), label: 'GWP R410A', description: 'Fluide traditionnel' },
-                { value: '0', label: 'ODP', description: 'Impact sur la couche d\'ozone' },
-              ],
-            }}
-            caption="Comparaison des fluides frigorigènes"
-            source={`Règlement ${R290_DATA.regulation}`}
-          />
-
-          <p>
-            La réglementation européenne <strong>{R290_DATA.regulation}</strong> impose désormais un GWP 
-            inférieur à {R290_DATA.maxGwpNewEquipment} pour les nouveaux équipements. Les PAC au R290 
-            sont donc parfaitement conformes et représentent l'avenir du secteur.
-          </p>
-
-          <PullQuote
-            quote="Le R290 offre non seulement un impact environnemental minimal, mais aussi un meilleur rendement thermodynamique."
-            variant="default"
-          />
-
-          <SourceCitation
-            source="Règlement EU 2024/573"
-            url="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R0573"
-            date="2024"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: Design et intégration */}
-        {/* ================================================================ */}
-        <ArticleSection id="design" title="Design et intégration architecturale">
-          <p>
-            Les <strong>pompes à chaleur modernes</strong> ont considérablement évolué en termes de design. 
-            Les unités extérieures sont plus compactes, plus silencieuses et s'intègrent harmonieusement 
-            dans tous les environnements.
-          </p>
-
-          <p>
-            Les fabricants proposent désormais des finitions personnalisables et des solutions 
-            d'intégration paysagère. L'unité extérieure peut être dissimulée derrière un cache 
-            décoratif ou intégrée dans un aménagement végétal.
-          </p>
-
-          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
-            Réduction du bruit
-          </h3>
-
-          <p>
-            Les PAC modernes émettent environ <strong>45-55 dB</strong> pour l'unité extérieure, 
-            comparable à une conversation normale. L'unité intérieure est encore plus silencieuse 
-            avec seulement <strong>20-25 dB</strong>, équivalent à un chuchotement.
-          </p>
-
-          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
-            Distances réglementaires
-          </h3>
-
-          <p>
-            L'emplacement de l'unité extérieure doit respecter certaines distances par rapport 
-            aux limites de propriété et aux ouvertures des voisins. Ces contraintes sont étudiées 
-            lors de la visite technique gratuite pour garantir une installation conforme. 
-            <Link href="/contact" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">Contactez-nous</Link> pour 
-            planifier votre visite.
-          </p>
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: Aides 2026 */}
-        {/* ================================================================ */}
-        <ArticleSection id="aides-2026" title="Guide des aides financières 2026">
-          <p>
-            Bonne nouvelle : <strong>MaPrimeRénov' est rouvert depuis le 23 février 2026</strong> pour 
-            tous les ménages et tous les parcours. Les PAC air/eau et géothermiques restent éligibles 
-            aux aides les plus avantageuses.
-          </p>
-
-          <PullQuote
-            quote="Sans artisan certifié RGE, pas d'aides !"
-            variant="highlight"
-          />
-
-          <InfographicBlock
-            type="table"
-            data={{
-              headers: ['Aide', 'Montant max', 'Conditions'],
-              rows: [
-                {
-                  cells: ["MaPrimeRénov'", 'Jusqu\'à 5 000€', 'Logement > 15 ans, RGE obligatoire'],
-                  highlight: true,
-                },
-                {
-                  cells: ['Éco-PTZ', 'Jusqu\'à 50 000€', 'Prêt à taux zéro, logement > 2 ans'],
-                },
-                {
-                  cells: ['CEE', 'Jusqu\'à 4 000€', 'Cumulable, logement > 2 ans'],
-                },
-                {
-                  cells: ['TVA réduite', '5,5%', 'Automatique avec artisan RGE'],
-                },
-              ],
-            }}
-            caption="Récapitulatif des aides cumulables pour l'installation d'une PAC"
-            source="economie.gouv.fr, mars 2026"
-          />
-
-          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
-            Conditions d'éligibilité
-          </h3>
-
-          <ul className="list-disc list-inside space-y-2 text-slate-700">
-            <li>Résidence principale occupée au moins 8 mois par an</li>
-            <li>Logement construit depuis au moins 15 ans</li>
-            <li>Travaux réalisés par un artisan <strong>certifié RGE</strong></li>
-          </ul>
-
-          <p className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800">
-            <strong>⚠️ Attention :</strong> À partir de 2027, les maisons classées DPE F ou G 
-            n'auront plus accès au parcours par geste. Anticipez vos travaux !
-          </p>
-
-          <p className="mt-4">
-            Pour estimer vos droits, utilisez le simulateur officiel 
-            <strong> "Mes Aides Réno"</strong> sur france-renov.gouv.fr. Vous pouvez également 
-            utiliser notre <Link href="/simulateur-solaire" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">simulateur solaire</Link> pour 
-            évaluer le potentiel d'une installation photovoltaïque complémentaire.
-          </p>
-
-          <SourceCitation
-            source="economie.gouv.fr"
-            url="https://www.economie.gouv.fr/particuliers/prime-renovation-energetique"
-            date="mars 2026"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: Installation */}
-        {/* ================================================================ */}
-        <ArticleSection id="installation" title="Le processus d'installation">
-          <p>
-            L'<strong>installation d'une pompe à chaleur</strong> suit un processus rigoureux pour 
-            garantir des performances optimales. Le dimensionnement correct est crucial : une PAC 
-            sous-dimensionnée ne chauffera pas suffisamment, une PAC surdimensionnée consommera trop.
-          </p>
-
-          <InfographicBlock
-            type="timeline"
-            data={{ steps: INSTALLATION_STEPS }}
-            caption="Les 4 étapes de votre projet PAC"
-          />
-
-          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
-            L'importance du dimensionnement
-          </h3>
-
-          <p>
-            Le calcul thermique prend en compte la surface, l'isolation, l'exposition et vos 
-            habitudes de vie. Un dimensionnement précis garantit un confort optimal et des 
-            économies maximales.
-          </p>
-
-          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4 font-editorial-serif">
-            Entretien obligatoire
-          </h3>
-
-          <p>
-            Un entretien annuel est obligatoire pour les PAC contenant plus de 2 kg de fluide 
-            frigorigène. Coût moyen : <strong>150 à 200€ par an</strong>. Cet entretien permet 
-            de maintenir les performances et de prolonger la durée de vie de l'équipement 
-            (15 à 20 ans). Nous proposons des <Link href="/services/maintenance" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">contrats de maintenance</Link> pour 
-            les habitants d'Ozoir-la-Ferrière, Pontault-Combault, Roissy-en-Brie et toutes les 
-            communes du 77.
-          </p>
-
-          <SourceCitation
-            source="France Rénov'"
-            url="https://france-renov.gouv.fr/"
-            date="mars 2026"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SIDEBAR CTA #2 */}
-        {/* ================================================================ */}
-        <div className="px-4">
-          <SidebarCTA
-            title="Prêt à passer à l'action ?"
-            description="Visite technique gratuite et devis détaillé sous 48h."
-            phone={PHONE_NUMBER}
-            variant="editorial"
-          />
-        </div>
-
-        {/* ================================================================ */}
-        {/* SECTION: Impact environnemental */}
-        {/* ================================================================ */}
-        <ArticleSection id="environnement" title="Impact environnemental">
-          <p>
-            La <strong>pompe à chaleur</strong> est l'une des solutions de chauffage les plus 
-            respectueuses de l'environnement. En remplaçant une chaudière gaz ou fioul, vous 
-            pouvez réduire vos émissions de CO2 jusqu'à <strong>{ENVIRONMENTAL_DATA.co2Reduction}</strong>.
-          </p>
-
-          <InfographicBlock
-            type="stats"
-            data={{
-              stats: [
-                { value: ENVIRONMENTAL_DATA.co2Reduction, label: 'Réduction CO2', description: 'vs chaudière gaz/fioul' },
-                { value: ENVIRONMENTAL_DATA.savingsRange, label: 'Économies', description: 'sur la facture chauffage' },
-                { value: '75%', label: 'Énergie gratuite', description: 'captée dans l\'air' },
-              ],
-            }}
-            caption="L'impact positif d'une pompe à chaleur"
-            source="EDF, ADEME"
-          />
-
-          <p>
-            Le principe est vertueux : <strong>75% de l'énergie</strong> utilisée par une PAC 
-            provient de l'air extérieur, une ressource gratuite et inépuisable. Seuls 25% 
-            proviennent de l'électricité, qui peut elle-même être d'origine renouvelable grâce 
-            à des <Link href="/services/panneaux-solaires" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">panneaux solaires</Link>.
-          </p>
-
-          <PullQuote
-            quote="Une pompe à chaleur produit 4 fois plus de chaleur qu'elle ne consomme d'électricité."
-            source="EDF"
-            variant="stat"
-          />
-
-          <p>
-            Pour maximiser l'efficacité de votre PAC et réduire encore davantage votre empreinte 
-            carbone, pensez à combiner votre installation avec une bonne <Link href="/services/isolation" className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2">isolation thermique</Link>. 
-            Une maison bien isolée nécessite moins de puissance de chauffage.
-          </p>
-
-          <SourceCitation
-            source="ADEME"
-            url="https://www.ademe.fr/particuliers-eco-citoyens/habitation/construire/pompe-chaleur/"
-            date="mars 2026"
-          />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: FAQ */}
-        {/* ================================================================ */}
-        <ArticleSection id="faq" title="Questions fréquentes">
-          <FAQAccordion />
-        </ArticleSection>
-
-        {/* ================================================================ */}
-        {/* SECTION: Zone d'intervention */}
-        {/* ================================================================ */}
-        <div className="px-4 py-12">
-          <div 
-            className="bg-slate-50 rounded-2xl p-6 md:p-8"
-            data-testid="service-area-section"
-          >
-            <h2 className="text-xl font-bold text-slate-900 mb-4 font-editorial-serif">
-              Notre zone d'intervention
-            </h2>
-            <p className="text-slate-600 mb-4">
-              Basés à <strong>Ozoir-la-Ferrière</strong>, nous intervenons dans tout le 
-              département de la <strong>Seine-et-Marne (77)</strong> et les communes limitrophes 
-              d'<strong>Île-de-France</strong>.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {CITIES.map((city) => (
-                <Link
-                  key={city.slug}
-                  href={`/services/pompe-a-chaleur/${city.slug}`}
-                  className="inline-block bg-white border border-slate-200 rounded-full px-3 py-1 text-sm text-slate-600 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition-colors"
-                >
-                  {city.name}
-                </Link>
-              ))}
-              <span className="inline-block bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1 text-sm text-emerald-700">
-                + communes environnantes
-              </span>
-            </div>
+      {/* ── METRICS STRIP ── */}
+      <section className="bg-green-900 py-10">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center text-white">
+            {[
+              { val: "×3 à 5", label: "kWh de chaleur produits", sub: "pour 1 kWh consommé" },
+              { val: "−70%", label: "sur la facture chauffage", sub: "économies annuelles moyennes" },
+              { val: "15−20", label: "ans de durée de vie", sub: "avec entretien annuel" },
+              { val: "5 000€", label: "d'aides MaPrimeRénov'", sub: "pour les ménages modestes" },
+            ].map((m) => (
+              <div key={m.val} className="space-y-1">
+                <p className="text-3xl md:text-4xl font-bold text-green-300">{m.val}</p>
+                <p className="text-white font-semibold text-sm">{m.label}</p>
+                <p className="text-green-300/70 text-xs">{m.sub}</p>
+              </div>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* ================================================================ */}
-        {/* SECTION: Sources */}
-        {/* ================================================================ */}
-        <div className="px-4">
-          <SourcesSection
-            sources={OFFICIAL_SOURCES.map((source) => ({
-              name: source.name,
-              url: source.url,
-              description: `Consulté en ${source.date}`,
-            }))}
-          />
-        </div>
+      {/* ── PAC TYPES — TAB INTERFACE ── */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-10">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">Comparatif</span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-3">Quel type de PAC vous convient ?</h2>
+            <p className="text-neutral-500 max-w-xl mx-auto">4 technologies, chacune adaptée à une situation. Sélectionnez votre profil.</p>
+          </div>
 
-        {/* ================================================================ */}
-        {/* Final Contact Box */}
-        {/* ================================================================ */}
-        <div className="px-4 pb-16">
-          <FinalContactBox
-            title="Besoin d'un conseil ?"
-            phone={PHONE_NUMBER}
-          />
+          {/* Tab selector */}
+          <div className="flex gap-2 md:gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+            {PAC_TYPES.map((t, i) => {
+              const p = PALETTE[t.color]
+              const Ti = t.icon
+              const active = i === activeType
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveType(i)}
+                  className={`flex-none flex items-center gap-2 px-4 py-2.5 rounded-full border-2 text-sm font-semibold transition-all whitespace-nowrap ${
+                    active ? `${p.tab} bg-white border-current shadow-sm` : "border-neutral-200 text-neutral-500 hover:border-neutral-300 bg-white"
+                  }`}
+                >
+                  <Ti className="w-4 h-4" />
+                  PAC {t.name}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Tab content */}
+          <div className={`rounded-2xl border-2 ${pal.border} ${pal.bg} overflow-hidden`}>
+            <div className="grid lg:grid-cols-2 gap-0">
+              {/* Left — main info */}
+              <div className="p-7 md:p-10">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${pal.icon}`}>
+                    <Icon className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <span className={`inline-block text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1 ${pal.badge}`}>{type.badge}</span>
+                    <h3 className="font-heading text-2xl font-bold text-neutral-900">PAC {type.name}</h3>
+                    <p className="text-neutral-500 text-sm">{type.tagline}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 mb-7">
+                  <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                    <p className="font-bold text-neutral-900 text-lg">à partir de</p>
+                    <p className={`text-xl font-bold ${pal.check}`}>{type.priceFrom}</p>
+                    <p className="text-xs text-neutral-400">avant aides</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                    <p className="text-xs text-neutral-400 mb-1">COP</p>
+                    <p className="text-xl font-bold text-neutral-900">{type.cop}</p>
+                    <p className="text-xs text-neutral-400">rendement</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                    <p className="text-xs text-neutral-400 mb-1">Économies</p>
+                    <p className="text-xl font-bold text-green-600">{type.savings}</p>
+                    <p className="text-xs text-neutral-400">sur chauffage</p>
+                  </div>
+                </div>
+
+                <div className="bg-white/70 rounded-xl p-4">
+                  <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-1">Idéal pour</p>
+                  <p className="text-neutral-700 font-medium">{type.idealFor}</p>
+                </div>
+              </div>
+
+              {/* Right — pros/cons */}
+              <div className="border-t-2 lg:border-t-0 lg:border-l-2 border-current/10 p-7 md:p-10 bg-white/50">
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-neutral-400 mb-3">Points forts</p>
+                    <ul className="space-y-2.5">
+                      {type.pros.map((p) => (
+                        <li key={p} className="flex items-start gap-2.5">
+                          <CheckCircle className={`w-4 h-4 mt-0.5 shrink-0 ${pal.check}`} />
+                          <span className="text-neutral-700 text-sm">{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-neutral-400 mb-3">À savoir</p>
+                    <ul className="space-y-2.5">
+                      {type.cons.map((c) => (
+                        <li key={c} className="flex items-start gap-2.5">
+                          <span className="text-neutral-400 text-base leading-none mt-0.5 shrink-0">–</span>
+                          <span className="text-neutral-500 text-sm">{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-neutral-200">
+                  <PhoneCallTracker
+                    className="w-full flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                    showIcon={false}
+                  >
+                    <Phone className="w-4 h-4" />
+                    Devis gratuit pour une PAC {type.name}
+                  </PhoneCallTracker>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-xs text-neutral-400 mt-4">
+            Incertain sur le type ? Notre visite technique gratuite détermine la solution optimale pour votre logement.
+          </p>
         </div>
-      </div>
-    </article>
-  );
+      </section>
+
+      {/* ── AIDES 2026 ── */}
+      <section className="py-16 md:py-20 bg-neutral-50">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-10">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">Financement</span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
+              Aides financières 2026 — cumulables
+            </h2>
+            <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-sm font-semibold px-4 py-2 rounded-full">
+              <CheckCircle className="w-4 h-4" />
+              MaPrimeRénov' rouverte depuis le 23 février 2026
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {AIDS.map((aid) => {
+              const p = AID_PALETTE[aid.color]
+              return (
+                <div key={aid.name} className={`bg-white rounded-2xl border-t-4 ${p.border} shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col`}>
+                  <span className={`self-start text-xs font-bold px-2 py-0.5 rounded-full mb-4 ${p.badge}`}>{aid.badge}</span>
+                  <p className="font-heading font-bold text-neutral-900 mb-1">{aid.name}</p>
+                  <p className={`text-2xl font-bold mb-1 ${p.amount}`}>{aid.amount}</p>
+                  <p className="text-neutral-500 text-xs mb-5">{aid.detail}</p>
+                  <ul className="space-y-1.5 mt-auto">
+                    {aid.conditions.map((c) => (
+                      <li key={c} className="flex items-start gap-1.5 text-xs text-neutral-600">
+                        <Check className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${p.check}`} />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="mt-8 bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-800">
+              <strong>Sans artisan certifié RGE, pas d'aides !</strong> À partir de 2027, les logements classés DPE F ou G n'auront plus accès
+              au parcours par geste — anticipez dès maintenant vos travaux.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── INSTALLATION PROCESS ── */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="container mx-auto max-w-5xl px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">Processus</span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-neutral-900 mb-3">De la visite à la mise en service</h2>
+            <p className="text-neutral-500">Nous gérons tout de A à Z — vous n'avancez rien.</p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-0 relative">
+            {/* Connecting line */}
+            <div className="hidden md:block absolute top-10 left-[12.5%] right-[12.5%] h-0.5 bg-green-200" />
+
+            {STEPS.map((step, i) => (
+              <div key={i} className="flex flex-col items-center text-center px-4 pb-8 md:pb-0 relative">
+                {/* Mobile connector */}
+                {i < STEPS.length - 1 && (
+                  <div className="md:hidden absolute left-1/2 bottom-0 w-0.5 h-8 bg-green-200" />
+                )}
+                <div className="relative z-10 w-20 h-20 bg-green-700 rounded-2xl flex flex-col items-center justify-center mb-5 shadow-lg shadow-green-700/20">
+                  <span className="text-2xl">{step.icon}</span>
+                  <span className="text-green-300 text-xs font-bold">{step.n}</span>
+                </div>
+                <p className="font-bold text-neutral-900 mb-1">{step.title}</p>
+                <p className="text-xs font-semibold text-green-600 mb-2 bg-green-50 px-2 py-0.5 rounded-full">{step.duration}</p>
+                <p className="text-neutral-500 text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENVIRONMENTAL IMPACT ── */}
+      <section className="py-16 bg-green-900">
+        <div className="container mx-auto max-w-5xl px-4">
+          <div className="text-center mb-10">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2">Un geste pour la planète</h2>
+            <p className="text-green-200/70">En remplaçant votre chaudière fioul ou gaz par une PAC</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { val: "−70%", label: "d'émissions CO₂", sub: "vs chaudière gaz ou fioul", icon: Leaf },
+              { val: "75%", label: "d'énergie gratuite", sub: "captée dans l'air extérieur", icon: Zap },
+              { val: "3 à 5×", label: "plus efficace", sub: "qu'un chauffage électrique direct", icon: Euro },
+            ].map((s) => {
+              const Si = s.icon
+              return (
+                <div key={s.val} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10">
+                  <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Si className="w-6 h-6 text-green-300" />
+                  </div>
+                  <p className="text-4xl font-bold text-green-300 mb-1">{s.val}</p>
+                  <p className="text-white font-semibold mb-1">{s.label}</p>
+                  <p className="text-green-200/60 text-xs">{s.sub}</p>
+                </div>
+              )
+            })}
+          </div>
+          <div className="text-center mt-8">
+            <p className="text-green-200/60 text-sm">
+              Combinez votre PAC avec des{" "}
+              <Link href="/services/panneaux-solaires" className="text-green-300 hover:text-white underline underline-offset-2 transition-colors">
+                panneaux solaires
+              </Link>{" "}
+              pour une maison 100% décarbonée.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-16 md:py-20 bg-neutral-50">
+        <div className="container mx-auto max-w-3xl px-4">
+          <div className="text-center mb-10">
+            <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">FAQ</span>
+            <h2 className="font-heading text-3xl font-bold text-neutral-900">Questions fréquentes</h2>
+          </div>
+          <div className="space-y-3">
+            {FAQS.map((faq, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-5 text-left hover:bg-neutral-50 transition-colors"
+                  aria-expanded={openFaq === i}
+                >
+                  <span className="font-semibold text-neutral-900 pr-4">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-green-600 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-96" : "max-h-0"}`}>
+                  <p className="px-5 pb-5 text-neutral-600 leading-relaxed text-sm">{faq.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE D'INTERVENTION ── */}
+      <section className="py-12 bg-white border-t border-neutral-100">
+        <div className="container mx-auto max-w-5xl px-4">
+          <h3 className="font-heading text-xl font-bold text-neutral-900 mb-2">Notre zone d'intervention</h3>
+          <p className="text-neutral-500 text-sm mb-5">
+            Basés à <strong>Ozoir-la-Ferrière</strong>, nous intervenons dans tout le{" "}
+            <strong>77 Seine-et-Marne</strong> et les communes limitrophes d'Île-de-France.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                href={`/services/pompe-a-chaleur/${city.slug}`}
+                className="inline-block bg-neutral-50 border border-neutral-200 rounded-full px-3 py-1 text-sm text-neutral-600 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition-colors"
+              >
+                {city.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ── */}
+      <section className="py-16 bg-gradient-to-br from-green-700 to-teal-700">
+        <div className="container mx-auto max-w-3xl px-4 text-center">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-3">Prêt à diviser votre facture par 3 ?</h2>
+          <p className="text-green-100 text-lg mb-8">Visite technique gratuite · Devis sous 48h · Aides montées par notre équipe</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <PhoneCallTracker
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold px-8 py-4 rounded-full shadow-xl transition-all hover:scale-[1.02]"
+              showIcon={false}
+            >
+              <Phone className="w-5 h-5" />
+              {PHONE}
+            </PhoneCallTracker>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border-2 border-white text-white font-bold px-8 py-4 rounded-full transition-all"
+            >
+              Formulaire de contact
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+          <p className="text-green-200/60 text-xs mt-6">Sans engagement · Certification RGE vérifiable sur france-renov.gouv.fr</p>
+        </div>
+      </section>
+    </div>
+  )
 }

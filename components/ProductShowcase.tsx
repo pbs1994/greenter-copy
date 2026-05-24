@@ -95,7 +95,7 @@ export function ProductShowcase() {
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 md:h-20 bg-green-300/20 blur-2xl" />
 
               <Image
-                src={product.image_url || "/kstar.png"}
+                src={product.image_url || "/kstar.webp"}
                 alt={product.name}
                 width={260}
                 height={320}
