@@ -64,6 +64,17 @@ export const CITIES: City[] = [
   { name: "Paris", slug: "paris", postalCode: "75000", department: "Paris" },
 ]
 
+// Sous-ensemble prioritaire pour le sitemap (crawl budget concentré sur les villes
+// les plus recherchées). Les autres pages existent mais ne sont pas soumises à Google.
+const SITEMAP_CITY_SLUGS = new Set([
+  // Tier 1 — grandes villes / chefs-lieux
+  'paris', 'versailles', 'creteil', 'vincennes', 'saint-maur-des-fosses',
+  'champigny-sur-marne', 'meaux', 'melun', 'noisy-le-grand', 'evry-courcouronnes',
+  // Tier 2 — villes moyennes à fort potentiel
+  'chelles', 'maisons-alfort', 'massy', 'corbeil-essonnes', 'pontault-combault',
+])
+export const SITEMAP_CITIES: City[] = CITIES.filter(c => SITEMAP_CITY_SLUGS.has(c.slug))
+
 // -----------------------------------------------------------------------------
 // Services proposés par Greenter
 // -----------------------------------------------------------------------------

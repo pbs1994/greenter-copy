@@ -238,6 +238,31 @@ export default function GuidePrixPAC2026() {
             Installation PAC en Île-de-France <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
+
+        {/* ---- LIENS VILLES ---- */}
+        <div className="mt-6 p-6 bg-white border border-slate-200 rounded-xl">
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Greenter intervient dans votre ville</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: "Créteil", slug: "creteil" },
+              { name: "Vincennes", slug: "vincennes" },
+              { name: "Versailles", slug: "versailles" },
+              { name: "Meaux", slug: "meaux" },
+              { name: "Melun", slug: "melun" },
+              { name: "Noisy-le-Grand", slug: "noisy-le-grand" },
+              { name: "Champigny-sur-Marne", slug: "champigny-sur-marne" },
+              { name: "Évry-Courcouronnes", slug: "evry-courcouronnes" },
+            ].map((city) => (
+              <Link
+                key={city.slug}
+                href={`/services/pompe-a-chaleur/${city.slug}`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium hover:bg-emerald-100 transition-colors"
+              >
+                PAC {city.name} <ArrowRight className="w-3 h-3" />
+              </Link>
+            ))}
+          </div>
+        </div>
       </ArticleLayout>
     </>
   )

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { CITIES } from '@/lib/local-seo-data'
+import { SITEMAP_CITIES } from '@/lib/local-seo-data'
 import { supabase } from '@/lib/supabase'
 
 // Date de dernière mise à jour significative du contenu des pages locales
@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages locales SEO (villes × services)
   const localServices = ['pompe-a-chaleur', 'panneaux-solaires', 'isolation', 'audit']
   const localPages: MetadataRoute.Sitemap = localServices.flatMap((service) =>
-    CITIES.map((city) => ({
+    SITEMAP_CITIES.map((city) => ({
       url: `${baseUrl}/services/${service}/${city.slug}`,
       lastModified: CITY_PAGES_UPDATED,
       changeFrequency: 'monthly' as const,

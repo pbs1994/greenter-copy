@@ -394,6 +394,31 @@ export default function RemplacerChaudiereGazPAC2026() {
             </p>
           </Link>
         </div>
+
+        {/* ---- LIENS VILLES ---- */}
+        <div className="mt-6 p-6 bg-white border border-slate-200 rounded-xl">
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Remplacement chaudière par ville</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: "Créteil", slug: "creteil" },
+              { name: "Vincennes", slug: "vincennes" },
+              { name: "Versailles", slug: "versailles" },
+              { name: "Saint-Maur-des-Fossés", slug: "saint-maur-des-fosses" },
+              { name: "Meaux", slug: "meaux" },
+              { name: "Champigny-sur-Marne", slug: "champigny-sur-marne" },
+              { name: "Massy", slug: "massy" },
+              { name: "Corbeil-Essonnes", slug: "corbeil-essonnes" },
+            ].map((city) => (
+              <Link
+                key={city.slug}
+                href={`/services/pompe-a-chaleur/${city.slug}`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium hover:bg-emerald-100 transition-colors"
+              >
+                PAC {city.name} <ArrowRight className="h-3 w-3" />
+              </Link>
+            ))}
+          </div>
+        </div>
       </ArticleLayout>
     </>
   )

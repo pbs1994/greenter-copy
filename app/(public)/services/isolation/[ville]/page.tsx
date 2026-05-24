@@ -47,9 +47,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
       name: "Greenter",
       url: "https://www.greenter.fr",
       telephone: COMPANY_PHONES.primary.raw,
+      priceRange: "€",
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
+      geo: { "@type": "GeoCoordinates", latitude: COMPANY_ADDRESS.latitude, longitude: COMPANY_ADDRESS.longitude },
     },
-    areaServed: { "@type": "City", name: cityName },
+    areaServed: { "@type": "City", name: cityName, postalCode },
     serviceType: "Isolation Thermique",
   }
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -288,165 +290,6 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
               <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
             </>
           )}
-        </div>
-      </section>
-
-      {/* ===== SECTION : Types de travaux ===== */}
-      <section className="py-12 md:py-16 bg-neutral-50">
-        <div className="container mx-auto max-w-4xl px-4">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
-            Quels travaux d&apos;isolation à {city.name} ?
-          </h2>
-          {cityData ? (
-            <>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                Le parc immobilier de {city.name}, construit majoritairement {cityData.anneeConstruction}, présente des caractéristiques thermiques bien identifiées : {cityData.caracteristique.toLowerCase()} Ces logements perdent en moyenne {cityData.consommationMoyenne} kWh/m²/an, soit bien au-dessus du seuil de 180 kWh recommandé par la réglementation actuelle.
-              </p>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                {cityData.pctMaisons >= 50
-                  ? `Avec ${cityData.pctMaisons}% de maisons individuelles à ${city.name}, le geste prioritaire est l'isolation des combles perdus par soufflage : c'est là que s'échappent 25 à 30% de la chaleur. Une intervention de 1 à 2 jours suffit pour traiter une maison entière, avec un retour sur investissement de 3 à 5 ans seulement. Les planchers bas sur vide sanitaire, très répandus dans les pavillons de la commune, constituent la deuxième priorité.`
-                  : `À ${city.name}, les appartements en copropriété représentent la majorité du parc (${100 - cityData.pctMaisons}% des logements). La problématique est ici collective : l'isolation thermique par l'extérieur (ITE) des façades, votée en assemblée générale, est la solution la plus efficace et éligible aux aides ANAH Copropriétés. Pour les maisons individuelles, l'isolation des combles reste la priorité absolue.`
-                }
-              </p>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-8">
-                {cityData.pctChauffageFioul >= 10
-                  ? `Le fioul représente encore ${cityData.pctChauffageFioul}% du chauffage à ${city.name}. L'isolation thermique est doublement stratégique pour ces foyers : elle réduit la consommation avant le passage à la PAC, et permet de passer à un équipement moins puissant (donc moins cher). La combinaison isolation + PAC air-eau est le projet le plus rentable pour les maisons au fioul de la commune.`
-                  : `Avec ${cityData.pctChauffageGaz}% de chauffage au gaz à ${city.name} et une consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an, l'isolation des combles associée à un réglage de la chaudière permet souvent de gagner une lettre DPE sans changer l'équipement de chauffage. C'est le premier pas vers une rénovation globale performante.`
-                }
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                Greenter réalise tous les types d&apos;isolation thermique à {city.name} : combles perdus et aménagés, isolation des murs par l&apos;intérieur (ITI) ou par l&apos;extérieur (ITE), et isolation des planchers bas. Chaque logement est unique : nos techniciens certifiés RGE réalisent une étude gratuite avant tout devis.
-              </p>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-8">
-                Les combles représentent 25 à 30% des déperditions thermiques d&apos;une maison. Une isolation des combles perdus par soufflage de ouate de cellulose (R≥7) est souvent le geste le plus rentable, avec un retour sur investissement de 3 à 5 ans.
-              </p>
-            </>
-          )}
-
-          {/* Tableau des types de travaux */}
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div className="bg-white rounded-xl border border-neutral-200 p-5">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-blue-700 font-bold text-lg">🏠</span>
-              </div>
-              <h3 className="font-semibold text-neutral-900 mb-2">Isolation des combles</h3>
-              <p className="text-sm text-neutral-600 mb-3">Soufflage de ouate ou laine minérale. ROI 3-5 ans. Résultat immédiat sur la facture de chauffage.</p>
-              <p className="text-xs font-semibold text-blue-700">À partir de 20€/m²</p>
-            </div>
-            <div className="bg-white rounded-xl border border-neutral-200 p-5">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-blue-700 font-bold text-lg">🧱</span>
-              </div>
-              <h3 className="font-semibold text-neutral-900 mb-2">Isolation des murs</h3>
-              <p className="text-sm text-neutral-600 mb-3">ITE (extérieur) ou ITI (intérieur). Traitement des ponts thermiques. Compatible avec toutes les façades.</p>
-              <p className="text-xs font-semibold text-blue-700">De 80€ à 180€/m²</p>
-            </div>
-            <div className="bg-white rounded-xl border border-neutral-200 p-5">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-blue-700 font-bold text-lg">⬇️</span>
-              </div>
-              <h3 className="font-semibold text-neutral-900 mb-2">Planchers bas</h3>
-              <p className="text-sm text-neutral-600 mb-3">Isolation du vide sanitaire ou de la dalle. Confort immédiat : plus de sols froids en hiver.</p>
-              <p className="text-xs font-semibold text-blue-700">À partir de 30€/m²</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION : Aides financières ===== */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto max-w-4xl px-4">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
-            Aides 2026 pour l&apos;isolation à {city.name}
-          </h2>
-          {cityData ? (
-            <>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                À {city.name} (code postal {city.postalCode}, {city.department}), {cityData.pctPassoiresThermiques}% des logements sont classés F ou G au DPE. Ce taux place la commune dans les secteurs prioritaires pour MaPrimeRénov&apos; : les ménages modestes et très modestes bénéficient des aides les plus élevées pour rénover ces passoires thermiques. La prime peut couvrir jusqu&apos;à 90% du coût des travaux d&apos;isolation pour les ménages aux ressources les plus faibles.
-              </p>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                Le DPE moyen de {city.name} est {cityData.dpeMoyen}, avec une consommation de {cityData.consommationMoyenne} kWh/m²/an. Descendre sous le seuil de 330 kWh/m²/an (sortir du statut de passoire thermique) est souvent accessible avec la seule isolation des combles. C&apos;est un investissement prioritaire avant toute mise en location, et une condition pour accéder aux aides MaPrimeRénov&apos; Rénovation globale.
-              </p>
-            </>
-          ) : (
-            <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-              Les habitants de {city.name} peuvent bénéficier de plusieurs aides cumulables pour leurs travaux d&apos;isolation. Greenter vous accompagne dans le montage de tous vos dossiers.
-            </p>
-          )}
-          <div className="grid sm:grid-cols-2 gap-4 mb-6">
-            <div className="bg-green-50 rounded-xl p-5 border border-green-100">
-              <h3 className="font-semibold text-green-900 mb-3">MaPrimeRénov&apos; 2026</h3>
-              <ul className="space-y-2 text-sm text-green-800">
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />Jusqu&apos;à 75€/m² pour l&apos;ITE (murs extérieurs)</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />Jusqu&apos;à 25€/m² pour les combles perdus</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />Jusqu&apos;à 75% du coût total selon ressources</li>
-              </ul>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
-              <h3 className="font-semibold text-blue-900 mb-3">Autres aides cumulables</h3>
-              <ul className="space-y-2 text-sm text-blue-800">
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />CEE (Certificats d&apos;Économies d&apos;Énergie)</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />TVA réduite à 5,5% sur tous les travaux</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />Éco-PTZ jusqu&apos;à 50 000€ (sans intérêts)</li>
-              </ul>
-            </div>
-          </div>
-          {cityData && cityData.pctChauffageFioul >= 10 && (
-            <div className="bg-amber-50 rounded-xl p-5 border border-amber-200">
-              <p className="text-amber-900 text-sm font-semibold mb-1">⚡ Coup de pouce fioul à {city.name}</p>
-              <p className="text-amber-800 text-sm">
-                {cityData.pctChauffageFioul}% des logements de {city.name} sont encore au fioul. La prime &quot;coup de pouce chauffage&quot; offre jusqu&apos;à 5 000€ supplémentaires pour les ménages remplaçant une chaudière fioul par une PAC, en complément de l&apos;isolation réalisée simultanément.
-              </p>
-            </div>
-          )}
-          <div className="mt-6 bg-neutral-50 rounded-xl p-5">
-            <p className="text-neutral-600 text-sm leading-relaxed">
-              <strong>Notre accompagnement :</strong> Greenter prend en charge l&apos;intégralité des démarches administratives pour les aides — montage du dossier MaPrimeRénov&apos;, déclaration des CEE, demande d&apos;éco-PTZ. Nos artisans certifiés RGE Qualibat sont les seuls habilités à faire bénéficier leurs clients de ces subventions. Devis gratuit, sans engagement, sous 48h à {city.name}.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION : Processus ===== */}
-      <section className="py-12 md:py-16 bg-neutral-50">
-        <div className="container mx-auto max-w-4xl px-4">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-8">
-            Comment Greenter réalise votre isolation à {city.name}
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {[
-              { step: "1", title: "Étude gratuite sur place", desc: `Un technicien Greenter se déplace à ${city.name} pour évaluer votre logement (combles, murs, planchers), mesurer les surfaces et identifier les points de déperdition. Diagnostic thermique inclus.` },
-              { step: "2", title: "Devis personnalisé sous 48h", desc: `Vous recevez un devis détaillé avec le choix des matériaux adaptés au parc ${cityData ? cityData.anneeConstruction : 'local'}, le montant des aides déduites, et le planning des travaux.` },
-              { step: "3", title: "Gestion des aides", desc: `Greenter monte l'intégralité de votre dossier MaPrimeRénov' et CEE. Vous n'avez aucune démarche administrative à effectuer. La prime est déduite directement de votre facture.` },
-              { step: "4", title: "Travaux par nos artisans RGE", desc: `Nos équipes certifiées RGE Qualibat réalisent les travaux dans le respect des DTU (Documents Techniques Unifiés). Pour les combles, l'intervention dure généralement 1 journée.` },
-              { step: "5", title: "Réception & garanties", desc: `À la livraison, vous recevez le certificat RGE, les attestations de fin de travaux pour les aides, et la garantie décennale. Notre SAV intervient à ${city.name} sous 48h en cas de problème.` },
-            ].map((item) => (
-              <div key={item.step} className="flex gap-4 bg-white rounded-xl p-5 border border-neutral-200">
-                <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  {item.step}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-neutral-900 mb-1">{item.title}</h3>
-                  <p className="text-sm text-neutral-600">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-            <div className="flex gap-4 bg-blue-600 rounded-xl p-5">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <Phone className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Prêt à démarrer à {city.name} ?</h3>
-                <p className="text-blue-100 text-sm mb-3">Contactez-nous pour votre étude gratuite. Réponse sous 48h.</p>
-                <Link href="/contact" className="inline-flex items-center gap-1 bg-white text-blue-700 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-                  Demander mon devis <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
