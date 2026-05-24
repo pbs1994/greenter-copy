@@ -474,6 +474,96 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
         </div>
       </section>
 
+      {/* ===== SECTION : Quelle PAC choisir ===== */}
+      <section className="py-12 md:py-16 bg-neutral-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Quelle pompe à chaleur pour {city.name} ?
+          </h2>
+          {cityData ? (
+            <>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                Le choix de la PAC dépend directement du profil énergétique de votre logement et de la commune. À {city.name}, le parc est construit majoritairement {cityData.anneeConstruction} avec {cityData.pctMaisons}% de maisons individuelles. {cityData.caracteristique}
+              </p>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                {cityData.pctChauffageGaz >= 50
+                  ? `Avec ${cityData.pctChauffageGaz}% de chauffage au gaz à ${city.name}, la PAC air-eau est la solution la plus courante et la plus rentable : elle se branche directement sur le circuit de radiateurs ou de plancher chauffant existant, sans travaux supplémentaires. Le remplacement d'une chaudière gaz vieillissante (20-25 ans d'âge) par une PAC air-eau permet d'économiser ${cityData.economieChauffage} par an dès la première saison de chauffe.`
+                  : cityData.pctChauffageElec >= 35
+                  ? `Avec ${cityData.pctChauffageElec}% de chauffage électrique à ${city.name}, la PAC air-air réversible est particulièrement adaptée : elle remplace avantageusement les convecteurs vieillissants avec un COP (coefficient de performance) de 3 à 4 — soit 3 à 4 kWh de chaleur produits pour 1 kWh électrique consommé. La climatisation estivale réversible est incluse, un vrai plus avec les étés de plus en plus chauds.`
+                  : `À ${city.name}, la répartition chauffage gaz (${cityData.pctChauffageGaz}%) / électrique (${cityData.pctChauffageElec}%) / fioul (${cityData.pctChauffageFioul}%) guide le choix : PAC air-eau pour les logements avec circuit de radiateurs, PAC air-air pour les logements tout-électrique. ${cityData.recommendationPAC}`
+                }
+              </p>
+              {cityData.pctChauffageFioul >= 10 && (
+                <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                  Le fioul représente encore {cityData.pctChauffageFioul}% du chauffage à {city.name}. Pour ces foyers, le passage à la PAC est urgent : l&apos;interdiction d&apos;installer de nouvelles chaudières fioul est effective depuis 2022, et leur remplacement sera obligatoire d&apos;ici 2028. La PAC air-eau haute température (65°C) peut fonctionner sur les anciens radiateurs fonte sans modification du circuit. La prime &quot;coup de pouce chauffage&quot; peut atteindre 5 000€ pour ce remplacement.
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+              Greenter propose deux types de pompes à chaleur à {city.name} : la PAC air-eau (idéale pour les logements avec chauffage central) et la PAC air-air réversible (parfaite pour les logements tout-électrique). Nos experts réalisent une étude gratuite pour déterminer la solution optimale.
+            </p>
+          )}
+
+          <div className="grid sm:grid-cols-2 gap-4 mb-6">
+            <div className="bg-white rounded-xl border border-neutral-200 p-5">
+              <h3 className="font-semibold text-neutral-900 mb-2">PAC Air-Eau — Remplacement chaudière</h3>
+              <ul className="space-y-1.5 text-sm text-neutral-600">
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Compatible radiateurs et plancher chauffant existants</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Produit aussi l&apos;eau chaude sanitaire</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />COP de 3 à 5 selon température extérieure</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />MaPrimeRénov&apos; jusqu&apos;à 8 000€</li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-xl border border-neutral-200 p-5">
+              <h3 className="font-semibold text-neutral-900 mb-2">PAC Air-Air — Climatisation réversible</h3>
+              <ul className="space-y-1.5 text-sm text-neutral-600">
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Chauffe en hiver, rafraîchit en été</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Installation rapide (1 journée)</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Idéale pour remplacer les convecteurs électriques</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />À partir de 1 500€ posée avec aides</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION : Aides + Processus ===== */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Aides et installation à {city.name} — Comment ça marche ?
+          </h2>
+          {cityData && (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-6">
+              À {city.name}, avec un DPE moyen {cityData.dpeMoyen} et {cityData.pctPassoiresThermiques}% de passoires thermiques, la plupart des foyers sont éligibles à MaPrimeRénov&apos;. L&apos;aide est calculée selon vos revenus et la nature des travaux. Pour un ménage à revenus intermédiaires remplaçant une chaudière gaz par une PAC air-eau, l&apos;aide peut atteindre 4 000 à 6 000€, réduisant le reste à charge à 4 000-8 000€ pour un équipement qui durera 15 à 20 ans.
+            </p>
+          )}
+          <div className="grid sm:grid-cols-3 gap-4 mb-8">
+            {[
+              { num: "01", title: "Étude gratuite", desc: `Visite technique à ${city.name} : bilan thermique, préconisation du modèle adapté, simulation des économies.` },
+              { num: "02", title: "Devis + aides en 48h", desc: "Devis transparent avec aides déduites (MaPrimeRénov', CEE). Zéro démarche administrative pour vous." },
+              { num: "03", title: "Installation en 1-2 jours", desc: "Nos techniciens certifiés RGE QualiPAC installent et mettent en service votre PAC. Garantie décennale." },
+            ].map((s) => (
+              <div key={s.num} className="bg-neutral-50 rounded-xl p-5 border border-neutral-200">
+                <p className="text-3xl font-bold text-green-600 mb-2">{s.num}</p>
+                <h3 className="font-semibold text-neutral-900 mb-2">{s.title}</h3>
+                <p className="text-sm text-neutral-600">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 border border-green-100">
+            <h3 className="font-semibold text-neutral-900 mb-3">Les aides cumulables à {city.name} en 2026</h3>
+            <div className="grid sm:grid-cols-2 gap-3 text-sm">
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>MaPrimeRénov&apos;</strong> : jusqu&apos;à 8 000€ pour une PAC air-eau</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>CEE</strong> : prime versée par les fournisseurs d&apos;énergie</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>TVA à 5,5%</strong> sur l&apos;équipement et la pose</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>Éco-PTZ</strong> : prêt sans intérêts jusqu&apos;à 50 000€</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 md:py-16 bg-neutral-50">
         <div className="container mx-auto max-w-4xl px-4">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-8">

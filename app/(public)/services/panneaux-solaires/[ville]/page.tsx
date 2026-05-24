@@ -49,7 +49,11 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
       telephone: COMPANY_PHONES.primary.raw,
       priceRange: "€€",
       address: { "@type": "PostalAddress", addressLocality: COMPANY_ADDRESS.locality, postalCode: COMPANY_ADDRESS.postalCode, addressCountry: COMPANY_ADDRESS.country },
-      geo: { "@type": "GeoCoordinates", latitude: COMPANY_ADDRESS.latitude, longitude: COMPANY_ADDRESS.longitude },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: COMPANY_ADDRESS.latitude,
+        longitude: COMPANY_ADDRESS.longitude,
+      },
     },
     areaServed: { "@type": "City", name: cityName, postalCode },
     serviceType: "Installation Panneaux Solaires Photovoltaïques",
@@ -410,6 +414,109 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
               <p className="text-neutral-400 text-xs mt-3">Sources : INSEE 2022, ADEME, base DPE, Météo France. Zone climatique {cityData.zoneClimatique}, {cityData.dju} DJU. Parc construit majoritairement {cityData.anneeConstruction}. Données indicatives à l&apos;échelle communale.</p>
             </>
           )}
+        </div>
+      </section>
+
+      {/* ===== SECTION : Potentiel solaire local ===== */}
+      <section className="py-12 md:py-16 bg-neutral-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Potentiel solaire et types d&apos;installation à {city.name}
+          </h2>
+          {cityData ? (
+            <>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                {cityData.contexteSolaire ?? `${city.name} bénéficie d'un ensoleillement d'environ 1 700 heures par an, dans la moyenne haute de l'Île-de-France. La zone climatique ${cityData.zoneClimatique} correspond à une irradiation solaire de 1 100 à 1 200 kWh/m²/an sur un panneau bien orienté plein sud — suffisant pour rentabiliser une installation en 8 à 11 ans.`}
+              </p>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-5">
+                {cityData.pctMaisons >= 50
+                  ? `Avec ${cityData.pctMaisons}% de maisons individuelles à ${city.name}, la grande majorité des foyers dispose d'une toiture adaptée à l'installation de panneaux photovoltaïques. Les pavillons construits ${cityData.anneeConstruction} ont généralement des charpentes solides capables de supporter le poids des modules (10-15 kg/m²). Une installation de 4 à 6 kWc sur une maison de 90 à 130 m² couvre entre 40 et 70% de la consommation électrique annuelle.`
+                  : `À ${city.name}, ${cityData.pctMaisons}% de maisons permettent des installations individuelles en toiture. Pour les copropriétés (${100 - cityData.pctMaisons}% du parc), des solutions d'autoconsommation collective émergent, permettant à chaque copropriétaire de bénéficier du solaire produit sur la toiture commune.`
+                }
+              </p>
+              <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+                {cityData.pctChauffageElec >= 30
+                  ? `Le chauffage électrique représente ${cityData.pctChauffageElec}% du parc de ${city.name}. C'est une opportunité majeure : une PAC air-air ou un plancher chauffant électrique alimenté en partie par les panneaux solaires peut réduire la facture d'énergie de 50 à 70%. La combinaison PAC réversible + panneaux photovoltaïques en autoconsommation est le meilleur investissement énergétique pour ces logements.`
+                  : `Avec ${cityData.pctChauffageGaz}% de chauffage au gaz à ${city.name}, les panneaux solaires couvrent d'abord la consommation électrique domestique (éclairage, électroménager, recharge véhicule). Le couplage avec une PAC air-eau (passage du gaz au solaire/électrique) est l'étape suivante vers l'autonomie énergétique totale.`
+                }
+              </p>
+            </>
+          ) : (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+              {city.name} bénéficie d&apos;un bon ensoleillement francilien pour une installation rentable. Greenter réalise une étude de faisabilité gratuite pour déterminer la puissance optimale selon votre toiture et vos besoins.
+            </p>
+          )}
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl border border-neutral-200 p-5">
+              <h3 className="font-semibold text-neutral-900 mb-2">Installation en autoconsommation</h3>
+              <p className="text-sm text-neutral-600 mb-3">Vous consommez directement l&apos;électricité produite. Le surplus est injecté sur le réseau. Idéal pour réduire la facture EDF.</p>
+              <p className="text-xs font-semibold text-amber-700">Prime autoconsommation jusqu&apos;à 2 340€</p>
+            </div>
+            <div className="bg-white rounded-xl border border-neutral-200 p-5">
+              <h3 className="font-semibold text-neutral-900 mb-2">Revente totale EDF OA</h3>
+              <p className="text-sm text-neutral-600 mb-3">Toute la production est revendue à EDF à un tarif garanti sur 20 ans. Revenus complémentaires stables et prévisibles.</p>
+              <p className="text-xs font-semibold text-amber-700">Tarif de rachat : 0,13€/kWh</p>
+            </div>
+            <div className="bg-white rounded-xl border border-neutral-200 p-5">
+              <h3 className="font-semibold text-neutral-900 mb-2">Avec batterie de stockage</h3>
+              <p className="text-sm text-neutral-600 mb-3">Stockage du surplus pour la consommation en soirée et nuit. Autonomie maximale, idéal couplé à une PAC ou un véhicule électrique.</p>
+              <p className="text-xs font-semibold text-amber-700">Autonomie jusqu&apos;à 80% en été</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION : ROI et aides ===== */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Rentabilité et aides pour vos panneaux solaires à {city.name}
+          </h2>
+          {cityData && (
+            <p className="text-neutral-600 text-lg leading-relaxed mb-6">
+              À {city.name} ({city.postalCode}), la consommation électrique moyenne d&apos;un foyer de 4 personnes est d&apos;environ 5 000 kWh/an. Une installation de 6 kWc en toiture produit 6 000 à 6 500 kWh/an selon l&apos;orientation. En autoconsommation, avec un taux d&apos;autoconsommation de 50%, l&apos;économie annuelle est d&apos;environ 450 à 650€/an sur la facture EDF, avec un retour sur investissement de 8 à 12 ans — garanti par la durée de vie des panneaux (25-30 ans).
+            </p>
+          )}
+          <div className="grid sm:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 className="font-semibold text-neutral-900 mb-4">Aides disponibles à {city.name}</h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 bg-amber-50 rounded-xl p-4 border border-amber-100">
+                  <CheckCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-amber-900 text-sm">Prime à l&apos;autoconsommation</p>
+                    <p className="text-amber-700 text-xs mt-0.5">390€/kWc pour ≤3 kWc · 290€/kWc pour 3-9 kWc · versée sur 5 ans</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 bg-amber-50 rounded-xl p-4 border border-amber-100">
+                  <CheckCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-amber-900 text-sm">TVA réduite à 10%</p>
+                    <p className="text-amber-700 text-xs mt-0.5">Sur la fourniture et l&apos;installation (logements de plus de 2 ans)</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 bg-amber-50 rounded-xl p-4 border border-amber-100">
+                  <CheckCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-amber-900 text-sm">Exonération fiscale</p>
+                    <p className="text-amber-700 text-xs mt-0.5">Les revenus de revente EDF sont exonérés d&apos;impôts jusqu&apos;à 3 000€/an</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold text-neutral-900 mb-4">Simulation pour {city.name}</h3>
+              <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-5 space-y-3">
+                <div className="flex justify-between text-sm"><span className="text-neutral-600">Installation 6 kWc (coût brut)</span><span className="font-semibold">~9 000€</span></div>
+                <div className="flex justify-between text-sm text-amber-700"><span>Prime autoconsommation</span><span className="font-semibold">- 1 740€</span></div>
+                <div className="flex justify-between text-sm text-amber-700"><span>Économie TVA (10% vs 20%)</span><span className="font-semibold">- 900€</span></div>
+                <div className="border-t border-neutral-200 pt-2 flex justify-between font-bold"><span>Reste à charge estimé</span><span className="text-green-700">~6 360€</span></div>
+                <div className="flex justify-between text-sm text-neutral-500"><span>Économies/an (autoconsomm.)</span><span>550-650€</span></div>
+                <div className="flex justify-between text-sm text-neutral-500"><span>Retour sur investissement</span><span>9-11 ans</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
