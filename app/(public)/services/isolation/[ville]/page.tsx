@@ -267,17 +267,20 @@ export default async function LocalIsolationPage({ params }: { params: Promise<{
                   </div>
                 </div>
 
-                {/* Contexte énergétique unique */}
+                {/* Contexte isolation unique */}
                 <div className="bg-neutral-50 rounded-xl p-5">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
-                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte isolation à {city.name}</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteIsolation ?? cityData.contexteEnergetique}</p>
                 </div>
 
                 {/* Recommandation isolation */}
                 <div className="mt-4 bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
                   <h4 className="font-semibold text-blue-800 mb-1">Notre recommandation isolation pour {city.name}</h4>
                   <p className="text-blue-700 text-sm">
-                    Avec {cityData.pctPassoiresThermiques}% de passoires thermiques et un parc construit {cityData.anneeConstruction}, l&apos;isolation des combles et murs est prioritaire à {city.name}. La consommation moyenne de {cityData.consommationMoyenne} kWh/m²/an peut être réduite de 30% avec une isolation performante.
+                    {cityData.recommendationIsolation
+                      ? cityData.recommendationIsolation
+                      : `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques et un parc construit ${cityData.anneeConstruction}, l'isolation des combles et murs est prioritaire à ${city.name}. La consommation moyenne de ${cityData.consommationMoyenne} kWh/m²/an peut être réduite de 30% avec une isolation performante.`
+                    }
                   </p>
                 </div>
               </div>

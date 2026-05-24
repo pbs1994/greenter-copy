@@ -385,19 +385,21 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                   </div>
                 </div>
 
-                {/* Contexte énergétique unique */}
+                {/* Contexte solaire unique */}
                 <div className="bg-neutral-50 rounded-xl p-5">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
-                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                  <h4 className="font-semibold text-neutral-900 mb-2">Potentiel solaire à {city.name}</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteSolaire ?? cityData.contexteEnergetique}</p>
                 </div>
 
                 {/* Recommandation solaire */}
                 <div className="mt-4 bg-sky-50 rounded-xl p-5 border-l-4 border-sky-500">
                   <h4 className="font-semibold text-sky-800 mb-1">Notre recommandation solaire pour {city.name}</h4>
                   <p className="text-sky-700 text-sm">
-                    {cityData.pctChauffageElec >= 25
-                      ? `Avec ${cityData.pctChauffageElec}% de chauffage électrique, les panneaux solaires en autoconsommation sont particulièrement rentables à ${city.name}. L'électricité produite couvre directement une partie de la consommation de chauffage et réduit significativement la facture.`
-                      : `Avec ${cityData.pctMaisons}% de maisons individuelles, ${city.name} offre un excellent potentiel pour l'installation de panneaux solaires en toiture. L'autoconsommation permet de réduire vos factures d'électricité et de valoriser votre patrimoine immobilier.`
+                    {cityData.recommendationSolaire
+                      ? cityData.recommendationSolaire
+                      : cityData.pctChauffageElec >= 25
+                        ? `Avec ${cityData.pctChauffageElec}% de chauffage électrique, les panneaux solaires en autoconsommation sont particulièrement rentables à ${city.name}. L'électricité produite couvre directement une partie de la consommation de chauffage et réduit significativement la facture.`
+                        : `Avec ${cityData.pctMaisons}% de maisons individuelles, ${city.name} offre un excellent potentiel pour l'installation de panneaux solaires en toiture. L'autoconsommation permet de réduire vos factures d'électricité et de valoriser votre patrimoine immobilier.`
                     }
                   </p>
                 </div>

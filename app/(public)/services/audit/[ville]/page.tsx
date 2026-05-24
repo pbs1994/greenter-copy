@@ -267,10 +267,10 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
                   </div>
                 </div>
 
-                {/* Contexte énergétique local */}
+                {/* Contexte audit local */}
                 <div className="bg-neutral-50 rounded-xl p-5 mb-4">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Contexte énergétique local</h4>
-                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteEnergetique}</p>
+                  <h4 className="font-semibold text-neutral-900 mb-2">Audit énergétique à {city.name}</h4>
+                  <p className="text-neutral-600 text-sm leading-relaxed">{cityData.contexteAudit ?? cityData.contexteEnergetique}</p>
                 </div>
 
                 {/* Recommandation audit */}
