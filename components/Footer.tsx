@@ -221,16 +221,20 @@ export function Footer() {
         <div className="container mx-auto max-w-6xl px-4 py-8">
           <h4 className="font-heading font-semibold text-lg mb-4">Zones d'intervention</h4>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {CITIES.map((city) => (
-              <li key={city.slug}>
-                <Link
-                  href={`/services/pompe-a-chaleur/${city.slug}`}
-                  className="text-green-200 hover:text-white transition-colors text-sm"
-                >
-                  {city.name}
-                </Link>
-              </li>
-            ))}
+            {CITIES.map((city, i) => {
+              const services = ['pompe-a-chaleur', 'isolation', 'panneaux-solaires', 'audit']
+              const service = services[i % services.length]
+              return (
+                <li key={city.slug}>
+                  <Link
+                    href={`/services/${service}/${city.slug}`}
+                    className="text-green-200 hover:text-white transition-colors text-sm"
+                  >
+                    {city.name}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </div>
