@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createOption, updateOption } from '@/app/administrator/actions/maintenance';
+import { createMaintenanceOption as createOption, updateMaintenanceOption as updateOption } from '@/app/administrator/actions/maintenance';
 import type { MaintenanceOption } from '@/types/maintenance';
 
 interface MaintenanceOptionFormProps {

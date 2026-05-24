@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { createService, updateService } from '@/app/administrator/actions/maintenance';
+import { createMaintenanceService as createService, updateMaintenanceService as updateService } from '@/app/administrator/actions/maintenance';
 import type { MaintenanceService } from '@/types/maintenance';
 
 interface MaintenanceServiceFormProps {
