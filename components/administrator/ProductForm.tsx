@@ -69,7 +69,9 @@ export function ProductForm({ product, categories, mode }: ProductFormProps) {
   const [isCustomPage, setIsCustomPage] = useState(product?.is_custom_page ?? false);
   
   // Dynamic spec fields
-  const [specs, setSpecs] = useState<Record<string, string | number>>(product?.specs || {});
+  const [specs, setSpecs] = useState<Record<string, string | number>>(
+    Array.isArray(product?.specs) ? {} : ((product?.specs ?? {}) as Record<string, string | number>)
+  );
   const [specFields, setSpecFields] = useState<SpecField[]>([]);
   
   // Features and FAQ
