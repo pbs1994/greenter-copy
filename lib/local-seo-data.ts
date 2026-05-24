@@ -172,4 +172,3 @@ export const COMPANY_CONTACT_POINTS = [
     availableLanguage: ["French"],
   },
 ] as const
-# test
