@@ -127,7 +127,7 @@ export function CookieBanner() {
         </div>
         {/* Texte */}
         <p className="text-[#D4ECDB] text-xs md:text-sm leading-snug text-center md:text-left flex-1">
-          🍪 Ce site utilise des cookies pour fonctionner, mesurer l&apos;audience et personnaliser les publicités.{" "}
+          🍪 Ce site utilise des cookies pour fonctionner, mesurer l'audience et personnaliser les publicités.{" "}
           <a href="/confidentialite" className="text-white underline">En savoir plus</a>
         </p>
       </div>

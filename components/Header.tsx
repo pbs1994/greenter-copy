@@ -46,7 +46,7 @@ const services = [
     href: "/services/isolation",
     description: "Combles & planchers bas — aides 2026",
     icon: Home,
-    image: "/isolation.webp",
+    image: "/isolation.jpg",
     badge: "Nouveau",
   },
   {
@@ -113,7 +113,7 @@ export function Header() {
                 title: p.name,
                 href: `/produits/${categorySlug || 'stockage-solaire'}/${p.slug}`,
                 description: p.short_description || '',
-                image: p.image_url || '/kstar.webp',
+                image: p.image_url || '/kstar.png',
                 badge: p.slug.includes('kit') ? 'Populaire' : null,
                 slug: p.slug
               }

@@ -24,12 +24,12 @@ export function ObfuscatedEmail({ className = "", showIcon = false }: Obfuscated
   const email = useObfuscatedEmail()
 
   return (
-    <button 
-      onClick={() => email && (window.location.href = `mailto:${email}`)}
+    <a
+      href={email ? `mailto:${email}` : undefined}
       className={className}
     >
       {email || "Chargement..."}
-    </button>
+    </a>
   )
 }
 
@@ -42,18 +42,15 @@ interface ObfuscatedEmailLinkProps {
 export function ObfuscatedEmailLink({ className = "", subject, children }: ObfuscatedEmailLinkProps) {
   const email = useObfuscatedEmail()
 
-  const handleClick = () => {
-    if (email) {
-      const mailto = subject 
-        ? `mailto:${email}?subject=${encodeURIComponent(subject)}`
-        : `mailto:${email}`
-      window.location.href = mailto
-    }
-  }
+  const href = email
+    ? subject
+      ? `mailto:${email}?subject=${encodeURIComponent(subject)}`
+      : `mailto:${email}`
+    : undefined
 
   return (
-    <button onClick={handleClick} className={className}>
+    <a href={href} className={className}>
       {children}
-    </button>
+    </a>
   )
 }

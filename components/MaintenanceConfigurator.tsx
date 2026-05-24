@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { Check, Loader2, ArrowRight, ShieldCheck, Flame, Wind, Sun, Droplets, SunMedium, SunDim, Zap, Wrench, Sparkles, Phone, Info, X, type LucideIcon } from 'lucide-react'
 import { formatEUR } from '@/lib/format'
+import { getMultiDiscount, calculatePricing } from '@/lib/maintenance-pricing'
 import type { MaintenanceService, MaintenanceOption } from '@/types/maintenance'
 
 interface MaintenanceConfiguratorProps {
@@ -78,48 +79,7 @@ function getIcon(name: string): LucideIcon {
   return iconMap[name] ?? Wrench
 }
 
-function getMultiDiscount(serviceCount: number): number {
-  if (serviceCount >= 4) return 15
-  if (serviceCount === 3) return 10
-  if (serviceCount === 2) return 5
-  return 0
-}
-
-function calculatePricing(
-  services: MaintenanceService[],
-  options: MaintenanceOption[],
-  selectedServiceIds: string[],
-  selectedOptionIds: string[]
-) {
-  const selectedServices = services.filter(s => selectedServiceIds.includes(s.id))
-  const selectedOptions = options.filter(o => selectedOptionIds.includes(o.id))
-
-  const flatFeeOptions = selectedOptions.filter(o => o.is_flat_fee)
-  const recurringOptions = selectedOptions.filter(o => !o.is_flat_fee)
-
-  const servicesMonthly = selectedServices.reduce((sum, s) => sum + s.price_monthly, 0)
-  const discountMultiPercent = getMultiDiscount(selectedServices.length)
-  const discountMultiMonthly = Math.round(servicesMonthly * discountMultiPercent / 100)
-  const servicesAfterMultiMonthly = servicesMonthly - discountMultiMonthly
-
-  const optionsMonthly = recurringOptions.reduce((sum, o) => sum + o.price_monthly, 0)
-  const flatFeeTotal = flatFeeOptions.reduce((sum, o) => sum + o.price_monthly, 0)
-
-  const totalMonthly = servicesAfterMultiMonthly + optionsMonthly
-  const totalAnnual = totalMonthly * 12 + flatFeeTotal
-
-  return {
-    servicesMonthly,
-    discountMultiPercent,
-    discountMultiMonthly,
-    discountMultiAnnual: discountMultiMonthly * 12,
-    servicesAfterMultiMonthly,
-    optionsMonthly,
-    flatFeeTotal,
-    totalMonthly,
-    totalAnnual,
-  }
-}
+// getMultiDiscount et calculatePricing importes depuis lib/maintenance-pricing.ts
 
 export function MaintenanceConfigurator({ services, options }: MaintenanceConfiguratorProps) {
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -455,7 +415,7 @@ export function MaintenanceConfigurator({ services, options }: MaintenanceConfig
                       Remise -{pricing.discountMultiPercent}%
                     </span>
                     <span className="text-sm font-bold text-green-800 tabular-nums">
-                      -{formatEUR(pricing.discountMultiAnnual)}
+                      -{formatEUR(pricing.discountMultiAmount * 12)}
                     </span>
                   </div>
                 )}

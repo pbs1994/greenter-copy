@@ -112,7 +112,7 @@ export default function MaintenanceHero({ className = "" }: MaintenanceHeroProps
               "
             >
               <Image
-                src="/interieur.webp"
+                src="/interieur.jpg"
                 alt="Intérieur moderne avec équipements de chauffage"
                 width={600}
                 height={500}

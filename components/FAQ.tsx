@@ -156,7 +156,7 @@ export function FAQ() {
         {/* CTA */}
         <div className="text-center mt-10">
           <p className="text-neutral-600 mb-4">
-            Vous avez d&apos;autres questions ?
+            Vous avez d'autres questions ?
           </p>
           <Link 
             href="/contact" 

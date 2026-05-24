@@ -1,3 +1,5 @@
+import { COMPANY_CONTACT_POINTS } from "@/lib/local-seo-data";
+
 interface LocalBusinessSchemaProps {
   name: string;
   description: string;
@@ -44,6 +46,7 @@ export function LocalBusinessSchema({
       "addressCountry": address.addressCountry,
     },
     "telephone": telephone,
+    "contactPoint": COMPANY_CONTACT_POINTS,
     "email": email,
     "url": url,
     "image": image,
