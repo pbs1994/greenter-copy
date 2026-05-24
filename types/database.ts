@@ -44,6 +44,7 @@ export interface Product {
   stripe_price_id_test: string | null;
   is_active: boolean;
   is_featured: boolean;
+  is_custom_page: boolean;
   created_at: string;
 }
 
