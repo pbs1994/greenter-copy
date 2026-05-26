@@ -36,7 +36,7 @@ const STATIC_ARTICLES = [
     slug: 'meilleur-isolant-thermique-murs-interieur-2026',
     excerpt: "Laine de roche, PSE, polyuréthane projeté ou ouate de cellulose : quel isolant pour vos murs intérieurs ? Comparatif des matériaux, prix au m², aides MaPrimeRénov' et guide de pose.",
     published_date: '2026-05-22',
-    image: '/isolation.jpg',
+    image: '/images/blog/isolation-murs-pose-laine-roche.jpg',
     readingTime: 12,
     category: 'Guide',
     featured: false,

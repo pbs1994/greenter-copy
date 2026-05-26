@@ -221,9 +221,9 @@ export default function MeilleurIsolantMursInterieur2026() {
         </p>
 
         <ArticleFullImage
-          image="/images/blog/isolation-murs-pose-artisan.jpg"
-          alt="Artisan posant un panneau de laine de roche entre les montants d'une ossature bois pour isolation mur intérieur"
-          caption="Pose de panneaux de laine de roche en ossature bois — les panneaux sont découpés légèrement plus larges que l'espace pour assurer un contact parfait sans vide."
+          image="/images/blog/isolation-murs-pose-ouate-cellulose.webp"
+          alt="Artisan posant des panneaux d'ouate de cellulose grise entre montants métalliques pour isolation thermique mur intérieur"
+          caption="Pose de panneaux d'ouate de cellulose entre montants métalliques — un isolant biosourcé aux excellentes performances thermiques et hygrothermiques."
         />
 
         <p className="text-slate-700 leading-relaxed mb-4">
