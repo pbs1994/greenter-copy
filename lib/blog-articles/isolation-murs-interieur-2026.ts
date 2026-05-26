@@ -6,9 +6,9 @@
 // =============================================================================
 
 export const ARTICLE_META = {
-  title: "Meilleur isolation thermique des murs par l'intérieur en 2026",
+  title: "Meilleure isolation thermique des murs par l'intérieur en 2026",
   subtitle:
-    "Meilleur isolation thermique des murs par l'intérieur : comparatif laine de roche, PSE, polyuréthane. Prix au m², aides MaPrimeRénov' 2026.",
+    "Meilleure isolation thermique des murs par l'intérieur : comparatif laine de roche, PSE, polyuréthane. Prix au m², aides MaPrimeRénov' 2026.",
   slug: "meilleur-isolant-thermique-murs-interieur-2026",
   date: "22 mai 2026",
   dateISO: "2026-05-22",
