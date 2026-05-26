@@ -30,6 +30,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: true,
   },
+  {
+    id: 'isolation-murs-interieur-2026',
+    title: "Meilleur isolation thermique des murs par l'intérieur en 2026 : comparatif complet",
+    slug: 'meilleur-isolant-thermique-murs-interieur-2026',
+    excerpt: "Laine de roche, PSE, polyuréthane projeté ou ouate de cellulose : quel isolant pour vos murs intérieurs ? Comparatif des matériaux, prix au m², aides MaPrimeRénov' et guide de pose.",
+    published_date: '2026-05-22',
+    image: '/isolation.jpg',
+    readingTime: 12,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
