@@ -102,39 +102,33 @@ export const AIDES_TABLE = {
 // Étapes de pose (ITI avec ossature métallique + laine de roche)
 export const STEPS = [
   {
-    step: 1,
     title: "Diagnostic et préparation du support",
-    description:
+    detail:
       "Vérifier l'absence d'humidité dans les murs (test au plastique ou mesure hygromètre). Traiter les remontées capillaires ou les infiltrations avant tout travaux d'isolation. Vider la pièce et protéger les sols.",
   },
   {
-    step: 2,
     title: "Traçage et pose de l'ossature métallique",
-    description:
+    detail:
       "Fixer les rails au sol et au plafond en laissant un espace de 1 à 2 cm entre le mur extérieur et l'ossature pour permettre l'insertion de l'isolant. Poser les montants tous les 60 cm (ou 40 cm pour les zones de charge).",
   },
   {
-    step: 3,
     title: "Insertion des panneaux isolants",
-    description:
+    detail:
       "Glisser les panneaux de laine de roche ou de laine de verre entre les montants. Vérifier qu'il n'y a aucun vide ni pont thermique au niveau des jonctions. Pour le polyuréthane projeté : une seule passe à la machine couvre toute la surface sans ossature.",
   },
   {
-    step: 4,
     title: "Pose du pare-vapeur",
-    description:
+    detail:
       "Dérouler et fixer un film pare-vapeur (Sd ≥ 18 m) côté intérieur de l'ossature. Recouvrir les agrafes avec du ruban adhésif pour assurer l'étanchéité à l'air. Cette étape est critique : un pare-vapeur percé entraîne de la condensation dans l'isolant.",
   },
   {
-    step: 5,
     title: "Fixation des plaques de plâtre",
-    description:
+    detail:
       "Visser les plaques de plâtre BA13 (ou hydrofuge en salle de bain) sur les montants métalliques. Décaler les joints entre plaques de 40 cm minimum. Laisser 5 mm en bas et en haut pour les mouvements hygrothermiques.",
   },
   {
-    step: 6,
     title: "Finitions, rebouchage et électricité",
-    description:
+    detail:
       "Jointoyer les plaques, poncer et lisser. Reprendre les gaines électriques : les boîtiers de prises doivent être repositionnés en saillie ou encastrés dans le doublage. Peindre ou poser le revêtement final.",
   },
 ]
