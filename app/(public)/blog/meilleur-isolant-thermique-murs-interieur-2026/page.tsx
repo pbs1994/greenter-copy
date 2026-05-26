@@ -28,17 +28,17 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE_META.dateISO,
     authors: ['Greenter'],
     images: [{
-      url: 'https://www.greenter.fr/images/blog/isolation-murs-interieur-hero.png',
+      url: 'https://www.greenter.fr/images/blog/isolation-murs-pose-laine-roche.jpg',
       width: 1200,
       height: 630,
-      alt: "Isolation thermique des murs par l'intérieur — doublage laine de roche",
+      alt: "Pose de laine de roche entre montants métalliques pour l'isolation thermique des murs par l'intérieur",
     }],
   },
   twitter: {
     card: 'summary_large_image',
     title: ARTICLE_META.title,
     description: ARTICLE_META.subtitle,
-    images: ['https://www.greenter.fr/images/blog/isolation-murs-interieur-hero.png'],
+    images: ['https://www.greenter.fr/images/blog/isolation-murs-pose-laine-roche.jpg'],
   },
 }
 
@@ -59,7 +59,7 @@ export default function MeilleurIsolantMursInterieur2026() {
         dateModified={ARTICLE_META.dateISO}
         author={{ name: "Greenter", url: "https://www.greenter.fr" }}
         publisher={{ name: "Greenter", logo: "https://www.greenter.fr/logo.png" }}
-        image="https://www.greenter.fr/images/blog/isolation-murs-interieur-hero.png"
+        image="https://www.greenter.fr/images/blog/isolation-murs-pose-laine-roche.jpg"
         url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
       />
       <FAQPageSchema items={FAQ_ITEMS} />
@@ -69,43 +69,39 @@ export default function MeilleurIsolantMursInterieur2026() {
         subtitle={ARTICLE_META.subtitle}
         date={ARTICLE_META.date}
         readingTime={ARTICLE_META.readingTime}
-        heroImage="/images/blog/isolation-murs-interieur-hero.png"
-        heroAlt="Pose de panneaux de laine de roche sur ossature métallique pour l'isolation thermique des murs par l'intérieur"
+        heroImage="/images/blog/isolation-murs-pose-laine-roche.jpg"
+        heroAlt="Technicien insérant un panneau de laine de roche entre les montants métalliques d'un doublage mur intérieur"
         breadcrumbs={breadcrumbs}
       >
         {/* ---- INTRO ---- */}
         <div className="text-lg text-slate-700 leading-relaxed space-y-4 mb-12">
           <p>
-            Dans une maison construite avant 1990, les <strong>murs représentent 20 à 25 % des déperditions
-            thermiques</strong> totales, derrière la toiture (30 %) mais avant les planchers bas et les
-            fenêtres. L&apos;<strong>isolation thermique des murs par l&apos;intérieur (ITI)</strong> est souvent la
-            seule solution viable pour les appartements, les maisons mitoyennes ou les façades classées :
-            pas de travaux en extérieur, pas de modification de l&apos;aspect de l&apos;immeuble, aucune autorisation
-            d&apos;urbanisme nécessaire dans la quasi-totalité des cas.
+            Dans une maison construite avant 1990, les <strong>murs représentent 20 à 25 % des
+            déperditions thermiques</strong> totales. En hiver, ce sont eux qui refroidissent les pièces
+            de vie et obligent le système de chauffage à tourner à plein régime. Pourtant, ils restent
+            souvent négligés au profit de la toiture, dont les travaux sont plus simples et moins
+            coûteux. Lorsqu&apos;on parle d&apos;isolation des murs, deux grandes familles s&apos;affrontent :
+            l&apos;isolation par l&apos;extérieur (ITE) et l&apos;isolation par l&apos;intérieur (ITI). Cette dernière
+            est souvent la seule option réaliste pour les appartements, les maisons mitoyennes ou
+            les immeubles dont la façade ne peut pas être modifiée.
           </p>
           <p>
-            En 2026, <strong>MaPrimeRénov&apos; isolation des murs</strong> rembourse jusqu&apos;à 75 €/m² pour les
-            ménages modestes, le Coup de pouce CEE est cumulable sans condition de ressources, et la TVA
-            à 5,5 % s&apos;applique à l&apos;ensemble des fournitures et de la main-d&apos;œuvre. Avec un reste à charge
-            qui peut descendre sous 30 % du coût total, c&apos;est le moment le plus favorable depuis dix ans
-            pour <strong>isoler ses murs intérieurs</strong>.
-          </p>
-          <p>
-            Ce guide compare les cinq meilleurs matériaux d&apos;isolation intérieure (laine de roche, laine
-            de verre, polystyrène expansé, polyuréthane projeté, ouate de cellulose), vous donne les
-            épaisseurs recommandées pour atteindre la résistance thermique R≥3,7 m²·K/W exigée par
-            le référentiel BBC rénovation, et détaille les aides financières cumulables en 2026.
+            Mais tous les isolants ne se valent pas. Entre la laine de roche, la laine de verre,
+            le polystyrène expansé, le polyuréthane projeté et l&apos;ouate de cellulose, les différences
+            de performance, d&apos;épaisseur et de prix sont significatives. Ce guide compare ces cinq
+            matériaux, vous aide à choisir celui qui convient à votre situation, et fait le point
+            sur les aides financières disponibles en 2026 — dont <strong>MaPrimeRénov&apos;</strong>,
+            qui rembourse jusqu&apos;à <strong>75 €/m²</strong> pour les ménages modestes.
           </p>
         </div>
 
         <ArticleCallout type="success" title="Ce que vous allez trouver dans ce guide">
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <li>Comparatif des 5 meilleurs isolants thermiques pour murs intérieurs (λ, R, prix)</li>
-            <li>Épaisseurs recommandées et impact sur la surface habitable</li>
-            <li>Prix de l&apos;ITI au m² en 2026 (fourniture + pose)</li>
+            <li>Comparatif des 5 meilleurs isolants pour murs intérieurs (λ, épaisseur, prix)</li>
+            <li>Pourquoi l&apos;ITI est souvent le seul choix possible en appartement et copropriété</li>
+            <li>Impact réel sur la surface habitable et la facture de chauffage</li>
             <li>Toutes les aides 2026 cumulables : MaPrimeRénov&apos;, CEE, éco-PTZ, TVA 5,5 %</li>
-            <li>Guide de pose pas à pas (doublage ossature métallique)</li>
-            <li>Ponts thermiques, humidité : les pièges à éviter</li>
+            <li>Guide de pose pas à pas et erreurs à éviter (ponts thermiques, humidité)</li>
           </ul>
         </ArticleCallout>
 
@@ -114,40 +110,44 @@ export default function MeilleurIsolantMursInterieur2026() {
           Pourquoi choisir l&apos;isolation des murs par l&apos;intérieur ?
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          L&apos;<strong>isolation thermique par l&apos;intérieur</strong> consiste à créer un doublage isolant
+          sur la face intérieure des murs extérieurs. Contrairement à l&apos;ITE qui enveloppe le bâtiment
+          depuis l&apos;extérieur, l&apos;ITI ne modifie en rien l&apos;aspect de la façade. C&apos;est sa force
+          principale, et c&apos;est ce qui en fait la solution de référence dans de nombreux contextes
+          urbains et réglementaires.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-4">
+          En copropriété, les façades sont des parties communes : leur modification nécessite un vote
+          en assemblée générale, souvent difficile à obtenir. L&apos;ITI, en revanche, relève uniquement
+          des parties privatives de chaque appartement — aucune autorisation n&apos;est requise auprès
+          du syndic. De même, dans les zones protégées (secteurs sauvegardés, abords de monuments
+          historiques), l&apos;administration peut refuser ou contraindre fortement les travaux en façade,
+          tandis que l&apos;intervention par l&apos;intérieur reste totalement libre.
+        </p>
+
         <ArticleImageSection
-          image="/images/blog/isolation-interieure-avantages.png"
-          alt="Coupe transversale d'un mur avec doublage isolant thermique par l'intérieur"
+          image="/images/blog/isolation-murs-laine-roche-ossature-bois.jpg"
+          alt="Panneaux de laine de roche installés entre montants en bois avec pare-vapeur gris visible à droite"
           imagePosition="right"
         >
           <p>
-            L&apos;<strong>isolation thermique par l&apos;intérieur (ITI)</strong> consiste à créer un doublage
-            isolant sur la face intérieure des murs extérieurs. C&apos;est l&apos;alternative incontournable à
-            l&apos;isolation par l&apos;extérieur (ITE) dans plusieurs situations :
+            Pour les maisons individuelles mitoyennes, c&apos;est une autre logique : les murs de refend
+            partagés avec le voisin ne peuvent pas recevoir d&apos;isolation côté extérieur sans accord
+            préalable. L&apos;ITI permet d&apos;agir sur ces murs sans impliquer personne d&apos;autre.
           </p>
-          <ul className="list-disc pl-5 space-y-2 mt-3 text-slate-600">
-            <li>
-              <strong>Appartements en copropriété</strong> : les façades appartiennent aux parties communes —
-              modifier l&apos;aspect extérieur nécessite un vote en AG. L&apos;ITI relève uniquement des parties privatives.
-            </li>
-            <li>
-              <strong>Zones protégées ou secteurs sauvegardés</strong> : l&apos;ITE est soumise à autorisation
-              (parfois refusée) pour les immeubles classés ou proches d&apos;un monument historique.
-            </li>
-            <li>
-              <strong>Maisons mitoyennes</strong> : les murs de refend partagés avec le voisin ne peuvent
-              pas recevoir d&apos;isolation côté extérieur sans accord préalable.
-            </li>
-            <li>
-              <strong>Budget plus serré</strong> : l&apos;ITI coûte en moyenne 80 à 120 €/m² posé contre
-              120 à 180 €/m² pour l&apos;ITE avec bardage, même si ce dernier reste plus performant sur le plan
-              des ponts thermiques.
-            </li>
-          </ul>
           <p className="mt-3">
-            Le principal <strong>inconvénient de l&apos;ITI</strong> est la perte de surface habitable :
-            un doublage de 130 mm (ossature + isolant + plaque de plâtre) représente environ
-            <strong> 5 à 9 m²</strong> perdus pour une maison de 100 m² à quatre façades. À peser
-            en regard des économies d&apos;énergie annuelles de 400 à 700 €.
+            Côté budget, l&apos;ITI est aussi moins lourde que l&apos;ITE. Comptez en moyenne 80 à 120 €/m²
+            posé pour un doublage laine de roche, contre 120 à 180 €/m² pour une ITE avec bardage
+            ou enduit. La différence s&apos;explique par l&apos;absence d&apos;échafaudage et par la simplicité
+            logistique de travailler pièce par pièce depuis l&apos;intérieur.
+          </p>
+          <p className="mt-3">
+            Son principal défaut reste la <strong>perte de surface habitable</strong> : un doublage
+            typique de 130 à 160 mm empiète sur la surface de chaque pièce. Pour une maison de
+            100 m² avec quatre façades exposées, cela représente 5 à 9 m² perdus — une donnée à
+            intégrer sérieusement avant de se lancer.
           </p>
         </ArticleImageSection>
 
@@ -162,78 +162,91 @@ export default function MeilleurIsolantMursInterieur2026() {
           Les 5 meilleurs isolants thermiques pour les murs par l&apos;intérieur en 2026
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          La performance d&apos;un isolant se mesure par sa <strong>conductivité thermique λ (lambda)</strong>,
+          exprimée en W/m·K. Plus λ est faible, plus le matériau est isolant à épaisseur égale.
+          La <strong>résistance thermique R</strong> (en m²·K/W) se calcule simplement : R = épaisseur
+          en mètres ÷ λ. Pour l&apos;isolation des murs en rénovation, l&apos;objectif BBC rénovation est
+          R ≥ 3,7 m²·K/W — c&apos;est le seuil à atteindre pour déclencher les aides MaPrimeRénov&apos;.
+        </p>
+
         <p className="text-slate-700 leading-relaxed mb-6">
-          La performance d&apos;un isolant pour mur intérieur se mesure principalement par sa{' '}
-          <strong>conductivité thermique λ (lambda)</strong>, exprimée en W/m·K. Plus λ est faible,
-          plus l&apos;isolant est performant à épaisseur égale. La <strong>résistance thermique R</strong>{' '}
-          (en m²·K/W) se calcule simplement : R = épaisseur (m) ÷ λ. L&apos;objectif BBC rénovation pour
-          les murs est R≥3,7 m²·K/W.
+          Chaque matériau a ses avantages selon le contexte. La laine de roche est polyvalente et
+          incombustible. Le polyuréthane projeté est imbattable quand l&apos;épaisseur disponible est
+          faible. L&apos;ouate de cellulose séduit ceux qui privilégient les matériaux biosourcés et
+          le confort d&apos;été. Voici le comparatif complet.
         </p>
 
         <ArticleTable {...ISOLANTS_TABLE} title="Comparatif des 5 meilleurs isolants pour murs par l'intérieur" />
 
-        <ArticleCallout type="tip" title="Laine de roche ou laine de verre : quelle différence ?">
+        <p className="text-slate-700 leading-relaxed mt-6 mb-4">
+          La <strong>laine de roche en panneaux semi-rigides</strong> reste l&apos;option la plus utilisée
+          par les artisans RGE en Île-de-France. Sa densité (35 à 50 kg/m³) lui confère une bonne
+          résistance à la compression, une excellente tenue à l&apos;humidité et des performances
+          acoustiques appréciables — utile en ville, où l&apos;isolation phonique compte autant que
+          thermique. Certifiée Euroclass A1, elle est incombustible jusqu&apos;à 1 000 °C, ce qui en
+          fait le choix de référence dans les cuisines ou près de sources de chaleur.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-6">
+          La <strong>laine de verre</strong> est légèrement moins dense et souvent moins chère, mais
+          ses performances sont similaires. Si vous cherchez à optimiser le budget sans sacrifier
+          la performance, c&apos;est un excellent choix. Le <strong>polystyrène expansé (PSE)</strong>
+          est quant à lui imputrescible, facile à découper et très léger — idéal pour les
+          auto-rénovateurs, même si ces derniers ne pourront pas prétendre aux aides principales.
+          Enfin, la <strong>mousse polyuréthane projetée</strong> se distingue par son rapport
+          résistance/épaisseur exceptionnel : elle adhère directement au support, supprime les
+          ponts thermiques et permet d&apos;atteindre R = 3,7 en seulement 90 mm.
+        </p>
+
+        <ArticleCallout type="tip" title="Laine de roche ou laine de verre : quelle différence concrète ?">
           <p>
-            La <strong>laine de roche</strong> est légèrement plus dense (densité 35-50 kg/m³) et offre une
-            meilleure résistance à la compression et à l&apos;humidité. Elle est aussi incombustible jusqu&apos;à
-            1 000 °C (Euroclass A1), ce qui en fait le choix privilégié pour les murs à proximité de
-            sources de chaleur. La <strong>laine de verre</strong> est un peu moins dense, souvent moins
-            chère, et plus légère à manipuler. Les deux sont parfaitement adaptées à l&apos;ITI.
+            Pour un doublage mural standard, la différence de performance est minime — quelques
+            millimètres d&apos;épaisseur supplémentaire pour la laine de verre. La vraie différence
+            se joue sur la durabilité en milieu humide (avantage laine de roche) et sur le prix
+            (avantage laine de verre, en général 10 à 15 % moins chère). Dans une salle de bain
+            ou un sous-sol, optez sans hésiter pour la laine de roche.
           </p>
         </ArticleCallout>
 
-        {/* ---- SECTION 3 : ÉPAISSEUR ET RÉSISTANCE ---- */}
+        {/* ---- SECTION 3 : ÉPAISSEUR ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
-          Épaisseur recommandée et impact sur la surface habitable
+          Quelle épaisseur d&apos;isolant pour les murs intérieurs ?
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          La question de l&apos;épaisseur est centrale pour l&apos;ITI, car chaque centimètre pris sur le mur
+          est un centimètre perdu sur la surface habitable. Il faut donc trouver le bon équilibre
+          entre performance thermique et impact sur l&apos;espace intérieur.
+        </p>
+
         <ArticleFullImage
-          image="/images/blog/epaisseur-doublage-isolant-mur.png"
-          alt="Schéma des couches d'un doublage mur intérieur : mur porteur, lame d'air, ossature métallique, laine de roche 120mm, pare-vapeur, plaque de plâtre BA13"
-          caption="Coupe type d'un doublage ITI : mur porteur + lame d'air 10 mm + ossature 48 mm + isolant 80 mm + plaque plâtre 13 mm = 151 mm total"
+          image="/images/blog/isolation-murs-pose-artisan.jpg"
+          alt="Artisan posant un panneau de laine de roche entre les montants d'une ossature bois pour isolation mur intérieur"
+          caption="Pose de panneaux de laine de roche en ossature bois — les panneaux sont découpés légèrement plus larges que l'espace pour assurer un contact parfait sans vide."
         />
 
         <p className="text-slate-700 leading-relaxed mb-4">
-          En pratique, un doublage avec <strong>ossature métallique</strong> comprend plusieurs couches :
+          En pratique, un doublage avec ossature métallique comprend plusieurs couches superposées :
+          une lame d&apos;air de 10 mm entre le mur porteur et l&apos;ossature, les montants métalliques de
+          48 mm dans lesquels est glissé l&apos;isolant, puis une plaque de plâtre BA13 de 13 mm côté
+          intérieur. L&apos;épaisseur totale avoisine donc 130 à 190 mm selon le matériau choisi.
         </p>
 
-        <div className="grid sm:grid-cols-2 gap-4 my-6">
-          <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
-            <h4 className="font-bold text-slate-800 mb-2">Doublage ossature + laine de roche 120 mm</h4>
-            <p className="text-sm text-slate-600">
-              Lame d&apos;air (10 mm) + ossature métal (48 mm) + laine de roche (120 mm) + plaque plâtre (13 mm) ={' '}
-              <strong>191 mm total</strong>. Perte surfacique : ≈ 7 m² sur 4 façades de 100 m².
-            </p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
-            <h4 className="font-bold text-slate-800 mb-2">Panneau composite PSE + plaque plâtre</h4>
-            <p className="text-sm text-slate-600">
-              Panneau sandwich collé directement au mur : 120 mm PSE + 13 mm plaque = <strong>133 mm total</strong>.
-              Solution idéale pour les petites surfaces (pas d&apos;ossature à poser).
-            </p>
-          </div>
-          <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 className="font-bold text-emerald-800 mb-2">Polyuréthane projeté 90 mm</h4>
-            <p className="text-sm text-slate-600">
-              Projection directe sur le mur + plaque plâtre sur rail : <strong>110 mm total</strong>.
-              Meilleure option si l&apos;espace est contraint (couloir, pièce étroite).
-            </p>
-          </div>
-          <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
-            <h4 className="font-bold text-amber-800 mb-2">Ouate de cellulose soufflée 150 mm</h4>
-            <p className="text-sm text-slate-600">
-              Ossature bois (50 mm) + soufflage ouate (150 mm) + plaque plâtre (13 mm) = <strong>213 mm</strong>.
-              Meilleur choix pour le confort hygrothermique et l&apos;inertie d&apos;été.
-            </p>
-          </div>
-        </div>
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Pour un appartement dont les pièces font moins de 10 m², cette perte sur quatre murs
+          peut sembler significative. Dans ce cas, deux solutions permettent de réduire l&apos;empreinte :
+          le <strong>panneau composite PSE + plaque de plâtre</strong> collé directement au mur
+          (sans ossature, gain de 50 mm), ou la <strong>mousse polyuréthane projetée</strong>
+          qui atteint R = 3,7 en seulement 90 mm, soit la solution la plus mince du marché.
+        </p>
 
-        <ArticleCallout type="info" title="Règle pratique : la perte de surface habitable">
+        <ArticleCallout type="info" title="Règle pratique : combien de surface perdue ?">
           <p>
-            Pour une maison de 100 m² avec 4 façades extérieures (surface de murs ≈ 80 m² après déduction
-            des fenêtres et portes), un doublage de 150 mm représente une perte d&apos;environ{' '}
-            <strong>4 à 5 m²</strong> de surface habitable. Sur un appartement traversant avec seulement
-            2 façades exposées, la perte est inférieure à 3 m².
+            Pour une maison de 100 m² avec quatre façades exposées (surface de murs ≈ 80 m²
+            après fenêtres et portes), un doublage de 150 mm représente une perte d&apos;environ{' '}
+            <strong>4 à 5 m² de surface habitable</strong>. Sur un appartement traversant avec
+            seulement deux façades exposées, la perte est inférieure à 3 m².
           </p>
         </ArticleCallout>
 
@@ -242,18 +255,27 @@ export default function MeilleurIsolantMursInterieur2026() {
           Prix de l&apos;isolation des murs par l&apos;intérieur en 2026
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          Le coût d&apos;un chantier d&apos;isolation thermique par l&apos;intérieur dépend de plusieurs facteurs :
+          le matériau choisi, la surface à traiter, la complexité des reprises (électricité,
+          radiateurs, encadrements de fenêtres) et bien sûr la région. En Île-de-France, les
+          prix sont généralement 10 à 20 % plus élevés qu&apos;en province.
+        </p>
+
         <p className="text-slate-700 leading-relaxed mb-6">
-          Le coût de l&apos;ITI comprend la fourniture des matériaux, la pose de l&apos;ossature, la mise en œuvre
-          de l&apos;isolant, le pare-vapeur et les finitions (plaque de plâtre, jointement). Les tarifs
-          varient selon le matériau, la région et la complexité du chantier (dépose de meubles,
-          reprises électriques).
+          À titre de repère, un doublage laine de roche sur ossature métallique, fourniture et
+          pose comprises, revient entre <strong>80 et 120 € par m²</strong> en région parisienne.
+          La projection de polyuréthane est plus chère (110 à 160 €/m²) mais nécessite moins
+          d&apos;épaisseur et peut être réalisée plus rapidement. Les panneaux composites PSE collés
+          directement au mur sont les moins coûteux (60 à 90 €/m²), à condition que le support
+          soit suffisamment plan.
         </p>
 
         <div className="my-8 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 border border-emerald-100 shadow-sm">
           <h4 className="font-bold text-emerald-900 text-xl mb-6">{EXAMPLE_CALCULATION.title}</h4>
           <div className="space-y-3">
             {EXAMPLE_CALCULATION.lines.map((line, i) => (
-              <div key={i} className="flex justify-between items-center py-2">
+              <div key={i} className="flex justify-between items-center py-2 border-b border-emerald-100 last:border-0">
                 <span className="text-slate-700">{line.label}</span>
                 <span className={`font-semibold text-lg ${line.isDeduction ? 'text-emerald-600' : 'text-slate-900'}`}>
                   {line.amount}
@@ -277,61 +299,94 @@ export default function MeilleurIsolantMursInterieur2026() {
           </div>
         </div>
 
-        <ArticleCallout type="warning" title="Attention au prix trop bas">
-          <p>
-            Un devis inférieur à <strong>55 €/m²</strong> (TTC, fourniture et pose) doit alerter : il peut
-            indiquer une épaisseur insuffisante (R&lt;3,7), l&apos;absence de pare-vapeur ou une ossature
-            sous-dimensionnée. Or ces points sont précisément vérifiés lors du contrôle par le bureau
-            de contrôle de l&apos;artisan RGE — un isolant mal posé ne sera pas pris en charge par MaPrimeRénov&apos;.
-          </p>
-        </ArticleCallout>
+        <p className="text-slate-700 leading-relaxed mb-4">
+          Un devis inférieur à 55 €/m² TTC (fourniture et pose) doit alerter. Il peut indiquer une
+          épaisseur insuffisante pour atteindre R = 3,7, l&apos;absence de pare-vapeur, ou une ossature
+          sous-dimensionnée. Or ces points sont précisément vérifiés lors du contrôle qualité de
+          l&apos;artisan RGE — un isolant mal posé sera refusé par MaPrimeRénov&apos;.
+        </p>
 
         {/* ---- SECTION 5 : LES AIDES ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
-          Les aides financières pour l&apos;ITI en 2026
+          Les aides financières pour l&apos;isolation des murs intérieurs en 2026
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          2026 est une excellente année pour isoler ses murs. L&apos;isolation des murs est l&apos;un des
+          travaux les mieux subventionnés dans le cadre de la rénovation énergétique, et les
+          quatre dispositifs ci-dessous sont tous <strong>cumulables entre eux</strong>.
+        </p>
+
         <p className="text-slate-700 leading-relaxed mb-6">
-          L&apos;isolation des murs intérieurs est l&apos;un des travaux les <strong>mieux subventionnés</strong> en
-          2026. Toutes les aides ci-dessous sont cumulables entre elles, à condition que le chantier soit
-          réalisé par un artisan certifié <strong>RGE</strong> (Reconnu Garant de l&apos;Environnement).
+          La condition indispensable pour accéder à MaPrimeRénov&apos; et au Coup de pouce CEE est de
+          faire réaliser les travaux par un artisan certifié <strong>RGE</strong> (Reconnu Garant
+          de l&apos;Environnement). Cette certification garantit que l&apos;entreprise maîtrise les techniques
+          d&apos;isolation et que les travaux respecteront les exigences de performance thermique.
+          La TVA à 5,5 % est quant à elle accordée sans condition de ressources ni d&apos;artisan RGE,
+          dès lors que le logement a plus de deux ans.
         </p>
 
         <ArticleTable {...AIDES_TABLE} title="Aides cumulables pour l'isolation des murs par l'intérieur en 2026" />
 
-        <ArticleCallout type="success" title="Qui peut prétendre à MaPrimeRénov' isolation des murs ?">
+        <p className="text-slate-700 leading-relaxed mt-6 mb-4">
+          MaPrimeRénov&apos; est accessible à tous les propriétaires (occupants ou bailleurs) de
+          logements construits depuis plus de 15 ans. Les montants varient selon les revenus du
+          foyer, définis par le barème ANAH 2026 : de 15 €/m² pour les ménages aux revenus
+          supérieurs (tranche Rose) jusqu&apos;à 75 €/m² pour les ménages très modestes (tranche Bleu),
+          dans la limite de 150 m² de murs isolés. Pour un ménage Bleu qui isole 120 m² de murs,
+          cela représente jusqu&apos;à <strong>9 000 € de prime</strong>.
+        </p>
+
+        <ArticleCallout type="info" title="Astuce : combinez MaPrimeRénov' et éco-PTZ">
           <p>
-            MaPrimeRénov&apos; est accessible à tous les propriétaires (occupants ou bailleurs) de logements
-            construits depuis plus de <strong>15 ans</strong>. Le montant varie selon les revenus du foyer
-            (barème ANAH 2026) : Bleu (très modestes, 75 €/m²), Jaune (modestes, 60 €/m²),
-            Violet (intermédiaires, 40 €/m²), Rose (supérieurs, 15 €/m²). Plafond : 150 m² de murs isolés.
+            L&apos;éco-prêt à taux zéro (éco-PTZ) peut financer jusqu&apos;à 50 000 € de travaux à 0 %
+            d&apos;intérêt, sur une durée pouvant aller jusqu&apos;à 20 ans. Il est cumulable avec toutes
+            les autres aides, y compris MaPrimeRénov&apos;. Pour une isolation des murs combinée à
+            d&apos;autres travaux (toiture, fenêtres, chauffage), c&apos;est souvent la solution la plus
+            adaptée pour lisser le reste à charge sur la durée.
           </p>
         </ArticleCallout>
 
         {/* ---- SECTION 6 : ÉTAPES ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
-          Comment poser un doublage isolant : guide pas à pas
+          Comment se déroule la pose d&apos;un doublage isolant ?
         </h2>
 
+        <p className="text-slate-700 leading-relaxed mb-4">
+          La technique la plus répandue est le <strong>doublage sur ossature métallique</strong>
+          avec panneaux de laine de roche semi-rigides. Elle permet de gérer facilement les
+          décrochements — tableaux de fenêtres, boîtiers de prises, radiateurs — et offre une
+          finition soignée directement peinturable ou carrelable.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Un chantier d&apos;isolation de murs par l&apos;intérieur se fait généralement pièce par pièce,
+          ce qui vous permet de rester dans le logement pendant les travaux. Comptez en moyenne
+          une journée par pièce pour un artisan expérimenté, plus une demi-journée de reprise
+          et de jointoyage. L&apos;ensemble d&apos;une maison de 100 m² (quatre façades) s&apos;étale sur
+          cinq à sept jours de chantier.
+        </p>
+
         <ArticleImageSection
-          image="/images/blog/pose-ossature-doublage-mur.png"
-          alt="Technicien RGE posant l'ossature métallique pour doublage isolant thermique mur intérieur"
+          image="/images/blog/isolation-murs-laine-verre-ossature-metal.jpg"
+          alt="Artisan posant de la laine de verre jaune entre montants métalliques fixés sur un mur en briques — isolation thermique mur intérieur"
           imagePosition="left"
         >
           <p>
-            La technique la plus courante est le <strong>doublage sur ossature métallique</strong> avec
-            panneaux de laine de roche semi-rigides. Elle permet de gérer facilement les décrochements
-            (tableaux de fenêtres, prises électriques, radiateurs) et offre une finition impeccable.
+            Avant toute chose, l&apos;artisan doit vérifier l&apos;état du mur existant. Un mur humide —
+            qu&apos;il s&apos;agisse de remontées capillaires, d&apos;infiltrations ou de condensation — doit
+            absolument être traité avant d&apos;être isolé. Poser un doublage sur un mur humide est
+            la principale cause de sinistres : l&apos;humidité emprisonnée dans l&apos;isolant entraîne
+            moisissures, dégradation du plâtre et, à terme, problèmes de santé pour les
+            occupants.
           </p>
           <p className="mt-3">
-            Pour les <strong>murs humides ou irréguliers</strong>, la projection de polyuréthane est
-            préférable : la mousse adhère directement au support et comble tous les défauts de planéité,
-            éliminant les ponts thermiques ponctuels.
-          </p>
-          <p className="mt-3">
-            Dans tous les cas, la <strong>qualité de la pose du pare-vapeur</strong> est déterminante :
-            c&apos;est lui qui empêche la condensation à l&apos;intérieur de l&apos;isolant, principale cause de
-            dégradation prématurée des doublages.
+            Une fois le support sain et préparé, l&apos;ossature est tracée et fixée. L&apos;isolant est
+            glissé entre les montants, le pare-vapeur est déroulé et agrafé soigneusement côté
+            intérieur, puis les plaques de plâtre viennent fermer l&apos;ensemble. La qualité de
+            la pose du <strong>pare-vapeur</strong> est déterminante : chaque perforation non
+            colmatée est un point de passage pour la vapeur d&apos;eau, qui risque de condenser
+            dans l&apos;isolant.
           </p>
         </ArticleImageSection>
 
@@ -343,95 +398,57 @@ export default function MeilleurIsolantMursInterieur2026() {
         </h2>
 
         <p className="text-slate-700 leading-relaxed mb-4">
-          L&apos;ITI ne supprime pas les <strong>ponts thermiques de liaison</strong> : là où le plancher
-          béton traverse le mur extérieur (refend de dalle), l&apos;isolation est interrompue. Ces zones
-          restent froides en hiver et peuvent générer de la condensation superficielle (moisissures
-          aux angles bas de murs). C&apos;est la différence fondamentale avec l&apos;ITE qui enveloppe le bâtiment
-          dans un manteau continu.
+          L&apos;ITI améliore considérablement l&apos;isolation des parois, mais elle ne supprime pas les
+          <strong> ponts thermiques de liaison</strong>. Ces zones sont les endroits où le béton
+          ou la maçonnerie traverse le plan d&apos;isolation de façon continue — typiquement au niveau
+          des dalles de plancher, des refends, ou des linteaux de fenêtres. Ces points restent
+          froids en hiver et peuvent provoquer de la condensation superficielle, visible sous
+          forme de taches sombres aux angles bas des murs ou sur les tableaux de fenêtres.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-4">
+          C&apos;est la différence fondamentale avec l&apos;isolation par l&apos;extérieur, qui enveloppe
+          le bâtiment dans un manteau continu et supprime la quasi-totalité des ponts thermiques.
+          Une ITE bien réalisée peut réduire les déperditions par ponts thermiques de 80 à 90 %,
+          là où une ITI les réduit de 40 à 60 % — déjà très significatif, mais pas totalement
+          supprimé.
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">
-          Solutions pour <strong>limiter les ponts thermiques</strong> avec l&apos;ITI :
+          Pour limiter au maximum ce phénomène avec l&apos;ITI, la technique consiste à prolonger
+          le doublage isolant sur au moins <strong>50 cm le long des planchers et plafonds</strong>
+          à chaque jonction avec une paroi froide. Cette continuité d&apos;isolation casse le
+          chemin thermique et réduit nettement les déperditions résiduelles. Les artisans RGE
+          connaissent ces détails d&apos;exécution et les intègrent systématiquement dans un chantier
+          bien conduit.
         </p>
-
-        <div className="grid sm:grid-cols-2 gap-4 my-6">
-          <div className="bg-sky-50 rounded-xl p-5 border border-sky-100">
-            <h4 className="font-bold text-sky-800 mb-2">Retour d&apos;isolation sur 50 cm</h4>
-            <p className="text-sm text-slate-600">
-              Prolonger le doublage isolant sur 50 cm le long des planchers et plafonds à chaque jonction.
-              Réduit de 40 à 60 % les déperditions par pont thermique de liaison.
-            </p>
-          </div>
-          <div className="bg-violet-50 rounded-xl p-5 border border-violet-100">
-            <h4 className="font-bold text-violet-800 mb-2">Panneau composite sans ossature</h4>
-            <p className="text-sm text-slate-600">
-              Coller directement le panneau PSE + plâtre au mur. L&apos;absence d&apos;ossature métallique
-              supprime les ponts thermiques ponctuels liés aux vis de fixation.
-            </p>
-          </div>
-          <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
-            <h4 className="font-bold text-amber-800 mb-2">Polyuréthane projeté continu</h4>
-            <p className="text-sm text-slate-600">
-              La mousse PU adhère à l&apos;ensemble du support sans interruption. Associée à un rail posé
-              sur l&apos;isolant, elle élimine les ponts thermiques d&apos;ossature.
-            </p>
-          </div>
-          <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 className="font-bold text-emerald-800 mb-2">Combinaison ITI + ITE partielle</h4>
-            <p className="text-sm text-slate-600">
-              Pour les maisons individuelles, isoler les façades principales par l&apos;extérieur et les
-              murs mitoyens par l&apos;intérieur optimise la performance globale.
-            </p>
-          </div>
-        </div>
 
         {/* ---- SECTION 8 : ITI vs ITE ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
-          ITI ou ITE : quand choisir l&apos;une plutôt que l&apos;autre ?
+          ITI ou ITE : comment choisir ?
         </h2>
 
-        <p className="text-slate-700 leading-relaxed mb-6">
-          Ces deux techniques ne s&apos;excluent pas mutuellement, mais répondent à des situations différentes.
+        <p className="text-slate-700 leading-relaxed mb-4">
+          Pour une maison individuelle sans contrainte architecturale, l&apos;ITE est généralement
+          la solution la plus performante : elle supprime les ponts thermiques, ne réduit pas
+          la surface intérieure et peut être réalisée sans avoir à vider les pièces. Son coût
+          plus élevé est souvent compensé par une meilleure performance et un confort de chantier
+          supérieur.
         </p>
 
-        <div className="overflow-x-auto my-6">
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr className="bg-slate-100">
-                <th className="text-left p-3 font-semibold text-slate-700 border border-slate-200">Critère</th>
-                <th className="text-left p-3 font-semibold text-emerald-700 border border-slate-200">ITI (par l&apos;intérieur)</th>
-                <th className="text-left p-3 font-semibold text-sky-700 border border-slate-200">ITE (par l&apos;extérieur)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["Applicable en copropriété", "✅ Oui, sans accord AG", "⚠️ Vote en AG requis"],
-                ["Perte de surface habitable", "⚠️ 5–9 m² pour 100 m²", "✅ Aucune"],
-                ["Ponts thermiques", "⚠️ Partiels (dalle, refend)", "✅ Supprimés"],
-                ["Performance énergétique", "Bonne (R≥3,7 atteint)", "✅ Excellente"],
-                ["Coût posé", "80–120 €/m²", "120–180 €/m²"],
-                ["Habitabilité pendant travaux", "⚠️ Pièce par pièce", "✅ Logement libre"],
-                ["Autorisation urbanisme", "✅ Non requise", "⚠️ DP ou PC selon cas"],
-              ].map(([critere, iti, ite], i) => (
-                <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                  <td className="p-3 font-medium text-slate-800 border border-slate-200">{critere}</td>
-                  <td className="p-3 text-slate-700 border border-slate-200">{iti}</td>
-                  <td className="p-3 text-slate-700 border border-slate-200">{ite}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <p className="text-slate-700 leading-relaxed mb-4">
+          En revanche, dès que vous êtes en copropriété, en zone protégée ou sur une maison
+          mitoyenne, l&apos;<strong>ITI s&apos;impose comme la seule option praticable</strong>. Elle
+          reste aussi le meilleur choix lorsqu&apos;on souhaite n&apos;isoler qu&apos;une partie du logement
+          (par exemple une façade nord particulièrement froide) sans engager un chantier complet.
+        </p>
 
-        <ArticleCallout type="tip" title="En résumé : quel isolant choisir ?">
-          <p>
-            Si vous êtes en <strong>appartement ou copropriété</strong>, l&apos;ITI avec laine de roche est
-            la solution standard : performance prouvée, aides complètes, artisans RGE disponibles.
-            Si vous avez des <strong>contraintes d&apos;épaisseur</strong> (couloir &lt; 2 m, pièce déjà petite),
-            optez pour le polyuréthane projeté. Si vous valorisez le confort d&apos;été autant que l&apos;hiver
-            et préférez les matériaux biosourcés, l&apos;ouate de cellulose est le meilleur choix.
-          </p>
-        </ArticleCallout>
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Ces deux techniques ne s&apos;excluent pas mutuellement. Pour les maisons individuelles
+          qui ont un mur mitoyen d&apos;un côté et une façade libre de l&apos;autre, la combinaison
+          ITI côté mitoyen + ITE côté jardin est souvent la configuration optimale, à la fois
+          sur le plan de la performance et du budget.
+        </p>
 
         {/* ---- CTA ---- */}
         <ArticleCTA
