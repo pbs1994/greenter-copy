@@ -11,15 +11,6 @@ import { ArrowRight, BookOpen, Clock } from 'lucide-react'
  */
 const ARTICLES = [
   {
-    slug: 'remplacer-chaudiere-gaz-pompe-a-chaleur-2026',
-    badge: 'Nouveau · Guide 2026',
-    title: 'Remplacer sa chaudière gaz par une pompe à chaleur en 2026',
-    excerpt:
-      "TVA à 20 % sur les chaudières gaz, prime EDF 1 000 €, bonus MaPrimeRénov' +1 000 € : pourquoi 2026 est l'année idéale pour basculer et comment s'y prendre.",
-    image: '/images/blog/remplacer-chaudiere-gaz-pac-hero.png',
-    readingTime: 15,
-  },
-  {
     slug: 'guide-prix-pompe-a-chaleur-2026',
     badge: 'Guide 2026',
     title: "Prix d'une pompe à chaleur en 2026 : coûts, aides et rentabilité",
