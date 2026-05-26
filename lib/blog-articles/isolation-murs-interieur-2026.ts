@@ -185,27 +185,27 @@ export const FAQ_ITEMS = [
 // Sources citées
 export const SOURCES = [
   {
-    label: "ADEME — Isolation des murs par l'intérieur : performance réelle en logements existants",
+    name: "ADEME — Isolation des murs par l'intérieur : performance réelle en logements existants",
     url: "https://www.ademe.fr",
     date: "2025",
   },
   {
-    label: "france-renov.gouv.fr — MaPrimeRénov' isolation des murs, barèmes 2026",
+    name: "france-renov.gouv.fr — MaPrimeRénov' isolation des murs, barèmes 2026",
     url: "https://france-renov.gouv.fr",
     date: "janvier 2026",
   },
   {
-    label: "Ministère de la Transition écologique — RE2020 et exigences thermiques en rénovation",
+    name: "Ministère de la Transition écologique — RE2020 et exigences thermiques en rénovation",
     url: "https://www.ecologie.gouv.fr",
     date: "2025",
   },
   {
-    label: "ANAH — Barèmes de ressources MaPrimeRénov' 2026",
+    name: "ANAH — Barèmes de ressources MaPrimeRénov' 2026",
     url: "https://www.anah.gouv.fr",
     date: "janvier 2026",
   },
   {
-    label: "CSTB — Fiches DTE isolants thermiques pour parois opaques",
+    name: "CSTB — Fiches DTE isolants thermiques pour parois opaques",
     url: "https://www.cstb.fr",
     date: "2025",
   },
