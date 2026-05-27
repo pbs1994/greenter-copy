@@ -125,7 +125,7 @@ export default function ConsommationPACMaison100m2() {
 
         <p className="text-slate-700 leading-relaxed mb-4">
           À l&apos;inverse, une <strong>maison mal isolée de 100 m²</strong> — souvent construite avant
-          1975, sans isolation des murs ni des combles — peut nécessiter 15 000 à 18 000 kWh
+          1975, sans <Link href="/services/isolation" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">isolation des murs ni des combles</Link> — peut nécessiter 15 000 à 18 000 kWh
           de chaleur pour rester confortable en hiver. Dans ce cas, la même PAC avec le même
           SCOP consommera entre <strong>4 500 et 5 100 kWh d&apos;électricité par an</strong>.
           Cela reste bien en deçà du chauffage électrique classique qui, pour la même maison mal
@@ -241,8 +241,11 @@ export default function ConsommationPACMaison100m2() {
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">
-          Pour aller plus loin, un technicien RGE peut réaliser un <strong>bilan thermique
-          précis</strong> de votre logement. Ce document calcule les déperditions pièce par pièce
+          Pour aller plus loin, un technicien RGE peut réaliser un{' '}
+          <Link href="/services/audit" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            <strong>bilan thermique précis</strong>
+          </Link>{' '}
+          de votre logement. Ce document calcule les déperditions pièce par pièce
           et donne le dimensionnement exact de la PAC nécessaire. C&apos;est une étape indispensable
           avant toute installation, et elle est souvent incluse dans le devis.
         </p>
@@ -288,7 +291,11 @@ export default function ConsommationPACMaison100m2() {
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">
-          La chaudière gaz condensation, longtemps considérée comme le système de chauffage
+          La{' '}
+          <Link href="/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            chaudière gaz condensation
+          </Link>
+          , longtemps considérée comme le système de chauffage
           le plus économique, souffre aujourd&apos;hui de deux handicaps : le prix du gaz en
           hausse (0,1256 €/kWh en mai 2026, +5,3 % en mars) et la TVA passée à 20 % sur
           les chaudières neuves depuis décembre 2024. Pour une maison bien isolée, la PAC
@@ -303,8 +310,9 @@ export default function ConsommationPACMaison100m2() {
           coûte <strong>2 à 3 fois moins cher</strong> à utiliser que le chauffage électrique
           classique, et reste comparable voire moins chère que le gaz tout en émettant
           beaucoup moins de CO₂. Sur une maison mal isolée, l&apos;écart se creuse encore davantage
-          — et c&apos;est dans ces logements que l&apos;installation d&apos;une PAC, combinée à des travaux
-          d&apos;isolation, offre les meilleurs retours sur investissement.
+          — et c&apos;est dans ces logements que l&apos;installation d&apos;une PAC, combinée à des{' '}
+          <Link href="/blog/meilleur-isolant-thermique-murs-interieur-2026" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">travaux d&apos;isolation</Link>,
+          offre les meilleurs retours sur investissement.
         </p>
 
         {/* ---- SECTION 5 : FACTEURS ---- */}
@@ -328,8 +336,9 @@ export default function ConsommationPACMaison100m2() {
           <strong>L&apos;isolation du logement</strong> est le facteur numéro un. Une maison bien
           isolée réduit ses besoins thermiques de 30 à 50 % par rapport à une maison non isolée.
           Pour la PAC, cela se traduit directement par une consommation réduite du même ordre.
-          C&apos;est pourquoi le programme MaPrimeRénov&apos; encourage à combiner isolation et
-          installation de PAC dans un seul dossier de rénovation globale.
+          C&apos;est pourquoi le programme MaPrimeRénov&apos; encourage à combiner{' '}
+          <Link href="/services/isolation" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">isolation</Link>{' '}
+          et installation de PAC dans un seul dossier de rénovation globale.
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-4">
@@ -461,7 +470,12 @@ export default function ConsommationPACMaison100m2() {
           avec une programmation horaire optimisée, des émetteurs basse température et une
           PAC bien entretenue peut <strong>réduire sa consommation de 40 à 50 %</strong>
           par rapport à la même PAC dans des conditions non optimisées. Sur 10 ans, cela
-          représente une économie de plusieurs milliers d&apos;euros.
+          représente une économie de plusieurs milliers d&apos;euros. Le couplage avec des{' '}
+          <Link href="/services/panneaux-solaires" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            panneaux solaires photovoltaïques
+          </Link>{' '}
+          est l&apos;étape suivante pour ceux qui souhaitent approcher la neutralité énergétique
+          et réduire leur facture d&apos;électricité au minimum.
         </p>
 
         {/* ---- SECTION 9 : QUELLE PAC CHOISIR ---- */}
@@ -492,7 +506,12 @@ export default function ConsommationPACMaison100m2() {
           radiateurs basse température, une PAC basse température (35–45 °C) sera plus
           efficace et moins chère à l&apos;usage. La combinaison PAC basse température +
           plancher chauffant est celle qui donne la consommation d&apos;électricité la plus basse
-          à long terme.
+          à long terme. Pour comparer les modèles, les puissances et les tarifs d&apos;installation,
+          consultez notre{' '}
+          <Link href="/blog/guide-prix-pompe-a-chaleur-2026" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            guide des prix de pompes à chaleur 2026
+          </Link>{' '}
+          avec barème MaPrimeRénov&apos; et exemples de reste à charge.
         </p>
 
         {/* ---- CTA ---- */}
@@ -521,7 +540,7 @@ export default function ConsommationPACMaison100m2() {
         <ArticleSources sources={SOURCES} />
 
         {/* ---- LIENS INTERNES ---- */}
-        <div className="mt-10 grid sm:grid-cols-2 gap-4">
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             href="/services/pompe-a-chaleur"
             className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"
@@ -535,12 +554,36 @@ export default function ConsommationPACMaison100m2() {
             </p>
           </Link>
           <Link
+            href="/blog/guide-prix-pompe-a-chaleur-2026"
+            className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Guide prix</p>
+            <p className="mt-1 font-bold text-slate-900 group-hover:text-emerald-700">
+              Prix d&apos;une PAC en 2026 : coûts, aides, rentabilité
+            </p>
+            <p className="mt-1 inline-flex items-center gap-1 text-sm text-emerald-600">
+              Lire le guide <ArrowRight className="h-3.5 w-3.5" />
+            </p>
+          </Link>
+          <Link
             href="/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026"
             className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Article associé</p>
             <p className="mt-1 font-bold text-slate-900 group-hover:text-emerald-700">
               Remplacer sa chaudière gaz par une PAC en 2026
+            </p>
+            <p className="mt-1 inline-flex items-center gap-1 text-sm text-emerald-600">
+              Lire le guide <ArrowRight className="h-3.5 w-3.5" />
+            </p>
+          </Link>
+          <Link
+            href="/blog/meilleur-isolant-thermique-murs-interieur-2026"
+            className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Guide isolation</p>
+            <p className="mt-1 font-bold text-slate-900 group-hover:text-emerald-700">
+              Meilleure isolation des murs intérieurs en 2026
             </p>
             <p className="mt-1 inline-flex items-center gap-1 text-sm text-emerald-600">
               Lire le guide <ArrowRight className="h-3.5 w-3.5" />
