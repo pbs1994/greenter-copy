@@ -52,6 +52,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'pac-puissance-2026',
+    title: "Puissance pompe à chaleur : comment calculer et choisir ? Guide 2026",
+    slug: 'puissance-pompe-a-chaleur',
+    excerpt: "Quelle puissance pour une pompe à chaleur ? Tableau de dimensionnement de 50 à 300 m², formule pas à pas avec coefficient de déperdition, zones climatiques H1/H2/H3 et risques d'une PAC mal dimensionnée.",
+    published_date: '2026-05-27',
+    image: '/images/blog/pac-air-eau-moderne-maison-pierre.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
