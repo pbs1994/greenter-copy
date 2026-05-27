@@ -41,6 +41,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'consommation-pac-100m2-2026',
+    title: "Consommation pompe à chaleur maison 100 m² : chiffres et calcul 2026",
+    slug: 'consommation-pompe-a-chaleur-maison-100m2',
+    excerpt: "Quelle est la consommation d'une PAC air-eau pour une maison de 100 m² ? Entre 2 900 et 5 100 kWh/an selon l'isolation. Calcul du COP, comparatif, et 6 astuces pour réduire votre facture.",
+    published_date: '2026-05-27',
+    image: '/images/blog/pac-unite-exterieure-maison-briques-plantes.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
