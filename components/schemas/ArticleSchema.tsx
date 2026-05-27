@@ -31,7 +31,7 @@ export function ArticleSchema({
 }: ArticleSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline,
     description,
     datePublished,
