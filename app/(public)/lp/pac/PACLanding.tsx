@@ -173,7 +173,8 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
   const [statsVisible, setStatsVisible] = useState(false)
   const statsRef = useRef<HTMLDivElement>(null)
 
-  const [form, setForm] = useState({ name: "", phone: "", email: "", message: "", website: "" })
+  const [step, setStep] = useState<1 | 2>(1)
+  const [form, setForm] = useState({ project: "", surface: "", name: "", phone: "", email: "", website: "" })
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
   useEffect(() => {
@@ -200,7 +201,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
           phone: form.phone,
           email: form.email,
           service: "Pompe à chaleur",
-          message: form.message || "Demande de devis via landing page PAC",
+          message: `Projet : ${form.project} — Surface : ${form.surface}`,
           website: form.website,
         }),
       })
@@ -335,74 +336,183 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
               </div>
             </div>
 
-            {/* Right: form */}
+            {/* Right: form — Wizard 2 étapes */}
             <div id="devis" className="scroll-mt-8">
               <div className="bg-white rounded-3xl shadow-2xl p-8">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-neutral-900">Demande de devis gratuit</h2>
-                  <p className="text-neutral-500 text-sm mt-1">Réponse sous 48h · Sans engagement</p>
-                </div>
 
                 {formStatus === "success" ? (
-                  <div className="text-center py-8">
-                    <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-neutral-900 mb-2">Demande envoyée !</h3>
-                    <p className="text-neutral-600 text-sm">
-                      Notre équipe vous contacte sous 48h pour planifier votre visite technique gratuite.
+                  <div className="text-center py-6">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-9 h-9 text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-neutral-900 mb-2">Demande bien reçue !</h3>
+                    <p className="text-neutral-600 text-sm mb-4">
+                      Notre technicien vous appelle sous <strong>2h ouvrées</strong>{" "}
+                      (lun.–ven. 9h–18h) pour planifier votre visite technique gratuite.
                     </p>
+                    <div className="bg-green-50 rounded-2xl p-4 text-left space-y-2 text-sm text-neutral-700 mb-5">
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Visite technique gratuite à domicile</p>
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Calcul de vos aides MaPrimeRénov&apos; 2026</p>
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Devis détaillé sans engagement</p>
+                    </div>
+                    <PhoneCallTracker className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
+                      <Phone className="w-4 h-4" /> Vous préférez appeler directement ?
+                    </PhoneCallTracker>
                   </div>
                 ) : (
-                  <form onSubmit={submitForm} className="space-y-4">
-                    <input
-                      type="text" tabIndex={-1} autoComplete="off"
-                      value={form.website}
-                      onChange={(e) => setForm((p) => ({ ...p, website: e.target.value }))}
-                      className="hidden"
-                    />
-                    <input
-                      type="text" placeholder="Votre prénom et nom *" required
-                      value={form.name}
-                      onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                      className={inputCls}
-                    />
-                    <input
-                      type="tel" placeholder="Votre téléphone *" required
-                      value={form.phone}
-                      onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-                      className={inputCls}
-                    />
-                    <input
-                      type="email" placeholder="Votre email"
-                      value={form.email}
-                      onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className={inputCls}
-                    />
-                    <textarea
-                      placeholder="Votre situation (surface, système actuel, DPE...)"
-                      rows={3}
-                      value={form.message}
-                      onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-                      className={`${inputCls} resize-none`}
-                    />
-                    <button
-                      type="submit"
-                      disabled={formStatus === "loading"}
-                      className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-70 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
-                    >
-                      {formStatus === "loading" ? "Envoi en cours..." : "Recevoir mon devis gratuit →"}
-                    </button>
-                    {formStatus === "error" && (
-                      <p className="text-red-600 text-sm text-center">
-                        Une erreur est survenue.{" "}
-                        <PhoneCallTracker className="underline font-medium">Appelez-nous directement.</PhoneCallTracker>
-                      </p>
+                  <>
+                    {/* Progress */}
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
+                          Étape {step} sur 2
+                        </span>
+                        <span className="text-xs text-neutral-400">
+                          {step === 1 ? "Votre projet" : "Vos coordonnées"}
+                        </span>
+                      </div>
+                      <div className="w-full bg-neutral-100 rounded-full h-1.5">
+                        <div
+                          className="bg-green-600 h-1.5 rounded-full transition-all duration-500"
+                          style={{ width: step === 1 ? "50%" : "100%" }}
+                        />
+                      </div>
+                      <h2 className="text-xl font-bold text-neutral-900 mt-4">
+                        {step === 1 ? "Quel est votre projet ?" : "Où vous envoyer le devis ?"}
+                      </h2>
+                      {step === 1 && (
+                        <p className="text-neutral-500 text-sm mt-1">
+                          2 questions rapides · Gratuit · Sans engagement
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Step 1 — qualification */}
+                    {step === 1 && (
+                      <div className="space-y-5">
+                        <div>
+                          <p className="text-sm font-semibold text-neutral-700 mb-2">Mon objectif :</p>
+                          <div className="grid grid-cols-1 gap-2">
+                            {[
+                              { value: "Remplacer ma chaudière gaz", icon: "🔄" },
+                              { value: "Nouvelle installation PAC", icon: "🏡" },
+                              { value: "Comparer les offres", icon: "📋" },
+                            ].map(({ value, icon }) => (
+                              <button
+                                key={value}
+                                type="button"
+                                onClick={() => setForm((p) => ({ ...p, project: value }))}
+                                className={`flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${
+                                  form.project === value
+                                    ? "border-green-600 bg-green-50 text-green-800"
+                                    : "border-neutral-200 hover:border-green-300 text-neutral-700"
+                                }`}
+                              >
+                                <span className="text-lg">{icon}</span>
+                                {value}
+                                {form.project === value && <CheckCircle className="w-4 h-4 text-green-600 ml-auto flex-shrink-0" />}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-sm font-semibold text-neutral-700 mb-2">Surface à chauffer :</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {["Moins de 80 m²", "80 – 120 m²", "120 – 200 m²", "Plus de 200 m²"].map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => setForm((p) => ({ ...p, surface: s }))}
+                                className={`px-3 py-3 rounded-xl border-2 text-sm font-medium transition-all text-center ${
+                                  form.surface === s
+                                    ? "border-green-600 bg-green-50 text-green-800"
+                                    : "border-neutral-200 hover:border-green-300 text-neutral-700"
+                                }`}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          disabled={!form.project || !form.surface}
+                          onClick={() => setStep(2)}
+                          className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
+                        >
+                          Voir mes aides disponibles →
+                        </button>
+                        <p className="text-xs text-neutral-400 text-center">🔒 Gratuit · Sans engagement · Données sécurisées</p>
+                      </div>
                     )}
-                    <p className="text-xs text-neutral-400 text-center">
-                      🔒 Données sécurisées · Zéro spam · Aucun engagement
-                    </p>
-                  </form>
+
+                    {/* Step 2 — contact */}
+                    {step === 2 && (
+                      <form onSubmit={submitForm} className="space-y-4">
+                        <input type="text" tabIndex={-1} autoComplete="off"
+                          value={form.website}
+                          onChange={(e) => setForm((p) => ({ ...p, website: e.target.value }))}
+                          className="hidden"
+                        />
+                        <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-2.5 text-xs text-green-800 font-medium">
+                          ✓ {form.project} · {form.surface}
+                        </div>
+                        <input
+                          type="text" placeholder="Prénom et nom *" required
+                          value={form.name}
+                          onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                          className={inputCls}
+                        />
+                        <div>
+                          <input
+                            type="tel" placeholder="Téléphone (06 ou 07) *" required
+                            value={form.phone}
+                            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                            className={inputCls}
+                          />
+                          <p className="text-xs text-neutral-400 mt-1 pl-1">Rappel sous 2h ouvrées (lun.–ven. 9h–18h)</p>
+                        </div>
+                        <input
+                          type="email" placeholder="Email (optionnel — pour recevoir le devis)"
+                          value={form.email}
+                          onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                          className={inputCls}
+                        />
+                        <button
+                          type="submit"
+                          disabled={formStatus === "loading"}
+                          className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-70 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
+                        >
+                          {formStatus === "loading" ? "Envoi en cours..." : "Recevoir mon devis gratuit →"}
+                        </button>
+                        {formStatus === "error" && (
+                          <p className="text-red-600 text-sm text-center">
+                            Une erreur est survenue.{" "}
+                            <PhoneCallTracker className="underline font-medium">Appelez-nous directement.</PhoneCallTracker>
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setStep(1)}
+                            className="text-sm text-neutral-400 hover:text-neutral-600 transition-colors"
+                          >
+                            ← Modifier mon projet
+                          </button>
+                          <p className="text-xs text-neutral-400">🔒 Données sécurisées</p>
+                        </div>
+                      </form>
+                    )}
+                  </>
                 )}
               </div>
+
+              {/* Social proof sous le formulaire */}
+              <p className="text-center text-green-200 text-xs mt-3 font-medium">
+                ★ 47 familles ont demandé leur devis ce mois-ci en Île-de-France
+              </p>
             </div>
           </div>
 
@@ -873,3 +983,4 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
     </div>
   )
 }
+
