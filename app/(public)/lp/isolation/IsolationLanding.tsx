@@ -146,8 +146,9 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
   const statsRef = useRef<HTMLDivElement>(null)
   const heatRef = useRef<HTMLDivElement>(null)
 
-  // Form
-  const [form, setForm] = useState({ name: "", phone: "", email: "", message: "", website: "" })
+  // Form — wizard 2 étapes
+  const [step, setStep] = useState<1 | 2>(1)
+  const [form, setForm] = useState({ travaux: "", logement: "", name: "", phone: "", email: "", website: "" })
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
   // Eligibility simulator
@@ -186,7 +187,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
         body: JSON.stringify({
           name: form.name, phone: form.phone, email: form.email,
           service: "Isolation thermique",
-          message: form.message || "Demande de devis via landing page Isolation",
+          message: `Travaux : ${form.travaux} — Logement : ${form.logement}`,
           website: form.website,
         }),
       })
@@ -318,50 +319,184 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
               </div>
             </div>
 
-            {/* Right: form */}
+            {/* Right: form — Wizard 2 étapes */}
             <div id="devis" className="scroll-mt-8">
               <div className="bg-white rounded-3xl shadow-2xl p-8">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-neutral-900">Devis isolation gratuit</h2>
-                  <p className="text-neutral-500 text-sm mt-1">Réponse sous 48h · Sans engagement · Aucune avance</p>
-                </div>
 
                 {formStatus === "success" ? (
-                  <div className="text-center py-8">
-                    <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-neutral-900 mb-2">Demande envoyée !</h3>
-                    <p className="text-neutral-600 text-sm">Nous vous contactons sous 48h pour calculer vos aides et planifier la visite gratuite.</p>
+                  <div className="text-center py-6">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-9 h-9 text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-neutral-900 mb-2">Demande bien reçue !</h3>
+                    <p className="text-neutral-600 text-sm mb-4">
+                      Notre conseiller vous rappelle sous <strong>2h ouvrées</strong>{" "}
+                      (lun.–ven. 9h–18h) pour calculer vos aides et planifier la visite gratuite.
+                    </p>
+                    <div className="bg-green-50 rounded-2xl p-4 text-left space-y-2 text-sm text-neutral-700 mb-5">
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Calcul exact de vos aides MaPrimeRénov&apos;</p>
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Visite technique gratuite à domicile</p>
+                      <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Devis détaillé sans avance de trésorerie</p>
+                    </div>
+                    <PhoneCallTracker className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
+                      <Phone className="w-4 h-4" /> Vous préférez appeler directement ?
+                    </PhoneCallTracker>
                   </div>
                 ) : (
-                  <form onSubmit={submitForm} className="space-y-4">
-                    <input type="text" tabIndex={-1} autoComplete="off" value={form.website}
-                      onChange={(e) => setForm(p => ({ ...p, website: e.target.value }))} className="hidden" />
-                    <input type="text" placeholder="Votre prénom et nom *" required
-                      value={form.name} onChange={(e) => setForm(p => ({ ...p, name: e.target.value }))}
-                      className={inputCls} />
-                    <input type="tel" placeholder="Votre téléphone (06 ou 07) *" required
-                      value={form.phone} onChange={(e) => setForm(p => ({ ...p, phone: e.target.value }))}
-                      className={inputCls} />
-                    <input type="email" placeholder="Votre email"
-                      value={form.email} onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
-                      className={inputCls} />
-                    <textarea placeholder="Surface des combles, type de logement (maison/appart), ville..." rows={3}
-                      value={form.message} onChange={(e) => setForm(p => ({ ...p, message: e.target.value }))}
-                      className={`${inputCls} resize-none`} />
-                    <button type="submit" disabled={formStatus === "loading"}
-                      className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-70 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5">
-                      {formStatus === "loading" ? "Envoi en cours..." : "Calculer mes aides gratuitement →"}
-                    </button>
-                    {formStatus === "error" && (
-                      <p className="text-red-600 text-sm text-center">
-                        Une erreur est survenue.{" "}
-                        <PhoneCallTracker className="underline font-medium">Appelez-nous.</PhoneCallTracker>
-                      </p>
+                  <>
+                    {/* Progress */}
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
+                          Étape {step} sur 2
+                        </span>
+                        <span className="text-xs text-neutral-400">
+                          {step === 1 ? "Votre projet" : "Vos coordonnées"}
+                        </span>
+                      </div>
+                      <div className="w-full bg-neutral-100 rounded-full h-1.5">
+                        <div
+                          className="bg-green-600 h-1.5 rounded-full transition-all duration-500"
+                          style={{ width: step === 1 ? "50%" : "100%" }}
+                        />
+                      </div>
+                      <h2 className="text-xl font-bold text-neutral-900 mt-4">
+                        {step === 1 ? "Quel type de travaux ?" : "Où vous envoyer le devis ?"}
+                      </h2>
+                      {step === 1 && (
+                        <p className="text-neutral-500 text-sm mt-1">
+                          2 questions rapides · Gratuit · Aucune avance
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Step 1 — qualification */}
+                    {step === 1 && (
+                      <div className="space-y-5">
+                        <div>
+                          <p className="text-sm font-semibold text-neutral-700 mb-2">Zone à isoler :</p>
+                          <div className="grid grid-cols-1 gap-2">
+                            {[
+                              { value: "Combles / toiture", icon: "🏠" },
+                              { value: "Murs intérieurs", icon: "🧱" },
+                              { value: "Plancher / sous-sol", icon: "📦" },
+                              { value: "Plusieurs zones", icon: "✅" },
+                            ].map(({ value, icon }) => (
+                              <button
+                                key={value}
+                                type="button"
+                                onClick={() => setForm((p) => ({ ...p, travaux: value }))}
+                                className={`flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${
+                                  form.travaux === value
+                                    ? "border-green-600 bg-green-50 text-green-800"
+                                    : "border-neutral-200 hover:border-green-300 text-neutral-700"
+                                }`}
+                              >
+                                <span className="text-lg">{icon}</span>
+                                {value}
+                                {form.travaux === value && <CheckCircle className="w-4 h-4 text-green-600 ml-auto flex-shrink-0" />}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-sm font-semibold text-neutral-700 mb-2">Type de logement :</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {["Maison individuelle", "Appartement", "Maison mitoyenne", "Autre"].map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => setForm((p) => ({ ...p, logement: s }))}
+                                className={`px-3 py-3 rounded-xl border-2 text-sm font-medium transition-all text-center ${
+                                  form.logement === s
+                                    ? "border-green-600 bg-green-50 text-green-800"
+                                    : "border-neutral-200 hover:border-green-300 text-neutral-700"
+                                }`}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          disabled={!form.travaux || !form.logement}
+                          onClick={() => setStep(2)}
+                          className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
+                        >
+                          Calculer mes aides disponibles →
+                        </button>
+                        <p className="text-xs text-neutral-400 text-center">🔒 Gratuit · Sans engagement · Aucune avance</p>
+                      </div>
                     )}
-                    <p className="text-xs text-neutral-400 text-center">🔒 Données sécurisées · Zéro spam · Aucun engagement</p>
-                  </form>
+
+                    {/* Step 2 — contact */}
+                    {step === 2 && (
+                      <form onSubmit={submitForm} className="space-y-4">
+                        <input type="text" tabIndex={-1} autoComplete="off"
+                          value={form.website}
+                          onChange={(e) => setForm(p => ({ ...p, website: e.target.value }))}
+                          className="hidden"
+                        />
+                        <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-2.5 text-xs text-green-800 font-medium">
+                          ✓ {form.travaux} · {form.logement}
+                        </div>
+                        <input
+                          type="text" placeholder="Prénom et nom *" required
+                          value={form.name}
+                          onChange={(e) => setForm(p => ({ ...p, name: e.target.value }))}
+                          className={inputCls}
+                        />
+                        <div>
+                          <input
+                            type="tel" placeholder="Téléphone (06 ou 07) *" required
+                            value={form.phone}
+                            onChange={(e) => setForm(p => ({ ...p, phone: e.target.value }))}
+                            className={inputCls}
+                          />
+                          <p className="text-xs text-neutral-400 mt-1 pl-1">Rappel sous 2h ouvrées (lun.–ven. 9h–18h)</p>
+                        </div>
+                        <input
+                          type="email" placeholder="Email (optionnel — pour recevoir le devis)"
+                          value={form.email}
+                          onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
+                          className={inputCls}
+                        />
+                        <button
+                          type="submit"
+                          disabled={formStatus === "loading"}
+                          className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-70 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
+                        >
+                          {formStatus === "loading" ? "Envoi en cours..." : "Calculer mes aides gratuitement →"}
+                        </button>
+                        {formStatus === "error" && (
+                          <p className="text-red-600 text-sm text-center">
+                            Une erreur est survenue.{" "}
+                            <PhoneCallTracker className="underline font-medium">Appelez-nous.</PhoneCallTracker>
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setStep(1)}
+                            className="text-sm text-neutral-400 hover:text-neutral-600 transition-colors"
+                          >
+                            ← Modifier mon projet
+                          </button>
+                          <p className="text-xs text-neutral-400">🔒 Données sécurisées</p>
+                        </div>
+                      </form>
+                    )}
+                  </>
                 )}
               </div>
+
+              {/* Social proof */}
+              <p className="text-center text-green-200 text-xs mt-3 font-medium">
+                ★ 38 dossiers MaPrimeRénov&apos; déposés ce mois-ci en Île-de-France
+              </p>
             </div>
           </div>
         </div>
@@ -943,3 +1078,4 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
     </div>
   )
 }
+
