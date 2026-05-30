@@ -63,6 +63,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'isolation-combles-prix-m2-2026',
+    title: "Prix isolation combles au m² en 2026 : tarifs, matériaux et aides",
+    slug: 'prix-isolation-combles-au-m2',
+    excerpt: "Quel prix pour l'isolation des combles au m² en 2026 ? Tarifs par isolant (laine de verre, ouate), combles perdus vs aménageables, aides MaPrimeRénov' et reste à charge réel.",
+    published_date: '2026-05-30',
+    image: '/images/blog/isolation-combles-pose-laine-verre-artisan.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
