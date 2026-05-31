@@ -74,6 +74,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'pac-chauffage-sol-2026',
+    title: "Pompe à chaleur pour chauffage au sol : guide complet 2026",
+    slug: 'pompe-a-chaleur-chauffage-au-sol',
+    excerpt: "PAC air-eau et plancher chauffant hydraulique : pourquoi cette combinaison est la plus efficace, COP 4,0–5,0, prix en 2026, revêtements compatibles et aides MaPrimeRénov'.",
+    published_date: '2026-05-31',
+    image: '/images/blog/pac-chauffage-sol-plancher-chauffant-tuyaux-pose.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
