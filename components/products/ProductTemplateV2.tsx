@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {
   Star, Check, X, ChevronDown, ChevronRight,
-  Shield, Truck, Wrench, Award, Phone, Gift, AlertCircle,
+  Shield, Truck, Wrench, Award, Phone, Gift,
   ThumbsUp, BadgeCheck, MessageSquare, Calendar, Clock,
   Lock, Users, TrendingUp, Zap, Leaf,
 } from 'lucide-react'
@@ -196,11 +196,6 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 className="object-contain p-10"
                 priority
               />
-              {product.stock !== undefined && product.stock <= 5 && (
-                <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
-                  ⚡ Dernières pièces
-                </div>
-              )}
               {savingsPct > 0 && (
                 <div className="absolute top-4 right-4 bg-green-600 text-white text-sm font-bold w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-green-600/30">
                   -{savingsPct}%
@@ -292,18 +287,6 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 </div>
               )}
 
-              {product.stock !== undefined && product.stock <= 5 && (
-                <div>
-                  <div className="flex items-center gap-2 text-sm text-red-600 font-semibold mb-1.5">
-                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                    Il ne reste que <strong>{product.stock} pièce{product.stock > 1 ? 's' : ''}</strong> en stock !
-                  </div>
-                  <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-red-400 rounded-full transition-all" style={{ width: `${(product.stock / 10) * 100}%` }} />
-                  </div>
-                  <p className="text-[11px] text-neutral-400 mt-1">Stock mis à jour aujourd&apos;hui</p>
-                </div>
-              )}
 
               <div className="grid grid-cols-2 gap-2 text-sm text-neutral-600">
                 <div className="flex items-center gap-1.5">
@@ -382,7 +365,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
           <section className="mb-14">
             <h2 className="text-2xl font-bold text-neutral-900 mb-6">Description du produit</h2>
             <div
-              className="prose prose-neutral prose-headings:font-bold prose-p:text-neutral-600 prose-a:text-green-700 hover:prose-a:text-green-800 prose-strong:text-neutral-800 prose-li:text-neutral-600 max-w-none"
+              className="[&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-neutral-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:text-neutral-600 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_li]:text-neutral-600 [&_strong]:font-semibold [&_strong]:text-neutral-800 [&_a]:text-green-700 [&_a]:underline"
               dangerouslySetInnerHTML={{ __html: product.description }}
             />
           </section>
