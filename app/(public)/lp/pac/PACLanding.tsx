@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+
+const LP_PHONE_RAW = "+33609455056"
+const LP_PHONE_DISPLAY = "06 09 45 50 56"
 import {
   Phone, CheckCircle, Star, ChevronDown, ChevronUp,
   ArrowRight, Shield, Zap, Leaf, Clock, Euro, Award,
@@ -148,7 +151,7 @@ function PACTypeCard({
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
-        <PhoneCallTracker className="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl transition-all">
+        <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl transition-all">
           <Phone className="w-4 h-4" />
           Appeler pour un conseil
         </PhoneCallTracker>
@@ -309,7 +312,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
               </ul>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <PhoneCallTracker className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
+                <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
                   <Phone className="w-5 h-5" />
                   Appeler maintenant
                 </PhoneCallTracker>
@@ -355,7 +358,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Calcul de vos aides MaPrimeRénov&apos; 2026</p>
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Devis détaillé sans engagement</p>
                     </div>
-                    <PhoneCallTracker className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
+                    <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
                       <Phone className="w-4 h-4" /> Vous préférez appeler directement ?
                     </PhoneCallTracker>
                   </div>
@@ -490,7 +493,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
                         {formStatus === "error" && (
                           <p className="text-red-600 text-sm text-center">
                             Une erreur est survenue.{" "}
-                            <PhoneCallTracker className="underline font-medium">Appelez-nous directement.</PhoneCallTracker>
+                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous directement.</PhoneCallTracker>
                           </p>
                         )}
                         <div className="flex items-center justify-between pt-1">
@@ -941,7 +944,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
             Notre équipe s&apos;occupe de tout — y compris vos dossiers d&apos;aides.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-            <PhoneCallTracker className="inline-flex items-center justify-center gap-3 bg-white text-green-900 hover:bg-green-50 font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-white text-green-900 hover:bg-green-50 font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]">
               <Phone className="w-5 h-5" />
               Appeler maintenant
             </PhoneCallTracker>
@@ -964,7 +967,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
       {/* ── STICKY MOBILE CTA ──────────────────────────────────────────────── */}
       <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-2xl px-4 py-3 safe-area-inset-bottom">
         <div className="flex gap-3 max-w-sm mx-auto">
-          <PhoneCallTracker className="flex-1 flex items-center justify-center gap-2 bg-green-700 active:bg-green-800 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
+          <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 flex items-center justify-center gap-2 bg-green-700 active:bg-green-800 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
             <Phone className="w-4 h-4" />
             Appeler
           </PhoneCallTracker>
