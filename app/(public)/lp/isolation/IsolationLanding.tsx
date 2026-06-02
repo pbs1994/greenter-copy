@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+
+const LP_PHONE_RAW = "+33609455056"
+const LP_PHONE_DISPLAY = "06 09 45 50 56"
 import {
   Phone, CheckCircle, Star, ChevronDown, ChevronUp,
   ArrowRight, Shield, Zap, Leaf, Clock, Euro, Award,
@@ -297,7 +300,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
               </ul>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <PhoneCallTracker className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
+                <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
                   <Phone className="w-5 h-5" />
                   Vérifier mon éligibilité
                 </PhoneCallTracker>
@@ -338,7 +341,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Visite technique gratuite à domicile</p>
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Devis détaillé sans avance de trésorerie</p>
                     </div>
-                    <PhoneCallTracker className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
+                    <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
                       <Phone className="w-4 h-4" /> Vous préférez appeler directement ?
                     </PhoneCallTracker>
                   </div>
@@ -474,7 +477,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                         {formStatus === "error" && (
                           <p className="text-red-600 text-sm text-center">
                             Une erreur est survenue.{" "}
-                            <PhoneCallTracker className="underline font-medium">Appelez-nous.</PhoneCallTracker>
+                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous.</PhoneCallTracker>
                           </p>
                         )}
                         <div className="flex items-center justify-between pt-1">
@@ -612,7 +615,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                         <p className="text-neutral-600 text-sm mt-1">{cfg.prime}</p>
                         <p className="text-neutral-600 text-sm mt-2">{cfg.desc}</p>
                         <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                          <PhoneCallTracker className={`inline-flex items-center justify-center gap-2 ${
+                          <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className={`inline-flex items-center justify-center gap-2 ${
                             simResult === "bleu" ? "bg-blue-600 hover:bg-blue-700" :
                             simResult === "jaune" ? "bg-yellow-600 hover:bg-yellow-700" :
                             simResult === "violet" ? "bg-purple-600 hover:bg-purple-700" :
@@ -755,7 +758,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <PhoneCallTracker className="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl transition-all text-sm">
+              <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl transition-all text-sm">
                 <Phone className="w-4 h-4" /> Appeler un expert
               </PhoneCallTracker>
               <a href="#devis" className="flex-1 inline-flex items-center justify-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-semibold py-3.5 rounded-xl transition-all text-sm">
@@ -1048,7 +1051,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
             On gère toute l&apos;administration — vous ne payez que le reste à charge.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-            <PhoneCallTracker className="inline-flex items-center justify-center gap-3 bg-white text-green-900 hover:bg-green-50 font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-white text-green-900 hover:bg-green-50 font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]">
               <Phone className="w-5 h-5" /> Appeler maintenant
             </PhoneCallTracker>
             <a href="#devis" className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all">
@@ -1066,7 +1069,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
       {/* ── STICKY MOBILE CTA ──────────────────────────────────────────────── */}
       <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-2xl px-4 py-3">
         <div className="flex gap-3 max-w-sm mx-auto">
-          <PhoneCallTracker className="flex-1 flex items-center justify-center gap-2 bg-green-700 active:bg-green-800 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
+          <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 flex items-center justify-center gap-2 bg-green-700 active:bg-green-800 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
             <Phone className="w-4 h-4" /> Appeler
           </PhoneCallTracker>
           <a href="#devis" className="flex-1 flex items-center justify-center gap-2 bg-teal-600 active:bg-teal-700 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
