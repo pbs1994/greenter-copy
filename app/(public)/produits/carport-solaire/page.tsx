@@ -36,9 +36,7 @@ const PRODUCT: ProductV2Data = {
   monthlyBuyers: 6,
   ctaHref: "/contact",
   images: [
-    "/solaire.jpg",
-    "/installation.jpg",
-    "/pac2.jpg",
+    "/images/blog/carport-solaire-maison-renault-zoe.jpg",
   ],
   shortDescription:
     "Chaque projet est unique : dimensions, puissance, matériaux et configuration sont définis avec vous selon votre terrain, votre usage et vos objectifs. Un de nos experts vous contacte sous 48h pour un premier échange sans engagement.",
