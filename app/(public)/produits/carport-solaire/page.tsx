@@ -38,10 +38,10 @@ const PRODUCT: ProductV2Data = {
   ],
   gift: { name: "Bilan solaire et étude de faisabilité offerts", value: 350 },
   deliveryDays: "selon planning projet",
-  rating: 4.9,
-  reviewCount: 18,
-  buyerCount: 47,
-  monthlyBuyers: 6,
+  rating: 0,
+  reviewCount: 0,
+  buyerCount: 0,
+  monthlyBuyers: 0,
   ctaHref: "/contact",
   images: [
     "/images/blog/carport-solaire-maison-renault-zoe.jpg",
@@ -125,56 +125,7 @@ const PRODUCT: ProductV2Data = {
       { criterion: "Compatible borne VE", ours: true, alt1: "Option", alt2: false },
     ],
   },
-  reviews: [
-    {
-      author: "Marc D.",
-      city: "Meaux (77)",
-      date: "avril 2026",
-      rating: 5,
-      title: "Carport 2 places — je ne m'attendais pas à autant d'économies",
-      content:
-        "L'équipe a fait une vraie étude avant de me proposer quoi que ce soit. Résultat : une installation parfaitement dimensionnée pour ma maison, et une facture EDF qui a chuté de plus de 60 % dès le premier mois. La pose a été rapide et soignée.",
-      verified: true,
-      helpful: 21,
-      tags: ["Carport 2 places", "Économies réelles", "Pose soignée"],
-    },
-    {
-      author: "Isabelle V.",
-      city: "Créteil (94)",
-      date: "mars 2026",
-      rating: 5,
-      title: "Pergola terrasse — esthétique, ombragée et rentable",
-      content:
-        "Je voulais couvrir ma terrasse avec quelque chose de beau et utile. Greenter a adapté les dimensions exactement à mon espace, posé les panneaux en une journée. En plus de l'ombre, je produis maintenant l'équivalent de ma consommation annuelle. Vraiment bluffant.",
-      verified: true,
-      helpful: 17,
-      tags: ["Pergola terrasse", "Sur mesure", "Esthétique"],
-    },
-    {
-      author: "Patrick L.",
-      city: "Melun (77)",
-      date: "février 2026",
-      rating: 5,
-      title: "Carport solaire + borne VE — le combo parfait",
-      content:
-        "J'ai couplé le carport avec une borne de recharge pour ma voiture électrique. Greenter a tout géré : la structure, la borne, le raccordement et les démarches. Mon coût de recharge est aujourd'hui pratiquement nul depuis l'installation.",
-      verified: true,
-      helpful: 34,
-      tags: ["Carport", "Borne IRVE", "Voiture électrique"],
-    },
-    {
-      author: "Nathalie B.",
-      city: "Vincennes (94)",
-      date: "janvier 2026",
-      rating: 4,
-      title: "Très satisfaite — juste un peu d'attente pour la fabrication",
-      content:
-        "La qualité de l'installation est irréprochable. Le délai a été un peu plus long que prévu du fait du sur mesure, mais l'équipe avait prévenu dès le départ. Le suivi de production sur l'application est très pratique au quotidien.",
-      verified: true,
-      helpful: 9,
-      tags: ["Sur mesure", "Monitoring", "Qualité"],
-    },
-  ],
+  reviews: [],
   faq: [
     {
       question: "Quelle est la différence entre un carport et une pergola solaire ?",
