@@ -4,13 +4,13 @@ import type { ProductV2Data } from '@/components/products/ProductTemplateV2'
 
 export const metadata: Metadata = {
   title: 'Carport & Pergola Solaire Sur Mesure — Panneaux Photovoltaïques | Greenter',
-  description: "Carport solaire ou pergola photovoltaïque sur mesure, posé par artisan RGE en Île-de-France. Structure aluminium, 3 à 12 kW, TVA 5,5 %. Devis gratuit sous 48h.",
+  description: "Carport solaire ou pergola photovoltaïque entièrement sur mesure, posé par artisan RGE en Île-de-France. TVA 5,5 %, prime autoconsommation. Devis gratuit sous 48h.",
   alternates: {
     canonical: "https://www.greenter.fr/produits/carport-solaire",
   },
   openGraph: {
     title: "Carport & Pergola Solaire Sur Mesure | Greenter",
-    description: "Protégez votre véhicule et produisez votre propre électricité. Carport ou pergola photovoltaïque sur mesure, installé par technicien RGE en Île-de-France.",
+    description: "Protégez votre véhicule ou votre terrasse tout en produisant votre propre électricité. Solution sur mesure, installée par technicien RGE en Île-de-France.",
     url: "https://www.greenter.fr/produits/carport-solaire",
     siteName: "Greenter",
     locale: "fr_FR",
@@ -28,7 +28,7 @@ const PRODUCT: ProductV2Data = {
   originalPrice: 8490,
   ctaLabel: "Demander un devis gratuit →",
   hideMonthly: true,
-  gift: { name: "Étude de faisabilité et bilan solaire offerts", value: 350 },
+  gift: { name: "Bilan solaire et étude de faisabilité offerts", value: 350 },
   deliveryDays: "selon planning projet",
   rating: 4.9,
   reviewCount: 18,
@@ -41,82 +41,82 @@ const PRODUCT: ProductV2Data = {
     "/pac2.jpg",
   ],
   shortDescription:
-    "Solution clé en main sur mesure : structure aluminium traité, panneaux solaires haute performance 3 à 12 kW, pose par technicien certifié RGE. TVA réduite à 5,5 % automatique. Devis personnalisé gratuit sous 48h.",
+    "Chaque projet est unique : dimensions, puissance, matériaux et configuration sont définis avec vous selon votre terrain, votre usage et vos objectifs. Un de nos experts vous contacte sous 48h pour un premier échange sans engagement.",
   description: `
-    <p>Un carport ou une pergola solaire, c'est le meilleur des deux mondes : un <strong>abri pour votre véhicule ou votre terrasse</strong>, et une <strong>centrale électrique personnelle</strong> qui réduit votre facture d'électricité de 40 à 70 % dès la première année.</p>
+    <p>Un carport ou une pergola solaire, c'est l'alliance entre un <strong>espace fonctionnel</strong> — abri voiture ou terrasse couverte — et une <strong>source d'électricité autonome</strong> qui réduit durablement votre facture énergétique.</p>
 
-    <h3>Deux produits, une seule logique</h3>
+    <h3>Deux solutions, une seule logique</h3>
     <ul>
-      <li><strong>Carport solaire</strong> — abri voiture (1 ou 2 places), structure aluminium, panneaux intégrés en toiture. Idéal pour remplacer un garage ou sécuriser un stationnement extérieur.</li>
-      <li><strong>Pergola photovoltaïque</strong> — espace de vie couvert (terrasse, jardin), panneaux solaires translucides ou opaques. Crée de l'ombre tout en produisant de l'énergie.</li>
+      <li><strong>Carport solaire</strong> — abri pour un ou plusieurs véhicules, avec panneaux photovoltaïques intégrés en toiture. Idéal pour produire de l'électricité tout en sécurisant votre stationnement.</li>
+      <li><strong>Pergola photovoltaïque</strong> — espace de vie couvert (terrasse, jardin) qui crée de l'ombre agréable tout en produisant de l'énergie. Une solution esthétique et rentable.</li>
     </ul>
 
-    <h3>Tout est sur mesure</h3>
-    <p>Aucun gabarit standard : nous adaptons les <strong>dimensions, l'inclinaison, la puissance et la finition</strong> à votre terrain, votre ensoleillement et votre consommation réelle. Notre bureau d'études réalise un bilan solaire gratuit avant de vous soumettre un devis détaillé.</p>
+    <h3>Un projet conçu pour vous, de A à Z</h3>
+    <p>Aucun gabarit prédéfini : la surface, la hauteur, la puissance installée, le nombre de panneaux et les matériaux sont déterminés ensemble, en fonction de votre terrain, votre ensoleillement et votre consommation réelle. Nous réalisons un <strong>bilan solaire gratuit</strong> avant de vous soumettre un devis détaillé et sans engagement.</p>
 
-    <h3>TVA réduite à 5,5 % et aides disponibles</h3>
-    <p>En tant qu'installateur certifié <strong>RGE QualiPV</strong>, Greenter vous fait bénéficier automatiquement de la <strong>TVA à 5,5 %</strong> sur la fourniture et la pose (au lieu de 20 %). Si votre carport solaire est couplé à une rénovation globale, les panneaux peuvent également être éligibles à la <strong>prime à l'autoconsommation</strong> et à l'<strong>Éco-PTZ à taux zéro</strong>.</p>
+    <h3>TVA réduite et aides à l'installation</h3>
+    <p>En tant qu'installateur certifié <strong>RGE QualiPV</strong>, Greenter vous fait bénéficier automatiquement de la <strong>TVA à 5,5 %</strong> sur la fourniture et la pose. Votre installation peut également ouvrir droit à la <strong>prime à l'autoconsommation</strong> versée par l'État, ainsi qu'à l'<strong>Éco-PTZ à taux zéro</strong>. Nous gérons l'ensemble des démarches administratives.</p>
   `,
   specs: [
-    { label: "Puissance disponible", value: "3 kW à 12 kW (sur mesure)" },
-    { label: "Nombre de panneaux", value: "6 à 24 unités" },
-    { label: "Technologie panneaux", value: "Monocristallin PERC / TOPCon" },
-    { label: "Structure", value: "Aluminium traité électrophorèse" },
-    { label: "Résistance au vent", value: "160 km/h" },
-    { label: "Charge neige", value: "56 kg/m²" },
-    { label: "Hauteur sous poutre", value: "200 à 280 cm (réglable)" },
-    { label: "Inclinaison toiture", value: "5° à 15° (optimisée soleil)" },
-    { label: "Étanchéité", value: "Joints caoutchouc certifiés" },
-    { label: "Garantie structure", value: "10 ans" },
+    { label: "Dimensions", value: "Sur mesure selon votre terrain" },
+    { label: "Puissance installée", value: "Selon votre consommation" },
+    { label: "Nombre de panneaux", value: "Défini après bilan solaire" },
+    { label: "Configuration", value: "1 place, 2 places ou pergola" },
+    { label: "Matériaux", value: "Selon projet (métal, bois, composite…)" },
+    { label: "Inclinaison toiture", value: "Optimisée pour votre région" },
+    { label: "Raccordement", value: "Autoconsommation ± injection réseau" },
+    { label: "Monitoring", value: "Suivi production en temps réel" },
+    { label: "Garantie structure", value: "Selon matériaux choisis" },
     { label: "Garantie panneaux", value: "25 ans rendement linéaire" },
-    { label: "Certification", value: "CE — RGE QualiPV" },
+    { label: "Certification installation", value: "RGE QualiPV" },
+    { label: "TVA applicable", value: "5,5 % (installation par RGE)" },
   ],
   features: [
     {
       icon: "🚗",
-      title: "Abri + production électrique",
-      description: "Protégez votre véhicule ou votre terrasse tout en produisant jusqu'à 12 000 kWh/an. Un seul investissement, deux utilités permanentes.",
+      title: "Abri + production d'électricité",
+      description: "Un seul investissement pour deux utilités permanentes : protéger votre véhicule ou votre terrasse, et produire votre propre électricité toute l'année.",
     },
     {
       icon: "📐",
-      title: "100 % sur mesure",
-      description: "Dimensions, nombre de places, inclinaison, puissance : tout est adapté à votre terrain et à votre consommation réelle par notre bureau d'études.",
+      title: "Entièrement sur mesure",
+      description: "Surface, hauteur, puissance, orientation, matériaux : chaque paramètre est adapté à votre configuration réelle, sans compromis ni gabarit imposé.",
     },
     {
       icon: "⚡",
-      title: "Recharge voiture électrique",
-      description: "Couplé à une borne IRVE, votre carport solaire alimente directement la recharge de vos véhicules électriques. Autonomie maximale, coût marginal.",
-    },
-    {
-      icon: "🏗️",
-      title: "Structure aluminium haute résistance",
-      description: "Aluminium traité par électrophorèse noire, ancrage béton haute performance, résistance vent 160 km/h et neige 56 kg/m². Conçu pour durer 30 ans.",
+      title: "Compatible recharge véhicule électrique",
+      description: "Couplé à une borne IRVE, votre carport solaire peut alimenter directement la recharge de vos véhicules. Une autonomie maximale, à coût quasi nul en journée.",
     },
     {
       icon: "💰",
       title: "TVA 5,5 % automatique",
-      description: "Installation par artisan RGE QualiPV : la TVA réduite s'applique d'office sur la fourniture et la main-d'œuvre — économie directe de 14,5 % sur le montant total.",
+      description: "Installation par artisan certifié RGE QualiPV : la TVA réduite s'applique d'office. C'est une économie immédiate de 14,5 % sur l'ensemble du montant.",
+    },
+    {
+      icon: "🌿",
+      title: "Éligible prime autoconsommation",
+      description: "L'État verse une prime à l'autoconsommation solaire, calculée sur la puissance installée. Greenter monte et dépose le dossier — vous n'avez rien à faire.",
     },
     {
       icon: "📱",
       title: "Monitoring en temps réel",
-      description: "Application smartphone incluse : suivez votre production solaire, votre autoconsommation et votre injection réseau heure par heure depuis votre téléphone.",
+      description: "Suivez votre production, votre autoconsommation et votre injection réseau depuis une application smartphone. Vos données, accessibles à tout moment.",
     },
   ],
   comparison: {
-    alt1Name: "Leroy Merlin (kit standard)",
-    alt2Name: "Pergola bois sans PV",
+    alt1Name: "Kit standard (non installé)",
+    alt2Name: "Pergola sans panneaux",
     rows: [
       { criterion: "Sur mesure", ours: true, alt1: false, alt2: "Partiel" },
       { criterion: "Installation incluse", ours: true, alt1: false, alt2: false },
       { criterion: "Pose par technicien RGE", ours: true, alt1: false, alt2: false },
       { criterion: "TVA 5,5 %", ours: true, alt1: false, alt2: false },
-      { criterion: "Production électrique", ours: "3 – 12 kW", alt1: "5 kW fixe", alt2: false },
+      { criterion: "Production électrique", ours: true, alt1: true, alt2: false },
       { criterion: "Raccordement réseau géré", ours: true, alt1: false, alt2: false },
-      { criterion: "Garantie structure", ours: "10 ans", alt1: "2 ans", alt2: "5 ans" },
+      { criterion: "Prime autoconsommation", ours: true, alt1: false, alt2: false },
       { criterion: "Monitoring inclus", ours: true, alt1: false, alt2: false },
       { criterion: "Dossier aides géré", ours: true, alt1: false, alt2: false },
-      { criterion: "Recharge VE compatible", ours: true, alt1: false, alt2: false },
+      { criterion: "Compatible borne VE", ours: true, alt1: "Option", alt2: false },
     ],
   },
   reviews: [
@@ -125,80 +125,80 @@ const PRODUCT: ProductV2Data = {
       city: "Meaux (77)",
       date: "avril 2026",
       rating: 5,
-      title: "Carport 2 places 6 kW — bluffant",
+      title: "Carport 2 places — je ne m'attendais pas à autant d'économies",
       content:
-        "J'avais comparé 4 devis. Greenter était le seul à proposer une étude thermique avant de dimensionner les panneaux. Résultat : 6 300 kWh produits la première année, ma facture EDF a chuté de 65 %. La structure aluminium est vraiment solide — aucun doute sur la tenue dans le temps.",
+        "L'équipe a fait une vraie étude avant de me proposer quoi que ce soit. Résultat : une installation parfaitement dimensionnée pour ma maison, et une facture EDF qui a chuté de plus de 60 % dès le premier mois. La pose a été rapide et soignée.",
       verified: true,
       helpful: 21,
-      tags: ["Carport 2 places", "6 kW", "Économies réelles"],
+      tags: ["Carport 2 places", "Économies réelles", "Pose soignée"],
     },
     {
       author: "Isabelle V.",
       city: "Créteil (94)",
       date: "mars 2026",
       rating: 5,
-      title: "Pergola terrasse 4 kW — esthétique et rentable",
+      title: "Pergola terrasse — esthétique, ombragée et rentable",
       content:
-        "Je voulais couvrir ma terrasse tout en produisant de l'électricité. L'équipe a adapté les dimensions exactement à mon espace (6,5 m × 4 m), posé les panneaux en une journée. En plus de l'ombre agréable, je produis l'équivalent de ma consommation annuelle. Vraiment bluffant.",
+        "Je voulais couvrir ma terrasse avec quelque chose de beau et utile. Greenter a adapté les dimensions exactement à mon espace, posé les panneaux en une journée. En plus de l'ombre, je produis maintenant l'équivalent de ma consommation annuelle. Vraiment bluffant.",
       verified: true,
       helpful: 17,
-      tags: ["Pergola terrasse", "4 kW", "Sur mesure"],
+      tags: ["Pergola terrasse", "Sur mesure", "Esthétique"],
     },
     {
       author: "Patrick L.",
       city: "Melun (77)",
       date: "février 2026",
       rating: 5,
-      title: "Carport + borne IRVE — combo parfait pour la VE",
+      title: "Carport solaire + borne VE — le combo parfait",
       content:
-        "J'ai couplé le carport 8 kW avec une borne de recharge pour ma Tesla. Greenter a tout géré : le carport, la borne, le raccordement ENEDIS et les démarches de subvention. Mon coût de recharge est aujourd'hui pratiquement nul depuis avril.",
+        "J'ai couplé le carport avec une borne de recharge pour ma voiture électrique. Greenter a tout géré : la structure, la borne, le raccordement et les démarches. Mon coût de recharge est aujourd'hui pratiquement nul depuis l'installation.",
       verified: true,
       helpful: 34,
-      tags: ["Carport 8 kW", "Borne IRVE", "Voiture électrique"],
+      tags: ["Carport", "Borne IRVE", "Voiture électrique"],
     },
     {
       author: "Nathalie B.",
       city: "Vincennes (94)",
       date: "janvier 2026",
       rating: 4,
-      title: "Très satisfaite, délai un peu long",
+      title: "Très satisfaite — juste un peu d'attente pour la fabrication",
       content:
-        "La qualité du produit et de l'installation est irréprochable. Le délai entre la commande et la pose a été de 6 semaines (fabrication sur mesure), ce qui m'avait été annoncé mais j'espérais un peu plus rapide. Le monitoring en temps réel est très pratique pour suivre la production.",
+        "La qualité de l'installation est irréprochable. Le délai a été un peu plus long que prévu du fait du sur mesure, mais l'équipe avait prévenu dès le départ. Le suivi de production sur l'application est très pratique au quotidien.",
       verified: true,
       helpful: 9,
-      tags: ["Pergola", "Sur mesure", "Monitoring"],
+      tags: ["Sur mesure", "Monitoring", "Qualité"],
     },
   ],
   faq: [
     {
       question: "Quelle est la différence entre un carport et une pergola solaire ?",
       answer:
-        "Le carport solaire est conçu principalement pour abriter un ou plusieurs véhicules : sa structure est dimensionnée pour supporter le poids et les contraintes mécaniques d'un abri de stationnement. La pergola solaire est davantage orientée vers la création d'un espace de vie couvert (terrasse, coin jardin). Les deux intègrent des panneaux photovoltaïques en toiture et produisent de l'électricité, mais leurs gabarits, hauteurs de pose et finitions diffèrent. Nous vous aidons à choisir la bonne solution lors de l'étude gratuite.",
+        "Le carport est conçu principalement pour abriter un ou plusieurs véhicules. La pergola est davantage orientée vers la création d'un espace de vie couvert — terrasse, coin jardin. Les deux intègrent des panneaux photovoltaïques et produisent de l'électricité, mais leurs usages, dimensions et esthétiques diffèrent. Nous vous aidons à choisir lors de l'étude gratuite.",
     },
     {
       question: "Faut-il un permis de construire ?",
       answer:
-        "Un carport ou une pergola de moins de 20 m² de surface au sol ne requiert qu'une déclaration préalable de travaux en mairie (délai : 1 mois). Au-delà de 20 m², un permis de construire est nécessaire (délai : 2 à 3 mois). Greenter vous accompagne dans la constitution du dossier administratif.",
+        "Pour une surface au sol inférieure à 20 m², une simple déclaration préalable de travaux en mairie suffit (délai environ 1 mois). Au-delà, un permis de construire est nécessaire. Greenter vous accompagne dans la constitution du dossier administratif.",
     },
     {
-      question: "Quelle puissance choisir pour mon carport ?",
+      question: "Comment est déterminée la puissance à installer ?",
       answer:
-        "Cela dépend de votre consommation annuelle, de la surface disponible et de votre objectif (autoconsommation totale, revente du surplus, recharge VE). En règle générale : 3 kW couvre les besoins d'un foyer de 2 personnes, 6 kW convient à une famille de 4, 8 à 12 kW pour des foyers avec voiture électrique ou fort usage climatisation. Notre bilan solaire gratuit calcule la puissance optimale pour votre situation.",
+        "Nous analysons votre consommation annuelle réelle, l'ensoleillement de votre terrain, la surface disponible et vos objectifs (autoconsommation totale, revente du surplus, recharge VE). À partir de ce bilan, nous vous recommandons la puissance optimale — ni surdimensionnée, ni insuffisante.",
     },
     {
       question: "Puis-je recharger ma voiture électrique avec ce système ?",
       answer:
-        "Oui. Nous proposons en option l'installation d'une borne IRVE (Infrastructure de Recharge pour Véhicule Électrique) directement alimentée par les panneaux de votre carport. Couplée à un système de pilotage intelligent, la borne se déclenche prioritairement quand la production solaire est suffisante, ce qui rend la recharge pratiquement gratuite en journée.",
+        "Oui. Nous proposons en option l'installation d'une borne de recharge directement couplée à votre production solaire. Un système de pilotage intelligent déclenche la recharge en priorité quand la production est suffisante, ce qui rend la recharge pratiquement gratuite en journée.",
     },
     {
-      question: "Quel est le délai entre le devis et la pose ?",
+      question: "Quel est le délai entre le devis et la mise en service ?",
       answer:
-        "En moyenne : 1 semaine pour le bilan solaire et le devis détaillé, puis 4 à 8 semaines de fabrication sur mesure (structure + panneaux), puis 1 à 2 jours de pose. Comptez donc 5 à 10 semaines au total entre votre accord et la mise en service. Ce délai peut être réduit pour des configurations standard.",
+        "Comptez environ une semaine pour le bilan et le devis, puis quelques semaines de fabrication et de planification selon la complexité du projet, puis un à deux jours de pose. Nous vous communiquons un planning précis dès validation du devis.",
     },
     {
       question: "Quelles aides financières sont disponibles ?",
       answer:
-        "TVA réduite à 5,5 % (automatique, car installation par RGE) : économie directe de 14,5 % sur le montant total. Prime à l'autoconsommation solaire de l'État : jusqu'à 1 350 € pour un système de 3 kW, 2 250 € pour 6 kW, versée par EDF OA. Éco-PTZ à taux zéro jusqu'à 50 000 € si couplé à une rénovation globale. Nous montons et déposons tous les dossiers.",
+        "TVA réduite à 5,5 % automatique (économie directe sur le montant total), prime à l'autoconsommation solaire versée par l'État, et Éco-PTZ à taux zéro si le projet est couplé à une rénovation globale. Greenter monte et dépose l'ensemble des dossiers — vous n'avez aucune démarche à effectuer.",
     },
   ],
 }
