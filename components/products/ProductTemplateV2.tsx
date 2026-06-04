@@ -20,6 +20,7 @@ export interface V2Review {
   tags?: string[]
 }
 export interface V2FAQ { question: string; answer: string }
+export interface V2Benefit { emoji: string; title: string; sub: string }
 export interface V2ComparisonRow {
   criterion: string
   ours: boolean | string
@@ -50,9 +51,11 @@ export interface ProductV2Data {
   faq: V2FAQ[]
   comparison?: { alt1Name: string; alt2Name: string; rows: V2ComparisonRow[] }
   ctaHref?: string
-  ctaLabel?: string     // default "Commander maintenant →"
-  pricePrefix?: string  // e.g. "À partir de"
-  hideMonthly?: boolean // hide 3× instalment line
+  ctaLabel?: string       // default "Commander maintenant →"
+  pricePrefix?: string    // e.g. "À partir de"
+  hideMonthly?: boolean   // hide 3× instalment line
+  benefits?: V2Benefit[]  // overrides the default 5-item strip
+  expertCallout?: { title: string; body: string } | null  // null = hidden
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -350,8 +353,16 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
         </div>
 
         {/* ── BENEFITS STRIP ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-14">
-          {[
+        <div className={`grid grid-cols-2 gap-3 mb-14 ${product.benefits ? `lg:grid-cols-${Math.min(product.benefits.length, 5)}` : 'lg:grid-cols-5'}`}>
+          {product.benefits ? product.benefits.map(({ emoji, title, sub }) => (
+            <div key={title} className="flex flex-col items-center text-center gap-2 bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
+              <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-xl">
+                {emoji}
+              </div>
+              <p className="text-sm font-bold text-neutral-900">{title}</p>
+              <p className="text-xs text-neutral-500 leading-tight">{sub}</p>
+            </div>
+          )) : [
             { icon: Truck, title: 'Livraison offerte', sub: 'Partout en Île-de-France' },
             { icon: Wrench, title: 'Installation incluse', sub: 'Par techniciens RGE' },
             { icon: Shield, title: 'Garantie 10 ans', sub: 'Pièces + main-d\'œuvre' },
@@ -626,23 +637,31 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
         </section>
 
         {/* ── EXPERT CALLOUT ── */}
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 md:p-8 mb-14 text-white">
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center flex-shrink-0 text-2xl font-bold text-white">
-              RGE
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-1">Recommandation de nos experts</p>
-              <p className="font-heading text-xl font-bold mb-3">Idéale pour les maisons de 80 à 130 m² en zone H2</p>
-              <p className="text-slate-300 leading-relaxed text-sm">
-                Avec un SCOP de 5,1 en régime A7W35, ce modèle est l&apos;un des plus efficaces du marché dans sa gamme de prix.
-                Couplée à un plancher chauffant hydraulique, vous pouvez espérer{' '}
-                <strong className="text-white">50 à 65 % d&apos;économies</strong> sur votre facture de chauffage dès la première année.
-                Nos techniciens l&apos;installent en moyenne en une journée.
-              </p>
+        {product.expertCallout !== null && (
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 md:p-8 mb-14 text-white">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center flex-shrink-0 text-2xl font-bold text-white">
+                RGE
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-1">Recommandation de nos experts</p>
+                <p className="font-heading text-xl font-bold mb-3">
+                  {product.expertCallout?.title ?? "Idéale pour les maisons de 80 à 130 m² en zone H2"}
+                </p>
+                <p className="text-slate-300 leading-relaxed text-sm">
+                  {product.expertCallout?.body ?? (
+                    <>
+                      Avec un SCOP de 5,1 en régime A7W35, ce modèle est l&apos;un des plus efficaces du marché dans sa gamme de prix.
+                      Couplée à un plancher chauffant hydraulique, vous pouvez espérer{' '}
+                      <strong className="text-white">50 à 65 % d&apos;économies</strong> sur votre facture de chauffage dès la première année.
+                      Nos techniciens l&apos;installent en moyenne en une journée.
+                    </>
+                  )}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* ── GUARANTEE BLOCK ── */}
         <section className="mb-14">
