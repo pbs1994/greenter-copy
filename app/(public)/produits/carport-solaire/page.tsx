@@ -36,7 +36,7 @@ const PRODUCT: ProductV2Data = {
     { emoji: "🌿", title: "Aides gérées", sub: "Prime autoconsommation incluse" },
     { emoji: "☀️", title: "Production garantie", sub: "25 ans rendement linéaire" },
   ],
-  gift: { name: "Bilan solaire et étude de faisabilité offerts", value: 350 },
+  gift: { name: "Bilan solaire et étude de faisabilité", value: 350 },
   deliveryDays: "selon planning projet",
   rating: 0,
   reviewCount: 0,
