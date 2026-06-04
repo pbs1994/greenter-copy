@@ -50,6 +50,9 @@ export interface ProductV2Data {
   faq: V2FAQ[]
   comparison?: { alt1Name: string; alt2Name: string; rows: V2ComparisonRow[] }
   ctaHref?: string
+  ctaLabel?: string     // default "Commander maintenant →"
+  pricePrefix?: string  // e.g. "À partir de"
+  hideMonthly?: boolean // hide 3× instalment line
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -259,6 +262,9 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
             <div id="main-cta" className="bg-gradient-to-br from-green-50 to-teal-50/40 rounded-2xl p-5 border border-green-100 space-y-3.5">
 
               <div>
+                {product.pricePrefix && (
+                  <p className="text-sm font-medium text-neutral-500 mb-0.5">{product.pricePrefix}</p>
+                )}
                 <div className="flex items-baseline gap-3">
                   <span className="text-4xl font-bold text-neutral-900">
                     {product.currentPrice.toLocaleString('fr-FR')} €
@@ -313,13 +319,15 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 href={href}
                 className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
               >
-                Commander maintenant →
+                {product.ctaLabel ?? 'Commander maintenant →'}
               </Link>
 
-              <div className="flex items-center justify-between text-sm text-neutral-500">
-                <span>Ou <strong className="text-neutral-700">3×{monthly.toLocaleString('fr-FR')} €</strong> sans frais</span>
-                <span className="flex items-center gap-1"><Lock className="w-3.5 h-3.5" /> Paiement sécurisé</span>
-              </div>
+              {!product.hideMonthly && (
+                <div className="flex items-center justify-between text-sm text-neutral-500">
+                  <span>Ou <strong className="text-neutral-700">3×{monthly.toLocaleString('fr-FR')} €</strong> sans frais</span>
+                  <span className="flex items-center gap-1"><Lock className="w-3.5 h-3.5" /> Paiement sécurisé</span>
+                </div>
+              )}
             </div>
 
             <p className="text-sm text-neutral-600 leading-relaxed">{product.shortDescription}</p>
@@ -711,15 +719,17 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href={href} className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl">
-              Commander maintenant →
+              {product.ctaLabel ?? 'Commander maintenant →'}
             </Link>
             <Link href="/contact" className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors">
               <Phone className="w-4 h-4" /> Parler à un expert
             </Link>
           </div>
-          <p className="text-green-200 text-sm mt-4">
-            Ou 3×{monthly.toLocaleString('fr-FR')} € sans frais · Paiement 100% sécurisé
-          </p>
+          {!product.hideMonthly && (
+            <p className="text-green-200 text-sm mt-4">
+              Ou 3×{monthly.toLocaleString('fr-FR')} € sans frais · Paiement 100% sécurisé
+            </p>
+          )}
         </section>
 
         <div className="text-center">
@@ -747,7 +757,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 {savings > 0 && <p className="text-xs text-green-600 font-medium">Économie {savings.toLocaleString('fr-FR')} €</p>}
               </div>
               <Link href={href} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
-                Commander →
+                {product.ctaLabel ? product.ctaLabel.replace(' →', '') + ' →' : 'Commander →'}
               </Link>
             </div>
           </div>
