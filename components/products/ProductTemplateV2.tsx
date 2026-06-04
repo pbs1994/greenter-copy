@@ -247,18 +247,31 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
 
             {/* Rating */}
             <div className="flex flex-wrap items-center gap-2 text-sm">
-              <StarRating rating={product.rating} />
-              <span className="font-bold text-neutral-900">{product.rating}/5</span>
-              <button
-                onClick={() => document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-green-700 underline underline-offset-2 hover:text-green-800"
-              >
-                {product.reviewCount} avis vérifiés
-              </button>
-              <span className="text-neutral-300">·</span>
-              <span className="flex items-center gap-1 text-neutral-500">
-                <Users className="w-3.5 h-3.5" /> {product.buyerCount} clients satisfaits
-              </span>
+              {product.reviewCount > 0 ? (
+                <>
+                  <StarRating rating={product.rating} />
+                  <span className="font-bold text-neutral-900">{product.rating}/5</span>
+                  <button
+                    onClick={() => document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="text-green-700 underline underline-offset-2 hover:text-green-800"
+                  >
+                    {product.reviewCount} avis vérifiés
+                  </button>
+                  <span className="text-neutral-300">·</span>
+                </>
+              ) : (
+                <button
+                  onClick={() => document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="text-green-700 underline underline-offset-2 hover:text-green-800"
+                >
+                  Laisser le premier avis
+                </button>
+              )}
+              {product.buyerCount > 0 && (
+                <span className="flex items-center gap-1 text-neutral-500">
+                  <Users className="w-3.5 h-3.5" /> {product.buyerCount} clients satisfaits
+                </span>
+              )}
             </div>
 
             {/* Price Block */}
@@ -473,61 +486,87 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
         )}
 
         {/* ── SOCIAL PROOF BAR ── */}
-        <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-6 md:p-8 mb-14 text-white">
-          <div className="grid grid-cols-3 gap-4 text-center mb-5">
-            <div>
-              <p className="text-3xl font-bold">{product.buyerCount}+</p>
-              <p className="text-sm text-green-100 mt-0.5">clients satisfaits</p>
+        {product.reviewCount > 0 && (
+          <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-6 md:p-8 mb-14 text-white">
+            <div className="grid grid-cols-3 gap-4 text-center mb-5">
+              <div>
+                <p className="text-3xl font-bold">{product.buyerCount}+</p>
+                <p className="text-sm text-green-100 mt-0.5">clients satisfaits</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold">{product.rating}/5</p>
+                <div className="flex justify-center mt-1"><StarRating rating={product.rating} /></div>
+                <p className="text-sm text-green-100 mt-0.5">note moyenne</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold">{product.monthlyBuyers}</p>
+                <p className="text-sm text-green-100 mt-0.5">commandes ce mois-ci</p>
+              </div>
             </div>
-            <div>
-              <p className="text-3xl font-bold">{product.rating}/5</p>
-              <div className="flex justify-center mt-1"><StarRating rating={product.rating} /></div>
-              <p className="text-sm text-green-100 mt-0.5">note moyenne</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold">{product.monthlyBuyers}</p>
-              <p className="text-sm text-green-100 mt-0.5">commandes ce mois-ci</p>
+            <div className="border-t border-white/20 pt-4 text-center">
+              <ActivityTicker />
             </div>
           </div>
-          <div className="border-t border-white/20 pt-4 text-center">
-            <ActivityTicker />
-          </div>
-        </div>
+        )}
 
         {/* ── REVIEWS ── */}
         <section id="reviews-section" className="mb-14">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <h2 className="text-2xl font-bold text-neutral-900">
-              Avis clients vérifiés ({product.reviewCount})
+              {product.reviews.length > 0
+                ? `Avis clients vérifiés (${product.reviewCount})`
+                : 'Avis clients'}
             </h2>
-            <button
-              onClick={() => setShowForm(v => !v)}
-              className="inline-flex items-center gap-2 border border-green-600 text-green-700 font-semibold text-sm px-4 py-2 rounded-full hover:bg-green-50 transition-colors"
-            >
-              <MessageSquare className="w-4 h-4" />
-              Laisser un avis
-            </button>
+            {product.reviews.length > 0 && (
+              <button
+                onClick={() => setShowForm(v => !v)}
+                className="inline-flex items-center gap-2 border border-green-600 text-green-700 font-semibold text-sm px-4 py-2 rounded-full hover:bg-green-50 transition-colors"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Laisser un avis
+              </button>
+            )}
           </div>
 
-          {/* Rating overview */}
-          <div className="grid md:grid-cols-3 gap-6 bg-white rounded-2xl border border-neutral-100 p-6 mb-6 shadow-sm">
-            <div className="flex flex-col items-center justify-center">
-              <p className="text-6xl font-bold text-neutral-900">{product.rating}</p>
-              <StarRating rating={product.rating} size="lg" />
-              <p className="text-sm text-neutral-500 mt-2">sur {product.reviewCount} avis vérifiés</p>
-            </div>
-            <div className="md:col-span-2 space-y-2 flex flex-col justify-center">
-              {reviewDist.map(({ stars, pct }) => (
-                <div key={stars} className="flex items-center gap-3 text-sm">
-                  <span className="text-neutral-500 w-6 text-right">{stars}★</span>
-                  <div className="flex-1 h-2.5 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-400 rounded-full" style={{ width: `${pct}%` }} />
+          {/* Rating overview — only when reviews exist */}
+          {product.reviews.length > 0 && (
+            <div className="grid md:grid-cols-3 gap-6 bg-white rounded-2xl border border-neutral-100 p-6 mb-6 shadow-sm">
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-6xl font-bold text-neutral-900">{product.rating}</p>
+                <StarRating rating={product.rating} size="lg" />
+                <p className="text-sm text-neutral-500 mt-2">sur {product.reviewCount} avis vérifiés</p>
+              </div>
+              <div className="md:col-span-2 space-y-2 flex flex-col justify-center">
+                {reviewDist.map(({ stars, pct }) => (
+                  <div key={stars} className="flex items-center gap-3 text-sm">
+                    <span className="text-neutral-500 w-6 text-right">{stars}★</span>
+                    <div className="flex-1 h-2.5 bg-neutral-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-amber-400 rounded-full" style={{ width: `${pct}%` }} />
+                    </div>
+                    <span className="text-neutral-500 w-8">{pct}%</span>
                   </div>
-                  <span className="text-neutral-500 w-8">{pct}%</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Empty state — no reviews yet */}
+          {product.reviews.length === 0 && !showForm && (
+            <div className="bg-white rounded-2xl border border-neutral-100 p-10 text-center shadow-sm mb-6">
+              <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-7 h-7 text-green-600" />
+              </div>
+              <p className="font-bold text-neutral-900 text-lg mb-2">Aucun avis pour l&apos;instant</p>
+              <p className="text-neutral-500 text-sm mb-6">Vous avez fait appel à nos services pour ce produit ? Partagez votre expérience — votre avis aide les futurs clients.</p>
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Soyez le premier à laisser un avis
+              </button>
+            </div>
+          )}
 
           {/* Review form */}
           {showForm && (
