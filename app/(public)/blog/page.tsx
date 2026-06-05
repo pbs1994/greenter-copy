@@ -83,7 +83,8 @@ const STATIC_ARTICLES = [
     image: '/images/blog/pac-chauffage-sol-plancher-chauffant-tuyaux-pose.jpg',
     readingTime: 14,
     category: 'Guide',
-,
+    featured: false,
+  },
   {
     id: 'isolation-murs-humides-2026',
     title: "Isolation Murs Humides : Traitement, Isolants et Étapes en 2026",
