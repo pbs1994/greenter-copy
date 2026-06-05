@@ -61,7 +61,9 @@ export function ProductShowcase() {
   if (!product) return null
 
   const categorySlug = product.category?.slug || 'produits'
-  const productUrl = `/produits/${categorySlug}/${product.slug}`
+  const productUrl = product.is_custom_page
+    ? `/produits/${product.slug}`
+    : `/produits/${categorySlug}/${product.slug}`
 
   // Build features from product.features (up to 6)
   const displayFeatures = (product.features || []).slice(0, 6)
@@ -157,6 +159,9 @@ export function ProductShowcase() {
 
             {/* Price */}
             <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-5 md:mb-6">
+              {product.is_custom_page && (
+                <span className="text-sm font-medium text-neutral-500">À partir de</span>
+              )}
               <p className="text-2xl md:text-3xl font-semibold text-neutral-900 tracking-tight">
                 {formatEUR(product.price)}
               </p>
@@ -165,12 +170,22 @@ export function ProductShowcase() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6 md:mb-8">
-              <BuyButton productId={product.id} />
+              {product.is_custom_page ? (
+                <Link
+                  href="/contact"
+                  className="group bg-green-700 hover:bg-green-800 text-white font-semibold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2.5 transition-all duration-300 shadow-lg shadow-green-700/20 hover:shadow-xl"
+                >
+                  Demander un devis gratuit
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              ) : (
+                <BuyButton productId={product.id} />
+              )}
               <Link
                 href={productUrl}
                 className="bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-medium py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2"
               >
-                Détails techniques
+                Voir le produit
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -201,3 +216,4 @@ export function ProductShowcase() {
     </section>
   )
 }
+
