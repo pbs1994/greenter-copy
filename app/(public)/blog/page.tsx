@@ -83,6 +83,16 @@ const STATIC_ARTICLES = [
     image: '/images/blog/pac-chauffage-sol-plancher-chauffant-tuyaux-pose.jpg',
     readingTime: 14,
     category: 'Guide',
+,
+  {
+    id: 'isolation-murs-humides-2026',
+    title: "Isolation Murs Humides : Traitement, Isolants et Étapes en 2026",
+    slug: 'isolation-murs-humides',
+    excerpt: "Comment isoler un mur humide sans créer de moisissures ? Diagnostic condensation vs remontées capillaires, choix de l'isolant perméable à la vapeur, VMC et aides financières 2026.",
+    published_date: '2026-06-05',
+    image: '/images/blog/isolation-mur-humide-pose-panneaux-xps.webp',
+    readingTime: 14,
+    category: 'Guide',
     featured: false,
   },
 ]
