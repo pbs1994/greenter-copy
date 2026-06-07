@@ -237,9 +237,9 @@ export const FAQ_ITEMS = [
 ]
 
 export const SOURCES = [
-  { label: "ADEME — Guide pratique des pompes à chaleur 2025", url: "https://www.ademe.fr" },
-  { label: "ANAH — Les aides financières en 2026", url: "https://www.anah.gouv.fr" },
-  { label: "France Rénov' — MaPrimeRénov' 2026", url: "https://www.maprimerenov.gouv.fr" },
-  { label: "Ministère de la Transition énergétique — Coup de pouce chauffage", url: "https://www.ecologie.gouv.fr" },
-  { label: "COSTIC — Étude sur les systèmes hybrides PAC + chaudière", url: "https://www.costic.com" },
+  { name: "ADEME — Guide pratique des pompes à chaleur 2025", url: "https://www.ademe.fr" },
+  { name: "ANAH — Les aides financières en 2026", url: "https://www.anah.gouv.fr" },
+  { name: "France Rénov' — MaPrimeRénov' 2026", url: "https://www.maprimerenov.gouv.fr" },
+  { name: "Ministère de la Transition énergétique — Coup de pouce chauffage", url: "https://www.ecologie.gouv.fr" },
+  { name: "COSTIC — Étude sur les systèmes hybrides PAC + chaudière", url: "https://www.costic.com" },
 ]
