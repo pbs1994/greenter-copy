@@ -96,6 +96,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'pompe-a-chaleur-hybride',
+    title: "Pompe à chaleur hybride : guide complet 2026 pour choisir et installer",
+    slug: 'pompe-a-chaleur-hybride',
+    excerpt: "PAC hybride gaz ou fioul : fonctionnement, prix d'installation, aides MaPrimeRénov' 2026 et comparatif avec la PAC seule. Tout savoir avant de remplacer votre chaudière.",
+    published_date: '2026-06-07',
+    image: '/images/blog/pac-hybride-unite-exterieure.avif',
+    readingTime: 12,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
@@ -289,3 +300,4 @@ export default function BlogPage() {
     </main>
   )
 }
+
