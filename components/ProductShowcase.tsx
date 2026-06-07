@@ -82,9 +82,6 @@ export function ProductShowcase() {
           <span className="inline-block text-green-700 font-semibold text-sm uppercase tracking-wider mb-3">
             Notre produit phare
           </span>
-          <h2 className="font-heading text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-neutral-900">
-            {product.name}
-          </h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -99,9 +96,8 @@ export function ProductShowcase() {
               <Image
                 src={product.image_url || "/kstar.webp"}
                 alt={product.name}
-                width={260}
-                height={320}
-                className="relative z-10 w-auto h-auto max-h-[60%] md:max-h-[65%] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
+                fill
+                className="z-10 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               {/* Badges */}
@@ -216,4 +212,5 @@ export function ProductShowcase() {
     </section>
   )
 }
+
 
