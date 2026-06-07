@@ -185,7 +185,7 @@ export default async function ProduitsPage() {
                     {products.map((product) => (
                       <Link 
                         key={product.id}
-                        href={`/produits/${category.slug}/${product.slug}`}
+                        href={product.is_custom_page ? `/produits/${product.slug}` : `/produits/${category.slug}/${product.slug}`}
                         className="group bg-white rounded-2xl overflow-hidden shadow-lg ring-1 ring-green-200 hover:ring-green-400 hover:shadow-xl transition-all"
                       >
                         {/* Image */}
@@ -286,3 +286,4 @@ export default async function ProduitsPage() {
     </main>
   )
 }
+
