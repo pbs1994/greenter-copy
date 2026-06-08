@@ -46,6 +46,7 @@ const PRODUCT: ProductV2Data = {
   ctaHref: "/contact",
   images: [
     "/images/blog/carport-solaire-maison-renault-zoe.jpg",
+    "/images/blog/carport-pergola-solaire-famille.jpg",
   ],
   shortDescription:
     "Chaque projet est unique : dimensions, puissance, matériaux et configuration sont définis avec vous selon votre terrain, votre usage et vos objectifs. Un de nos experts vous contacte sous 48h pour un premier échange sans engagement.",
