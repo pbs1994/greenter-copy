@@ -25,7 +25,7 @@ const PRODUCT: ProductV2Data = {
   slug: "carport-solaire",
   pricePrefix: "À partir de",
   currentPrice: 8490,
-  originalPrice: 8490,
+  originalPrice: 10990,
   ctaLabel: "Demander un devis gratuit →",
   hideMonthly: true,
   expertCallout: null,
@@ -163,3 +163,4 @@ const PRODUCT: ProductV2Data = {
 export default function CarportSolairePage() {
   return <ProductTemplateV2 product={PRODUCT} />
 }
+
