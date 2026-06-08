@@ -52,6 +52,7 @@ export interface ProductV2Data {
   comparison?: { alt1Name: string; alt2Name: string; rows: V2ComparisonRow[] }
   ctaHref?: string
   ctaLabel?: string       // default "Commander maintenant →"
+  ctaModal?: boolean      // open inline quote modal instead of navigating
   pricePrefix?: string    // e.g. "À partir de"
   hideMonthly?: boolean   // hide 3× instalment line
   benefits?: V2Benefit[]  // overrides the default 5-item strip
@@ -133,6 +134,9 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ name: '', city: '', rating: 5, title: '', content: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [showQuoteModal, setShowQuoteModal] = useState(false)
+  const [quoteForm, setQuoteForm] = useState({ name: '', phone: '', type: '', surface: '', message: '' })
+  const [quoteState, setQuoteState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [stickyVisible, setStickyVisible] = useState(false)
 
   const time = useCountdownToMidnight()
@@ -331,12 +335,22 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 </div>
               </div>
 
-              <Link
-                href={href}
-                className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
-              >
-                {product.ctaLabel ?? 'Commander maintenant →'}
-              </Link>
+              {product.ctaModal ? (
+                <button
+                  type="button"
+                  onClick={() => setShowQuoteModal(true)}
+                  className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
+                >
+                  {product.ctaLabel ?? 'Demander un devis gratuit →'}
+                </button>
+              ) : (
+                <Link
+                  href={href}
+                  className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
+                >
+                  {product.ctaLabel ?? 'Commander maintenant →'}
+                </Link>
+              )}
 
               {!product.hideMonthly && (
                 <div className="flex items-center justify-between text-sm text-neutral-500">
@@ -827,6 +841,171 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
         </div>
       </div>
 
+      {/* ─── Quote Modal ─────────────────────────────────────────────── */}
+      {product.ctaModal && showQuoteModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={e => { if (e.target === e.currentTarget) setShowQuoteModal(false) }}
+        >
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            {quoteState === 'success' ? (
+              <div className="p-8 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-neutral-900 mb-2">Demande envoyée !</h3>
+                <p className="text-neutral-600 mb-6">Un expert Greenter vous contacte sous 48h pour étudier votre projet.</p>
+                <button
+                  onClick={() => { setShowQuoteModal(false); setQuoteState('idle'); setQuoteForm({ name: '', phone: '', type: '', surface: '', message: '' }) }}
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-green-700 transition-colors"
+                >
+                  Fermer
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center justify-between p-6 border-b border-neutral-100">
+                  <div>
+                    <h3 className="text-lg font-bold text-neutral-900">Devis gratuit — {product.name}</h3>
+                    <p className="text-sm text-neutral-500 mt-0.5">Réponse sous 48h · Sans engagement</p>
+                  </div>
+                  <button
+                    onClick={() => setShowQuoteModal(false)}
+                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-neutral-500" />
+                  </button>
+                </div>
+
+                <form
+                  onSubmit={async e => {
+                    e.preventDefault()
+                    setQuoteState('sending')
+                    try {
+                      const res = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          name: quoteForm.name,
+                          phone: quoteForm.phone,
+                          service: product.name,
+                          message: [
+                            quoteForm.type    ? `Type de projet : ${quoteForm.type}` : '',
+                            quoteForm.surface ? `Surface approximative : ${quoteForm.surface}` : '',
+                            quoteForm.message,
+                          ].filter(Boolean).join('\n'),
+                        }),
+                      })
+                      if (res.ok) setQuoteState('success')
+                      else setQuoteState('error')
+                    } catch {
+                      setQuoteState('error')
+                    }
+                  }}
+                  className="p-6 space-y-5"
+                >
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 mb-1.5">Prénom et nom *</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Jean Dupont"
+                      value={quoteForm.name}
+                      onChange={e => setQuoteForm(f => ({ ...f, name: e.target.value }))}
+                      className="w-full border border-neutral-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 mb-1.5">Téléphone *</label>
+                    <input
+                      required
+                      type="tel"
+                      placeholder="06 00 00 00 00"
+                      value={quoteForm.phone}
+                      onChange={e => setQuoteForm(f => ({ ...f, phone: e.target.value }))}
+                      className="w-full border border-neutral-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 mb-2">Type de projet</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {['Carport 1 place', 'Carport 2 places', 'Pergola terrasse', 'Pergola jardin'].map(t => (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => setQuoteForm(f => ({ ...f, type: t }))}
+                          className={`px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all text-left ${
+                            quoteForm.type === t
+                              ? 'border-green-500 bg-green-50 text-green-700'
+                              : 'border-neutral-200 text-neutral-600 hover:border-green-300'
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 mb-2">Surface approximative</label>
+                    <div className="flex flex-wrap gap-2">
+                      {['Moins de 15 m²', '15 – 30 m²', 'Plus de 30 m²'].map(s => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setQuoteForm(f => ({ ...f, surface: s }))}
+                          className={`px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
+                            quoteForm.surface === s
+                              ? 'border-green-500 bg-green-50 text-green-700'
+                              : 'border-neutral-200 text-neutral-600 hover:border-green-300'
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 mb-1.5">
+                      Message <span className="font-normal text-neutral-400">(facultatif)</span>
+                    </label>
+                    <textarea
+                      rows={3}
+                      placeholder="Précisez votre projet, contraintes terrain, délai souhaité…"
+                      value={quoteForm.message}
+                      onChange={e => setQuoteForm(f => ({ ...f, message: e.target.value }))}
+                      className="w-full border border-neutral-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                    />
+                  </div>
+
+                  {quoteState === 'error' && (
+                    <p className="text-red-600 text-sm bg-red-50 rounded-xl p-3">
+                      Une erreur est survenue. Veuillez réessayer ou nous appeler directement.
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={quoteState === 'sending'}
+                    className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-bold text-lg py-4 rounded-xl transition-colors shadow-lg shadow-green-600/25"
+                  >
+                    {quoteState === 'sending' ? 'Envoi en cours…' : 'Envoyer ma demande de devis →'}
+                  </button>
+
+                  <p className="text-center text-xs text-neutral-400">
+                    Sans engagement · Réponse sous 48h · Devis 100% gratuit
+                  </p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
     </main>
   )
 }
+
