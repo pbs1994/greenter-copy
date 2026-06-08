@@ -790,9 +790,15 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
             {savings > 0 && <> Économisez <strong className="text-white">{savings.toLocaleString('fr-FR')} €</strong> sur le prix habituel.</>}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href={href} className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl">
-              {product.ctaLabel ?? 'Commander maintenant →'}
-            </Link>
+            {product.ctaModal ? (
+              <button type="button" onClick={() => setShowQuoteModal(true)} className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl">
+                {product.ctaLabel ?? 'Demander un devis gratuit →'}
+              </button>
+            ) : (
+              <Link href={href} className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl">
+                {product.ctaLabel ?? 'Commander maintenant →'}
+              </Link>
+            )}
             <Link href="/contact" className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors">
               <Phone className="w-4 h-4" /> Parler à un expert
             </Link>
@@ -828,9 +834,15 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 <p className="text-xl font-bold text-neutral-900">{product.currentPrice.toLocaleString('fr-FR')} €</p>
                 {savings > 0 && <p className="text-xs text-green-600 font-medium">Économie {savings.toLocaleString('fr-FR')} €</p>}
               </div>
-              <Link href={href} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
-                {product.ctaLabel ? product.ctaLabel.replace(' →', '') + ' →' : 'Commander →'}
-              </Link>
+              {product.ctaModal ? (
+                <button type="button" onClick={() => setShowQuoteModal(true)} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
+                  Demander un devis →
+                </button>
+              ) : (
+                <Link href={href} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
+                  {product.ctaLabel ? product.ctaLabel.replace(' →', '') + ' →' : 'Commander →'}
+                </Link>
+              )}
             </div>
           </div>
           {product.gift && (
