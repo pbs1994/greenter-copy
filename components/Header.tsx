@@ -102,7 +102,7 @@ export function Header() {
     import('@/lib/supabase').then(({ supabase }) => {
       supabase
         .from('products')
-        .select('id, name, slug, image_url, short_description, category:categories(slug)')
+        .select('id, name, slug, image_url, short_description, is_custom_page, category:categories(slug)')
         .eq('is_active', true)
         .then(({ data }) => {
           if (data) {
@@ -111,7 +111,7 @@ export function Header() {
               const categorySlug = Array.isArray(category) ? category[0]?.slug : category?.slug
               return {
                 title: p.name,
-                href: `/produits/${categorySlug || 'stockage-solaire'}/${p.slug}`,
+                href: p.is_custom_page ? `/produits/${p.slug}` : `/produits/${categorySlug || 'stockage-solaire'}/${p.slug}`,
                 description: p.short_description || '',
                 image: p.image_url || '/kstar.webp',
                 badge: p.slug.includes('kit') ? 'Populaire' : null,
@@ -615,3 +615,4 @@ export function Header() {
     </header>
   )
 }
+
