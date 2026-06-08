@@ -27,6 +27,7 @@ const PRODUCT: ProductV2Data = {
   currentPrice: 8490,
   originalPrice: 10990,
   ctaLabel: "Demander un devis gratuit →",
+  ctaModal: true,
   hideMonthly: true,
   expertCallout: null,
   benefits: [
