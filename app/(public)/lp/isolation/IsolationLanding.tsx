@@ -347,30 +347,32 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                   </div>
                 ) : (
                   <>
-                    {/* Progress */}
-                    <div className="mb-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
-                          Étape {step} sur 2
-                        </span>
-                        <span className="text-xs text-neutral-400">
-                          {step === 1 ? "Votre projet" : "Vos coordonnées"}
+                    {/* Form header */}
+                    <div className="mb-5 pb-5 border-b border-neutral-100">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-xs font-semibold text-green-700 uppercase tracking-wide mb-1">
+                            Devis gratuit · Aucune avance de trésorerie
+                          </p>
+                          <h2 className="text-xl font-bold text-neutral-900 leading-tight">
+                            {step === 1 ? "Calculez vos aides isolation 2026" : "Où vous rappeler ?"}
+                          </h2>
+                          {step === 1 && (
+                            <p className="text-sm text-neutral-500 mt-1.5 leading-snug">
+                              2 questions rapides, puis un <strong className="text-neutral-700">conseiller RGE vous rappelle sous 2h</strong> pour calculer vos aides et planifier la visite gratuite.
+                            </p>
+                          )}
+                        </div>
+                        <span className="flex-shrink-0 text-xs font-bold text-neutral-500 bg-neutral-100 px-2.5 py-1 rounded-full mt-0.5">
+                          {step}/2
                         </span>
                       </div>
-                      <div className="w-full bg-neutral-100 rounded-full h-1.5">
+                      <div className="mt-3 w-full bg-neutral-100 rounded-full h-1.5">
                         <div
                           className="bg-green-600 h-1.5 rounded-full transition-all duration-500"
                           style={{ width: step === 1 ? "50%" : "100%" }}
                         />
                       </div>
-                      <h2 className="text-xl font-bold text-neutral-900 mt-4">
-                        {step === 1 ? "Quel type de travaux ?" : "Où vous envoyer le devis ?"}
-                      </h2>
-                      {step === 1 && (
-                        <p className="text-neutral-500 text-sm mt-1">
-                          2 questions rapides · Gratuit · Aucune avance
-                        </p>
-                      )}
                     </div>
 
                     {/* Step 1 — qualification */}
@@ -429,8 +431,25 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                           onClick={() => setStep(2)}
                           className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-700/30 hover:shadow-xl hover:-translate-y-0.5"
                         >
-                          Calculer mes aides disponibles →
+                          Continuer — calculer mes aides →
                         </button>
+                        {/* Process preview */}
+                        <div className="flex items-center justify-center gap-2 text-xs text-neutral-400 pt-1">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
+                            Votre projet
+                          </span>
+                          <ArrowRight className="w-3 h-3 flex-shrink-0" />
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-neutral-200 text-neutral-500 flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
+                            Vos coordonnées
+                          </span>
+                          <ArrowRight className="w-3 h-3 flex-shrink-0" />
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-neutral-200 text-neutral-500 flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
+                            Rappel 2h
+                          </span>
+                        </div>
                         <p className="text-xs text-neutral-400 text-center">🔒 Gratuit · Sans engagement · Aucune avance</p>
                       </div>
                     )}
