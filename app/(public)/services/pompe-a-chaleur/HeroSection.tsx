@@ -283,8 +283,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
       <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-2 gap-6 items-start">
-              <div className="text-white pt-2">
+            <div className="text-white pt-2">
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
                   <Shield className="w-4 h-4 text-emerald-300" />
                   <span className="text-emerald-300 text-sm font-medium">Certifié RGE</span>
@@ -328,19 +327,6 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
                   </PhoneCallTracker>
                 </div>
               </div>
-
-              <div className="flex justify-center items-start">
-                <div className="relative w-full max-w-[400px] h-[340px] xl:h-[380px]">
-                  <Image
-                    src="/pac2.webp"
-                    alt="Pompe à chaleur air-eau installation Ozoir-la-Ferrière 77"
-                    fill
-                    className="object-contain drop-shadow-[0_25px_70px_rgba(255,255,255,0.25)]"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
 
             {googleData?.reviews && googleData.reviews.length > 0 && (
               <div className="mt-6 bg-white/10 backdrop-blur-sm border border-white/10 py-4 -mx-4 px-4 overflow-hidden rounded-xl">
