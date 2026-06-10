@@ -281,9 +281,10 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
 
       {/* DESKTOP LAYOUT */}
       <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
-        <div className="grid grid-cols-[1fr_380px] gap-8 items-start">
-          <div>
-            <div className="text-white pt-2">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-8">
+            <div className="grid grid-cols-2 gap-6 items-start">
+              <div className="text-white pt-2">
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
                   <Shield className="w-4 h-4 text-emerald-300" />
                   <span className="text-emerald-300 text-sm font-medium">Certifié RGE</span>
@@ -326,22 +327,22 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
                     <span className="text-sm">{PHONE}</span>
                   </PhoneCallTracker>
                 </div>
-
-                {/* Key stats grid */}
-                <div className="grid grid-cols-2 gap-3 mt-8">
-                  {[
-                    { value: "−50 à −70%", label: "sur votre facture de chauffage" },
-                    { value: "9 000€", label: "d'aides cumulées disponibles" },
-                    { value: "1 à 2 jours", label: "pour l'installation complète" },
-                    { value: "20 ans", label: "de durée de vie garantie" },
-                  ].map((s) => (
-                    <div key={s.label} className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-4 py-3">
-                      <p className="text-xl font-black text-emerald-300">{s.value}</p>
-                      <p className="text-white/70 text-xs mt-0.5 leading-snug">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
+
+              <div className="flex flex-col gap-3 pt-2">
+                {[
+                  { value: "−50 à −70%", label: "sur votre facture de chauffage" },
+                  { value: "9 000€", label: "d'aides cumulées disponibles" },
+                  { value: "1 à 2 jours", label: "pour l'installation complète" },
+                  { value: "20 ans", label: "de durée de vie garantie" },
+                ].map((s) => (
+                  <div key={s.label} className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-4 py-3">
+                    <p className="text-2xl font-black text-emerald-300">{s.value}</p>
+                    <p className="text-white/70 text-sm mt-0.5">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {googleData?.reviews && googleData.reviews.length > 0 && (
               <div className="mt-6 bg-white/10 backdrop-blur-sm border border-white/10 py-4 -mx-4 px-4 overflow-hidden rounded-xl">
@@ -380,7 +381,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
             </div>
           </div>
 
-          <div>
+          <div className="lg:col-span-4">
             <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
               <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 px-6 py-5">
                 <div className="flex items-center gap-3">
