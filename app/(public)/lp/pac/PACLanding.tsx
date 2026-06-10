@@ -399,7 +399,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
                           <p className="text-sm font-semibold text-neutral-700 mb-2">Mon objectif :</p>
                           <div className="grid grid-cols-1 gap-2">
                             {[
-                              { value: "Remplacer ma chaudière gaz", icon: "🔄" },
+                              { value: "Remplacer ma chaudière (gaz, fioul, électrique…)", icon: "🔄" },
                               { value: "Nouvelle installation PAC", icon: "🏡" },
                               { value: "Comparer les offres", icon: "📋" },
                             ].map(({ value, icon }) => (
