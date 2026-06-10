@@ -281,8 +281,8 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
 
       {/* DESKTOP LAYOUT */}
       <div className="hidden lg:block relative max-w-7xl mx-auto px-4 pt-6 pb-8 w-full">
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-[1fr_380px] gap-8 items-start">
+          <div>
             <div className="text-white pt-2">
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
                   <Shield className="w-4 h-4 text-emerald-300" />
@@ -380,7 +380,7 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
             </div>
           </div>
 
-          <div className="lg:col-span-4">
+          <div>
             <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
               <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 px-6 py-5">
                 <div className="flex items-center gap-3">
