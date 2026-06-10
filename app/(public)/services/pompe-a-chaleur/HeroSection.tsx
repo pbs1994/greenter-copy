@@ -326,6 +326,21 @@ export function HeroSection({ initialGoogleData }: HeroSectionProps) {
                     <span className="text-sm">{PHONE}</span>
                   </PhoneCallTracker>
                 </div>
+
+                {/* Key stats grid */}
+                <div className="grid grid-cols-2 gap-3 mt-8">
+                  {[
+                    { value: "−50 à −70%", label: "sur votre facture de chauffage" },
+                    { value: "9 000€", label: "d'aides cumulées disponibles" },
+                    { value: "1 à 2 jours", label: "pour l'installation complète" },
+                    { value: "20 ans", label: "de durée de vie garantie" },
+                  ].map((s) => (
+                    <div key={s.label} className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-4 py-3">
+                      <p className="text-xl font-black text-emerald-300">{s.value}</p>
+                      <p className="text-white/70 text-xs mt-0.5 leading-snug">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
             {googleData?.reviews && googleData.reviews.length > 0 && (
