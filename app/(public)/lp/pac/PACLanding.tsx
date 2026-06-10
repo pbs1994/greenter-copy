@@ -547,8 +547,89 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
         </div>
       </section>
 
-      {/* ── BENEFITS ───────────────────────────────────────────────────────── */}
+      {/* ── EXPERT PHOTO ───────────────────────────────────────────────────── */}
       <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
+              <Image
+                src="/images/lp/greenter-technicien-pac.jpg"
+                alt="Technicien Greenter certifié RGE installant une pompe à chaleur"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Award className="w-5 h-5 text-green-700" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-neutral-900">Certifié RGE QualiPAC</p>
+                  <p className="text-xs text-neutral-500">Reconnu Garant de l&apos;Environnement</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+                <Wrench className="w-4 h-4" />
+                Nos techniciens
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-6 leading-tight">
+                Une équipe certifiée qui s&apos;occupe de tout
+              </h2>
+              <ul className="space-y-5 mb-8">
+                {[
+                  {
+                    icon: Shield,
+                    title: "Certification RGE obligatoire pour vos aides",
+                    desc: "Nos techniciens sont certifiés RGE QualiPAC. Sans cette qualification, vous ne pouvez pas bénéficier de MaPrimeRénov' ni de la TVA à 5,5%.",
+                  },
+                  {
+                    icon: Home,
+                    title: "Visite technique gratuite à domicile",
+                    desc: "Un technicien se déplace chez vous pour évaluer votre logement, calculer la puissance nécessaire et vous remettre un devis précis.",
+                  },
+                  {
+                    icon: Clock,
+                    title: "Installation en 1 à 2 jours",
+                    desc: "Pose de l'unité extérieure, raccordement, mise en service et test complet. Vous êtes chauffés dès le soir même.",
+                  },
+                ].map((item) => (
+                  <li key={item.title} className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <item.icon className="w-5 h-5 text-green-700" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-900 text-sm mb-1">{item.title}</p>
+                      <p className="text-neutral-500 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a
+                  href="#devis"
+                  className="inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-green-700/20"
+                >
+                  Demander une visite gratuite
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <PhoneCallTracker
+                  phoneNumber={LP_PHONE_RAW}
+                  displayNumber={LP_PHONE_DISPLAY}
+                  className="inline-flex items-center justify-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-semibold px-6 py-3.5 rounded-xl transition-all"
+                >
+                  <Phone className="w-4 h-4" />
+                  {LP_PHONE_DISPLAY}
+                </PhoneCallTracker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BENEFITS ───────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
