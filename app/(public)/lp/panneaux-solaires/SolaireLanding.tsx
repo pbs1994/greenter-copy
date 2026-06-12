@@ -111,11 +111,11 @@ export function SolaireLanding() {
                   src="/images/lp/solaire-hero-v2.jpg"
                   alt=""
                   fill
-                  className="object-cover object-left"
+                  className="object-cover object-[18%_center]"
                   sizes="100vw"
                 />
               </div>
-              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/80 via-slate-900/80 to-slate-900/90" />
+              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/60 via-slate-900/55 to-slate-900/70" />
               <div className="relative z-10">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
