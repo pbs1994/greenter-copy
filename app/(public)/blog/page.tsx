@@ -97,6 +97,17 @@ const STATIC_ARTICLES = [
     featured: false,
   },
   {
+    id: 'isolation-mur-interieur-quelle-epaisseur',
+    title: "Isolation mur intérieur : quelle épaisseur d'isolant choisir en 2026 ?",
+    slug: 'isolation-mur-interieur-quelle-epaisseur',
+    excerpt: "Quelle épaisseur d'isolant pour l'isolation de vos murs par l'intérieur ? Formule R = e/λ, tableau comparatif par matériau (laine de verre, laine de roche, PSE, polyuréthane), seuils MaPrimeRénov' 2026 et aides cumulables.",
+    published_date: '2026-06-12',
+    image: '/images/blog/isolation-mur-interieur-mousse-polyurethane.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-hybride',
     title: "Pompe à chaleur hybride : guide complet 2026 pour choisir et installer",
     slug: 'pompe-a-chaleur-hybride',
