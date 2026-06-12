@@ -103,20 +103,21 @@ export function SolaireLanding() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 lg:gap-12 lg:items-center">
 
-            {/* Left — mobile: own image bg covering only this column */}
-            <div className="relative overflow-hidden py-16 lg:py-24">
+            {/* Left — mobile: own image bg, breaks out of container padding */}
+            <div className="relative overflow-hidden py-16 lg:py-24 -mx-4 sm:-mx-6 lg:mx-0">
               {/* MOBILE ONLY: image behind text */}
               <div className="absolute inset-0 lg:hidden">
                 <Image
                   src="/images/lp/solaire-hero-v2.jpg"
                   alt=""
                   fill
-                  className="object-cover object-[18%_center]"
+                  quality={90}
+                  className="object-cover object-[22%_center]"
                   sizes="100vw"
                 />
               </div>
-              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/60 via-slate-900/55 to-slate-900/70" />
-              <div className="relative z-10">
+              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/50 via-slate-900/45 to-slate-900/60" />
+              <div className="relative z-10 px-4 sm:px-6 lg:px-0">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
                 Leasing solaire B2B · RGE QualiPV · Île-de-France
@@ -173,7 +174,7 @@ export function SolaireLanding() {
             </div>
 
             {/* Right: Form — mobile: plain white bg; desktop: transparent (section image shows) */}
-            <div id="etude" className="bg-white lg:bg-transparent py-10 lg:py-24 scroll-mt-8">
+            <div id="etude" className="bg-white lg:bg-transparent py-10 lg:py-24 scroll-mt-8 -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0">
               <div className="bg-white rounded-3xl shadow-2xl p-8">
 
                 {formStatus === "success" ? (
