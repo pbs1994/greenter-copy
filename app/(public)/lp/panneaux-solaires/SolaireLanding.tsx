@@ -86,8 +86,22 @@ export function SolaireLanding() {
       </div>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <section className="relative overflow-hidden text-white">
+        {/* Full-width background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/lp/solaire-hero-v1.jpg"
+            alt="Panneaux solaires photovoltaïques en toiture d'entrepôt industriel avec ombrières de parking"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
+        {/* Gradient overlay: strong on left (text), fades right (form area stays clear) */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/75 lg:via-slate-900/60 to-slate-900/40 lg:to-slate-900/20" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
 
             {/* Left */}
@@ -330,7 +344,7 @@ export function SolaireLanding() {
                   </>
                 )}
               </div>
-              <p className="text-center text-blue-200 text-xs mt-3 font-medium">
+              <p className="text-center text-white/70 text-xs mt-3 font-medium drop-shadow">
                 ★ Solution adoptée par des entreprises et collectivités en Île-de-France
               </p>
             </div>
