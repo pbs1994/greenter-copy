@@ -112,12 +112,12 @@ export function SolaireLanding() {
                   alt=""
                   fill
                   className="object-cover"
-                  style={{ objectPosition: '22% center' }}
+                  style={{ objectPosition: '19% center' }}
                   sizes="100vw"
                 />
               </div>
               <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/45 via-slate-900/40 to-slate-900/55" />
-              <div className="relative z-10 px-4 sm:px-6 lg:px-0">
+              <div className="relative z-10 px-4 sm:px-6 lg:px-0 [text-shadow:0_1px_4px_rgba(0,0,0,0.7)] lg:[text-shadow:none]">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
                 Leasing solaire B2B · RGE QualiPV · Île-de-France
