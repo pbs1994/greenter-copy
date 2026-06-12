@@ -94,29 +94,31 @@ export function SolaireLanding() {
             <div>
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
-                Solution B2B · Financement 100% · RGE QualiPV
+                Leasing solaire B2B · RGE QualiPV · Île-de-France
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 tracking-tight">
-                Votre énergie solaire,{" "}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-4 tracking-tight">
+                Installation de panneaux solaires{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">
-                  sans investir un euro
+                  en leasing
                 </span>
               </h1>
 
-              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                Greenter finance, installe et exploite vos panneaux solaires — en toiture ou en ombrières de parking.
-                Réduisez vos factures d&apos;énergie, respectez la{" "}
-                <strong className="text-white">Loi APER</strong> et le{" "}
-                <strong className="text-white">Décret Tertiaire</strong>, sans mobiliser votre trésorerie.
+              <p className="text-lg text-blue-200 mb-2 font-medium">
+                Pour entreprises, entrepôts, collectivités — à partir de 200 m²
+              </p>
+
+              <p className="text-lg text-blue-100 mb-8 leading-relaxed">
+                Greenter installe vos panneaux en toiture ou en ombrières de parking et vous les loue sur 20 ans.
+                Vous consommez votre propre électricité à <strong className="text-white">tarif fixe inférieur au marché</strong> — sans débourser un euro à l&apos;avance.
               </p>
 
               <ul className="space-y-3 mb-10">
                 {[
-                  "0 € d'investissement — financement intégral des équipements",
-                  "Conformité Loi APER & Décret Tertiaire assurée",
-                  "−30 à −50% sur votre facture d'électricité",
-                  "Maintenance, monitoring et suivi inclus pendant 20 ans",
+                  "Leasing 20 ans — aucune immobilisation de capital",
+                  "Loyer mensuel fixe, indexé sous l'inflation",
+                  "−30 à −50% sur votre facture d'électricité dès le 1er mois",
+                  "Maintenance, monitoring et SAV inclus dans le loyer",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
