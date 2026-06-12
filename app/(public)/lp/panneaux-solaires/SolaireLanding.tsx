@@ -86,26 +86,37 @@ export function SolaireLanding() {
       </div>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden text-white">
-        {/* Full-width background image */}
-        <div className="absolute inset-0">
+      <section className="relative text-white bg-slate-900">
+        {/* DESKTOP ONLY: full-width background image */}
+        <div className="absolute inset-0 hidden lg:block">
           <Image
             src="/images/lp/solaire-hero-v2.jpg"
             alt="Rangées de panneaux solaires photovoltaïques sur toiture plate en milieu urbain"
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-left"
             sizes="100vw"
           />
         </div>
-        {/* Gradient overlay: strong on left (text), fades right (form area stays clear) */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/75 lg:via-slate-900/60 to-slate-900/40 lg:to-slate-900/20" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-slate-900/90 via-slate-900/65 to-slate-900/20" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 lg:gap-12 lg:items-center">
 
-            {/* Left */}
-            <div>
+            {/* Left — mobile: own image bg covering only this column */}
+            <div className="relative overflow-hidden py-16 lg:py-24">
+              {/* MOBILE ONLY: image behind text */}
+              <div className="absolute inset-0 lg:hidden">
+                <Image
+                  src="/images/lp/solaire-hero-v2.jpg"
+                  alt=""
+                  fill
+                  className="object-cover object-left"
+                  sizes="100vw"
+                />
+              </div>
+              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/80 via-slate-900/80 to-slate-900/90" />
+              <div className="relative z-10">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
                 Leasing solaire B2B · RGE QualiPV · Île-de-France
@@ -159,9 +170,10 @@ export function SolaireLanding() {
                 </PhoneCallTracker>
               </div>
             </div>
+            </div>
 
-            {/* Right: Form */}
-            <div id="etude" className="scroll-mt-8">
+            {/* Right: Form — mobile: plain white bg; desktop: transparent (section image shows) */}
+            <div id="etude" className="bg-white lg:bg-transparent py-10 lg:py-24 scroll-mt-8">
               <div className="bg-white rounded-3xl shadow-2xl p-8">
 
                 {formStatus === "success" ? (
@@ -344,7 +356,7 @@ export function SolaireLanding() {
                   </>
                 )}
               </div>
-              <p className="text-center text-white/70 text-xs mt-3 font-medium drop-shadow">
+              <p className="text-center text-slate-400 lg:text-white/70 text-xs mt-3 font-medium">
                 ★ Solution adoptée par des entreprises et collectivités en Île-de-France
               </p>
             </div>
