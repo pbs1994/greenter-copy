@@ -103,20 +103,20 @@ export function SolaireLanding() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 lg:gap-12 lg:items-center">
 
-            {/* Left — mobile: own image bg, breaks out of container padding */}
-            <div className="relative overflow-hidden py-16 lg:py-24 -mx-4 sm:-mx-6 lg:mx-0">
+            {/* Left — mobile: own image bg, full width */}
+            <div className="relative py-16 lg:py-24 -mx-4 sm:-mx-6 lg:mx-0">
               {/* MOBILE ONLY: image behind text */}
               <div className="absolute inset-0 lg:hidden">
                 <Image
                   src="/images/lp/solaire-hero-v2.jpg"
                   alt=""
                   fill
-                  quality={90}
-                  className="object-cover object-[22%_center]"
+                  className="object-cover"
+                  style={{ objectPosition: '22% center' }}
                   sizes="100vw"
                 />
               </div>
-              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/50 via-slate-900/45 to-slate-900/60" />
+              <div className="absolute inset-0 lg:hidden bg-gradient-to-b from-slate-900/45 via-slate-900/40 to-slate-900/55" />
               <div className="relative z-10 px-4 sm:px-6 lg:px-0">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
