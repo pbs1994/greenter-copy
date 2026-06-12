@@ -90,8 +90,8 @@ export function SolaireLanding() {
         {/* Full-width background image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/lp/solaire-hero-v1.jpg"
-            alt="Panneaux solaires photovoltaïques en toiture d'entrepôt industriel avec ombrières de parking"
+            src="/images/lp/solaire-hero-v2.jpg"
+            alt="Rangées de panneaux solaires photovoltaïques sur toiture plate en milieu urbain"
             fill
             priority
             className="object-cover object-center"
