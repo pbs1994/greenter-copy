@@ -86,19 +86,8 @@ export function SolaireLanding() {
       </div>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/lp/solaire-b2b-batiment-industriel.jpg"
-            alt="Bâtiment industriel avec panneaux solaires en toiture et ombrières de parking"
-            fill
-            priority
-            className="object-cover object-center opacity-60"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/70 via-blue-950/55 to-slate-800/50" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <section className="bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
 
             {/* Left */}
@@ -342,6 +331,72 @@ export function SolaireLanding() {
               <p className="text-center text-blue-200 text-xs mt-3 font-medium">
                 ★ Solution adoptée par des entreprises et collectivités en Île-de-France
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── IMAGE SHOWCASE ─────────────────────────────────────────────────── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
+              <Image
+                src="/images/lp/solaire-b2b-batiment-industriel.jpg"
+                alt="Bâtiment industriel avec panneaux solaires en toiture et ombrières photovoltaïques de parking"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute bottom-4 left-4 hidden sm:block bg-white/95 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-lg">
+                <p className="text-xs font-bold text-neutral-900">Panneaux en toiture + ombrières de parking</p>
+                <p className="text-xs text-neutral-500">Double valorisation de votre site industriel</p>
+              </div>
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+                <Sun className="w-4 h-4" />
+                Deux solutions, un seul contrat
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-6 leading-tight">
+                Toiture et parking : chaque m² devient productif
+              </h2>
+              <ul className="space-y-5 mb-8">
+                {[
+                  {
+                    icon: Sun,
+                    title: "Panneaux en toiture plate ou inclinée",
+                    desc: "Valorisez chaque m² de couverture. Conception sur mesure pour maximiser la production annuelle selon l'orientation et l'ombrage de votre bâtiment.",
+                  },
+                  {
+                    icon: Car,
+                    title: "Ombrières de parking — conformité Loi APER",
+                    desc: "Transformez votre parking en actif productif tout en répondant à l'obligation légale pour les 80+ places. Abrite les véhicules et alimente les bornes IRVE.",
+                  },
+                  {
+                    icon: Shield,
+                    title: "0 € d'investissement, 20 ans de garantie",
+                    desc: "Greenter finance, installe et exploite l'ensemble. Vous consommez l'énergie produite à un tarif fixe, sans aucun risque matériel ou administratif.",
+                  },
+                ].map(({ icon: Icon, title, desc }) => (
+                  <li key={title} className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Icon className="w-5 h-5 text-blue-700" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-900 text-sm mb-1">{title}</p>
+                      <p className="text-neutral-500 text-sm leading-relaxed">{desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#etude"
+                className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-700/20"
+              >
+                Obtenir une étude gratuite
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
