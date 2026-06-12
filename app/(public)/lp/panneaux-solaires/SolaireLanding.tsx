@@ -93,10 +93,10 @@ export function SolaireLanding() {
             alt="Bâtiment industriel avec panneaux solaires en toiture et ombrières de parking"
             fill
             priority
-            className="object-cover object-center opacity-35"
+            className="object-cover object-center opacity-60"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-blue-950/75 to-slate-800/70" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/70 via-blue-950/55 to-slate-800/50" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
