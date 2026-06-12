@@ -75,7 +75,8 @@ export default function IsolationMurInterieurQuelleEpaisseur() {
         readingTime={ARTICLE_META.readingTime}
         author={ARTICLE_META.author}
         heroImage="/images/blog/isolation-mur-interieur-mousse-polyurethane.jpg"
-        heroImageAlt="Technicien certifié RGE appliquant de la mousse polyuréthane projetée pour l'isolation thermique d'un mur intérieur"
+        heroAlt="Technicien certifié RGE appliquant de la mousse polyuréthane projetée pour l'isolation thermique d'un mur intérieur"
+        breadcrumbs={breadcrumbs}
       >
         {/* ── INTRO ───────────────────────────────────────────────────────────── */}
         <div className="space-y-4 text-slate-700 leading-relaxed">
