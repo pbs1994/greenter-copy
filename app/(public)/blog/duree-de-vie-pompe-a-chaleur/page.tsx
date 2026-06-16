@@ -28,17 +28,17 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE_META.dateISO,
     authors: ['Greenter'],
     images: [{
-      url: 'https://www.greenter.fr/images/blog/pac-chauffage-sol-technicien-installation-unite.jpg',
+      url: 'https://www.greenter.fr/images/blog/pac-unite-exterieure-neige-hiver.jpg',
       width: 1200,
       height: 630,
-      alt: "Technicien certifié contrôlant le fluide frigorigène d'une pompe à chaleur pour prolonger sa durée de vie",
+      alt: "Pompe à chaleur installée à l'extérieur sous la neige en hiver — durée de vie et résistance aux conditions climatiques",
     }],
   },
   twitter: {
     card: 'summary_large_image',
     title: ARTICLE_META.title,
     description: ARTICLE_META.subtitle,
-    images: ['https://www.greenter.fr/images/blog/pac-chauffage-sol-technicien-installation-unite.jpg'],
+    images: ['https://www.greenter.fr/images/blog/pac-unite-exterieure-neige-hiver.jpg'],
   },
 }
 
@@ -66,7 +66,7 @@ export default function DureeDeViePompeAChaleur() {
         dateModified={ARTICLE_META.dateISO}
         author={{ name: 'Greenter', url: 'https://www.greenter.fr' }}
         publisher={{ name: 'Greenter', logo: 'https://www.greenter.fr/logo.png' }}
-        image="https://www.greenter.fr/images/blog/pac-chauffage-sol-technicien-installation-unite.jpg"
+        image="https://www.greenter.fr/images/blog/pac-unite-exterieure-neige-hiver.jpg"
         url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
       />
       <FAQPageSchema items={FAQ_ITEMS} />
@@ -76,8 +76,8 @@ export default function DureeDeViePompeAChaleur() {
         subtitle={ARTICLE_META.subtitle}
         date={ARTICLE_META.date}
         readingTime={ARTICLE_META.readingTime}
-        heroImage="/images/blog/pac-chauffage-sol-technicien-installation-unite.jpg"
-        heroAlt="Technicien certifié RGE contrôlant les pressions et le fluide frigorigène d'une pompe à chaleur lors d'un entretien annuel"
+        heroImage="/images/blog/pac-unite-exterieure-neige-hiver.jpg"
+        heroAlt="Pompe à chaleur installée à l'extérieur, recouverte de neige en plein hiver — la durée de vie d'une pompe à chaleur dépend de sa résistance aux conditions climatiques"
         breadcrumbs={breadcrumbs}
       >
 
@@ -274,8 +274,8 @@ export default function DureeDeViePompeAChaleur() {
         </p>
 
         <ArticleImageSection
-          image="/images/blog/pac-air-eau-dalle-beton-maison-blanche.jpg"
-          alt="Pompe à chaleur air-eau correctement installée sur dalle béton devant une maison blanche — dimensionnement adapté pour optimiser la durée de vie"
+          image="/images/blog/pac-unite-double-ventilateur-renovation.jpg"
+          alt="Pompe à chaleur installée sur un chantier de rénovation — la qualité de la pose initiale conditionne la durée de vie de l'équipement"
           imagePosition="left"
         >
           <p>
@@ -328,8 +328,8 @@ export default function DureeDeViePompeAChaleur() {
         </ArticleCallout>
 
         <ArticleFullImage
-          image="/images/blog/pac-unites-exterieures-installation.jpg"
-          alt="Deux unités extérieures de pompes à chaleur correctement entretenues, installées sur plots devant un mur en briques"
+          image="/images/blog/pac-unites-multiples-alignees-exterieur.jpg"
+          alt="Plusieurs unités extérieures de pompes à chaleur alignées et entretenues régulièrement"
           caption="Un entretien annuel rigoureux — nettoyage, vérification du fluide frigorigène, contrôle des pressions — peut considérablement allonger la durée de vie d'une pompe à chaleur."
         />
 
