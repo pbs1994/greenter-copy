@@ -118,6 +118,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'duree-de-vie-pompe-a-chaleur',
+    title: "Durée de vie d'une pompe à chaleur : tout ce qu'il faut savoir en 2026",
+    slug: 'duree-de-vie-pompe-a-chaleur',
+    excerpt: "Quelle est la durée de vie d'une pompe à chaleur ? Durée de vie moyenne par type (air-air, air-eau, géothermique), facteurs qui l'influencent, signes de fin de vie et conseils pour la prolonger.",
+    published_date: '2026-06-16',
+    image: '/images/blog/pac-chauffage-sol-technicien-installation-unite.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
