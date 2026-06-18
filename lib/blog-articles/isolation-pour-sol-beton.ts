@@ -171,32 +171,32 @@ export const AIDES_TABLE = {
 export const ETAPES_CHAPE = [
   {
     title: "Préparation de la dalle support",
-    description:
+    detail:
       "Nettoyage complet de la dalle en béton existante. Vérification de la planéité : tolérance de 5 mm sous une règle de 2 m. Ragréage des irrégularités si nécessaire. Traitement des remontées d'humidité si présentes.",
   },
   {
     title: "Pose du film pare-vapeur (si dalle sur terre-plein)",
-    description:
+    detail:
       "Dérouler un film polyane 200 µm sur toute la surface, avec recouvrements de 20 cm aux raccords et relevés de 15 cm sur les murs. Ce pare-vapeur protège l'isolant de l'humidité remontant du sol.",
   },
   {
     title: "Pose des panneaux isolants",
-    description:
+    detail:
       "Disposer les panneaux de polystyrène expansé (PSE) ou extrudé (XPS) en quinconce — joints croisés pour éviter les ponts thermiques. Épaisseur selon objectif R : 80 mm minimum (R ≥ 2,5) à 120 mm pour R ≥ 3,7.",
   },
   {
     title: "Pose des bandes de désolidarisation",
-    description:
+    detail:
       "Fixer une bande résiliente (mousse polyéthylène de 10–15 mm) tout autour de la pièce, en pied de mur. Cette bande assure la rupture acoustique et thermique entre la chape et les parois — indispensable pour une vraie chape flottante.",
   },
   {
     title: "Coulage de la chape",
-    description:
+    detail:
       "Couler la chape liquide (anhydrite, épaisseur ≥ 40 mm) ou la chape béton (épaisseur ≥ 50 mm) sur les panneaux. Pour un plancher chauffant, les tuyaux sont d'abord fixés sur les panneaux isolants avant le coulage.",
   },
   {
     title: "Séchage et pose du revêtement de sol",
-    description:
+    detail:
       "Respecter le délai de séchage : environ 1 semaine par cm d'épaisseur pour la chape liquide (minimum 3 semaines). Taux d'humidité < 0,5 % avant pose de parquet ou carrelage. La chape est ensuite prête à recevoir tous les revêtements de sol.",
   },
 ]
