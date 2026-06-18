@@ -375,7 +375,10 @@ export default function IsolationPourSolBeton() {
           enrobe parfaitement les tuyaux et offre une meilleure diffusion thermique.
         </p>
 
-        <ArticleSteps steps={ETAPES_CHAPE} title="Les 6 étapes d'une chape flottante isolante" />
+        <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-4">
+          Les 6 étapes d&apos;une chape flottante isolante
+        </h3>
+        <ArticleSteps steps={ETAPES_CHAPE} />
 
         {/* ── SECTION 5 : TERRE-PLEIN vs VIDE SANITAIRE ────────────────────── */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
