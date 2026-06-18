@@ -135,7 +135,7 @@ const STATIC_ARTICLES = [
     slug: 'isolation-pour-sol-beton',
     excerpt: "Comment réaliser l'isolation pour sol béton ? Polystyrène expansé, XPS, chape flottante, dalle sur terre-plein ou vide sanitaire : comparatif complet des matériaux, prix au m² et aides MaPrimeRénov' 2026.",
     published_date: '2026-06-18',
-    image: '/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg',
+    image: '/images/blog/isolation-sol-beton-xps-dalle-beton.jpg',
     readingTime: 15,
     category: 'Guide',
     featured: false,

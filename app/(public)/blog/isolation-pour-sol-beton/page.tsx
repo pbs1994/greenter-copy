@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE_META.dateISO,
     authors: ['Greenter'],
     images: [{
-      url: 'https://www.greenter.fr/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg',
+      url: 'https://www.greenter.fr/images/blog/isolation-sol-beton-xps-dalle-beton.jpg',
       width: 1200,
       height: 800,
       alt: "Pose de panneaux de polystyrène expansé (PSE) pour l'isolation d'un sol en béton avant coulage de chape",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Isolation pour sol béton : guide complet 2026",
     description:
       "Isolation pour sol béton : comparatif PSE, XPS, laine de roche, chape flottante, prix et aides MaPrimeRénov' 2026.",
-    images: ['https://www.greenter.fr/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg'],
+    images: ['https://www.greenter.fr/images/blog/isolation-sol-beton-xps-dalle-beton.jpg'],
   },
 }
 
@@ -63,7 +63,7 @@ export default function IsolationPourSolBeton() {
         dateModified={ARTICLE_META.dateISO}
         author={{ name: ARTICLE_META.author, url: 'https://www.greenter.fr' }}
         publisher={{ name: 'Greenter', logo: 'https://www.greenter.fr/logo.png' }}
-        image="https://www.greenter.fr/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg"
+        image="https://www.greenter.fr/images/blog/isolation-sol-beton-xps-dalle-beton.jpg"
         url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
         wordCount={2800}
       />
@@ -74,7 +74,7 @@ export default function IsolationPourSolBeton() {
         date={ARTICLE_META.date}
         readingTime={ARTICLE_META.readingTime}
         author={ARTICLE_META.author}
-        heroImage="/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg"
+        heroImage="/images/blog/isolation-sol-beton-xps-dalle-beton.jpg"
         heroAlt="Artisan posant des panneaux de polystyrène expansé (PSE) sur une dalle en béton avant coulage d'une chape flottante isolante"
         breadcrumbs={breadcrumbs}
       >
@@ -145,7 +145,7 @@ export default function IsolationPourSolBeton() {
         </p>
 
         <ArticleImageSection
-          image="/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg"
+          image="/images/blog/isolation-sol-beton-xps-dalle-beton.jpg"
           alt="Artisan disposant des panneaux de polystyrène expansé (PSE) graphité sur une dalle en béton existante avant coulage de chape flottante"
           imagePosition="right"
         >
@@ -263,8 +263,8 @@ export default function IsolationPourSolBeton() {
         </p>
 
         <ArticleImageSection
-          image="/images/blog/isolation-sol-beton-chape-flottante-pose.jpg"
-          alt="Pose de panneaux isolants PSE graphité sur dalle béton existante avant coulage d'une chape flottante — isolation thermique sol béton en rénovation"
+          image="/images/blog/isolation-sol-beton-laine-minerale-plancher.webp"
+          alt="Artisan posant des panneaux de laine minérale isolante sur un plancher béton pour isolation thermique du sol"
           imagePosition="left"
         >
           <p>
@@ -346,9 +346,9 @@ export default function IsolationPourSolBeton() {
         </p>
 
         <ArticleFullImage
-          image="/images/blog/isolation-sol-beton-vide-sanitaire-sous-face.jpg"
-          alt="Isolation en sous-face de dalle béton sur vide sanitaire : panneaux XPS fixés directement sous la dalle, vue depuis le vide sanitaire"
-          caption="Isolation en sous-face de dalle sur vide sanitaire : des panneaux XPS de 100 mm sont vissés directement sous la dalle en béton côté vide sanitaire. Cette technique préserve la hauteur sous plafond et évite de retirer le revêtement de sol existant."
+          image="/images/blog/isolation-sol-beton-bande-periph-chape.jpg"
+          alt="Pose de la bande de désolidarisation périphérique en pied de mur avant coulage d'une chape flottante isolante sur sol béton"
+          caption="La bande de désolidarisation périphérique (mousse polyéthylène bleue) est fixée en pied de mur avant le coulage de la chape flottante. Elle rompt les ponts thermiques et acoustiques entre la chape et les parois — indispensable pour une isolation du sol béton efficace."
         />
 
         <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-4">
@@ -493,8 +493,8 @@ export default function IsolationPourSolBeton() {
         </p>
 
         <ArticleImageSection
-          image="/images/blog/isolation-sol-beton-plancher-chauffant-plots.jpg"
-          alt="Pose de tuyaux de plancher chauffant hydraulique sur panneaux isolants PSE à plots — isolation sous chape flottante pour sol béton"
+          image="/images/blog/isolation-sol-beton-panneaux-chape-seche.jpg"
+          alt="Artisan posant des panneaux isolants rigides sur dalle béton avec bande de désolidarisation bleue — chape sèche isolante pour sol béton"
           imagePosition="right"
         >
           <p>
