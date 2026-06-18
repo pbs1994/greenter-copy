@@ -129,6 +129,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'isolation-pour-sol-beton',
+    title: "Isolation pour sol béton : guide complet 2026 — dalle, chape flottante et matériaux",
+    slug: 'isolation-pour-sol-beton',
+    excerpt: "Comment réaliser l'isolation pour sol béton ? Polystyrène expansé, XPS, chape flottante, dalle sur terre-plein ou vide sanitaire : comparatif complet des matériaux, prix au m² et aides MaPrimeRénov' 2026.",
+    published_date: '2026-06-18',
+    image: '/images/blog/isolation-sol-beton-polystyrene-expanse-panneau.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
