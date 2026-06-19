@@ -28,6 +28,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.greenter.fr"),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
