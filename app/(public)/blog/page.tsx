@@ -130,6 +130,17 @@ const STATIC_ARTICLES = [
     featured: false,
   },
   {
+    id: 'pompe-a-chaleur-piege-a-eviter',
+    title: "Pompe à chaleur : 10 pièges à éviter absolument en 2026",
+    slug: 'pompe-a-chaleur-piege-a-eviter',
+    excerpt: "Mauvais dimensionnement, artisan non-RGE, isolation insuffisante, emplacement bruyant, aides ratées... Les 10 erreurs les plus coûteuses à éviter avant et après l'installation d'une pompe à chaleur.",
+    published_date: '2026-06-21',
+    image: '/images/blog/pac-piege-eviter-unite-exterieure-moderne.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-pour-sol-beton',
     title: "Isolation pour sol béton : guide complet 2026 — dalle, chape flottante et matériaux",
     slug: 'isolation-pour-sol-beton',
