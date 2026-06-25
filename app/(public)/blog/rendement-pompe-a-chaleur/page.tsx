@@ -232,11 +232,11 @@ export default function RendementPompeAChaleur() {
           </p>
         </div>
 
-        <div className="my-8 grid sm:grid-cols-3 gap-4">
-          <ArticleStat value="COP 4,8" label="À +15 °C extérieur — fonctionnement mi-saison optimal" />
-          <ArticleStat value="COP 3,5" label="À +7 °C extérieur — condition de test standard EN 14511" />
-          <ArticleStat value="COP 2,2" label="À -5 °C extérieur — grand froid, rendement fortement réduit" />
-        </div>
+        <ArticleStat stats={[
+          { value: "COP 4,8", label: "À +15 °C extérieur — fonctionnement mi-saison optimal", color: "green" },
+          { value: "COP 3,5", label: "À +7 °C extérieur — condition de test standard EN 14511", color: "blue" },
+          { value: "COP 2,2", label: "À -5 °C extérieur — grand froid, rendement fortement réduit", color: "red" },
+        ]} />
 
         {/* ── FACTEUR 3 : TEMPÉRATURE DE DÉPART D'EAU ──────────────────── */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-5 flex items-start gap-3">
@@ -474,16 +474,10 @@ export default function RendementPompeAChaleur() {
           </p>
         </div>
 
-        <div className="my-8 grid sm:grid-cols-2 gap-4">
-          <ArticleStat
-            value="−25 %"
-            label="Dégradation du COP réel par cycling excessif (PAC surdimensionnée)"
-          />
-          <ArticleStat
-            value="+40 %"
-            label="Surconsommation possible avec appoint électrique mal maîtrisé (PAC sous-dimensionnée)"
-          />
-        </div>
+        <ArticleStat stats={[
+          { value: "−25 %", label: "Dégradation du COP réel par cycling excessif (PAC surdimensionnée)", color: "amber" },
+          { value: "+40 %", label: "Surconsommation possible avec appoint électrique mal maîtrisé (PAC sous-dimensionnée)", color: "red" },
+        ]} />
 
         {/* ── FACTEUR 7 : ENTRETIEN ─────────────────────────────────────── */}
         <ArticleImageSection
