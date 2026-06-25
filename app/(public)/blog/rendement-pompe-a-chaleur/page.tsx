@@ -29,10 +29,10 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE_META.dateISO,
     authors: ['Greenter'],
     images: [{
-      url: 'https://www.greenter.fr/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg',
+      url: 'https://www.greenter.fr/images/blog/rendement-pac-unite-exterieure-panneaux-solaires.jpg',
       width: 1200,
       height: 800,
-      alt: "Unité extérieure de pompe à chaleur air-eau installée devant une maison moderne — rendement et COP optimal",
+      alt: "Unité extérieure de pompe à chaleur installée sur une plateforme dans un jardin avec panneaux solaires — rendement et COP optimal",
     }],
   },
   twitter: {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "Rendement pompe à chaleur : 8 facteurs clés pour un COP optimal en 2026",
     description:
       "Les 8 leviers concrets pour maximiser le rendement réel de votre pompe à chaleur en 2026.",
-    images: ['https://www.greenter.fr/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg'],
+    images: ['https://www.greenter.fr/images/blog/rendement-pac-unite-exterieure-panneaux-solaires.jpg'],
   },
 }
 
@@ -72,7 +72,7 @@ export default function RendementPompeAChaleur() {
         dateModified={ARTICLE_META.dateISO}
         author={{ name: 'Greenter', url: 'https://www.greenter.fr' }}
         publisher={{ name: 'Greenter', logo: 'https://www.greenter.fr/logo.png' }}
-        image="https://www.greenter.fr/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg"
+        image="https://www.greenter.fr/images/blog/rendement-pac-unite-exterieure-panneaux-solaires.jpg"
         url={`https://www.greenter.fr/blog/${ARTICLE_META.slug}`}
       />
       <FAQPageSchema items={FAQ_ITEMS} />
@@ -82,8 +82,8 @@ export default function RendementPompeAChaleur() {
         subtitle={ARTICLE_META.subtitle}
         date={ARTICLE_META.date}
         readingTime={ARTICLE_META.readingTime}
-        heroImage="/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg"
-        heroAlt="Pompe à chaleur air-eau installée devant une maison rénovée — rendement optimal grâce à un bon positionnement et un dimensionnement adapté"
+        heroImage="/images/blog/rendement-pac-unite-exterieure-panneaux-solaires.jpg"
+        heroAlt="Pompe à chaleur air-eau posée sur une plateforme dans un jardin avec panneaux solaires en arrière-plan — rendement optimal grâce à un bon positionnement et un dimensionnement adapté"
         breadcrumbs={breadcrumbs}
       >
 
@@ -125,8 +125,8 @@ export default function RendementPompeAChaleur() {
 
         {/* ── FACTEUR 1 : COP & SCOP ────────────────────────────────────── */}
         <ArticleImageSection
-          image="/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg"
-          alt="Unité extérieure de pompe à chaleur air-eau installée sur plots anti-vibratoires devant une maison — explication COP et SCOP"
+          image="/images/blog/rendement-pac-unite-exterieure-panneaux-solaires.jpg"
+          alt="Pompe à chaleur air-eau posée sur plateforme bois dans un jardin verdoyant avec panneaux solaires — explication COP et SCOP rendement"
           imagePosition="right"
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-3 flex items-start gap-3">
@@ -305,8 +305,8 @@ export default function RendementPompeAChaleur() {
 
         {/* ── FACTEUR 4 : ISOLATION ─────────────────────────────────────── */}
         <ArticleImageSection
-          image="/images/blog/rendement-pac-plancher-chauffant-basse-temperature.jpg"
-          alt="Pièce lumineuse avec plancher chauffant hydraulique installé — rendement PAC optimisé grâce aux émetteurs basse température"
+          image="/images/blog/rendement-pac-unite-exterieure-lierre-mur.jpg"
+          alt="Unité extérieure de pompe à chaleur fixée sur un mur recouvert de lierre — importance de l'emplacement et de l'isolation pour le rendement PAC"
           imagePosition="left"
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-3 flex items-start gap-3">
@@ -373,9 +373,9 @@ export default function RendementPompeAChaleur() {
         </h2>
 
         <ArticleFullImage
-          image="/images/blog/rendement-pac-inverter-compresseur-technologie.jpg"
-          alt="Compresseur Inverter d'une pompe à chaleur air-eau moderne — modulation de vitesse pour un rendement saisonnier optimal"
-          caption="Le compresseur Inverter module sa vitesse en continu selon les besoins du logement, évitant les cycles on/off qui dégradent le COP réel de 15 à 25 %."
+          image="/images/blog/rendement-pac-installation-murale-terrasse-moderne.jpg"
+          alt="Pompe à chaleur compacte installée sur console murale dans un espace extérieur épuré et moderne — installation optimisée pour le rendement SCOP"
+          caption="Une installation murale bien positionnée, à l'abri de la recirculation d'air, permet à la PAC de maintenir un SCOP optimal tout au long de la saison."
         />
 
         <div className="space-y-4 text-slate-700 leading-relaxed mt-6">
@@ -482,7 +482,7 @@ export default function RendementPompeAChaleur() {
         {/* ── FACTEUR 7 : ENTRETIEN ─────────────────────────────────────── */}
         <ArticleImageSection
           image="/images/blog/rendement-pac-technicien-entretien-annuel.jpg"
-          alt="Technicien réalisant l'entretien annuel d'une pompe à chaleur air-eau — vérification du circuit frigorifique et nettoyage des échangeurs"
+          alt="Technicien en uniforme rouge réalisant l'entretien annuel d'une pompe à chaleur air-eau — vérification du circuit frigorifique et nettoyage des échangeurs"
           imagePosition="right"
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-3 flex items-start gap-3">
