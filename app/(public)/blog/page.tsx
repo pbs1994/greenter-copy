@@ -130,6 +130,17 @@ const STATIC_ARTICLES = [
     featured: false,
   },
   {
+    id: 'isolation-sol-sous-parquet',
+    title: "Isolation sol sous parquet : les 5 meilleures sous-couches et guide complet 2026",
+    slug: 'isolation-sol-sous-parquet',
+    excerpt: "Comment bien isoler un sol sous parquet ? Mousse polyéthylène, liège, fibre de bois, composite ou plancher chauffant : comparatif des 5 sous-couches, épaisseurs, règles de pose et erreurs à éviter.",
+    published_date: '2026-06-25',
+    image: '/images/blog/isolation-sol-sous-parquet-sous-couche-rouleau.webp',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-piege-a-eviter',
     title: "Pompe à chaleur : 10 pièges à éviter absolument en 2026",
     slug: 'pompe-a-chaleur-piege-a-eviter',
