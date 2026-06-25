@@ -162,6 +162,17 @@ const STATIC_ARTICLES = [
     category: 'Guide',
     featured: false,
   },
+  {
+    id: 'rendement-pompe-a-chaleur',
+    title: "Rendement pompe à chaleur : 8 facteurs clés pour un COP optimal en 2026",
+    slug: 'rendement-pompe-a-chaleur',
+    excerpt: "Qu'est-ce que le COP et le SCOP d'une pompe à chaleur ? Température extérieure, départ d'eau, isolation, Inverter, dimensionnement... Les 8 leviers concrets pour maximiser le rendement réel de votre PAC.",
+    published_date: '2026-06-25',
+    image: '/images/blog/rendement-pac-cop-unite-exterieure-maison.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
 ]
 
 export const metadata: Metadata = {
