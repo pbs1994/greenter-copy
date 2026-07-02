@@ -141,6 +141,17 @@ const STATIC_ARTICLES = [
     featured: false,
   },
   {
+    id: 'isolation-rampants-de-toiture',
+    title: "Isolation rampants de toiture : guide complet 2026 (matériaux, prix, pose)",
+    slug: 'isolation-rampants-de-toiture',
+    excerpt: "Comment bien isoler les rampants de toiture ? Isolation par l'intérieur ou sarking, comparatif laine de verre, laine de roche, ouate de cellulose et polyuréthane, épaisseurs, prix au m² et aides MaPrimeRénov'.",
+    published_date: '2026-07-02',
+    image: '/images/blog/isolation-rampants-toiture-combles-amenages-charpente.webp',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-piege-a-eviter',
     title: "Pompe à chaleur : 10 pièges à éviter absolument en 2026",
     slug: 'pompe-a-chaleur-piege-a-eviter',
