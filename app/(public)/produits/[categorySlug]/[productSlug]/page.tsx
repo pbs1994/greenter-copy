@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import type { Metadata } from "next"
 import { supabase } from "@/lib/supabase"
 import { GenericProductTemplate } from "@/components/GenericProductTemplate"
@@ -10,13 +10,13 @@ export async function generateStaticParams() {
   try {
     const { data: products } = await supabase
       .from('products')
-      .select('slug, category:categories(slug)')
+      .select('slug, is_custom_page, category:categories(slug)')
       .eq('is_active', true)
 
     if (!products) return []
 
     return products
-      .filter((p) => p.slug && p.category)
+      .filter((p) => p.slug && p.category && !p.is_custom_page)
       .map((p) => ({
         categorySlug: (p.category as unknown as { slug: string }).slug,
         productSlug: p.slug,
@@ -139,6 +139,13 @@ export default async function ProductPage({ params }: Props) {
 
   const typedProduct = product as Product
   const typedCategory = category as Category
+
+  // Custom-page products (rich, hand-built templates) live at /produits/<slug>
+  // without the category prefix — redirect to the canonical URL instead of
+  // rendering the generic DB-driven template here.
+  if (typedProduct.is_custom_page) {
+    redirect(`/produits/${typedProduct.slug}`)
+  }
 
   return <GenericProductTemplate product={{ ...typedProduct, category: typedCategory }} />
 }

@@ -79,14 +79,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const { data: products } = await supabase
       .from('products')
-      .select('slug, category:categories(slug), updated_at')
+      .select('slug, is_custom_page, category:categories(slug), updated_at')
       .eq('is_active', true)
 
     if (products) {
       const pages = products
-        .filter((p) => p.category && p.slug)
+        .filter((p) => p.is_custom_page || (p.category && p.slug))
         .map((p) => ({
-          url: `${baseUrl}/produits/${(p.category as unknown as { slug: string }).slug}/${p.slug}`,
+          url: p.is_custom_page
+            ? `${baseUrl}/produits/${p.slug}`
+            : `${baseUrl}/produits/${(p.category as unknown as { slug: string }).slug}/${p.slug}`,
           lastModified: p.updated_at ? new Date(p.updated_at) : new Date('2026-05-01'),
           changeFrequency: 'weekly' as const,
           priority: 0.8,

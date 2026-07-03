@@ -190,9 +190,9 @@ export default async function CategoryPage({ params }: Props) {
             /* Products Grid */
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {typedProducts.map((product) => (
-                <Link 
+                <Link
                   key={product.id}
-                  href={`/produits/${categorySlug}/${product.slug}`}
+                  href={product.is_custom_page ? `/produits/${product.slug}` : `/produits/${categorySlug}/${product.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-lg ring-1 ring-green-200 hover:ring-green-400 hover:shadow-xl transition-all"
                 >
                   {/* Product Image */}
