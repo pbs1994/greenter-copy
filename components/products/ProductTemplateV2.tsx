@@ -57,6 +57,9 @@ export interface ProductV2Data {
   hideMonthly?: boolean   // hide 3× instalment line
   benefits?: V2Benefit[]  // overrides the default 5-item strip
   expertCallout?: { title: string; body: string } | null  // null = hidden
+  quoteTypeLabel?: string     // default "Type de projet"
+  quoteTypeOptions?: string[] // default carport options; pass [] to hide the block
+  quoteSurfaceOptions?: string[] // default 3 surface brackets; pass [] to hide the block
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -151,6 +154,9 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
   const savingsPct = Math.round((savings / product.originalPrice) * 100)
   const monthly = Math.round(product.currentPrice / 3)
   const href = product.ctaHref ?? '/contact'
+  const quoteTypeLabel = product.quoteTypeLabel ?? 'Type de projet'
+  const quoteTypeOptions = product.quoteTypeOptions ?? ['Carport 1 place', 'Carport 2 places', 'Pergola terrasse', 'Pergola jardin']
+  const quoteSurfaceOptions = product.quoteSurfaceOptions ?? ['Moins de 15 m²', '15 – 30 m²', 'Plus de 30 m²']
 
   const reviewDist = [
     { stars: 5, pct: 62 }, { stars: 4, pct: 24 },
@@ -940,45 +946,49 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-neutral-700 mb-2">Type de projet</label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {['Carport 1 place', 'Carport 2 places', 'Pergola terrasse', 'Pergola jardin'].map(t => (
-                        <button
-                          key={t}
-                          type="button"
-                          onClick={() => setQuoteForm(f => ({ ...f, type: t }))}
-                          className={`px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all text-left ${
-                            quoteForm.type === t
-                              ? 'border-green-500 bg-green-50 text-green-700'
-                              : 'border-neutral-200 text-neutral-600 hover:border-green-300'
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
+                  {quoteTypeOptions.length > 0 && (
+                    <div>
+                      <label className="block text-sm font-semibold text-neutral-700 mb-2">{quoteTypeLabel}</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {quoteTypeOptions.map(t => (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => setQuoteForm(f => ({ ...f, type: t }))}
+                            className={`px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all text-left ${
+                              quoteForm.type === t
+                                ? 'border-green-500 bg-green-50 text-green-700'
+                                : 'border-neutral-200 text-neutral-600 hover:border-green-300'
+                            }`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div>
-                    <label className="block text-sm font-semibold text-neutral-700 mb-2">Surface approximative</label>
-                    <div className="flex flex-wrap gap-2">
-                      {['Moins de 15 m²', '15 – 30 m²', 'Plus de 30 m²'].map(s => (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => setQuoteForm(f => ({ ...f, surface: s }))}
-                          className={`px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
-                            quoteForm.surface === s
-                              ? 'border-green-500 bg-green-50 text-green-700'
-                              : 'border-neutral-200 text-neutral-600 hover:border-green-300'
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
+                  {quoteSurfaceOptions.length > 0 && (
+                    <div>
+                      <label className="block text-sm font-semibold text-neutral-700 mb-2">Surface approximative</label>
+                      <div className="flex flex-wrap gap-2">
+                        {quoteSurfaceOptions.map(s => (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => setQuoteForm(f => ({ ...f, surface: s }))}
+                            className={`px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
+                              quoteForm.surface === s
+                                ? 'border-green-500 bg-green-50 text-green-700'
+                                : 'border-neutral-200 text-neutral-600 hover:border-green-300'
+                            }`}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-semibold text-neutral-700 mb-1.5">

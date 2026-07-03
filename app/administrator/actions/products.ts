@@ -57,6 +57,7 @@ interface ProductPayload {
   image_url?: string | null
   is_active: boolean
   is_featured: boolean
+  is_custom_page: boolean
 }
 
 function parseFormData(formData: FormData): ProductPayload {
@@ -71,6 +72,7 @@ function parseFormData(formData: FormData): ProductPayload {
     image_url: (String(formData.get('image_url') || '').trim() || null),
     is_active: formData.get('is_active') === 'on',
     is_featured: formData.get('is_featured') === 'on',
+    is_custom_page: formData.get('is_custom_page') === 'true',
   }
 }
 
@@ -102,6 +104,7 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
       image_url: payload.image_url,
       is_active: payload.is_active,
       is_featured: payload.is_featured,
+      is_custom_page: payload.is_custom_page,
     })
     .select('id, name, short_description, price, image_url')
     .single()
@@ -164,6 +167,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
       image_url: payload.image_url,
       is_active: payload.is_active,
       is_featured: payload.is_featured,
+      is_custom_page: payload.is_custom_page,
     })
     .eq('id', id)
 
