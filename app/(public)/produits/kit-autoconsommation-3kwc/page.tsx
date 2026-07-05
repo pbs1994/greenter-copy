@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 
 export const metadata: Metadata = {
   title: 'Kit Autoconsommation Solaire 3 kWc — Panneaux + Micro-onduleurs | Greenter',
-  description: "Kit autoconsommation 3 kWc à 2 975 € au lieu de 3 500 € : 6 panneaux DMEGC 500 Wc, 3 micro-onduleurs Hoymiles, fixations ISY-PV, déclaration préalable mairie incluse. Monophasé ou triphasé.",
+  description: "Kit autoconsommation 3 kWc à 3 500 € au lieu de 4 100 € : 6 panneaux DMEGC 500 Wc, 3 micro-onduleurs Hoymiles, fixations ISY-PV, déclaration préalable mairie incluse. Monophasé ou triphasé.",
   alternates: {
     canonical: "https://www.greenter.fr/produits/kit-autoconsommation-3kwc",
   },
@@ -25,8 +25,8 @@ const PRODUCT: ProductV2Data = {
   categorySlug: "kits-autoconsommation",
   slug: "kit-autoconsommation-3kwc",
   pricePrefix: "Prix tout compris",
-  currentPrice: 2975,
-  originalPrice: 3500,
+  currentPrice: 3500,
+  originalPrice: 4100,
   priceNote: "Hors Consuel et raccordement Enedis : supplément de 700 €, facturé séparément.",
   hideMonthly: true,
   hideMaPrimeRenovBadge: true,
@@ -177,7 +177,7 @@ const PRODUCT: ProductV2Data = {
     {
       question: "Le prix affiché comprend-il vraiment tout ?",
       answer:
-        "Le prix de 2 975 € TTC comprend la fourniture, la livraison, la pose par un technicien RGE QualiPV, la garantie et la déclaration préalable de travaux en mairie. Deux éléments restent en dehors de ce prix : le Consuel et le raccordement Enedis (supplément fixe de 700 €, facturé séparément), ainsi qu'un éventuel devis complémentaire pour un renforcement de charpente si votre toiture le nécessite — validé avec vous avant tout engagement.",
+        "Le prix de 3 500 € TTC comprend la fourniture, la livraison, la pose par un technicien RGE QualiPV, la garantie et la déclaration préalable de travaux en mairie. Deux éléments restent en dehors de ce prix : le Consuel et le raccordement Enedis (supplément fixe de 700 €, facturé séparément), ainsi qu'un éventuel devis complémentaire pour un renforcement de charpente si votre toiture le nécessite — validé avec vous avant tout engagement.",
     },
     {
       question: "Faut-il une déclaration préalable de travaux en mairie ?",
