@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 
 export const metadata: Metadata = {
   title: 'Kit Autoconsommation Solaire 6 kWc — Panneaux + Micro-onduleurs | Greenter',
-  description: "Kit autoconsommation 6 kWc tout compris : 12 panneaux DMEGC 500 Wc, 6 micro-onduleurs Hoymiles, fixations ISY-PV. Fixation, livraison, pose et garantie inclus. Monophasé ou triphasé. 6 600 € TTC.",
+  description: "Kit autoconsommation 6 kWc à 5 610 € au lieu de 6 600 € : 12 panneaux DMEGC 500 Wc, 6 micro-onduleurs Hoymiles, fixations ISY-PV, déclaration préalable mairie incluse. Monophasé ou triphasé.",
   alternates: {
     canonical: "https://www.greenter.fr/produits/kit-autoconsommation-6kwc",
   },
@@ -25,8 +25,9 @@ const PRODUCT: ProductV2Data = {
   categorySlug: "kits-autoconsommation",
   slug: "kit-autoconsommation-6kwc",
   pricePrefix: "Prix tout compris",
-  currentPrice: 6600,
+  currentPrice: 5610,
   originalPrice: 6600,
+  priceNote: "Hors Consuel et raccordement Enedis : supplément de 700 €, facturé séparément.",
   hideMonthly: true,
   hideMaPrimeRenovBadge: true,
   gift: { name: "Bilan solaire et étude de faisabilité", value: 350 },
@@ -66,7 +67,11 @@ const PRODUCT: ProductV2Data = {
     <p>Ce kit s'installe aussi bien sur un réseau électrique <strong>monophasé</strong> que <strong>triphasé</strong>. En triphasé, les 6 micro-onduleurs sont répartis de façon équilibrée sur les 3 phases (2 par phase) par notre technicien lors de la pose, afin d'optimiser la production et de respecter les limites d'intensité par phase. Votre configuration électrique est confirmée par notre technicien lors de la visite technique préalable à l'installation.</p>
 
     <h3>TVA à 0 % sur votre installation solaire</h3>
-    <p>Les installations photovoltaïques résidentielles d'une puissance inférieure ou égale à 9 kWc bénéficient de la <strong>TVA à 0 %</strong> sur la fourniture et la pose depuis la loi de finances 2024 — ce kit de 6 kWc en profite intégralement. Nos techniciens RGE QualiPV vous accompagnent dans les démarches de raccordement Enedis.</p>
+    <p>Les installations photovoltaïques résidentielles d'une puissance inférieure ou égale à 9 kWc bénéficient de la <strong>TVA à 0 %</strong> sur la fourniture et la pose depuis la loi de finances 2024 — ce kit de 6 kWc en profite intégralement.</p>
+
+    <h3>Démarches administratives : ce qui est inclus, ce qui ne l'est pas</h3>
+    <p>La <strong>déclaration préalable de travaux en mairie</strong>, obligatoire pour l'installation de panneaux solaires, est entièrement prise en charge par nos équipes et incluse dans le prix affiché — vous n'avez aucune démarche à effectuer de votre côté.</p>
+    <p>En revanche, le <strong>Consuel</strong> (certificat de conformité électrique obligatoire) et le <strong>raccordement Enedis</strong> font l'objet d'un supplément de <strong>700 €</strong>, facturé séparément du prix du kit. Ce montant couvre le dépôt du dossier, la visite de conformité et la mise en service auprès du gestionnaire de réseau.</p>
 
     <h3>Une pose clé en main, même sur deux pans de toiture</h3>
     <p>Fixation, livraison et pose sont intégralement inclus dans le prix affiché — aucun frais caché. Avec 12 panneaux, l'installation peut être répartie sur un ou deux pans de toiture selon la configuration de votre maison ; nos techniciens certifiés <strong>RGE QualiPV</strong> étudient cette répartition avec vous avant la pose, généralement réalisée en une à deux journées.</p>
@@ -90,6 +95,8 @@ const PRODUCT: ProductV2Data = {
     { label: "Raccordement", value: "Monophasé ou triphasé au choix (2 onduleurs/phase en triphasé)" },
     { label: "Tension max système", value: "1 000 V / 1 500 V cc" },
     { label: "TVA applicable", value: "0 % (installation ≤ 9 kWc par pro)" },
+    { label: "Déclaration préalable mairie", value: "Incluse, réalisée par nos soins" },
+    { label: "Consuel et raccordement Enedis", value: "Supplément de 700 € (hors kit)" },
     { label: "Certification installation", value: "RGE QualiPV" },
   ],
   features: [
@@ -170,7 +177,17 @@ const PRODUCT: ProductV2Data = {
     {
       question: "Le prix affiché comprend-il vraiment tout ?",
       answer:
-        "Oui : fixation, livraison, pose par un technicien RGE QualiPV et garantie sont inclus dans les 6 600 € TTC affichés. Seuls des travaux de renforcement de charpente, si votre toiture le nécessite, feraient l'objet d'un devis complémentaire — validé avec vous avant tout engagement.",
+        "Le prix de 5 610 € TTC comprend la fourniture, la livraison, la pose par un technicien RGE QualiPV, la garantie et la déclaration préalable de travaux en mairie. Deux éléments restent en dehors de ce prix : le Consuel et le raccordement Enedis (supplément fixe de 700 €, facturé séparément), ainsi qu'un éventuel devis complémentaire pour un renforcement de charpente si votre toiture le nécessite — validé avec vous avant tout engagement.",
+    },
+    {
+      question: "Faut-il une déclaration préalable de travaux en mairie ?",
+      answer:
+        "Oui, l'installation de panneaux solaires nécessite une déclaration préalable de travaux auprès de votre mairie (délai d'instruction d'environ 1 mois). Cette démarche est entièrement prise en charge par nos équipes et incluse dans le prix du kit — vous n'avez aucun dossier à constituer vous-même.",
+    },
+    {
+      question: "Pourquoi le Consuel et le raccordement Enedis sont-ils facturés en supplément ?",
+      answer:
+        "Le Consuel (certificat de conformité électrique, obligatoire pour toute installation photovoltaïque raccordée au réseau) et le raccordement Enedis impliquent des frais de dossier et d'intervention fixés par des organismes tiers, indépendants du prix du kit lui-même. Ce supplément de 700 € couvre l'ensemble de ces démarches, gérées de bout en bout par nos techniciens.",
     },
     {
       question: "Quel est le délai entre la commande et la mise en service ?",

@@ -56,6 +56,7 @@ export interface ProductV2Data {
   ctaLabel?: string       // default "Commander maintenant →"
   ctaModal?: boolean      // open inline quote modal instead of navigating
   pricePrefix?: string    // e.g. "À partir de"
+  priceNote?: string      // e.g. mandatory supplement not included in the displayed price
   hideMonthly?: boolean   // hide 3× instalment line
   benefits?: V2Benefit[]  // overrides the default 5-item strip
   expertCallout?: { title: string; body: string } | null  // null = hidden
@@ -309,6 +310,9 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                       Économie : {savings.toLocaleString('fr-FR')} €
                     </span>
                   </div>
+                )}
+                {product.priceNote && (
+                  <p className="text-xs text-neutral-500 mt-1.5">{product.priceNote}</p>
                 )}
               </div>
 
