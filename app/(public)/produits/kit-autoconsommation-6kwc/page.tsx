@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ProductTemplateV2 } from '@/components/products/ProductTemplateV2'
 import type { ProductV2Data } from '@/components/products/ProductTemplateV2'
+import { supabase } from '@/lib/supabase'
 
 export const metadata: Metadata = {
   title: 'Kit Autoconsommation Solaire 6 kWc — Panneaux + Micro-onduleurs | Greenter',
@@ -26,12 +27,7 @@ const PRODUCT: ProductV2Data = {
   pricePrefix: "Prix tout compris",
   currentPrice: 6600,
   originalPrice: 6600,
-  ctaLabel: "Demander un devis gratuit →",
-  ctaModal: true,
   hideMonthly: true,
-  quoteTypeLabel: "Configuration électrique souhaitée",
-  quoteTypeOptions: ["Monophasé", "Triphasé", "Je ne sais pas / à conseiller"],
-  quoteSurfaceOptions: [],
   expertCallout: {
     title: "Idéal pour un foyer consommant 5 000 à 8 000 kWh/an",
     body: "Avec 12 panneaux de 500 Wc, ce kit vise une autoconsommation élevée : chauffage électrique, ballon d'eau chaude, recharge de véhicule électrique ou grande famille. En Île-de-France, comptez une production annuelle d'environ 6 600 à 7 200 kWh. Nos techniciens RGE QualiPV valident avec vous l'orientation, l'inclinaison et la répartition sur un ou deux pans de toiture.",
@@ -182,6 +178,13 @@ const PRODUCT: ProductV2Data = {
   ],
 }
 
-export default function KitAutoconsommation6kwcPage() {
-  return <ProductTemplateV2 product={PRODUCT} />
+export default async function KitAutoconsommation6kwcPage() {
+  const { data: dbProduct } = await supabase
+    .from('products')
+    .select('id')
+    .eq('slug', PRODUCT.slug)
+    .eq('is_active', true)
+    .single()
+
+  return <ProductTemplateV2 product={{ ...PRODUCT, productId: dbProduct?.id }} />
 }

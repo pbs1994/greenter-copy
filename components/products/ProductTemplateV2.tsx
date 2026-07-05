@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { BuyButton } from '@/components/BuyButton'
 import {
   Star, Check, X, ChevronDown, ChevronRight,
   Shield, Truck, Wrench, Award, Phone, Gift,
@@ -37,6 +38,7 @@ export interface ProductV2Data {
   originalPrice: number  // euros
   currentPrice: number   // euros
   images: string[]
+  productId?: string  // Supabase product UUID — when set, shows a real "Acheter" button (Stripe checkout) instead of the quote CTA
   gift?: { name: string; value: number }
   stock?: number
   deliveryDays: string
@@ -341,7 +343,12 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 </div>
               </div>
 
-              {product.ctaModal ? (
+              {product.productId ? (
+                <BuyButton
+                  items={[{ productId: product.productId, quantity: 1 }]}
+                  className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
+                />
+              ) : product.ctaModal ? (
                 <button
                   type="button"
                   onClick={() => setShowQuoteModal(true)}
@@ -355,6 +362,16 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                   className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
                 >
                   {product.ctaLabel ?? 'Commander maintenant →'}
+                </Link>
+              )}
+
+              {product.productId && (
+                <Link
+                  href="/contact"
+                  className="flex w-full items-center justify-center gap-2 bg-white border border-neutral-200 hover:border-green-200 hover:bg-green-50 text-neutral-700 font-semibold text-sm py-3 px-6 rounded-xl transition-all"
+                >
+                  <Phone className="w-4 h-4" />
+                  Une question ? Nous contacter
                 </Link>
               )}
 
@@ -796,7 +813,12 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
             {savings > 0 && <> Économisez <strong className="text-white">{savings.toLocaleString('fr-FR')} €</strong> sur le prix habituel.</>}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            {product.ctaModal ? (
+            {product.productId ? (
+              <BuyButton
+                items={[{ productId: product.productId, quantity: 1 }]}
+                className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl"
+              />
+            ) : product.ctaModal ? (
               <button type="button" onClick={() => setShowQuoteModal(true)} className="bg-white text-green-700 hover:bg-green-50 font-bold text-lg py-4 px-10 rounded-full inline-flex items-center justify-center gap-2 transition-colors shadow-xl">
                 {product.ctaLabel ?? 'Demander un devis gratuit →'}
               </button>
@@ -806,7 +828,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
               </Link>
             )}
             <Link href="/contact" className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors">
-              <Phone className="w-4 h-4" /> Parler à un expert
+              <Phone className="w-4 h-4" /> {product.productId ? 'Une question ?' : 'Parler à un expert'}
             </Link>
           </div>
           {!product.hideMonthly && (
@@ -840,7 +862,12 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 <p className="text-xl font-bold text-neutral-900">{product.currentPrice.toLocaleString('fr-FR')} €</p>
                 {savings > 0 && <p className="text-xs text-green-600 font-medium">Économie {savings.toLocaleString('fr-FR')} €</p>}
               </div>
-              {product.ctaModal ? (
+              {product.productId ? (
+                <BuyButton
+                  items={[{ productId: product.productId, quantity: 1 }]}
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25"
+                />
+              ) : product.ctaModal ? (
                 <button type="button" onClick={() => setShowQuoteModal(true)} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
                   Demander un devis →
                 </button>
