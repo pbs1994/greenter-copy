@@ -168,7 +168,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
   ]
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-50/50 via-white to-white pb-24">
+    <main className="min-h-screen overflow-x-hidden bg-gradient-to-b from-green-50/50 via-white to-white pb-24">
 
       {/* ── URGENCY BANNER ── */}
       <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-white">
@@ -458,13 +458,13 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
             <h2 className="text-2xl font-bold text-neutral-900 mb-6">Caractéristiques techniques</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {product.specs.map((spec, i) => (
-                <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-neutral-100 hover:border-green-200 transition-colors">
+                <div key={i} className="min-w-0 flex items-center gap-3 p-4 bg-white rounded-xl border border-neutral-100 hover:border-green-200 transition-colors">
                   <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Zap className="w-4 h-4 text-green-700" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs text-neutral-400">{spec.label}</p>
-                    <p className="text-sm font-bold text-neutral-900 truncate">{spec.value}</p>
+                    <p className="text-sm font-bold text-neutral-900 truncate" title={spec.value}>{spec.value}</p>
                   </div>
                 </div>
               ))}
@@ -861,7 +861,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
       {/* ── STICKY BAR ── */}
       <div className={`fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-neutral-200 shadow-[0_-8px_30px_rgba(0,0,0,0.1)] transition-transform duration-300 ${stickyVisible ? 'translate-y-0' : 'translate-y-full'}`}>
         <div className="container mx-auto max-w-6xl px-4 py-3">
-          <div className="flex items-center justify-between gap-4">
+          <div className="min-w-0 flex items-center justify-between gap-4">
             <div className="min-w-0 hidden sm:block">
               <p className="text-sm font-semibold text-neutral-900 truncate">{product.name}</p>
               <div className="flex items-center gap-2 mt-0.5">
