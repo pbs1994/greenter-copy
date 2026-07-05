@@ -41,14 +41,14 @@ SELECT
   c.id,
   350000,
   '6 panneaux DMEGC 500 Wc + 3 micro-onduleurs Hoymiles + fixations ISY-PV. Fixation, livraison, pose et garantie inclus. Monophasé ou triphasé.',
-  'Kit autoconsommation 3 kWc tout compris : 6 panneaux photovoltaïques DMEGC 500 Wc, 3 micro-onduleurs Hoymiles HMS-800-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client.',
+  'Kit autoconsommation 3 kWc tout compris : 6 panneaux photovoltaïques DMEGC 500 Wc, 3 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client.',
   '/solaire.jpg',
   true,
   true,
   '[
     {"label": "Puissance", "value": "3", "unit": "kWc"},
     {"label": "Nombre de panneaux", "value": "6"},
-    {"label": "Micro-onduleurs", "value": "3 x Hoymiles HMS-800-2T"},
+    {"label": "Micro-onduleurs", "value": "3 x Hoymiles HMS-1000-2T"},
     {"label": "Garantie", "value": "25", "unit": "ans"}
   ]'::jsonb
 FROM categories c WHERE c.slug = 'kits-autoconsommation'
@@ -69,14 +69,14 @@ SELECT
   c.id,
   660000,
   '12 panneaux DMEGC 500 Wc + 6 micro-onduleurs Hoymiles + fixations ISY-PV. Fixation, livraison, pose et garantie inclus. Monophasé ou triphasé.',
-  'Kit autoconsommation 6 kWc tout compris : 12 panneaux photovoltaïques DMEGC 500 Wc, 6 micro-onduleurs Hoymiles HMS-800-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client.',
+  'Kit autoconsommation 6 kWc tout compris : 12 panneaux photovoltaïques DMEGC 500 Wc, 6 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client.',
   '/solaire.jpg',
   true,
   true,
   '[
     {"label": "Puissance", "value": "6", "unit": "kWc"},
     {"label": "Nombre de panneaux", "value": "12"},
-    {"label": "Micro-onduleurs", "value": "6 x Hoymiles HMS-800-2T"},
+    {"label": "Micro-onduleurs", "value": "6 x Hoymiles HMS-1000-2T"},
     {"label": "Garantie", "value": "25", "unit": "ans"}
   ]'::jsonb
 FROM categories c WHERE c.slug = 'kits-autoconsommation'

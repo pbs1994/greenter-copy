@@ -28,6 +28,8 @@ const PRODUCT: ProductV2Data = {
   currentPrice: 6600,
   originalPrice: 6600,
   hideMonthly: true,
+  hideMaPrimeRenovBadge: true,
+  gift: { name: "Bilan solaire et étude de faisabilité", value: 350 },
   expertCallout: {
     title: "Idéal pour un foyer consommant 5 000 à 8 000 kWh/an",
     body: "Avec 12 panneaux de 500 Wc, ce kit vise une autoconsommation élevée : chauffage électrique, ballon d'eau chaude, recharge de véhicule électrique ou grande famille. En Île-de-France, comptez une production annuelle d'environ 6 600 à 7 200 kWh. Nos techniciens RGE QualiPV valident avec vous l'orientation, l'inclinaison et la répartition sur un ou deux pans de toiture.",
@@ -49,22 +51,22 @@ const PRODUCT: ProductV2Data = {
     "/solaire.jpg",
   ],
   shortDescription:
-    "12 panneaux photovoltaïques DMEGC 500 Wc, 6 micro-onduleurs Hoymiles HMS-800-2T et fixations ISY-PV pour toiture inclinée. Fixation, livraison, pose et garantie sont inclus dans le prix. Installation en monophasé ou triphasé selon votre configuration électrique.",
+    "12 panneaux photovoltaïques DMEGC 500 Wc, 6 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Fixation, livraison, pose et garantie sont inclus dans le prix. Installation en monophasé ou triphasé selon votre configuration électrique.",
   description: `
     <p>Le <strong>kit autoconsommation 6 kWc</strong> double la puissance du kit 3 kWc pour les foyers à consommation élevée. Panneaux, micro-onduleurs et système de fixation sont sélectionnés, livrés et posés par nos équipes, avec une garantie complète sur l'ensemble de l'installation.</p>
 
     <h3>Composition du kit</h3>
     <ul>
       <li><strong>12 panneaux photovoltaïques DMEGC 500 Wc</strong> — cellules monocristallines type P, cadre noir esthétique, rendement 21,1 %, garantie produit 15 ans et garantie de puissance linéaire 25 ans (≥ 84,8 % à l'année 25).</li>
-      <li><strong>6 micro-onduleurs Hoymiles HMS-800-2T</strong> — technologie 2-en-1 (un micro-onduleur pour 2 panneaux), avec MPPT et surveillance indépendants pour chaque module, monitoring via l'application S-Miles Cloud.</li>
+      <li><strong>6 micro-onduleurs Hoymiles HMS-1000-2T</strong> — technologie 2-en-1 (un micro-onduleur pour 2 panneaux), avec MPPT et surveillance indépendants pour chaque module, monitoring via l'application S-Miles Cloud.</li>
       <li><strong>Fixations ISY-PV ISY-HOOK</strong> — système universel de surimposition pour toiture inclinée, compatible tuiles, ardoises et tôles fibrociment, rails et étriers noirs, validé ETN, garantie fabricant 25 ans.</li>
     </ul>
 
     <h3>Monophasé ou triphasé : à vous de choisir</h3>
-    <p>Ce kit s'installe aussi bien sur un réseau électrique <strong>monophasé</strong> que <strong>triphasé</strong>. En triphasé, les 6 micro-onduleurs sont répartis de façon équilibrée sur les 3 phases (2 par phase) par notre technicien lors de la pose, afin d'optimiser la production et de respecter les limites d'intensité par phase. Vous indiquez votre préférence — ou laissez nos experts vous conseiller — directement dans le formulaire de devis.</p>
+    <p>Ce kit s'installe aussi bien sur un réseau électrique <strong>monophasé</strong> que <strong>triphasé</strong>. En triphasé, les 6 micro-onduleurs sont répartis de façon équilibrée sur les 3 phases (2 par phase) par notre technicien lors de la pose, afin d'optimiser la production et de respecter les limites d'intensité par phase. Votre configuration électrique est confirmée par notre technicien lors de la visite technique préalable à l'installation.</p>
 
-    <h3>TVA à 0 % et prime à l'autoconsommation</h3>
-    <p>Les installations photovoltaïques résidentielles d'une puissance inférieure ou égale à 9 kWc bénéficient de la <strong>TVA à 0 %</strong> sur la fourniture et la pose depuis la loi de finances 2024 — ce kit de 6 kWc en profite intégralement. Votre installation peut également ouvrir droit à la <strong>prime à l'autoconsommation</strong> versée par EDF OA, dont le montant est mis à jour trimestriellement selon la puissance installée. Nos techniciens RGE QualiPV vous accompagnent dans les démarches de raccordement Enedis.</p>
+    <h3>TVA à 0 % sur votre installation solaire</h3>
+    <p>Les installations photovoltaïques résidentielles d'une puissance inférieure ou égale à 9 kWc bénéficient de la <strong>TVA à 0 %</strong> sur la fourniture et la pose depuis la loi de finances 2024 — ce kit de 6 kWc en profite intégralement. Nos techniciens RGE QualiPV vous accompagnent dans les démarches de raccordement Enedis.</p>
 
     <h3>Une pose clé en main, même sur deux pans de toiture</h3>
     <p>Fixation, livraison et pose sont intégralement inclus dans le prix affiché — aucun frais caché. Avec 12 panneaux, l'installation peut être répartie sur un ou deux pans de toiture selon la configuration de votre maison ; nos techniciens certifiés <strong>RGE QualiPV</strong> étudient cette répartition avec vous avant la pose, généralement réalisée en une à deux journées.</p>
@@ -77,9 +79,9 @@ const PRODUCT: ProductV2Data = {
     { label: "Rendement panneau", value: "21,1 %" },
     { label: "Dimensions panneau", value: "2 094 x 1 134 x 35 mm — 26 kg" },
     { label: "Garantie panneaux", value: "15 ans produit / 25 ans puissance linéaire" },
-    { label: "Micro-onduleurs", value: "6 x Hoymiles HMS-800-2T (2 panneaux/onduleur)" },
-    { label: "Puissance onduleur", value: "800 VA nominal, 2 MPPT indépendants" },
-    { label: "Rendement onduleur", value: "96,7 % (CEC max) / 99,8 % (MPPT)" },
+    { label: "Micro-onduleurs", value: "6 x Hoymiles HMS-1000-2T (2 panneaux/onduleur)" },
+    { label: "Puissance onduleur", value: "1 000 VA nominal, 2 MPPT indépendants" },
+    { label: "Rendement onduleur", value: "96,5 % (CEC max) / 99,8 % (MPPT)" },
     { label: "Étanchéité onduleur", value: "IP67, usage extérieur" },
     { label: "Monitoring", value: "Application S-Miles Cloud, suivi par panneau" },
     { label: "Fixations", value: "ISY-PV ISY-HOOK, rails et crochets noirs" },
@@ -99,7 +101,7 @@ const PRODUCT: ProductV2Data = {
     {
       icon: "⚙️",
       title: "Micro-onduleurs 2-en-1",
-      description: "Chaque Hoymiles HMS-800-2T pilote 2 panneaux avec un MPPT indépendant : l'ombre ou la salissure sur un module n'affecte pas la production des autres.",
+      description: "Chaque Hoymiles HMS-1000-2T pilote 2 panneaux avec un MPPT indépendant : l'ombre ou la salissure sur un module n'affecte pas la production des autres.",
     },
     {
       icon: "⚡",
@@ -118,8 +120,8 @@ const PRODUCT: ProductV2Data = {
     },
     {
       icon: "💶",
-      title: "TVA 0 % et prime incluses",
-      description: "Kit ≤ 9 kWc éligible à la TVA à 0 % automatique. Nous montons également votre dossier de prime à l'autoconsommation EDF OA.",
+      title: "TVA 0 % incluse",
+      description: "Kit ≤ 9 kWc éligible à la TVA à 0 % automatique sur la fourniture et la pose, sans démarche de votre part.",
     },
   ],
   comparison: {
@@ -148,12 +150,12 @@ const PRODUCT: ProductV2Data = {
     {
       question: "Puis-je choisir une installation monophasée ou triphasée ?",
       answer:
-        "Oui. Ce kit s'installe sur les deux types de réseau. En triphasé, les 6 micro-onduleurs sont répartis 2 par phase par notre technicien afin d'équilibrer la production sur les 3 phases. Vous précisez votre configuration électrique — ou demandez conseil — directement dans le formulaire de devis.",
+        "Oui. Ce kit s'installe sur les deux types de réseau. En triphasé, les 6 micro-onduleurs sont répartis 2 par phase par notre technicien afin d'équilibrer la production sur les 3 phases. Votre configuration électrique est confirmée avec vous lors de la visite technique préalable à l'installation — précisez-le lors de votre prise de contact si vous le savez déjà.",
     },
     {
       question: "De quelle surface de toiture ai-je besoin ?",
       answer:
-        "Chaque panneau mesure 2,094 x 1,134 m, soit environ 2,4 m². Pour 12 panneaux, comptez une surface de toiture disponible d'environ 30 m², rails et espacements de sécurité compris — répartissable sur un ou deux pans de toiture. Nos techniciens vérifient la faisabilité (orientation, inclinaison, ombrage) avant validation du devis.",
+        "Chaque panneau mesure 2,094 x 1,134 m, soit environ 2,4 m². Pour 12 panneaux, comptez une surface de toiture disponible d'environ 30 m², rails et espacements de sécurité compris — répartissable sur un ou deux pans de toiture. Nos techniciens vérifient la faisabilité (orientation, inclinaison, ombrage) lors de la visite technique préalable.",
     },
     {
       question: "Le kit est-il compatible avec tous les types de toiture ?",
@@ -163,7 +165,7 @@ const PRODUCT: ProductV2Data = {
     {
       question: "Quelles aides financières s'appliquent à ce kit ?",
       answer:
-        "Ce kit de 6 kWc, inférieur au seuil de 9 kWc, bénéficie de la TVA à 0 % sur la fourniture et la pose (loi de finances 2024). Il est également éligible à la prime à l'autoconsommation versée par EDF OA, dont le montant par kWc est mis à jour trimestriellement. Ces aides ne nécessitent pas de dossier MaPrimeRénov', qui concerne d'autres travaux de rénovation énergétique.",
+        "Ce kit de 6 kWc, inférieur au seuil de 9 kWc, bénéficie de la TVA à 0 % sur la fourniture et la pose (loi de finances 2024). Cette aide ne nécessite pas de dossier MaPrimeRénov', qui concerne d'autres travaux de rénovation énergétique.",
     },
     {
       question: "Le prix affiché comprend-il vraiment tout ?",
@@ -173,7 +175,7 @@ const PRODUCT: ProductV2Data = {
     {
       question: "Quel est le délai entre la commande et la mise en service ?",
       answer:
-        "Comptez généralement 2 à 4 semaines entre la validation du devis et la mise en service, incluant l'étude de faisabilité, la commande du matériel, la pose (une à deux journées selon la répartition sur la toiture) et les démarches de raccordement auprès d'Enedis.",
+        "Comptez généralement 2 à 4 semaines entre votre commande et la mise en service, incluant la visite technique de faisabilité, la commande du matériel, la pose (une à deux journées selon la répartition sur la toiture) et les démarches de raccordement auprès d'Enedis.",
     },
   ],
 }

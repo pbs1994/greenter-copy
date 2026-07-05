@@ -62,6 +62,7 @@ export interface ProductV2Data {
   quoteTypeLabel?: string     // default "Type de projet"
   quoteTypeOptions?: string[] // default carport options; pass [] to hide the block
   quoteSurfaceOptions?: string[] // default 3 surface brackets; pass [] to hide the block
+  hideMaPrimeRenovBadge?: boolean // set true for products not eligible to MaPrimeRénov' (e.g. photovoltaïque)
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -247,9 +248,11 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 rounded-full text-xs font-bold text-blue-700">
                 <BadgeCheck className="w-3.5 h-3.5" /> Certifié RGE
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full text-xs font-medium text-emerald-700">
-                <Leaf className="w-3.5 h-3.5" /> Éligible MaPrimeRénov&apos;
-              </span>
+              {!product.hideMaPrimeRenovBadge && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full text-xs font-medium text-emerald-700">
+                  <Leaf className="w-3.5 h-3.5" /> Éligible MaPrimeRénov&apos;
+                </span>
+              )}
             </div>
 
             {/* Name */}
@@ -327,10 +330,15 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                   <Truck className="w-4 h-4 text-green-600 flex-shrink-0" />
                   <span>Livraison {product.deliveryDays}</span>
                 </div>
-                {product.nextInstallation && (
+                {product.nextInstallation ? (
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-4 h-4 text-green-600 flex-shrink-0" />
                     <span>Pose dès le {product.nextInstallation}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <Lock className="w-4 h-4 text-green-600 flex-shrink-0" />
+                    <span>Paiement sécurisé</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1.5">
@@ -346,7 +354,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
               {product.productId ? (
                 <BuyButton
                   items={[{ productId: product.productId, quantity: 1 }]}
-                  className="block w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl text-center transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white font-bold text-lg py-4 px-6 rounded-xl transition-all shadow-lg shadow-green-600/25 hover:shadow-xl"
                 />
               ) : product.ctaModal ? (
                 <button
@@ -865,7 +873,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
               {product.productId ? (
                 <BuyButton
                   items={[{ productId: product.productId, quantity: 1 }]}
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25"
+                  className="inline-flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25"
                 />
               ) : product.ctaModal ? (
                 <button type="button" onClick={() => setShowQuoteModal(true)} className="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full text-sm transition-colors whitespace-nowrap shadow-lg shadow-green-600/25">
