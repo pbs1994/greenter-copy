@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     siteName: "Greenter",
     locale: "fr_FR",
     type: "website",
+    images: [{
+      url: "https://www.greenter.fr/kit-solaire-3kwc.png",
+      width: 1080,
+      height: 1080,
+      alt: "Kit solaire autoconsommation 3 kWc — 6 panneaux 500 W, livraison et pose incluses",
+    }],
   },
 }
 
@@ -49,7 +55,7 @@ const PRODUCT: ProductV2Data = {
   monthlyBuyers: 0,
   ctaHref: "/contact",
   images: [
-    "/solaire.jpg",
+    "/kit-solaire-3kwc.png",
   ],
   shortDescription:
     "6 panneaux photovoltaïques DMEGC 500 Wc, 3 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Fixation, livraison, pose et garantie sont inclus dans le prix. Installation en monophasé ou triphasé selon votre configuration électrique.",

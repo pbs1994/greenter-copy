@@ -42,7 +42,7 @@ SELECT
   350000,
   '6 panneaux DMEGC 500 Wc + 3 micro-onduleurs Hoymiles + fixations ISY-PV. Fixation, livraison, pose, déclaration préalable mairie et garantie inclus. Monophasé ou triphasé. Hors Consuel/raccordement Enedis (+700 €).',
   'Kit autoconsommation 3 kWc à 3 500 € (au lieu de 4 100 €) : 6 panneaux photovoltaïques DMEGC 500 Wc, 3 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client. Consuel et raccordement Enedis facturés séparément (+700 €).',
-  '/solaire.jpg',
+  '/kit-solaire-3kwc.png',
   true,
   true,
   '[
@@ -70,7 +70,7 @@ SELECT
   660000,
   '12 panneaux DMEGC 500 Wc + 6 micro-onduleurs Hoymiles + fixations ISY-PV. Fixation, livraison, pose, déclaration préalable mairie et garantie inclus. Monophasé ou triphasé. Hors Consuel/raccordement Enedis (+700 €).',
   'Kit autoconsommation 6 kWc à 6 600 € (au lieu de 7 800 €) : 12 panneaux photovoltaïques DMEGC 500 Wc, 6 micro-onduleurs Hoymiles HMS-1000-2T et fixations ISY-PV pour toiture inclinée. Installation en monophasé ou triphasé selon le choix du client. Consuel et raccordement Enedis facturés séparément (+700 €).',
-  '/solaire.jpg',
+  '/kit-solaire-6kwc.png',
   true,
   true,
   '[
