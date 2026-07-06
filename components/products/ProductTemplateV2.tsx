@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BuyButton } from '@/components/BuyButton'
+import type { GoogleReviewsResponse } from '@/lib/google-places'
 import {
   Star, Check, X, ChevronDown, ChevronRight,
   Shield, Truck, Wrench, Award, Phone, Gift,
   ThumbsUp, BadgeCheck, MessageSquare, Calendar, Clock,
-  Lock, Users, TrendingUp, Zap, Leaf,
+  Lock, Users, TrendingUp, Zap, Leaf, ExternalLink,
 } from 'lucide-react'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -145,6 +146,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
   const [quoteForm, setQuoteForm] = useState({ name: '', phone: '', type: '', surface: '', message: '' })
   const [quoteState, setQuoteState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [stickyVisible, setStickyVisible] = useState(false)
+  const [companyReviews, setCompanyReviews] = useState<GoogleReviewsResponse | null>(null)
 
   const time = useCountdownToMidnight()
 
@@ -153,6 +155,17 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Produit sans avis : on affiche les avis Google de l'entreprise à la place
+  useEffect(() => {
+    if (product.reviews.length > 0) return
+    let cancelled = false
+    fetch('/api/google-reviews')
+      .then(res => res.json())
+      .then((data: GoogleReviewsResponse) => { if (!cancelled) setCompanyReviews(data) })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [product.reviews.length])
 
   const savings = product.originalPrice - product.currentPrice
   const savingsPct = Math.round((savings / product.originalPrice) * 100)
@@ -566,15 +579,13 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 ? `Avis clients vérifiés (${product.reviewCount})`
                 : 'Avis clients'}
             </h2>
-            {product.reviews.length > 0 && (
-              <button
-                onClick={() => setShowForm(v => !v)}
-                className="inline-flex items-center gap-2 border border-green-600 text-green-700 font-semibold text-sm px-4 py-2 rounded-full hover:bg-green-50 transition-colors"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Laisser un avis
-              </button>
-            )}
+            <button
+              onClick={() => setShowForm(v => !v)}
+              className="inline-flex items-center gap-2 border border-green-600 text-green-700 font-semibold text-sm px-4 py-2 rounded-full hover:bg-green-50 transition-colors"
+            >
+              <MessageSquare className="w-4 h-4" />
+              Laisser un avis sur ce produit
+            </button>
           </div>
 
           {/* Rating overview — only when reviews exist */}
@@ -599,21 +610,67 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
             </div>
           )}
 
-          {/* Empty state — no reviews yet */}
-          {product.reviews.length === 0 && !showForm && (
-            <div className="bg-white rounded-2xl border border-neutral-100 p-10 text-center shadow-sm mb-6">
-              <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-7 h-7 text-green-600" />
-              </div>
-              <p className="font-bold text-neutral-900 text-lg mb-2">Aucun avis pour l&apos;instant</p>
-              <p className="text-neutral-500 text-sm mb-6">Vous avez fait appel à nos services pour ce produit ? Partagez votre expérience — votre avis aide les futurs clients.</p>
-              <button
-                onClick={() => setShowForm(true)}
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Soyez le premier à laisser un avis
-              </button>
+          {/* Pas encore d'avis sur CE produit : on montre les avis Google de l'entreprise */}
+          {product.reviews.length === 0 && (
+            <div className="mb-6">
+              <p className="text-sm text-neutral-500 mb-4">
+                Ce produit n&apos;a pas encore d&apos;avis. Voici ce que nos clients disent de Greenter :
+              </p>
+
+              {companyReviews && companyReviews.reviews.length > 0 ? (
+                <>
+                  <div className="flex items-center gap-2 mb-4">
+                    <StarRating rating={companyReviews.rating} />
+                    <span className="font-bold text-neutral-900">{companyReviews.rating.toFixed(1)}/5</span>
+                    <span className="text-sm text-neutral-500">· {companyReviews.reviewCount} avis Google Greenter</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {companyReviews.reviews.slice(0, 6).map((r, i) => (
+                      <div key={i} className="bg-white rounded-2xl border border-neutral-100 p-5">
+                        <div className="flex items-center gap-3 mb-2">
+                          {r.authorPhoto ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={r.authorPhoto}
+                              alt=""
+                              width={36}
+                              height={36}
+                              className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+                              referrerPolicy="no-referrer"
+                            />
+                          ) : (
+                            <div className="w-9 h-9 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-semibold text-xs flex-shrink-0">
+                              {r.authorName.charAt(0)}
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <p className="font-semibold text-sm text-neutral-900 truncate">{r.authorName}</p>
+                            <p className="text-xs text-neutral-400">{r.relativeTime}</p>
+                          </div>
+                        </div>
+                        <StarRating rating={r.rating} />
+                        <p className="text-sm text-neutral-600 leading-relaxed mt-2 line-clamp-4">{r.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <a
+                    href={companyReviews.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-green-700 hover:text-green-800 mt-4"
+                  >
+                    <ExternalLink className="w-4 h-4" /> Voir tous nos avis Google
+                  </a>
+                </>
+              ) : (
+                <div className="bg-white rounded-2xl border border-neutral-100 p-10 text-center shadow-sm">
+                  <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MessageSquare className="w-7 h-7 text-green-600" />
+                  </div>
+                  <p className="font-bold text-neutral-900 text-lg mb-2">Aucun avis pour l&apos;instant</p>
+                  <p className="text-neutral-500 text-sm">Soyez le premier à partager votre expérience sur ce produit.</p>
+                </div>
+              )}
             </div>
           )}
 
