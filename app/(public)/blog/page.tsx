@@ -152,6 +152,17 @@ const STATIC_ARTICLES = [
     featured: false,
   },
   {
+    id: 'pompe-a-chaleur-et-bruit',
+    title: "Pompe à chaleur et bruit : causes, niveau sonore et solutions 2026",
+    slug: 'pompe-a-chaleur-et-bruit',
+    excerpt: "Quel est le niveau sonore réel d'une pompe à chaleur ? Causes du bruit, réglementation sur les bruits de voisinage et solutions pour réduire le bruit d'une pompe à chaleur air-eau ou air-air.",
+    published_date: '2026-07-07',
+    image: '/images/blog/pompe-a-chaleur-bruit-unite-exterieure-gravier-jardin.jpeg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-piege-a-eviter',
     title: "Pompe à chaleur : 10 pièges à éviter absolument en 2026",
     slug: 'pompe-a-chaleur-piege-a-eviter',
