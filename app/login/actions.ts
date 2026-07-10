@@ -54,7 +54,7 @@ export async function sendMagicLink(formData: FormData): Promise<MagicLinkResult
 
   return {
     ok: true,
-    message: 'Si cette adresse est autorisée, un email contenant un lien et un code à 6 chiffres vous a été envoyé.',
+    message: 'Si cette adresse est autorisée, un email contenant un lien et un code de vérification vous a été envoyé.',
   }
 }
 
@@ -63,6 +63,9 @@ export interface VerifyCodeResult {
   message?: string
 }
 
+// Length isn't hardcoded to 6: Supabase's OTP length is a project-level
+// setting (Authentication > Providers > Email), so this accepts any
+// reasonable numeric code rather than assuming a specific digit count.
 export async function verifyMagicCode(formData: FormData): Promise<VerifyCodeResult> {
   const email = String(formData.get('email') || '').trim().toLowerCase()
   const token = String(formData.get('token') || '').trim()
@@ -70,8 +73,8 @@ export async function verifyMagicCode(formData: FormData): Promise<VerifyCodeRes
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { ok: false, message: 'Adresse email invalide.' }
   }
-  if (!/^\d{6}$/.test(token)) {
-    return { ok: false, message: 'Le code doit comporter 6 chiffres.' }
+  if (!/^\d{4,10}$/.test(token)) {
+    return { ok: false, message: 'Le code doit comporter entre 4 et 10 chiffres.' }
   }
 
   const supabase = await createSupabaseServerActionClient()

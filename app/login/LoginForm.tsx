@@ -72,7 +72,7 @@ export function LoginForm() {
 
         <form onSubmit={onVerifySubmit} className="space-y-3">
           <p className="text-sm text-neutral-700">
-            Cliquez sur le lien reçu par email <strong>ou</strong> saisissez le code à 6 chiffres :
+            Cliquez sur le lien reçu par email <strong>ou</strong> saisissez le code de vérification :
           </p>
 
           <div>
@@ -86,11 +86,11 @@ export function LoginForm() {
                 type="text"
                 name="token"
                 inputMode="numeric"
-                pattern="\d{6}"
-                maxLength={6}
+                pattern="\d{4,10}"
+                maxLength={10}
                 autoComplete="one-time-code"
                 required
-                placeholder="123456"
+                placeholder="Code reçu par email"
                 className="w-full pl-10 pr-3 py-2.5 bg-white border border-neutral-300 rounded-lg text-sm text-center font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               />
             </div>
@@ -143,7 +143,7 @@ export function LoginForm() {
       </button>
 
       <p className="text-xs text-neutral-500 text-center">
-        Vous recevrez un email avec un lien cliquable et un code à 6 chiffres.
+        Vous recevrez un email avec un lien cliquable et un code de vérification.
       </p>
     </form>
   )
