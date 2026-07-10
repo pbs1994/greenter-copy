@@ -7,11 +7,11 @@ export const metadata = {
 }
 
 interface Props {
-  searchParams: Promise<{ error?: string; next?: string }>
+  searchParams: Promise<{ error?: string; next?: string; debug?: string }>
 }
 
 export default async function LoginPage({ searchParams }: Props) {
-  const { error } = await searchParams
+  const { error, debug } = await searchParams
 
   return (
     <main className="min-h-screen bg-neutral-50 flex items-center justify-center px-4">
@@ -39,6 +39,12 @@ export default async function LoginPage({ searchParams }: Props) {
           {error === 'missing_code' && (
             <div className="mb-6 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
               Lien incomplet. Cliquez sur le lien le plus récent reçu par email.
+            </div>
+          )}
+          {/* TEMPORARY debug aid — remove once the login issue is root-caused. */}
+          {debug && (
+            <div className="mb-6 p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 font-mono break-all">
+              debug: {debug}
             </div>
           )}
 

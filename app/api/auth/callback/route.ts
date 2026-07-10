@@ -42,9 +42,28 @@ export async function GET(request: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code)
 
   if (error) {
+    console.error('[auth/callback] exchangeCodeForSession failed:', error.message, error.status)
     const url = request.nextUrl.clone()
     url.pathname = family.loginPath
     url.search = '?error=exchange_failed'
+    // TEMPORARY debug aid — remove once the /partenaires login issue is
+    // root-caused. Surfaces the real Supabase error instead of the
+    // generic message so we don't have to dig through Vercel logs.
+    url.searchParams.set('debug', error.message)
+    return NextResponse.redirect(url)
+  }
+
+  // Sanity check: exchangeCodeForSession() reported no error, but did the
+  // session actually stick? If getUser() comes back empty here, the
+  // cookies set during the exchange aren't making it onto this response —
+  // that's a distinct failure mode from "the code itself was rejected".
+  const { data: { user: exchangedUser } } = await supabase.auth.getUser()
+  if (!exchangedUser) {
+    console.error('[auth/callback] exchangeCodeForSession succeeded but getUser() is empty right after')
+    const url = request.nextUrl.clone()
+    url.pathname = family.loginPath
+    url.search = '?error=exchange_failed'
+    url.searchParams.set('debug', 'no_user_after_exchange')
     return NextResponse.redirect(url)
   }
 
