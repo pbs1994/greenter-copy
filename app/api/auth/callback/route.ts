@@ -1,32 +1,39 @@
 /**
  * Magic-link callback. Supabase Auth redirects here with a `code` query
  * param after the user clicks the link in their email; we exchange the
- * code for a session cookie and bounce them to /administrator.
+ * code for a session cookie and bounce them to `next` (/administrator or
+ * /partenaires by default, one per "family" of login page).
  *
- * The redirect target is also validated against an allow-list so a
- * forged ?next=https://evil.com link can't turn this route into an
- * open redirect.
+ * The redirect target is validated against an allow-list so a forged
+ * ?next=https://evil.com link can't turn this route into an open redirect.
+ * Errors bounce back to the login page of the same family, not always
+ * /login, so a partner clicking an expired /partenaires link doesn't land
+ * on the admin login form.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerActionClient } from '@/lib/supabase-server'
 
-const DEFAULT_NEXT = '/administrator'
+const FAMILIES = [
+  { prefix: '/partenaires', defaultNext: '/partenaires', loginPath: '/partenaires/login' },
+  { prefix: '/administrator', defaultNext: '/administrator', loginPath: '/login' },
+] as const
 
-function safeNext(raw: string | null): string {
-  if (!raw) return DEFAULT_NEXT
-  // Only allow same-origin paths starting with /administrator (avoid open redirect).
-  if (raw.startsWith('/administrator')) return raw
-  return DEFAULT_NEXT
+function resolveFamily(raw: string | null) {
+  const match = raw ? FAMILIES.find((f) => raw.startsWith(f.prefix)) : undefined
+  return match ?? FAMILIES[1] // default: admin family, unchanged from before
 }
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get('code')
-  const next = safeNext(request.nextUrl.searchParams.get('next'))
+  const family = resolveFamily(request.nextUrl.searchParams.get('next'))
+  const next = request.nextUrl.searchParams.get('next')?.startsWith(family.prefix)
+    ? request.nextUrl.searchParams.get('next')!
+    : family.defaultNext
 
   if (!code) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = family.loginPath
     url.search = '?error=missing_code'
     return NextResponse.redirect(url)
   }
@@ -36,7 +43,7 @@ export async function GET(request: NextRequest) {
 
   if (error) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = family.loginPath
     url.search = '?error=exchange_failed'
     return NextResponse.redirect(url)
   }

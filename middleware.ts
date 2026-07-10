@@ -1,17 +1,22 @@
 /**
- * Edge middleware: gate /administrator/* with a Supabase Auth session check.
+ * Edge middleware: gate /administrator/* and /partenaires/* with a
+ * Supabase Auth session check.
  *
- * The deeper "is this email actually an admin?" check happens in the admin
- * layout (`requireAdmin()` in `lib/admin-auth.ts`). Doing the email lookup
- * in middleware would either require the service-role key at the edge
- * (forbidden — it bypasses RLS) or an RPC round-trip on every request.
+ * The deeper "is this email actually an admin?" / "is this an approved
+ * agent?" checks happen further down the stack (`requireAdmin()` in
+ * `lib/admin-auth.ts`, `requireAgent()` in `lib/partenaires-auth.ts`).
+ * Doing those lookups in middleware would either require the
+ * service-role key at the edge (forbidden — it bypasses RLS) or an RPC
+ * round-trip on every request.
  *
  * This middleware also keeps the Supabase Auth cookies refreshed so the
  * session lives across navigations — that part runs on every request the
  * matcher accepts.
  *
- * The login form lives at /login (top-level), not under /administrator,
- * so it's exempt from the auth gate.
+ * The two login forms (/login, /partenaires/login) are exempt from the
+ * "must be authenticated" gate — that's the whole point of a login page —
+ * but are still watched so an already-logged-in visitor gets bounced
+ * straight past them.
  */
 
 import { NextResponse, type NextRequest } from 'next/server'
@@ -43,6 +48,8 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   const isAdminPath = path.startsWith('/administrator')
   const isLoginPath = path === '/login'
+  const isPartenairesLoginPath = path === '/partenaires/login'
+  const isPartenairesPath = path.startsWith('/partenaires') && !isPartenairesLoginPath
 
   if (isAdminPath && !user) {
     const url = request.nextUrl.clone()
@@ -51,11 +58,26 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // If they're already logged in and visit /login, send them home.
-  // The admin layout will still re-check admin status; this is just a UX tweak.
+  if (isPartenairesPath && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/partenaires/login'
+    url.searchParams.set('next', path)
+    return NextResponse.redirect(url)
+  }
+
+  // If they're already logged in and visit a login page, send them past it.
+  // The role router (/partenaires) or admin layout still re-checks the
+  // actual role; this is just a UX tweak to skip the form.
   if (isLoginPath && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/administrator'
+    url.search = ''
+    return NextResponse.redirect(url)
+  }
+
+  if (isPartenairesLoginPath && user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/partenaires'
     url.search = ''
     return NextResponse.redirect(url)
   }
@@ -64,7 +86,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Intercept /administrator paths and the /login page (the latter so we
-  // can refresh the auth cookie + bounce already-logged-in users).
-  matcher: ['/administrator/:path*', '/login'],
+  // Intercept /administrator and /partenaires paths, plus their two login
+  // pages (so we can refresh the auth cookie + bounce already-logged-in
+  // visitors past the form).
+  matcher: ['/administrator/:path*', '/login', '/partenaires/:path*'],
 }
