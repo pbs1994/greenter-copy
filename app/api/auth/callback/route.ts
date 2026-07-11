@@ -46,10 +46,6 @@ export async function GET(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = family.loginPath
     url.search = '?error=exchange_failed'
-    // TEMPORARY debug aid — remove once the /partenaires login issue is
-    // root-caused. Surfaces the real Supabase error instead of the
-    // generic message so we don't have to dig through Vercel logs.
-    url.searchParams.set('debug', error.message)
     return NextResponse.redirect(url)
   }
 
@@ -63,7 +59,6 @@ export async function GET(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = family.loginPath
     url.search = '?error=exchange_failed'
-    url.searchParams.set('debug', 'no_user_after_exchange')
     return NextResponse.redirect(url)
   }
 
