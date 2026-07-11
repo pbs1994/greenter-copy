@@ -1,3 +1,4 @@
+import { FileText } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 import { closeDeal, updateDealAmount } from '../actions'
 
@@ -15,6 +16,7 @@ interface DealRow {
   source: string | null
   created_at: string
   agent_full_name: string | null
+  devis_pdf_url: string | null
 }
 
 function adminClient() {
@@ -29,7 +31,7 @@ async function loadDeals(): Promise<DealRow[]> {
   const supabase = adminClient()
   const { data, error } = await supabase
     .from('deals')
-    .select('id, client_name, client_phone, product, amount, status, deal_type, source, created_at, agent:profiles!agent_id(full_name)')
+    .select('id, client_name, client_phone, product, amount, status, deal_type, source, created_at, devis_pdf_path, agent:profiles!agent_id(full_name)')
     .order('created_at', { ascending: false })
     .limit(200)
 
@@ -38,18 +40,33 @@ async function loadDeals(): Promise<DealRow[]> {
     return []
   }
 
-  return (data || []).map((d) => ({
-    id: d.id,
-    client_name: d.client_name,
-    client_phone: d.client_phone,
-    product: d.product,
-    amount: d.amount,
-    status: d.status,
-    deal_type: d.deal_type,
-    source: d.source,
-    created_at: d.created_at,
-    agent_full_name: (d.agent as unknown as { full_name: string | null } | null)?.full_name ?? null,
-  }))
+  // Service-role client bypasses the "agents and admin read devis pdf"
+  // Storage policy anyway, but createSignedUrl still needs to be called
+  // explicitly per file — private bucket, no public URL to fall back to.
+  return Promise.all(
+    (data || []).map(async (d) => {
+      let devis_pdf_url: string | null = null
+      if (d.devis_pdf_path) {
+        const { data: signed } = await supabase.storage
+          .from('devis-pdfs')
+          .createSignedUrl(d.devis_pdf_path, 3600)
+        devis_pdf_url = signed?.signedUrl ?? null
+      }
+      return {
+        id: d.id,
+        client_name: d.client_name,
+        client_phone: d.client_phone,
+        product: d.product,
+        amount: d.amount,
+        status: d.status,
+        deal_type: d.deal_type,
+        source: d.source,
+        created_at: d.created_at,
+        agent_full_name: (d.agent as unknown as { full_name: string | null } | null)?.full_name ?? null,
+        devis_pdf_url,
+      }
+    })
+  )
 }
 
 // deals.amount is stored in plain euros (agents enter it by hand, no
@@ -115,6 +132,7 @@ export default async function PartenairesAdminDealsPage() {
                 <th className="px-4 py-3 font-medium">Type</th>
                 <th className="px-4 py-3 font-medium">Statut</th>
                 <th className="px-4 py-3 font-medium">Date</th>
+                <th className="px-4 py-3 font-medium">Devis</th>
                 <th className="px-4 py-3 font-medium">Action</th>
               </tr>
             </thead>
@@ -157,6 +175,20 @@ export default async function PartenairesAdminDealsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-neutral-500">{formatDate(d.created_at)}</td>
+                  <td className="px-4 py-3">
+                    {d.devis_pdf_url ? (
+                      <a
+                        href={d.devis_pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-900 underline underline-offset-2"
+                      >
+                        <FileText className="w-3 h-3" /> Voir / télécharger
+                      </a>
+                    ) : (
+                      <span className="text-xs text-neutral-400">—</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     {d.deal_type !== 'devis' ? (
                       <span className="text-xs text-neutral-400">Auto (Stripe)</span>

@@ -73,11 +73,24 @@ export async function createLead(formData: FormData) {
   redirect('/partenaires/dashboard')
 }
 
+const MAX_PDF_BYTES = 10 * 1024 * 1024 // 10 MB, matches next.config.ts serverActions.bodySizeLimit
+
+function sanitizeFilename(name: string): string {
+  return name.replace(/[^a-zA-Z0-9.\-_]/g, '_')
+}
+
 /**
- * Moves a devis through the pipeline and/or updates its notes. Rejects
- * anything other than the 3 non-final statuses server-side, as a clear
- * error rather than relying solely on the silent RLS rejection — the
- * restrictive DB policy is still there as the real guarantee.
+ * Moves a devis through the pipeline, updates its notes, and/or attaches
+ * the devis PDF sent to the client. Rejects anything other than the 3
+ * non-final statuses server-side, as a clear error rather than relying
+ * solely on the silent RLS rejection — the restrictive DB policy is
+ * still there as the real guarantee.
+ *
+ * The PDF is uploaded through this same session client (not service-role):
+ * the "agents upload own devis pdf" Storage policy in
+ * supabase/partenaires-devis-pdf.sql already restricts this to the
+ * deal's own agent and deal_type = 'devis', so there's nothing extra to
+ * check here beyond the file itself being a reasonable PDF.
  */
 export async function updateDeal(dealId: string, formData: FormData) {
   await requireAgent()
@@ -90,14 +103,37 @@ export async function updateDeal(dealId: string, formData: FormData) {
     throw new Error('Statut invalide.')
   }
 
-  const { error } = await supabase
-    .from('deals')
-    .update({ status, notes: notes || null })
-    .eq('id', dealId)
+  const updates: { status: PipelineStatus; notes: string | null; devis_pdf_path?: string } = {
+    status,
+    notes: notes || null,
+  }
+
+  const file = formData.get('devis_pdf')
+  if (file instanceof File && file.size > 0) {
+    if (file.type !== 'application/pdf') {
+      throw new Error('Le devis doit être un fichier PDF.')
+    }
+    if (file.size > MAX_PDF_BYTES) {
+      throw new Error('Le PDF ne doit pas dépasser 10 Mo.')
+    }
+
+    const path = `${dealId}/${Date.now()}-${sanitizeFilename(file.name || 'devis.pdf')}`
+    const { error: uploadError } = await supabase.storage
+      .from('devis-pdfs')
+      .upload(path, file, { contentType: 'application/pdf', upsert: false })
+
+    if (uploadError) {
+      throw new Error(`Échec de l'envoi du PDF : ${uploadError.message}`)
+    }
+    updates.devis_pdf_path = path
+  }
+
+  const { error } = await supabase.from('deals').update(updates).eq('id', dealId)
 
   if (error) {
     throw new Error(`Échec de la mise à jour du dossier : ${error.message}`)
   }
 
   revalidatePath('/partenaires/dashboard')
+  revalidatePath('/partenaires/admin/deals')
 }

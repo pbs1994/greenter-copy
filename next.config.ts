@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  experimental: {
+    // Default is 1 MB — too small for the devis PDF attached by agents in
+    // /partenaires/dashboard (Server Action upload). Matches the 10 MB
+    // cap enforced in app/partenaires/dashboard/actions.ts.
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+
   images: {
     qualities: [75],
     remotePatterns: [

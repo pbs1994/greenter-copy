@@ -1,4 +1,4 @@
-import { Phone, Mail, Plus, Euro, Briefcase, TrendingUp } from 'lucide-react'
+import { Phone, Mail, Plus, Euro, Briefcase, TrendingUp, FileText, Paperclip } from 'lucide-react'
 import { requireAgent } from '@/lib/partenaires-auth'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 import { createLead, updateDeal } from './actions'
@@ -21,6 +21,8 @@ interface Deal {
   notes: string | null
   created_at: string
   closed_at: string | null
+  devis_pdf_path: string | null
+  devis_pdf_url: string | null
 }
 
 const PIPELINE_COLUMNS = [
@@ -48,18 +50,32 @@ const DEAL_TYPE_BADGE: Record<string, string> = {
 
 async function loadOwnDeals(): Promise<Deal[]> {
   // Own session client, not service-role: RLS ("approved agents select
-  // own deals") already restricts this to the signed-in agent's rows.
+  // own deals") already restricts this to the signed-in agent's rows, and
+  // ("agents and admin read devis pdf") does the same for the PDF below.
   const supabase = await createSupabaseServerClient()
   const { data, error } = await supabase
     .from('deals')
-    .select('id, client_name, client_phone, client_email, product, amount, status, deal_type, notes, created_at, closed_at')
+    .select('id, client_name, client_phone, client_email, product, amount, status, deal_type, notes, created_at, closed_at, devis_pdf_path')
     .order('created_at', { ascending: false })
 
   if (error) {
     console.error('loadOwnDeals failed:', error)
     return []
   }
-  return (data || []) as Deal[]
+
+  const deals = (data || []) as Omit<Deal, 'devis_pdf_url'>[]
+
+  // Private bucket — a signed URL is required for each attached PDF,
+  // short-lived on purpose (this page is re-rendered fresh every visit).
+  return Promise.all(
+    deals.map(async (d) => {
+      if (!d.devis_pdf_path) return { ...d, devis_pdf_url: null }
+      const { data: signed } = await supabase.storage
+        .from('devis-pdfs')
+        .createSignedUrl(d.devis_pdf_path, 3600)
+      return { ...d, devis_pdf_url: signed?.signedUrl ?? null }
+    })
+  )
 }
 
 function formatEUR(amount: number) {
@@ -222,6 +238,7 @@ export default async function PartenairesDashboardPage() {
                       <form
                         key={d.id}
                         action={updateDeal.bind(null, d.id)}
+                        encType="multipart/form-data"
                         className="rounded-lg border border-neutral-100 bg-neutral-50 p-3 space-y-2"
                       >
                         <p className="text-sm font-semibold text-neutral-900">{d.client_name || '—'}</p>
@@ -243,6 +260,31 @@ export default async function PartenairesDashboardPage() {
                           rows={2}
                           className="w-full border border-neutral-200 rounded-md px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-green-500 resize-none bg-white"
                         />
+
+                        {/* Devis PDF */}
+                        <div className="space-y-1">
+                          {d.devis_pdf_url ? (
+                            <a
+                              href={d.devis_pdf_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-900 underline underline-offset-2"
+                            >
+                              <FileText className="w-3 h-3" /> Voir le PDF joint
+                            </a>
+                          ) : (
+                            <p className="text-xs text-neutral-400 inline-flex items-center gap-1">
+                              <Paperclip className="w-3 h-3" /> Aucun devis joint
+                            </p>
+                          )}
+                          <input
+                            type="file"
+                            name="devis_pdf"
+                            accept="application/pdf"
+                            className="block w-full text-xs text-neutral-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-neutral-100 file:text-neutral-700 hover:file:bg-neutral-200"
+                          />
+                        </div>
+
                         <div className="flex items-center gap-2">
                           <select
                             name="status"
@@ -290,6 +332,7 @@ export default async function PartenairesDashboardPage() {
                   <th className="px-4 py-3 font-medium">Type</th>
                   <th className="px-4 py-3 font-medium">Résultat</th>
                   <th className="px-4 py-3 font-medium">Clôturé le</th>
+                  <th className="px-4 py-3 font-medium">Devis</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100">
@@ -309,6 +352,20 @@ export default async function PartenairesDashboardPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-neutral-500">{formatDate(d.closed_at || d.created_at)}</td>
+                    <td className="px-4 py-3">
+                      {d.devis_pdf_url ? (
+                        <a
+                          href={d.devis_pdf_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-900 underline underline-offset-2"
+                        >
+                          <FileText className="w-3 h-3" /> PDF
+                        </a>
+                      ) : (
+                        <span className="text-xs text-neutral-400">—</span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
