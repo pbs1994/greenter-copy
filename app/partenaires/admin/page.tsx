@@ -15,6 +15,8 @@ interface NetworkStats {
   // Stripe involved here) — unlike products.price elsewhere on the site,
   // which is in cents.
   wonAmountEUR: number
+  wonDevisCount: number
+  wonAchatImmediatCount: number
 }
 
 interface RecentDeal {
@@ -23,6 +25,7 @@ interface RecentDeal {
   product: string | null
   amount: number | null
   status: string
+  deal_type: 'devis' | 'achat_immediat'
   created_at: string
   agent_full_name: string | null
 }
@@ -38,15 +41,25 @@ function adminClient() {
 async function loadStats(): Promise<NetworkStats> {
   const supabase = adminClient()
 
-  const [{ count: approvedAgents }, { count: pendingAgents }, { count: totalDeals }, { count: wonDeals }, { count: lostDeals }, wonDealsData] =
-    await Promise.all([
-      supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('status', 'approved'),
-      supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-      supabase.from('deals').select('id', { count: 'exact', head: true }),
-      supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'gagné'),
-      supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'perdu'),
-      supabase.from('deals').select('amount').eq('status', 'gagné'),
-    ])
+  const [
+    { count: approvedAgents },
+    { count: pendingAgents },
+    { count: totalDeals },
+    { count: wonDeals },
+    { count: lostDeals },
+    wonDealsData,
+    { count: wonDevisCount },
+    { count: wonAchatImmediatCount },
+  ] = await Promise.all([
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('status', 'approved'),
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('deals').select('id', { count: 'exact', head: true }),
+    supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'gagné'),
+    supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'perdu'),
+    supabase.from('deals').select('amount').eq('status', 'gagné'),
+    supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'gagné').eq('deal_type', 'devis'),
+    supabase.from('deals').select('id', { count: 'exact', head: true }).eq('status', 'gagné').eq('deal_type', 'achat_immediat'),
+  ])
 
   const wonAmountEUR = (wonDealsData.data || []).reduce(
     (sum, row: { amount: number | null }) => sum + (row.amount || 0),
@@ -60,6 +73,8 @@ async function loadStats(): Promise<NetworkStats> {
     wonDeals: wonDeals || 0,
     lostDeals: lostDeals || 0,
     wonAmountEUR,
+    wonDevisCount: wonDevisCount || 0,
+    wonAchatImmediatCount: wonAchatImmediatCount || 0,
   }
 }
 
@@ -67,7 +82,7 @@ async function loadRecentDeals(): Promise<RecentDeal[]> {
   const supabase = adminClient()
   const { data, error } = await supabase
     .from('deals')
-    .select('id, client_name, product, amount, status, created_at, agent:profiles!agent_id(full_name)')
+    .select('id, client_name, product, amount, status, deal_type, created_at, agent:profiles!agent_id(full_name)')
     .order('created_at', { ascending: false })
     .limit(8)
 
@@ -82,6 +97,7 @@ async function loadRecentDeals(): Promise<RecentDeal[]> {
     product: d.product,
     amount: d.amount,
     status: d.status,
+    deal_type: d.deal_type,
     created_at: d.created_at,
     agent_full_name: (d.agent as unknown as { full_name: string | null } | null)?.full_name ?? null,
   }))
@@ -103,16 +119,29 @@ const STATUS_BADGE: Record<string, string> = {
   perdu: 'bg-red-100 text-red-800',
 }
 
+const DEAL_TYPE_LABEL: Record<string, string> = {
+  devis: 'Devis',
+  achat_immediat: 'Achat immédiat',
+}
+
+const DEAL_TYPE_BADGE: Record<string, string> = {
+  devis: 'bg-purple-50 text-purple-700',
+  achat_immediat: 'bg-sky-50 text-sky-700',
+}
+
 export default async function PartenairesAdminDashboard() {
   const [stats, recentDeals] = await Promise.all([loadStats(), loadRecentDeals()])
   const closedDeals = stats.wonDeals + stats.lostDeals
   const winRate = closedDeals > 0 ? Math.round((stats.wonDeals / closedDeals) * 100) : null
 
   const cards = [
-    { label: 'Agents approuvés', value: stats.approvedAgents, icon: Users, accent: 'text-blue-600' },
-    { label: 'Dossiers au total', value: stats.totalDeals, icon: Briefcase, accent: 'text-neutral-600' },
-    { label: 'CA généré (gagnés)', value: formatEUR(stats.wonAmountEUR), icon: Euro, accent: 'text-emerald-600' },
-    { label: 'Taux de transformation', value: winRate !== null ? `${winRate} %` : '—', icon: TrendingUp, accent: 'text-orange-600' },
+    { label: 'Agents approuvés', value: stats.approvedAgents, icon: Users, accent: 'text-blue-600', sub: null },
+    { label: 'Dossiers au total', value: stats.totalDeals, icon: Briefcase, accent: 'text-neutral-600', sub: null },
+    {
+      label: 'CA généré (gagnés)', value: formatEUR(stats.wonAmountEUR), icon: Euro, accent: 'text-emerald-600',
+      sub: `${stats.wonDevisCount} devis · ${stats.wonAchatImmediatCount} achat${stats.wonAchatImmediatCount > 1 ? 's' : ''} immédiat${stats.wonAchatImmediatCount > 1 ? 's' : ''}`,
+    },
+    { label: 'Taux de transformation', value: winRate !== null ? `${winRate} %` : '—', icon: TrendingUp, accent: 'text-orange-600', sub: null },
   ]
 
   return (
@@ -128,13 +157,14 @@ export default async function PartenairesAdminDashboard() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {cards.map(({ label, value, icon: Icon, accent }) => (
+        {cards.map(({ label, value, icon: Icon, accent, sub }) => (
           <div key={label} className="bg-white rounded-xl ring-1 ring-neutral-200 p-5">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs text-neutral-500 uppercase tracking-wider">{label}</span>
               <Icon className={`w-4 h-4 ${accent}`} />
             </div>
             <p className="text-2xl font-bold text-neutral-900">{value}</p>
+            {sub && <p className="text-xs text-neutral-400 mt-1">{sub}</p>}
           </div>
         ))}
       </div>
@@ -157,6 +187,7 @@ export default async function PartenairesAdminDashboard() {
                 <th className="px-4 py-3 font-medium">Agent</th>
                 <th className="px-4 py-3 font-medium">Produit</th>
                 <th className="px-4 py-3 font-medium">Montant</th>
+                <th className="px-4 py-3 font-medium">Type</th>
                 <th className="px-4 py-3 font-medium">Statut</th>
                 <th className="px-4 py-3 font-medium">Date</th>
               </tr>
@@ -168,6 +199,11 @@ export default async function PartenairesAdminDashboard() {
                   <td className="px-4 py-3 text-neutral-700">{d.agent_full_name || '—'}</td>
                   <td className="px-4 py-3 text-neutral-700">{d.product || '—'}</td>
                   <td className="px-4 py-3 text-neutral-700">{d.amount ? formatEUR(d.amount) : '—'}</td>
+                  <td className="px-4 py-3">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${DEAL_TYPE_BADGE[d.deal_type] || 'bg-neutral-100 text-neutral-700'}`}>
+                      {DEAL_TYPE_LABEL[d.deal_type] || d.deal_type}
+                    </span>
+                  </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${STATUS_BADGE[d.status] || 'bg-neutral-100 text-neutral-700'}`}>
                       {d.status}

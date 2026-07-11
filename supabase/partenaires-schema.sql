@@ -90,6 +90,15 @@ create table if not exists public.deals (
   client_email text,
   product text,
   amount numeric, -- euros, pas centimes
+  -- Deux natures de vente bien distinctes :
+  --   'devis'          : cycle long (visite → devis → signature), l'admin
+  --                      clôture manuellement en gagné/perdu (voir plus bas).
+  --   'achat_immediat' : achat en ligne payé instantanément via Stripe (kit
+  --                      solaire, batterie...). Inséré déjà à l'état gagné
+  --                      par le mécanisme d'attribution (code promo ou lien
+  --                      de parrainage — pas encore décidé, à construire
+  --                      plus tard), jamais par un agent ni un admin à la main.
+  deal_type text not null default 'devis' check (deal_type in ('devis', 'achat_immediat')),
   status text default 'nouveau' check (status in ('nouveau','contacté','devis_envoyé','gagné','perdu')),
   source text,
   ip_hash text,
@@ -97,6 +106,21 @@ create table if not exists public.deals (
   created_at timestamptz default now(),
   closed_at timestamptz
 );
+
+-- Migration pour une table deals déjà existante (créée avant l'ajout de
+-- deal_type) — no-op sur une installation neuve, où la colonne est déjà
+-- posée par le CREATE TABLE ci-dessus.
+do $$ begin
+  alter table public.deals add column deal_type text not null default 'devis';
+exception
+  when duplicate_column then null;
+end $$;
+
+do $$ begin
+  alter table public.deals add constraint deals_deal_type_check check (deal_type in ('devis', 'achat_immediat'));
+exception
+  when duplicate_object then null;
+end $$;
 
 alter table public.deals enable row level security;
 
@@ -109,11 +133,18 @@ create policy "approved agents select own deals" on public.deals
     )
   );
 
-create policy "approved agents insert own deals" on public.deals
+-- DROP + CREATE (pas de CREATE OR REPLACE POLICY en Postgres) pour pouvoir
+-- resserrer la règle : un agent ne peut insérer qu'un dossier de type
+-- 'devis'. Les dossiers 'achat_immediat' ne sont créés que par le futur
+-- mécanisme d'attribution des achats Stripe, en service-role (qui
+-- contourne la RLS de toute façon), jamais par un agent ni via cette policy.
+drop policy if exists "approved agents insert own deals" on public.deals;
+create policy "approved agents insert own devis" on public.deals
   for insert with check (
     is_admin()
     or (
       agent_id = auth.uid()
+      and deal_type = 'devis'
       and exists (select 1 from public.profiles where id = auth.uid() and status = 'approved')
     )
   );

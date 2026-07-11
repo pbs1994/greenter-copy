@@ -11,6 +11,7 @@ interface DealRow {
   product: string | null
   amount: number | null
   status: string
+  deal_type: 'devis' | 'achat_immediat'
   source: string | null
   created_at: string
   agent_full_name: string | null
@@ -28,7 +29,7 @@ async function loadDeals(): Promise<DealRow[]> {
   const supabase = adminClient()
   const { data, error } = await supabase
     .from('deals')
-    .select('id, client_name, client_phone, product, amount, status, source, created_at, agent:profiles!agent_id(full_name)')
+    .select('id, client_name, client_phone, product, amount, status, deal_type, source, created_at, agent:profiles!agent_id(full_name)')
     .order('created_at', { ascending: false })
     .limit(200)
 
@@ -44,6 +45,7 @@ async function loadDeals(): Promise<DealRow[]> {
     product: d.product,
     amount: d.amount,
     status: d.status,
+    deal_type: d.deal_type,
     source: d.source,
     created_at: d.created_at,
     agent_full_name: (d.agent as unknown as { full_name: string | null } | null)?.full_name ?? null,
@@ -70,6 +72,16 @@ const STATUS_BADGE: Record<string, string> = {
 
 const FINAL_STATUSES = new Set(['gagné', 'perdu'])
 
+const DEAL_TYPE_LABEL: Record<string, string> = {
+  devis: 'Devis',
+  achat_immediat: 'Achat immédiat',
+}
+
+const DEAL_TYPE_BADGE: Record<string, string> = {
+  devis: 'bg-purple-50 text-purple-700',
+  achat_immediat: 'bg-sky-50 text-sky-700',
+}
+
 export default async function PartenairesAdminDealsPage() {
   const deals = await loadDeals()
 
@@ -78,8 +90,11 @@ export default async function PartenairesAdminDealsPage() {
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-900">Dossiers</h1>
         <p className="text-sm text-neutral-500 mt-1">
-          {deals.length} dossier{deals.length > 1 ? 's' : ''} (200 plus récents). Clôturer un dossier
-          en gagné déclenchera le calcul de la commission de l&apos;agent (à venir).
+          {deals.length} dossier{deals.length > 1 ? 's' : ''} (200 plus récents). Les dossiers
+          <strong> Devis</strong> se clôturent manuellement ci-dessous ; les
+          <strong> Achats immédiats</strong> (boutique en ligne, payés via Stripe) arrivent déjà
+          clôturés et ne nécessitent aucune action. Clôturer un devis en gagné déclenchera le calcul
+          de la commission de l&apos;agent (à venir).
         </p>
       </header>
 
@@ -96,6 +111,7 @@ export default async function PartenairesAdminDealsPage() {
                 <th className="px-4 py-3 font-medium">Agent</th>
                 <th className="px-4 py-3 font-medium">Produit</th>
                 <th className="px-4 py-3 font-medium">Montant</th>
+                <th className="px-4 py-3 font-medium">Type</th>
                 <th className="px-4 py-3 font-medium">Statut</th>
                 <th className="px-4 py-3 font-medium">Date</th>
                 <th className="px-4 py-3 font-medium">Action</th>
@@ -112,13 +128,20 @@ export default async function PartenairesAdminDealsPage() {
                   <td className="px-4 py-3 text-neutral-700">{d.product || '—'}</td>
                   <td className="px-4 py-3 text-neutral-700">{d.amount ? formatEUR(d.amount) : '—'}</td>
                   <td className="px-4 py-3">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${DEAL_TYPE_BADGE[d.deal_type] || 'bg-neutral-100 text-neutral-700'}`}>
+                      {DEAL_TYPE_LABEL[d.deal_type] || d.deal_type}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${STATUS_BADGE[d.status] || 'bg-neutral-100 text-neutral-700'}`}>
                       {d.status}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-neutral-500">{formatDate(d.created_at)}</td>
                   <td className="px-4 py-3">
-                    {FINAL_STATUSES.has(d.status) ? (
+                    {d.deal_type !== 'devis' ? (
+                      <span className="text-xs text-neutral-400">Auto (Stripe)</span>
+                    ) : FINAL_STATUSES.has(d.status) ? (
                       <span className="text-xs text-neutral-400">Clôturé</span>
                     ) : (
                       <div className="flex gap-2">
