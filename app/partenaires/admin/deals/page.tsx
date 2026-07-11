@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { closeDeal } from '../actions'
+import { closeDeal, updateDealAmount } from '../actions'
 
 export const metadata = { title: 'Dossiers' }
 export const dynamic = 'force-dynamic'
@@ -91,10 +91,11 @@ export default async function PartenairesAdminDealsPage() {
         <h1 className="text-2xl font-bold text-neutral-900">Dossiers</h1>
         <p className="text-sm text-neutral-500 mt-1">
           {deals.length} dossier{deals.length > 1 ? 's' : ''} (200 plus récents). Les dossiers
-          <strong> Devis</strong> se clôturent manuellement ci-dessous ; les
+          <strong> Devis</strong> se clôturent manuellement ci-dessous, et leur montant reste
+          modifiable en cas de négociation avec le client ; les
           <strong> Achats immédiats</strong> (boutique en ligne, payés via Stripe) arrivent déjà
-          clôturés et ne nécessitent aucune action. Clôturer un devis en gagné déclenchera le calcul
-          de la commission de l&apos;agent (à venir).
+          clôturés, montant et statut non modifiables. Clôturer un devis en gagné déclenchera le
+          calcul de la commission de l&apos;agent (à venir).
         </p>
       </header>
 
@@ -126,7 +127,25 @@ export default async function PartenairesAdminDealsPage() {
                   </td>
                   <td className="px-4 py-3 text-neutral-700">{d.agent_full_name || '—'}</td>
                   <td className="px-4 py-3 text-neutral-700">{d.product || '—'}</td>
-                  <td className="px-4 py-3 text-neutral-700">{d.amount ? formatEUR(d.amount) : '—'}</td>
+                  <td className="px-4 py-3 text-neutral-700">
+                    {d.deal_type === 'devis' ? (
+                      <form action={updateDealAmount.bind(null, d.id)} className="flex items-center gap-1">
+                        <input
+                          type="number" name="amount" defaultValue={d.amount ?? ''}
+                          min="0" step="0.01" placeholder="—"
+                          className="w-20 border border-neutral-200 rounded-md px-1.5 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                        <button
+                          type="submit"
+                          className="px-2 py-1 rounded-md text-xs font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
+                        >
+                          OK
+                        </button>
+                      </form>
+                    ) : (
+                      d.amount ? formatEUR(d.amount) : '—'
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${DEAL_TYPE_BADGE[d.deal_type] || 'bg-neutral-100 text-neutral-700'}`}>
                       {DEAL_TYPE_LABEL[d.deal_type] || d.deal_type}

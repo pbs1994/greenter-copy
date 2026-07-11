@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { updateAgentCommission } from '../actions'
 
 export const metadata = { title: 'Agents' }
 export const dynamic = 'force-dynamic'
@@ -106,7 +107,22 @@ export default async function PartenairesAdminAgentsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-neutral-700">{a.referral_code}</td>
-                  <td className="px-4 py-3 text-neutral-700">{a.commission_rate} %</td>
+                  <td className="px-4 py-3">
+                    <form action={updateAgentCommission.bind(null, a.id)} className="flex items-center gap-1.5">
+                      <input
+                        type="number" name="commission_rate" defaultValue={a.commission_rate}
+                        min="0" max="100" step="0.1"
+                        className="w-16 border border-neutral-200 rounded-md px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-green-500"
+                      />
+                      <span className="text-xs text-neutral-500">%</span>
+                      <button
+                        type="submit"
+                        className="px-2 py-1 rounded-md text-xs font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
+                      >
+                        OK
+                      </button>
+                    </form>
+                  </td>
                   <td className="px-4 py-3 text-neutral-500">{formatDate(a.created_at)}</td>
                 </tr>
               ))}

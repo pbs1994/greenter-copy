@@ -84,7 +84,13 @@ export default async function PartenairesDashboardPage() {
     .sort((a, b) => (b.closed_at || b.created_at).localeCompare(a.closed_at || a.created_at))
 
   const wonDeals = deals.filter((d) => d.status === 'gagné')
-  const wonAmountEUR = wonDeals.reduce((sum, d) => sum + (d.amount || 0), 0)
+  // Ce que touche l'agent, pas le chiffre d'affaires de Greenter : la
+  // commission est calculée sur le montant de chaque vente gagnée, au
+  // taux propre à cet agent (profiles.commission_rate).
+  const commissionEUR = wonDeals.reduce(
+    (sum, d) => sum + (d.amount || 0) * (agent.commission_rate / 100),
+    0
+  )
   const lostCount = deals.filter((d) => d.status === 'perdu').length
   const closedCount = wonDeals.length + lostCount
   const winRate = closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : null
@@ -92,7 +98,7 @@ export default async function PartenairesDashboardPage() {
   const stats = [
     { label: 'Dossiers actifs', value: pipelineDeals.length, icon: Briefcase, accent: 'text-blue-600' },
     { label: 'Ventes gagnées', value: wonDeals.length, icon: TrendingUp, accent: 'text-green-600' },
-    { label: 'CA généré', value: formatEUR(wonAmountEUR), icon: Euro, accent: 'text-emerald-600' },
+    { label: 'Ma commission', value: formatEUR(commissionEUR), icon: Euro, accent: 'text-emerald-600' },
     { label: 'Taux de transformation', value: winRate !== null ? `${winRate} %` : '—', icon: TrendingUp, accent: 'text-orange-600' },
   ]
 

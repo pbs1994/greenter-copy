@@ -49,3 +49,60 @@ export async function closeDeal(dealId: string, status: 'gagné' | 'perdu') {
   revalidatePath('/partenaires/admin/deals')
   revalidatePath('/partenaires/admin')
 }
+
+/**
+ * Corrects the montant of a devis — haggling with the client can move the
+ * final price before (or even after) closing. Restricted to deal_type =
+ * 'devis' : an 'achat_immediat' amount comes straight from the Stripe
+ * charge and has no business being hand-edited here.
+ */
+export async function updateDealAmount(dealId: string, formData: FormData) {
+  await requireAdmin()
+
+  const raw = String(formData.get('amount') || '').trim()
+  const amount = raw ? Number(raw.replace(',', '.')) : null
+  if (raw && (!Number.isFinite(amount) || (amount as number) < 0)) {
+    throw new Error('Montant invalide.')
+  }
+
+  const supabase = adminClient()
+  const { error } = await supabase
+    .from('deals')
+    .update({ amount })
+    .eq('id', dealId)
+    .eq('deal_type', 'devis')
+
+  if (error) {
+    throw new Error(`Échec de la mise à jour du montant : ${error.message}`)
+  }
+
+  revalidatePath('/partenaires/admin/deals')
+  revalidatePath('/partenaires/admin')
+}
+
+/**
+ * Sets an agent's commission rate (%). Lives in profiles, not deals — a
+ * rate change only affects future commission calculations, it doesn't
+ * retroactively touch deals already closed.
+ */
+export async function updateAgentCommission(agentId: string, formData: FormData) {
+  await requireAdmin()
+
+  const raw = String(formData.get('commission_rate') || '').trim()
+  const rate = Number(raw.replace(',', '.'))
+  if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
+    throw new Error('Le taux de commission doit être un nombre entre 0 et 100.')
+  }
+
+  const supabase = adminClient()
+  const { error } = await supabase
+    .from('profiles')
+    .update({ commission_rate: rate })
+    .eq('id', agentId)
+
+  if (error) {
+    throw new Error(`Échec de la mise à jour de la commission : ${error.message}`)
+  }
+
+  revalidatePath('/partenaires/admin/agents')
+}
