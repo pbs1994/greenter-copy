@@ -74,6 +74,12 @@ create policy "admin manages profiles" on public.profiles
 
 -- ----------------------------------------------------------------------------
 -- 3. deals
+--
+-- NOTE: amount (ici et dans commissions/payout_batches) est en EUROS,
+-- pas en centimes. C'est différent de products.price sur le site
+-- principal (qui est en centimes pour coller à l'API Stripe) : ici, le
+-- montant est saisi à la main par un agent ou un admin, sans passer par
+-- Stripe, donc pas de raison d'imposer la contrainte "entiers en centimes".
 -- ----------------------------------------------------------------------------
 create table if not exists public.deals (
   id uuid default gen_random_uuid() primary key,
@@ -83,7 +89,7 @@ create table if not exists public.deals (
   client_phone text,
   client_email text,
   product text,
-  amount numeric,
+  amount numeric, -- euros, pas centimes
   status text default 'nouveau' check (status in ('nouveau','contacté','devis_envoyé','gagné','perdu')),
   source text,
   ip_hash text,
