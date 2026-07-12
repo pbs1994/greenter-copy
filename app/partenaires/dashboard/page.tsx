@@ -2,6 +2,7 @@ import { Phone, Mail, Plus, Euro, Briefcase, TrendingUp, FileText, Paperclip } f
 import { requireAgent } from '@/lib/partenaires-auth'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 import { createLead, updateDeal } from './actions'
+import { ReferralLinkCard } from './ReferralLinkCard'
 
 export const metadata = {
   title: 'Tableau de bord · Espace Partenaires · Greenter',
@@ -93,6 +94,7 @@ function productLabel(value: string | null) {
 export default async function PartenairesDashboardPage() {
   const agent = await requireAgent()
   const deals = await loadOwnDeals()
+  const referralLink = `${process.env.NEXT_PUBLIC_SITE_URL}/?ref=${agent.referral_code}`
 
   const pipelineDeals = deals.filter((d) => d.deal_type === 'devis' && PIPELINE_COLUMNS.some((c) => c.status === d.status))
   const closedDeals = deals
@@ -141,6 +143,9 @@ export default async function PartenairesDashboardPage() {
             </button>
           </form>
         </div>
+
+        {/* Lien de parrainage */}
+        <ReferralLinkCard link={referralLink} />
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

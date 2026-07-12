@@ -47,6 +47,53 @@ export async function closeDeal(dealId: string, status: 'gagné' | 'perdu') {
   }
 
   revalidatePath('/partenaires/admin/deals')
+  revalidatePath('/partenaires/admin/action-requise')
+  revalidatePath('/partenaires/admin')
+}
+
+const PIPELINE_STATUSES = new Set(['nouveau', 'contacté', 'devis_envoyé'])
+
+/**
+ * Used from the "Action requise" screen only: fills in the real client
+ * identity (+ optionally the montant) on a placeholder dossier created by
+ * a call-button click (source = 'agent_link_call', see
+ * /api/track-call-click) — a tel: click has no way to tell us who called,
+ * so this is where the admin manually rapproches it with an actual
+ * incoming call and turns the placeholder into a real dossier. Restricted
+ * to the 3 non-final pipeline stages; closing to gagné/perdu goes through
+ * closeDeal() instead, which also stamps closed_at.
+ */
+export async function updateDealClientInfo(dealId: string, formData: FormData) {
+  await requireAdmin()
+
+  const status = String(formData.get('status') || '')
+  if (!PIPELINE_STATUSES.has(status)) {
+    throw new Error('Statut invalide.')
+  }
+
+  const clientName = String(formData.get('client_name') || '').trim() || null
+  const clientPhone = String(formData.get('client_phone') || '').trim() || null
+  const clientEmail = String(formData.get('client_email') || '').trim() || null
+
+  const rawAmount = String(formData.get('amount') || '').trim()
+  const amount = rawAmount ? Number(rawAmount.replace(',', '.')) : null
+  if (rawAmount && (!Number.isFinite(amount) || (amount as number) < 0)) {
+    throw new Error('Montant invalide.')
+  }
+
+  const supabase = adminClient()
+  const { error } = await supabase
+    .from('deals')
+    .update({ client_name: clientName, client_phone: clientPhone, client_email: clientEmail, amount, status })
+    .eq('id', dealId)
+    .eq('deal_type', 'devis')
+
+  if (error) {
+    throw new Error(`Échec de la mise à jour du dossier : ${error.message}`)
+  }
+
+  revalidatePath('/partenaires/admin/action-requise')
+  revalidatePath('/partenaires/admin/deals')
   revalidatePath('/partenaires/admin')
 }
 
