@@ -17,9 +17,11 @@ export default async function PartenairesAdminLayout({ children }: { children: R
   const user = await requireAdmin()
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex">
-      {/* Sidebar */}
-      <aside className="w-60 bg-white border-r border-neutral-200 flex flex-col">
+    <div className="min-h-screen bg-neutral-50 flex flex-col md:flex-row">
+      {/* Sidebar — desktop only (md+). On mobile this would eat most of a
+          375px-wide screen at a fixed 240px, so it's replaced below by a
+          compact top bar instead of just shrinking in place. */}
+      <aside className="hidden md:flex md:w-60 md:shrink-0 bg-white border-r border-neutral-200 flex-col">
         <div className="px-6 py-5 border-b border-neutral-200">
           <Link href="/partenaires/admin" className="font-heading text-lg font-bold text-green-800">
             Greenter
@@ -57,9 +59,40 @@ export default async function PartenairesAdminLayout({ children }: { children: R
         </div>
       </aside>
 
+      {/* Top bar — mobile only, same 3 links as a horizontally-scrollable
+          pill row instead of a stacked sidebar menu. */}
+      <header className="md:hidden bg-white border-b border-neutral-200">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Link href="/partenaires/admin" className="font-heading text-base font-bold text-green-800">
+            Greenter <span className="font-normal text-xs text-neutral-400">· Partenaires</span>
+          </Link>
+          <form action="/api/auth/logout?next=/partenaires/login" method="POST">
+            <button
+              type="submit"
+              className="p-1.5 rounded-lg text-neutral-500 hover:bg-red-50 hover:text-red-700 transition-colors"
+              aria-label="Se déconnecter"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </form>
+        </div>
+        <nav className="flex gap-2 px-4 pb-3 overflow-x-auto">
+          {NAV.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </header>
+
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-6xl mx-auto px-8 py-8">
+      <main className="flex-1 min-w-0 overflow-auto">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-8">
           {children}
         </div>
       </main>

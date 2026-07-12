@@ -122,7 +122,8 @@ export default async function PartenairesAdminDealsPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl ring-1 ring-neutral-200 overflow-hidden">
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[960px]">
             <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wider text-neutral-500">
               <tr>
                 <th className="px-4 py-3 font-medium">Client</th>
@@ -219,6 +220,7 @@ export default async function PartenairesAdminDealsPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

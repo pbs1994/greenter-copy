@@ -323,7 +323,8 @@ export default async function PartenairesDashboardPage() {
           {closedDeals.length === 0 ? (
             <div className="p-10 text-center text-sm text-neutral-500">Aucun dossier clôturé pour le moment.</div>
           ) : (
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[760px]">
               <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wider text-neutral-500">
                 <tr>
                   <th className="px-4 py-3 font-medium">Client</th>
@@ -370,6 +371,7 @@ export default async function PartenairesDashboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

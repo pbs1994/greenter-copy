@@ -180,7 +180,8 @@ export default async function PartenairesAdminDashboard() {
         {recentDeals.length === 0 ? (
           <div className="p-12 text-center text-sm text-neutral-500">Aucun dossier pour le moment.</div>
         ) : (
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px]">
             <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wider text-neutral-500">
               <tr>
                 <th className="px-4 py-3 font-medium">Client</th>
@@ -214,6 +215,7 @@ export default async function PartenairesAdminDashboard() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
