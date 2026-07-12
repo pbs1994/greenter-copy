@@ -101,6 +101,13 @@ async function saveOrderToDatabase(session: Stripe.Checkout.Session) {
     return { order: existingOrder, customer: customerRecord }
   }
 
+  const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+    expand: ['line_items', 'line_items.data.price.product'],
+  })
+
+  const firstProductName =
+    (fullSession.line_items?.data[0]?.price?.product as Stripe.Product | undefined)?.name || 'Produit'
+
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert({
@@ -111,6 +118,11 @@ async function saveOrderToDatabase(session: Stripe.Checkout.Session) {
       amount: session.amount_total || 0,
       shipping_address: customer?.address,
       billing_address: session.customer_details?.address,
+      // orders.product_name is NOT NULL in the live schema (a legacy
+      // single-product summary field, predating the order_items table) —
+      // this insert used to omit it entirely, which failed every single
+      // checkout at this exact line. Populated from the first line item.
+      product_name: firstProductName,
     })
     .select()
     .single()
@@ -119,10 +131,6 @@ async function saveOrderToDatabase(session: Stripe.Checkout.Session) {
     console.error('Error creating order:', orderError)
     throw orderError
   }
-
-  const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-    expand: ['line_items', 'line_items.data.price.product'],
-  })
 
   const orderItems = fullSession.line_items?.data.map((item) => ({
     order_id: order?.id,
