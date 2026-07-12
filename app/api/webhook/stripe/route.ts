@@ -139,6 +139,35 @@ async function saveOrderToDatabase(session: Stripe.Checkout.Session) {
     }
   }
 
+  // Achat attribué à un agent (lien de parrainage, résolu et posé dans les
+  // metadata au moment du /api/checkout) ? Crée le dossier "achat_immediat"
+  // côté Espace Partenaires — déjà gagné, montant et statut non modifiables
+  // (voir supabase/partenaires-schema.sql). Placé ici, dans la branche
+  // "commande neuve" seulement, pour ne pas dupliquer le dossier si Stripe
+  // retente l'événement (l'early-return `existingOrder` plus haut couvre
+  // déjà ce cas pour order_items — même logique ici).
+  const agentId = session.metadata?.agent_id
+  if (agentId) {
+    const { error: dealError } = await supabase.from('deals').insert({
+      agent_id: agentId,
+      first_touch_agent_id: agentId,
+      client_name: customer.name || null,
+      client_phone: customer.phone || null,
+      client_email: customer.email,
+      product: orderItems?.[0]?.product_name || null,
+      amount: (session.amount_total || 0) / 100, // euros, pas centimes
+      deal_type: 'achat_immediat',
+      status: 'gagné',
+      source: 'agent_link_purchase',
+      closed_at: new Date().toISOString(),
+    })
+    if (dealError) {
+      // Ne bloque pas la commande pour cette erreur secondaire — l'agent
+      // perdrait juste le crédit de cette vente, l'achat client reste valide.
+      console.error('Error creating achat_immediat deal:', dealError)
+    }
+  }
+
   return { order, customer: customerRecord }
 }
 

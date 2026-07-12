@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 import { isRateLimitedPerMinute } from '@/lib/rate-limit'
+import { REFERRAL_COOKIE, resolveReferralCode } from '@/lib/referral'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
@@ -114,9 +115,15 @@ export async function POST(request: NextRequest) {
 
     // URL de retour - utiliser le premier produit
     const firstProduct = products[0]
-    const cancelUrl = firstProduct.category?.slug 
+    const cancelUrl = firstProduct.category?.slug
       ? `${process.env.NEXT_PUBLIC_SITE_URL}/produits/${firstProduct.category.slug}/${firstProduct.slug}`
       : `${process.env.NEXT_PUBLIC_SITE_URL}/produits`
+
+    // Achat attribué à un agent (lien de parrainage, cookie 30 jours) ?
+    // Résolu ici plutôt que dans le webhook : si le code est invalide/expiré
+    // côté agent (désapprouvé entre-temps), on le sait tout de suite et on
+    // n'écrit rien de faux dans les metadata Stripe.
+    const referralAgent = await resolveReferralCode(request.cookies.get(REFERRAL_COOKIE)?.value)
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -133,6 +140,7 @@ export async function POST(request: NextRequest) {
       },
       metadata: {
         items: JSON.stringify(items),
+        ...(referralAgent ? { agent_id: referralAgent.id } : {}),
       },
     })
 

@@ -33,7 +33,21 @@ export function PhoneCallTracker({
   
   const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    
+
+    // Referral attribution: if this visitor arrived via an agent's link,
+    // log the click for the admin/agent to reconcile against an incoming
+    // call — see /api/track-call-click. Fire-and-forget: a tel: link
+    // doesn't unload the page (it opens the dialer app / a confirmation
+    // dialog), so this reliably reaches the server without blocking or
+    // delaying the redirect below. No-ops server-side if there's no
+    // referral cookie, so this is safe to call unconditionally.
+    fetch('/api/track-call-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: window.location.pathname }),
+      keepalive: true,
+    }).catch(() => {})
+
     // Track conversion via gtag
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {

@@ -482,6 +482,8 @@ interface ContactData {
   phone: string
   service: string
   message: string
+  /** Set when the visitor arrived via an Espace Partenaires referral link. */
+  agentName?: string
 }
 
 /**
@@ -594,6 +596,18 @@ export const contactRequestTemplate = (contact: ContactData) => `
                   </td>
                 </tr>
               </table>
+
+              <!-- Agent référent -->
+              ${contact.agentName ? `
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #FEF3C7; border-radius: 12px; padding: 20px;">
+                    <h3 style="margin: 0 0 4px; color: #92400E; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🤝 Lead apporté par un agent</h3>
+                    <p style="margin: 0; color: #1A1A1A; font-size: 15px; font-weight: 600;">${contact.agentName}</p>
+                  </td>
+                </tr>
+              </table>
+              ` : ''}
 
               <!-- Sujet -->
               ${contact.service ? `
