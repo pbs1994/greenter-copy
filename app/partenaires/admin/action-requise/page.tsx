@@ -60,7 +60,13 @@ async function loadActionRequiredDeals(): Promise<ActionRequiredDeal[]> {
 }
 
 function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  // Vercel runs in UTC — force Paris time so this matches the timestamp
+  // baked into `notes` by /api/track-call-click, and what the admin sees
+  // on their own incoming call log.
+  return new Date(iso).toLocaleString('fr-FR', {
+    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    timeZone: 'Europe/Paris',
+  })
 }
 
 export default async function ActionRequisePage() {

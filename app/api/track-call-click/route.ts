@@ -26,7 +26,10 @@ export async function POST(request: NextRequest) {
     }
 
     const safePage = typeof page === 'string' ? page.replace(/[\r\n]/g, '').slice(0, 300) : null
-    const timestamp = new Date().toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
+    // Vercel runs this in UTC — force Paris time explicitly, otherwise the
+    // timestamp written into `notes` (what the admin reads to match this
+    // click against an incoming call) would be off by 1-2h.
+    const timestamp = new Date().toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Paris' })
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
