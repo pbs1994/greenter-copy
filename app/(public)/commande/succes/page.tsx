@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation'
 import { ConversionTracker } from './ConversionTracker'
 import { EmailButton } from './EmailButton'
 import { buildSignedInvoiceUrl } from '@/lib/invoice-signing'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
+import { COMPANY_PHONES } from '@/lib/local-seo-data'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
@@ -91,10 +93,10 @@ export default async function SuccessPage({ searchParams }: Props) {
           <p className="text-neutral-600 text-sm mb-6">
             Si vous avez été débité, contactez-nous immédiatement.
           </p>
-          <a href="tel:+33609455056" className="btn-primary">
+          <PhoneCallTracker phoneNumber={COMPANY_PHONES.secondary.raw} displayNumber={COMPANY_PHONES.secondary.display} className="btn-primary">
             <Phone className="w-4 h-4" />
             06 09 45 50 56
-          </a>
+          </PhoneCallTracker>
         </div>
       </main>
     )
@@ -118,10 +120,10 @@ export default async function SuccessPage({ searchParams }: Props) {
             Votre commande a bien été enregistrée. Pour récupérer le détail ou
             la facture, consultez votre email de confirmation ou contactez-nous.
           </p>
-          <a href="tel:+33609455056" className="btn-primary">
+          <PhoneCallTracker phoneNumber={COMPANY_PHONES.secondary.raw} displayNumber={COMPANY_PHONES.secondary.display} className="btn-primary">
             <Phone className="w-4 h-4" />
             06 09 45 50 56
-          </a>
+          </PhoneCallTracker>
         </div>
       </main>
     )
@@ -345,13 +347,14 @@ export default async function SuccessPage({ searchParams }: Props) {
                 Lun - Ven : 9h - 19h
               </p>
               <div className="space-y-2">
-                <a
-                  href="tel:+33609455056"
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
                   className="w-full flex items-center justify-center gap-2 bg-white text-green-900 font-medium text-sm py-2.5 rounded-lg hover:bg-green-50 transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   06 09 45 50 56
-                </a>
+                </PhoneCallTracker>
                 <EmailButton orderNumber={order.orderNumber} />
               </div>
             </div>

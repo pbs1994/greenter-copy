@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Phone, ArrowRight } from "lucide-react"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 export default function StickyCTA() {
@@ -29,14 +30,15 @@ export default function StickyCTA() {
       <div className="bg-white/98 backdrop-blur-md border-t border-neutral-200 px-4 py-3 shadow-2xl shadow-neutral-900/20">
         <div className="flex gap-3">
           {/* Phone call */}
-          <a
-            href={`tel:${COMPANY_PHONES.primary.raw}`}
+          <PhoneCallTracker
+            phoneNumber={COMPANY_PHONES.primary.raw}
+            displayNumber={COMPANY_PHONES.primary.display}
             className="flex-none btn-secondary py-3.5 px-5 flex items-center gap-2 text-sm"
-            aria-label={`Appeler le ${COMPANY_PHONES.primary.display}`}
+            ariaLabel={`Appeler le ${COMPANY_PHONES.primary.display}`}
           >
             <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
             Appeler
-          </a>
+          </PhoneCallTracker>
 
           {/* Devis */}
           <Link

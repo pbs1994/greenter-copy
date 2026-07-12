@@ -1,6 +1,8 @@
 "use client"
 
 import { useObfuscatedEmail } from "@/components/ObfuscatedEmail"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 export default function ConfidentialitePage() {
   const decodedEmail = useObfuscatedEmail()
@@ -50,7 +52,7 @@ export default function ConfidentialitePage() {
                 <p className="text-gray-600">38 Rue de Ménilmontant, 75020 Paris</p>
                 <p className="text-gray-600">SIREN : 977 485 721</p>
                 <p className="text-gray-600">Email : <a href={decodedEmail ? `mailto:${decodedEmail}` : undefined} className="text-teal-600 hover:underline">{decodedEmail || "Chargement..."}</a></p>
-                <p className="text-gray-600">Téléphone : <a href="tel:+33609455056" className="text-teal-600 hover:underline">06 09 45 50 56</a></p>
+                <p className="text-gray-600">Téléphone : <PhoneCallTracker phoneNumber={COMPANY_PHONES.secondary.raw} displayNumber={COMPANY_PHONES.secondary.display} className="text-teal-600 hover:underline">06 09 45 50 56</PhoneCallTracker></p>
               </div>
             </div>
 

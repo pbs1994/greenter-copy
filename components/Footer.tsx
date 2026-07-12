@@ -5,7 +5,8 @@ import Link from "next/link"
 import { Mail, Phone, MapPin, ArrowRight, Star } from "lucide-react"
 import { openCookiePreferences } from "@/lib/cookie-preferences"
 import { ObfuscatedEmail } from "./ObfuscatedEmail"
-import { CITIES, GOOGLE_MAPS_URL, COMPANY_ADDRESS } from "@/lib/local-seo-data"
+import { CITIES, GOOGLE_MAPS_URL, COMPANY_ADDRESS, COMPANY_PHONES } from "@/lib/local-seo-data"
+import { PhoneCallTracker } from "./PhoneCallTracker"
 
 export function Footer() {
   return (
@@ -157,9 +158,13 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-green-400 shrink-0" />
-                <a href="tel:+33609455056" className="text-green-200 hover:text-white transition-colors text-sm">
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
+                  className="text-green-200 hover:text-white transition-colors text-sm"
+                >
                   06 09 45 50 56
-                </a>
+                </PhoneCallTracker>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-green-400 shrink-0" />

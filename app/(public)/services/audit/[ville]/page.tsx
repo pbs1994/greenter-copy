@@ -10,6 +10,7 @@ import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 
 export async function generateStaticParams() {
   return CITIES.map((city) => ({ ville: city.slug }))
@@ -167,7 +168,7 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander un devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-                <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+                <PhoneCallTracker phoneNumber={COMPANY_PHONES.primary.raw} displayNumber={COMPANY_PHONES.primary.display} className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</PhoneCallTracker>
               </div>
             </div>
             <div className="relative">
@@ -416,7 +417,7 @@ export default async function LocalAuditPage({ params }: { params: Promise<{ vil
           <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et dans toute la {city.department}.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander mon devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-            <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+            <PhoneCallTracker phoneNumber={COMPANY_PHONES.primary.raw} displayNumber={COMPANY_PHONES.primary.display} className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</PhoneCallTracker>
           </div>
         </div>
       </section>

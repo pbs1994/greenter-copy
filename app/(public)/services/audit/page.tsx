@@ -5,6 +5,8 @@ import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 const auditSteps = [
   {
@@ -165,10 +167,14 @@ export default function AuditPage() {
                   Réserver mon audit
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a href="tel:+33609455056" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4">
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
+                  className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"
+                >
                   <Phone className="w-5 h-5" />
                   06 09 45 50 56
-                </a>
+                </PhoneCallTracker>
               </div>
             </div>
 
@@ -438,10 +444,14 @@ export default function AuditPage() {
               Réserver mon audit
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="tel:+33609455056" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4">
+            <PhoneCallTracker
+              phoneNumber={COMPANY_PHONES.secondary.raw}
+              displayNumber={COMPANY_PHONES.secondary.display}
+              className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-slate-900 text-base px-8 py-4"
+            >
               <Phone className="w-5 h-5" />
               06 09 45 50 56
-            </a>
+            </PhoneCallTracker>
           </div>
         </div>
       </section>

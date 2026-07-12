@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
 
 interface ArticleCTAProps {
   title: string
@@ -24,13 +25,14 @@ export function ArticleCTA({
           Demander un devis gratuit
           <ArrowRight className="w-5 h-5" />
         </Link>
-        <a
-          href={`tel:+33${phone.replace(/\s/g, '').replace(/^0/, '')}`}
+        <PhoneCallTracker
+          phoneNumber={`+33${phone.replace(/\s/g, '').replace(/^0/, '')}`}
+          displayNumber={phone}
           className="inline-flex items-center justify-center gap-2 bg-white/20 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-white/30 transition-colors"
         >
           <Phone className="w-5 h-5" />
           {phone}
-        </a>
+        </PhoneCallTracker>
       </div>
     </div>
   )

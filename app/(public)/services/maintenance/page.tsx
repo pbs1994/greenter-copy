@@ -1,4 +1,6 @@
 import { Phone, Shield, Clock, Award, Calendar, ArrowDown } from "lucide-react"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
@@ -151,13 +153,14 @@ export default async function MaintenancePage() {
             <p className="text-green-100 mb-6">
               Notre équipe est disponible du lundi au vendredi de 9h à 18h
             </p>
-            <a 
-              href="tel:+33609455056" 
+            <PhoneCallTracker
+              phoneNumber={COMPANY_PHONES.secondary.raw}
+              displayNumber={COMPANY_PHONES.secondary.display}
               className="inline-flex items-center gap-3 bg-white text-green-800 font-semibold text-lg px-8 py-4 rounded-full hover:bg-green-50 transition-colors shadow-lg"
             >
               <Phone className="w-5 h-5" />
               06 09 45 50 56
-            </a>
+            </PhoneCallTracker>
           </div>
         </section>
 
@@ -181,13 +184,14 @@ export default async function MaintenancePage() {
                 Configurer mon contrat
                 <ArrowDown className="w-5 h-5" />
               </a>
-              <a 
-                href="tel:+33609455056" 
+              <PhoneCallTracker
+                phoneNumber={COMPANY_PHONES.secondary.raw}
+                displayNumber={COMPANY_PHONES.secondary.display}
                 className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"
               >
                 <Phone className="w-5 h-5" />
                 06 09 45 50 56
-              </a>
+              </PhoneCallTracker>
             </div>
           </div>
         </section>

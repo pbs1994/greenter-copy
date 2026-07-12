@@ -5,6 +5,8 @@ import { Check, Loader2, ArrowRight, ShieldCheck, Flame, Wind, Sun, Droplets, Su
 import { formatEUR } from '@/lib/format'
 import { getMultiDiscount, calculatePricing } from '@/lib/maintenance-pricing'
 import type { MaintenanceService, MaintenanceOption } from '@/types/maintenance'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
+import { COMPANY_PHONES } from '@/lib/local-seo-data'
 
 interface MaintenanceConfiguratorProps {
   services: MaintenanceService[]
@@ -490,13 +492,14 @@ export function MaintenanceConfigurator({ services, options }: MaintenanceConfig
                 </button>
 
                 {/* Alternative */}
-                <a
-                  href="tel:+33609455056"
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
                   className="w-full border-2 border-neutral-200 hover:border-green-300 text-neutral-700 hover:text-green-700 font-semibold py-3 px-6 rounded-xl inline-flex items-center justify-center gap-2 transition-all text-sm"
                 >
                   <Phone className="w-4 h-4" />
                   Préférez être rappelé ?
-                </a>
+                </PhoneCallTracker>
 
                 {/* Trust */}
                 <p className="text-xs text-neutral-400 text-center">

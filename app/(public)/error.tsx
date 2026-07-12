@@ -3,6 +3,8 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { Phone, RefreshCw, Home } from 'lucide-react'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
+import { COMPANY_PHONES } from '@/lib/local-seo-data'
 
 export default function Error({
   error,
@@ -45,10 +47,14 @@ export default function Error({
         </div>
         <div className="mt-8 pt-6 border-t border-neutral-200">
           <p className="text-neutral-500 text-xs mb-2">Besoin d'aide ?</p>
-          <a href="tel:+33609455056" className="inline-flex items-center gap-2 text-green-700 font-medium text-sm hover:text-green-800">
+          <PhoneCallTracker
+            phoneNumber={COMPANY_PHONES.secondary.raw}
+            displayNumber={COMPANY_PHONES.secondary.display}
+            className="inline-flex items-center gap-2 text-green-700 font-medium text-sm hover:text-green-800"
+          >
             <Phone className="w-4 h-4" />
             06 09 45 50 56
-          </a>
+          </PhoneCallTracker>
         </div>
       </div>
     </main>

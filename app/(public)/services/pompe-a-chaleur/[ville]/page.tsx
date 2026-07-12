@@ -14,6 +14,7 @@ import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 
 export async function generateStaticParams() {
   return CITIES.map((city) => ({ ville: city.slug }))
@@ -240,9 +241,13 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                   Demander mon devis gratuit
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a href="tel:+33766975099" className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-green-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all">
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.primary.raw}
+                  displayNumber={COMPANY_PHONES.primary.display}
+                  className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-green-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all"
+                >
                   <Phone className="w-5 h-5" />07 66 97 50 99
-                </a>
+                </PhoneCallTracker>
               </div>
 
               {/* Urgence banner */}
@@ -310,13 +315,14 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                   <p className="text-xs text-slate-400 text-center mb-4 italic">Prix indicatifs après aides. Devis personnalisé gratuit.</p>
 
                   {/* CTA Téléphone */}
-                  <a
-                    href="tel:+33766975099"
+                  <PhoneCallTracker
+                    phoneNumber={COMPANY_PHONES.primary.raw}
+                    displayNumber={COMPANY_PHONES.primary.display}
                     className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 via-orange-500 to-red-500 hover:from-orange-600 hover:via-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-[1.02]"
                   >
                     <Phone className="w-5 h-5" />
                     <span>Appeler maintenant</span>
-                  </a>
+                  </PhoneCallTracker>
 
                   {/* Séparateur */}
                   <div className="flex items-center gap-3 my-4">
@@ -599,7 +605,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander mon devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-            <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+            <PhoneCallTracker phoneNumber={COMPANY_PHONES.primary.raw} displayNumber={COMPANY_PHONES.primary.display} className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-green-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</PhoneCallTracker>
           </div>
         </div>
       </section>

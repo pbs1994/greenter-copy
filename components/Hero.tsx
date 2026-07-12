@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle, Phone, Shield, MapPin, Star } from "lucide-rea
 import Link from "next/link"
 import Image from "next/image"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 /* ─── Animated counter hook ─────────────────────────────────────────────── */
@@ -134,13 +135,14 @@ export function Hero({ imageSlot }: { imageSlot?: React.ReactNode }) {
                 Étude gratuite sous 48h
                 <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Link>
-              <a
-                href={`tel:${COMPANY_PHONES.primary.raw}`}
+              <PhoneCallTracker
+                phoneNumber={COMPANY_PHONES.primary.raw}
+                displayNumber={COMPANY_PHONES.primary.display}
                 className="btn-secondary text-base px-7 py-4 w-full sm:w-auto justify-center"
               >
                 <Phone className="w-5 h-5" aria-hidden="true" />
                 {COMPANY_PHONES.primary.display}
-              </a>
+              </PhoneCallTracker>
             </div>
 
             {/* Friction reducer */}

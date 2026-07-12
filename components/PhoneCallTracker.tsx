@@ -18,6 +18,7 @@ interface PhoneCallTrackerProps {
   showIcon?: boolean
   conversionId?: string
   conversionLabel?: string
+  ariaLabel?: string
   children?: ReactNode
 }
 
@@ -28,6 +29,7 @@ export function PhoneCallTracker({
   showIcon = true,
   conversionId = 'AW-17839863014',
   conversionLabel = 'ovtpCOy194wcEObp2rpC',
+  ariaLabel,
   children
 }: PhoneCallTrackerProps) {
   
@@ -83,10 +85,11 @@ export function PhoneCallTracker({
   // If children provided, render custom content
   if (children) {
     return (
-      <a 
+      <a
         href={`tel:${phoneNumber}`}
         onClick={handlePhoneClick}
         className={className}
+        aria-label={ariaLabel}
       >
         {children}
       </a>
@@ -94,10 +97,11 @@ export function PhoneCallTracker({
   }
 
   return (
-    <a 
+    <a
       href={`tel:${phoneNumber}`}
       onClick={handlePhoneClick}
       className={className}
+      aria-label={ariaLabel}
     >
       {showIcon && <Phone className="w-5 h-5" />}
       {displayNumber}

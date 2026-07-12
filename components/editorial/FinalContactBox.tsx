@@ -1,4 +1,5 @@
 import { Phone } from 'lucide-react';
+import { PhoneCallTracker } from '@/components/PhoneCallTracker';
 
 interface FinalContactBoxProps {
   title?: string;
@@ -10,7 +11,7 @@ export function FinalContactBox({
   phone 
 }: FinalContactBoxProps) {
   // Format phone for tel: link (remove spaces, add country code)
-  const phoneLink = `tel:+33${phone.replace(/\s/g, '').replace(/^0/, '')}`;
+  const phoneRaw = `+33${phone.replace(/\s/g, '').replace(/^0/, '')}`;
 
   return (
     <div 
@@ -21,13 +22,14 @@ export function FinalContactBox({
       <p className="text-sm text-slate-600 mb-4">
         Nos conseillers sont à votre écoute pour répondre à vos questions.
       </p>
-      <a
-        href={phoneLink}
+      <PhoneCallTracker
+        phoneNumber={phoneRaw}
+        displayNumber={phone}
         className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors text-sm"
       >
         <Phone className="w-4 h-4" />
         <span>{phone}</span>
-      </a>
+      </PhoneCallTracker>
     </div>
   );
 }

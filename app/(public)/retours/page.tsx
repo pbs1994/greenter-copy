@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { ArrowLeft, Package, Wrench, Clock, AlertTriangle, CheckCircle, Phone, Mail } from "lucide-react"
 import { ObfuscatedEmailLink } from "@/components/ObfuscatedEmail"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 export default function RetoursPage() {
   return (
@@ -156,13 +158,14 @@ export default function RetoursPage() {
                   Pour exercer votre droit de rétractation avant installation, contactez-nous par :
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                  <a 
-                    href="tel:+33609455056"
+                  <PhoneCallTracker
+                    phoneNumber={COMPANY_PHONES.secondary.raw}
+                    displayNumber={COMPANY_PHONES.secondary.display}
                     className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
                     06 09 45 50 56
-                  </a>
+                  </PhoneCallTracker>
                   <ObfuscatedEmailLink 
                     subject="Demande de rétractation"
                     className="inline-flex items-center justify-center gap-2 bg-neutral-100 text-neutral-700 px-5 py-2.5 rounded-lg hover:bg-neutral-200 transition-colors"

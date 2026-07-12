@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import Stripe from 'stripe'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
+import { COMPANY_PHONES } from '@/lib/local-seo-data'
 import {
   CheckCircle,
   Phone,
@@ -346,13 +348,14 @@ export default async function MaintenanceSuccessPage({
               </p>
 
               <div className="space-y-2">
-                <a
-                  href="tel:+33609455056"
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
                   className="w-full flex items-center justify-center gap-2 bg-white text-green-900 font-medium text-sm py-2.5 rounded-lg hover:bg-green-50 transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   06 09 45 50 56
-                </a>
+                </PhoneCallTracker>
                 <Link
                   href="/contact"
                   className="w-full flex items-center justify-center gap-2 bg-green-800 text-white font-medium text-sm py-2.5 rounded-lg hover:bg-green-700 transition-colors"
@@ -395,13 +398,14 @@ function ErrorState() {
           été débité, contactez-nous immédiatement.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href="tel:+33609455056"
+          <PhoneCallTracker
+            phoneNumber={COMPANY_PHONES.secondary.raw}
+            displayNumber={COMPANY_PHONES.secondary.display}
             className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium text-sm px-6 py-3 rounded-lg transition-colors"
           >
             <Phone className="w-4 h-4" />
             06 09 45 50 56
-          </a>
+          </PhoneCallTracker>
           <Link
             href="/services/maintenance"
             className="inline-flex items-center justify-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium text-sm px-6 py-3 rounded-lg transition-colors"

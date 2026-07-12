@@ -10,6 +10,7 @@ import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import GoogleRatingBadgeClient from "@/components/GoogleRatingBadgeClient"
 import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 
 export async function generateStaticParams() {
   return CITIES.map((city) => ({ ville: city.slug }))
@@ -210,9 +211,13 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
                   Étude solaire gratuite
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a href="tel:+33766975099" className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-sky-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all">
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.primary.raw}
+                  displayNumber={COMPANY_PHONES.primary.display}
+                  className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white hover:text-sky-900 text-white font-semibold text-base px-8 py-4 rounded-2xl transition-all"
+                >
                   <Phone className="w-5 h-5" />07 66 97 50 99
-                </a>
+                </PhoneCallTracker>
               </div>
 
               <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-xl px-4 py-2.5">
@@ -268,9 +273,13 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
 
                   <p className="text-xs text-slate-400 text-center mb-4 italic">Tarifs selon étude personnalisée. Aides sous réserve d&apos;éligibilité.</p>
 
-                  <a href="tel:+33766975099" className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-sky-500/30 hover:shadow-xl hover:scale-[1.02]">
+                  <PhoneCallTracker
+                    phoneNumber={COMPANY_PHONES.primary.raw}
+                    displayNumber={COMPANY_PHONES.primary.display}
+                    className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-lg shadow-sky-500/30 hover:shadow-xl hover:scale-[1.02]"
+                  >
                     <Phone className="w-5 h-5" /><span>Appeler maintenant</span>
-                  </a>
+                  </PhoneCallTracker>
 
                   <div className="flex items-center gap-3 my-4">
                     <div className="flex-1 h-px bg-slate-200" />
@@ -547,7 +556,7 @@ export default async function LocalSolairePage({ params }: { params: Promise<{ v
           <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto">Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et dans toute la {city.department}.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander mon devis gratuit<ArrowRight className="w-5 h-5" /></Link>
-            <a href="tel:+33766975099" className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-sky-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</a>
+            <PhoneCallTracker phoneNumber={COMPANY_PHONES.primary.raw} displayNumber={COMPANY_PHONES.primary.display} className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-sky-900 text-base px-8 py-4"><Phone className="w-5 h-5" />07 66 97 50 99</PhoneCallTracker>
           </div>
         </div>
       </section>

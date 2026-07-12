@@ -7,6 +7,8 @@ import {
   TrendingDown, Gauge, Calendar
 } from "lucide-react"
 import Link from "next/link"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
+import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 // ============================================
 // DONNÉES TECHNIQUES (cachées au client)
@@ -682,13 +684,14 @@ export default function SimulateurSolairePage() {
                   Demander une étude gratuite
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a 
-                  href="tel:+33609455056" 
+                <PhoneCallTracker
+                  phoneNumber={COMPANY_PHONES.secondary.raw}
+                  displayNumber={COMPANY_PHONES.secondary.display}
                   className="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white font-medium px-8 py-4 rounded-xl transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   06 09 45 50 56
-                </a>
+                </PhoneCallTracker>
               </div>
             </div>
           </div>

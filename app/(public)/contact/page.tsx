@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Phone, Mail, MapPin, Clock, CheckCircle, Send, ArrowRight, ArrowLeft, User, MessageSquare, Home, Thermometer } from "lucide-react"
 import { useObfuscatedEmail } from "@/components/ObfuscatedEmail"
+import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import { COMPANY_PHONES } from "@/lib/local-seo-data"
 
 /* ── Data ─────────────────────────────────────────────────────────────────── */
@@ -364,7 +365,11 @@ export default function ContactPage() {
           {/* ── Sidebar ── */}
           <div className="lg:col-span-2 order-2 space-y-4">
 
-            <a href={`tel:${COMPANY_PHONES.primary.raw}`} className="group flex items-center gap-4 bg-white rounded-2xl p-5 ring-1 ring-neutral-100 hover:ring-green-200 hover:shadow-lg transition-all">
+            <PhoneCallTracker
+              phoneNumber={COMPANY_PHONES.primary.raw}
+              displayNumber={COMPANY_PHONES.primary.display}
+              className="group flex items-center gap-4 bg-white rounded-2xl p-5 ring-1 ring-neutral-100 hover:ring-green-200 hover:shadow-lg transition-all"
+            >
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
                 <Phone className="w-5 h-5 text-green-700" />
               </div>
@@ -372,7 +377,7 @@ export default function ContactPage() {
                 <p className="text-neutral-500 text-sm">Téléphone</p>
                 <p className="font-semibold text-neutral-900">{COMPANY_PHONES.primary.display}</p>
               </div>
-            </a>
+            </PhoneCallTracker>
 
             <a
               href="https://wa.me/33609455056?text=Bonjour%2C%20je%20souhaite%20un%20devis%20gratuit."

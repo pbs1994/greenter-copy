@@ -1,4 +1,5 @@
 import { Phone } from 'lucide-react';
+import { PhoneCallTracker } from '@/components/PhoneCallTracker';
 
 interface SidebarCTAProps {
   title: string;
@@ -14,8 +15,8 @@ export function SidebarCTA({
   variant = 'subtle' 
 }: SidebarCTAProps) {
   // Format phone for tel: link (remove spaces, add country code)
-  const phoneLink = `tel:+33${phone.replace(/\s/g, '').replace(/^0/, '')}`;
-  
+  const phoneRaw = `+33${phone.replace(/\s/g, '').replace(/^0/, '')}`;
+
   const variantClasses = {
     subtle: 'bg-white border border-slate-200',
     editorial: 'bg-emerald-50/30 border border-emerald-100',
@@ -31,13 +32,14 @@ export function SidebarCTA({
       {description && (
         <p className="text-sm text-slate-600 mb-4">{description}</p>
       )}
-      <a
-        href={phoneLink}
+      <PhoneCallTracker
+        phoneNumber={phoneRaw}
+        displayNumber={phone}
         className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
       >
         <Phone className="w-5 h-5" />
         <span>{phone}</span>
-      </a>
+      </PhoneCallTracker>
     </div>
   );
 }
