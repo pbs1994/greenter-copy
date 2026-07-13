@@ -921,10 +921,12 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
           <div className="min-w-0 flex items-center justify-between gap-4">
             <div className="min-w-0 hidden sm:block">
               <p className="text-sm font-semibold text-neutral-900 truncate">{product.name}</p>
-              <div className="flex items-center gap-2 mt-0.5">
-                <StarRating rating={product.rating} />
-                <span className="text-xs text-neutral-500">{product.reviewCount} avis</span>
-              </div>
+              {product.reviewCount > 0 && (
+                <div className="flex items-center gap-2 mt-0.5">
+                  <StarRating rating={product.rating} />
+                  <span className="text-xs text-neutral-500">{product.reviewCount} avis</span>
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-3 flex-1 sm:flex-none justify-end">
               <div className="text-right">
