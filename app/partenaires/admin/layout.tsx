@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, Users, Briefcase, AlertTriangle, UserCheck, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, Briefcase, AlertTriangle, LogOut } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 import { requireAdmin } from '@/lib/admin-auth'
 
@@ -8,10 +8,16 @@ export const metadata = {
   robots: { index: false, follow: false },
 }
 
+// Pas d'entrée "Candidatures" dans ce nav : depuis l'approbation automatique
+// à l'inscription (voir supabase/partenaires-schema.sql, handle_new_agent_signup),
+// un profil 'pending' est un cas limite rare, pas un flux à surveiller en
+// permanence. /partenaires/admin/candidatures existe toujours (filet de
+// sécurité, seule UI capable de faire passer un profil pending à approved),
+// juste plus dans la nav — le nombre de candidats en attente reste visible
+// en un coup d'œil sur /partenaires/admin (voir stats.pendingAgents).
 const NAV = [
   { href: '/partenaires/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/partenaires/admin/agents', label: 'Agents', icon: Users },
-  { href: '/partenaires/admin/candidatures', label: 'Candidatures', icon: UserCheck },
   { href: '/partenaires/admin/deals', label: 'Dossiers', icon: Briefcase },
   { href: '/partenaires/admin/action-requise', label: 'Action requise', icon: AlertTriangle },
 ] as const
@@ -34,24 +40,11 @@ async function countActionRequired(): Promise<number> {
   return count || 0
 }
 
-async function countPendingCandidatures(): Promise<number> {
-  const { count } = await adminClient()
-    .from('profiles')
-    .select('id', { count: 'exact', head: true })
-    .eq('status', 'pending')
-
-  return count || 0
-}
-
 export default async function PartenairesAdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAdmin()
-  const [actionRequiredCount, pendingCandidaturesCount] = await Promise.all([
-    countActionRequired(),
-    countPendingCandidatures(),
-  ])
+  const actionRequiredCount = await countActionRequired()
   const badgeCountByHref: Record<string, number> = {
     '/partenaires/admin/action-requise': actionRequiredCount,
-    '/partenaires/admin/candidatures': pendingCandidaturesCount,
   }
 
   return (
