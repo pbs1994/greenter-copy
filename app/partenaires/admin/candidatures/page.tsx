@@ -89,10 +89,12 @@ export default async function PartenairesAdminCandidaturesPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Candidatures</h1>
         </div>
         <p className="text-sm text-neutral-500 mt-2 max-w-3xl">
-          Comptes créés via l&apos;inscription publique, en attente d&apos;approbation. Le SIRET a
-          déjà été vérifié automatiquement (actif) avant la création du compte — la catégorie
-          juridique ci-dessous est indicative, à vous de juger si elle correspond à un profil
-          d&apos;apporteur d&apos;affaires acceptable.
+          Un candidat dont le SIRET est vérifié actif et qui a accepté le contrat est approuvé
+          <strong> automatiquement</strong> à l&apos;inscription — cette liste ne devrait normalement
+          rester vide. Une ligne n&apos;apparaît ici que si l&apos;une des deux conditions manquait
+          (cas limite à traiter à la main). La catégorie juridique du SIRET, si affichée, est
+          indicative — à vous de juger si elle correspond à un profil d&apos;apporteur d&apos;affaires
+          acceptable avant d&apos;approuver.
         </p>
       </header>
 

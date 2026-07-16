@@ -213,12 +213,21 @@ create policy "admin manages payout batches" on public.payout_batches
 -- auto-create sera pertinent pour l'étape publique, pas maintenant") :
 -- maintenant, c'est le moment.
 --
--- Flux : /partenaires/inscription vérifie le SIRET côté serveur AVANT
--- d'appeler supabase.auth.signInWithOtp({ options: { data: {...} } }) — les
--- métadonnées passées dans `data` atterrissent dans auth.users.raw_user_meta_data,
--- que ce trigger recopie dans profiles à la création du compte. profiles.status
--- garde son défaut 'pending' : aucune modification de requireAgent() /
--- getApprovedAgentProfile() n'est nécessaire, ils traitent déjà ce cas.
+-- Flux : /partenaires/inscription vérifie le SIRET côté serveur AVANT de
+-- créer le compte (auth.admin.createUser) — les métadonnées atterrissent
+-- dans auth.users.raw_user_meta_data, que ce trigger recopie dans profiles.
+--
+-- Approbation automatique (décision produit, pas juste technique) : si le
+-- SIRET est vérifié actif ET le contrat accepté — les deux seules choses
+-- que le formulaire garantit déjà avant d'arriver ici — le compte est
+-- 'approved' immédiatement, sans passer par /partenaires/admin/candidatures.
+-- Cet écran reste comme filet de sécurité pour les cas où la condition ne
+-- tient pas (voir le CASE plus bas), pas comme étape obligatoire.
+-- ⚠️ Rappel du risque juridique déjà noté dans docs/agent-network-plan.md
+-- section 8 : la vérification SIRET ne couvre que le statut actif/fermé,
+-- pas la catégorie juridique (auto-entrepreneur/agent commercial RSAC vs
+-- autre) — ce jugement-là n'est plus fait par personne avec l'approbation
+-- automatique. Assumé comme compromis volontaire friction/risque.
 -- ============================================================================
 
 -- siret_verified (déjà existant) reste le filtre simple pass/fail ; siret_check
@@ -238,14 +247,14 @@ alter table public.profiles add column if not exists contract_version text;
 -- profiles pour une connexion admin classique (/login), qui passe aussi par
 -- auth.users mais sans ces métadonnées d'inscription.
 --
--- ⚠️ status = 'pending' est EXPLICITE ici, volontairement, et ne doit
--- JAMAIS être retiré de la liste de colonnes : la colonne profiles.status
--- a `default 'approved'` (hérité de la Session 1, écrit pour le réseau
--- fermé où un admin insère la ligne à la main et la veut déjà approuvée).
--- Sans cet override explicite, TOUT candidat inscrit via /partenaires/
--- inscription atterrit directement approved, sans jamais passer par la
--- file d'attente /partenaires/admin/candidatures — ce qui a été constaté
--- en le testant (bug corrigé ici, voir la conversation correspondante).
+-- ⚠️ status est TOUJOURS explicite ici, volontairement, et ne doit JAMAIS
+-- être retiré de la liste de colonnes : la colonne profiles.status a
+-- `default 'approved'` (hérité de la Session 1, écrit pour le réseau fermé
+-- où un admin insère la ligne à la main et la veut déjà approuvée) — un
+-- INSERT qui ne préciserait pas status hériterait de ce défaut et
+-- approuverait n'importe qui sans même passer par le CASE ci-dessous
+-- (bug réellement rencontré, voir la conversation correspondante avant
+-- l'introduction de ce CASE).
 create or replace function public.handle_new_agent_signup()
 returns trigger
 language plpgsql
@@ -257,7 +266,12 @@ begin
     insert into public.profiles (id, status, full_name, siret, siret_verified, siret_check, contract_accepted_at, contract_version)
     values (
       new.id,
-      'pending',
+      case
+        when (new.raw_user_meta_data->>'siret_verified')::boolean is true
+         and new.raw_user_meta_data ? 'contract_accepted_at'
+        then 'approved'
+        else 'pending'
+      end,
       new.raw_user_meta_data->>'full_name',
       new.raw_user_meta_data->>'siret',
       (new.raw_user_meta_data->>'siret_verified')::boolean,

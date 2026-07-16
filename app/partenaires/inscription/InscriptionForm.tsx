@@ -223,7 +223,7 @@ export function InscriptionForm() {
       </button>
 
       <p className="text-xs text-neutral-500 text-center">
-        Votre candidature sera examinée par notre équipe après vérification de votre SIRET.
+        Votre accès est activé automatiquement dès que votre SIRET est vérifié actif.
       </p>
     </form>
   )
