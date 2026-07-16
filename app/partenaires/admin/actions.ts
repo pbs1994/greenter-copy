@@ -128,6 +128,57 @@ export async function updateDealAmount(dealId: string, formData: FormData) {
 }
 
 /**
+ * Approves a pending candidature (public self-registration, see
+ * app/partenaires/inscription) — the SIRET was already verified active
+ * before the account was even created (lib/siret-check.ts), this is the
+ * human judgment call on top of that automated check.
+ */
+export async function approveAgent(agentId: string) {
+  await requireAdmin()
+
+  const supabase = adminClient()
+  const { error } = await supabase
+    .from('profiles')
+    .update({ status: 'approved' })
+    .eq('id', agentId)
+    .eq('status', 'pending')
+
+  if (error) {
+    throw new Error(`Échec de l'approbation : ${error.message}`)
+  }
+
+  revalidatePath('/partenaires/admin/candidatures')
+  revalidatePath('/partenaires/admin/agents')
+  revalidatePath('/partenaires/admin')
+}
+
+/**
+ * Rejects a candidature. Sets status to 'suspended' rather than deleting
+ * anything — keeps the SIRET verification snapshot and application date
+ * around in case the person re-applies or the admin reconsiders, and
+ * requireAgent() already blocks dashboard access for any non-'approved'
+ * status, so there's no access risk in leaving the row in place.
+ */
+export async function rejectAgent(agentId: string) {
+  await requireAdmin()
+
+  const supabase = adminClient()
+  const { error } = await supabase
+    .from('profiles')
+    .update({ status: 'suspended' })
+    .eq('id', agentId)
+    .eq('status', 'pending')
+
+  if (error) {
+    throw new Error(`Échec du rejet : ${error.message}`)
+  }
+
+  revalidatePath('/partenaires/admin/candidatures')
+  revalidatePath('/partenaires/admin/agents')
+  revalidatePath('/partenaires/admin')
+}
+
+/**
  * Sets an agent's commission rate (%). Lives in profiles, not deals — a
  * rate change only affects future commission calculations, it doesn't
  * retroactively touch deals already closed.

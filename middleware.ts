@@ -15,7 +15,10 @@
  *    The two login forms (/login, /partenaires/login) are exempt from the
  *    "must be authenticated" gate — that's the whole point of a login page
  *    — but are still watched so an already-logged-in visitor gets bounced
- *    straight past them.
+ *    straight past them. /partenaires/inscription and /partenaires/contrat
+ *    are exempt too (public self-registration + the contract text it links
+ *    to), but are NOT bounced when already authenticated — an existing
+ *    agent or an admin should still be able to open the contract page.
  *
  * 2. Capture agent referral links (`?ref=<code>`) into a 30-day cookie, on
  *    ANY public page — an agent's link can point at any product/service
@@ -35,8 +38,10 @@ export async function middleware(request: NextRequest) {
   const isAdminPath = path.startsWith('/administrator')
   const isLoginPath = path === '/login'
   const isPartenairesLoginPath = path === '/partenaires/login'
-  const isPartenairesPath = path.startsWith('/partenaires') && !isPartenairesLoginPath
-  const needsAuthGate = isAdminPath || isLoginPath || isPartenairesLoginPath || isPartenairesPath
+  const isPartenairesPublicPath =
+    isPartenairesLoginPath || path === '/partenaires/inscription' || path === '/partenaires/contrat'
+  const isPartenairesPath = path.startsWith('/partenaires') && !isPartenairesPublicPath
+  const needsAuthGate = isAdminPath || isLoginPath || isPartenairesPublicPath || isPartenairesPath
 
   if (needsAuthGate) {
     const supabase = createServerClient(

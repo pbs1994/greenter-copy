@@ -63,9 +63,13 @@ function getServiceRoleClient() {
 }
 
 /**
- * Returns the agent's profile row iff it exists and is approved, else null.
+ * Returns the agent's profile row regardless of status (pending/approved/
+ * suspended), or null if none exists. Used by the /partenaires role router
+ * to tell "candidature in review" apart from "no profile at all" — the
+ * dashboard gate itself (requireAgent()) still only cares about 'approved',
+ * via getApprovedAgentProfile() below.
  */
-export async function getApprovedAgentProfile(userId: string): Promise<AgentProfile | null> {
+export async function getAgentProfile(userId: string): Promise<AgentProfile | null> {
   const admin = getServiceRoleClient()
   const { data, error } = await admin
     .from('profiles')
@@ -73,11 +77,19 @@ export async function getApprovedAgentProfile(userId: string): Promise<AgentProf
     .eq('id', userId)
     .maybeSingle()
   if (error) {
-    console.error('getApprovedAgentProfile lookup failed:', error)
+    console.error('getAgentProfile lookup failed:', error)
     return null
   }
-  if (!data || data.status !== 'approved') return null
-  return data as AgentProfile
+  return data as AgentProfile | null
+}
+
+/**
+ * Returns the agent's profile row iff it exists and is approved, else null.
+ */
+export async function getApprovedAgentProfile(userId: string): Promise<AgentProfile | null> {
+  const profile = await getAgentProfile(userId)
+  if (!profile || profile.status !== 'approved') return null
+  return profile
 }
 
 /**

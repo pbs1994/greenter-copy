@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { isAdminEmail } from '@/lib/admin-auth'
-import { getPartenaireUser, getApprovedAgentProfile } from '@/lib/partenaires-auth'
+import { getPartenaireUser, getAgentProfile } from '@/lib/partenaires-auth'
 
 export const metadata = {
   title: 'Espace Partenaires · Greenter',
@@ -29,26 +29,32 @@ export default async function PartenairesRootPage({ searchParams }: Props) {
     redirect('/partenaires/admin')
   }
 
-  const profile = await getApprovedAgentProfile(user.id)
-  if (profile) {
+  const profile = await getAgentProfile(user.id)
+  if (profile?.status === 'approved') {
     redirect('/partenaires/dashboard')
   }
+
+  const isPending = profile?.status === 'pending'
 
   return (
     <main className="min-h-screen bg-neutral-50 flex items-center justify-center px-4">
       <div className="w-full max-w-md text-center">
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-neutral-200 p-8">
           <h1 className="font-heading text-xl font-bold text-neutral-900 mb-2">
-            Accès non configuré
+            {isPending ? 'Candidature en cours d’examen' : 'Accès non configuré'}
           </h1>
           <p className="text-sm text-neutral-600 mb-4">
-            {error === 'not_agent'
-              ? "Votre compte est connecté, mais aucun profil agent approuvé n'y est associé pour l'instant."
-              : "Votre compte n'a pas encore de rôle dans l'espace partenaires."}
+            {isPending
+              ? "Votre candidature à l'Espace Partenaires a bien été reçue et est en cours d'examen. Vous recevrez un email dès qu'elle sera traitée."
+              : error === 'not_agent'
+                ? "Votre compte est connecté, mais aucun profil agent approuvé n'y est associé pour l'instant."
+                : "Votre compte n'a pas encore de rôle dans l'espace partenaires."}
           </p>
-          <p className="text-sm text-neutral-500">
-            Contactez l&apos;administrateur du réseau pour faire activer votre accès.
-          </p>
+          {!isPending && (
+            <p className="text-sm text-neutral-500">
+              Contactez l&apos;administrateur du réseau pour faire activer votre accès.
+            </p>
+          )}
           <form action="/api/auth/logout?next=/partenaires/login" method="post" className="mt-6">
             <button
               type="submit"

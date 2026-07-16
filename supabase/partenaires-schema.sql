@@ -205,6 +205,68 @@ create policy "agent selects own payout batches" on public.payout_batches
 create policy "admin manages payout batches" on public.payout_batches
   for all using (is_admin()) with check (is_admin());
 
+-- ============================================================================
+-- Étape publique — Session 6 : inscription self-service + vérification SIRET
+--
+-- Voir docs/agent-network-plan.md section 8. Reprend le trigger auto-create
+-- anticipé dans le commentaire de la section 2 ci-dessus ("Le trigger
+-- auto-create sera pertinent pour l'étape publique, pas maintenant") :
+-- maintenant, c'est le moment.
+--
+-- Flux : /partenaires/inscription vérifie le SIRET côté serveur AVANT
+-- d'appeler supabase.auth.signInWithOtp({ options: { data: {...} } }) — les
+-- métadonnées passées dans `data` atterrissent dans auth.users.raw_user_meta_data,
+-- que ce trigger recopie dans profiles à la création du compte. profiles.status
+-- garde son défaut 'pending' : aucune modification de requireAgent() /
+-- getApprovedAgentProfile() n'est nécessaire, ils traitent déjà ce cas.
+-- ============================================================================
+
+-- siret_verified (déjà existant) reste le filtre simple pass/fail ; siret_check
+-- est l'instantané complet (dénomination, statut, catégorie juridique, date de
+-- vérification) que l'admin consulte sur l'écran de candidatures.
+alter table public.profiles add column if not exists siret_check jsonb;
+alter table public.profiles add column if not exists contract_version text;
+
+-- security definer, même raisonnement que is_admin() plus haut : le rôle
+-- interne Supabase qui exécute l'INSERT dans auth.users lors d'un signInWithOtp
+-- n'a pas forcément de droit d'écriture direct sur public.profiles (dont la
+-- policy INSERT n'autorise que is_admin()) ; en security definer, la fonction
+-- s'exécute avec les droits de son propriétaire et bypass proprement la RLS,
+-- sans l'affaiblir pour qui que ce soit d'autre.
+--
+-- Le garde-fou `raw_user_meta_data ? 'full_name'` évite de créer une ligne
+-- profiles pour une connexion admin classique (/login), qui passe aussi par
+-- auth.users mais sans ces métadonnées d'inscription.
+create or replace function public.handle_new_agent_signup()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.raw_user_meta_data ? 'full_name' then
+    insert into public.profiles (id, full_name, siret, siret_verified, siret_check, contract_accepted_at, contract_version)
+    values (
+      new.id,
+      new.raw_user_meta_data->>'full_name',
+      new.raw_user_meta_data->>'siret',
+      (new.raw_user_meta_data->>'siret_verified')::boolean,
+      new.raw_user_meta_data->'siret_check',
+      (new.raw_user_meta_data->>'contract_accepted_at')::timestamptz,
+      new.raw_user_meta_data->>'contract_version'
+    )
+    on conflict (id) do nothing;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_agent_signup on auth.users;
+create trigger on_agent_signup
+  after insert on auth.users
+  for each row
+  execute function public.handle_new_agent_signup();
+
 -- ----------------------------------------------------------------------------
 -- Vérification
 -- ----------------------------------------------------------------------------
@@ -212,3 +274,5 @@ select table_name from information_schema.tables
 where table_schema = 'public'
   and table_name in ('profiles', 'deals', 'commissions', 'payout_batches')
 order by table_name;
+
+select trigger_name from information_schema.triggers where trigger_name = 'on_agent_signup';

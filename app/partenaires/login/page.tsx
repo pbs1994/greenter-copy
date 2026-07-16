@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import Link from 'next/link'
 import { LoginForm } from './LoginForm'
 
 export const metadata = {
@@ -46,7 +47,10 @@ export default async function PartenairesLoginPage({ searchParams }: Props) {
           </Suspense>
         </div>
         <p className="text-center text-xs text-neutral-400 mt-6">
-          Greenter · accès réservé aux partenaires
+          Pas encore partenaire ?{' '}
+          <Link href="/partenaires/inscription" className="text-neutral-500 hover:text-neutral-900 underline underline-offset-2">
+            Candidater
+          </Link>
         </p>
       </div>
     </main>

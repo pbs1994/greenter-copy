@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, Users, Briefcase, AlertTriangle, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, Briefcase, AlertTriangle, UserCheck, LogOut } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 import { requireAdmin } from '@/lib/admin-auth'
 
@@ -11,17 +11,21 @@ export const metadata = {
 const NAV = [
   { href: '/partenaires/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/partenaires/admin/agents', label: 'Agents', icon: Users },
+  { href: '/partenaires/admin/candidatures', label: 'Candidatures', icon: UserCheck },
   { href: '/partenaires/admin/deals', label: 'Dossiers', icon: Briefcase },
   { href: '/partenaires/admin/action-requise', label: 'Action requise', icon: AlertTriangle },
 ] as const
 
-async function countActionRequired(): Promise<number> {
-  const supabase = createClient(
+function adminClient() {
+  return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { persistSession: false, autoRefreshToken: false } }
   )
-  const { count } = await supabase
+}
+
+async function countActionRequired(): Promise<number> {
+  const { count } = await adminClient()
     .from('deals')
     .select('id', { count: 'exact', head: true })
     .eq('source', 'agent_link_call')
@@ -30,9 +34,25 @@ async function countActionRequired(): Promise<number> {
   return count || 0
 }
 
+async function countPendingCandidatures(): Promise<number> {
+  const { count } = await adminClient()
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'pending')
+
+  return count || 0
+}
+
 export default async function PartenairesAdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAdmin()
-  const actionRequiredCount = await countActionRequired()
+  const [actionRequiredCount, pendingCandidaturesCount] = await Promise.all([
+    countActionRequired(),
+    countPendingCandidatures(),
+  ])
+  const badgeCountByHref: Record<string, number> = {
+    '/partenaires/admin/action-requise': actionRequiredCount,
+    '/partenaires/admin/candidatures': pendingCandidaturesCount,
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col md:flex-row">
@@ -56,9 +76,9 @@ export default async function PartenairesAdminLayout({ children }: { children: R
             >
               <Icon className="w-4 h-4" />
               {label}
-              {href === '/partenaires/admin/action-requise' && actionRequiredCount > 0 && (
+              {badgeCountByHref[href] > 0 && (
                 <span className="ml-auto inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-amber-500 text-white text-xs font-semibold">
-                  {actionRequiredCount}
+                  {badgeCountByHref[href]}
                 </span>
               )}
             </Link>
@@ -108,9 +128,9 @@ export default async function PartenairesAdminLayout({ children }: { children: R
             >
               <Icon className="w-3.5 h-3.5" />
               {label}
-              {href === '/partenaires/admin/action-requise' && actionRequiredCount > 0 && (
+              {badgeCountByHref[href] > 0 && (
                 <span className="inline-flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1 rounded-full bg-amber-500 text-white text-[10px] font-semibold">
-                  {actionRequiredCount}
+                  {badgeCountByHref[href]}
                 </span>
               )}
             </Link>
