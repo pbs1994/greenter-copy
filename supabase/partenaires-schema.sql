@@ -237,6 +237,15 @@ alter table public.profiles add column if not exists contract_version text;
 -- Le garde-fou `raw_user_meta_data ? 'full_name'` évite de créer une ligne
 -- profiles pour une connexion admin classique (/login), qui passe aussi par
 -- auth.users mais sans ces métadonnées d'inscription.
+--
+-- ⚠️ status = 'pending' est EXPLICITE ici, volontairement, et ne doit
+-- JAMAIS être retiré de la liste de colonnes : la colonne profiles.status
+-- a `default 'approved'` (hérité de la Session 1, écrit pour le réseau
+-- fermé où un admin insère la ligne à la main et la veut déjà approuvée).
+-- Sans cet override explicite, TOUT candidat inscrit via /partenaires/
+-- inscription atterrit directement approved, sans jamais passer par la
+-- file d'attente /partenaires/admin/candidatures — ce qui a été constaté
+-- en le testant (bug corrigé ici, voir la conversation correspondante).
 create or replace function public.handle_new_agent_signup()
 returns trigger
 language plpgsql
@@ -245,9 +254,10 @@ set search_path = public
 as $$
 begin
   if new.raw_user_meta_data ? 'full_name' then
-    insert into public.profiles (id, full_name, siret, siret_verified, siret_check, contract_accepted_at, contract_version)
+    insert into public.profiles (id, status, full_name, siret, siret_verified, siret_check, contract_accepted_at, contract_version)
     values (
       new.id,
+      'pending',
       new.raw_user_meta_data->>'full_name',
       new.raw_user_meta_data->>'siret',
       (new.raw_user_meta_data->>'siret_verified')::boolean,
