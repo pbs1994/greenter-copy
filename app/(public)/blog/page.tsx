@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'isolation-pour-cave-2026',
+    title: "Isolation pour Cave : Guide Complet 2026 (Plafond, Murs, Matériaux, Prix)",
+    slug: 'isolation-pour-cave',
+    excerpt: "Comment bien isoler une cave ? Isolation du plafond, des murs et du sol, comparatif des matériaux (polystyrène extrudé, polyuréthane, laine de roche, laine de verre), étapes de pose et aides financières 2026.",
+    published_date: '2026-07-19',
+    image: '/images/blog/isolation-cave-plafond-panneaux-polystyrene-pose.webp',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'remplacer-chaudiere-gaz-pac-2026',
     title: "Remplacer sa chaudière gaz par une pompe à chaleur en 2026 : le guide complet",
     slug: 'remplacer-chaudiere-gaz-pompe-a-chaleur-2026',
