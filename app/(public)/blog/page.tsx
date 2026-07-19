@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'pompe-a-chaleur-pour-appartement-2026',
+    title: "Pompe à Chaleur pour Appartement : Guide Complet 2026 (Types, Copropriété, Prix)",
+    slug: 'pompe-a-chaleur-pour-appartement',
+    excerpt: "Peut-on installer une pompe à chaleur pour appartement ? Types adaptés (air-air, air-eau, sans unité extérieure), accord de copropriété, urbanisme, nuisance sonore, prix et aides financières 2026.",
+    published_date: '2026-07-19',
+    image: '/images/blog/pompe-a-chaleur-appartement-unite-exterieure-balcon-immeuble.jpeg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-pour-cave-2026',
     title: "Isolation pour Cave : Guide Complet 2026 (Plafond, Murs, Matériaux, Prix)",
     slug: 'isolation-pour-cave',

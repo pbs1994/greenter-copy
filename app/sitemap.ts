@@ -45,6 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/blog/isolation-rampants-de-toiture`, lastModified: new Date('2026-07-02'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/pompe-a-chaleur-et-bruit`, lastModified: new Date('2026-07-07'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/isolation-pour-cave`, lastModified: new Date('2026-07-19'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/pompe-a-chaleur-pour-appartement`, lastModified: new Date('2026-07-19'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/simulateur-solaire`, lastModified: new Date('2026-01-15'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: new Date('2026-01-15'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/mentions-legales`, lastModified: new Date('2025-09-01'), changeFrequency: 'yearly', priority: 0.3 },
