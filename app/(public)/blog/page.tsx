@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'placoplatre-isolation-thermique',
+    title: "Placoplâtre isolation thermique : le guide complet du placo isolant en 2026",
+    slug: 'placoplatre-isolation-thermique',
+    excerpt: "Le placo isolant associe plaque de plâtre et isolant (laine de verre, laine de roche, polystyrène expansé) pour isoler thermiquement et phoniquement murs et plafonds. Types, épaisseurs, résistance thermique, pose et prix au m² en 2026.",
+    published_date: '2026-07-23',
+    image: '/images/blog/placo-isolant-pose-plaque-platre-ossature-metallique.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-pour-appartement-2026',
     title: "Pompe à Chaleur pour Appartement : Guide Complet 2026 (Types, Copropriété, Prix)",
     slug: 'pompe-a-chaleur-pour-appartement',

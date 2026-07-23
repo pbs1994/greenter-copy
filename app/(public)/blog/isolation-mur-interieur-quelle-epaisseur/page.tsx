@@ -398,6 +398,16 @@ export default function IsolationMurInterieurQuelleEpaisseur() {
         </ul>
 
         <p className="text-slate-700 leading-relaxed mb-4">
+          Pour aller plus loin sur le rôle de la plaque de plâtre dans ce doublage, notre
+          guide sur le{' '}
+          <Link href="/blog/placoplatre-isolation-thermique" className="text-emerald-700 font-semibold hover:underline">
+            placo isolant et l&apos;isolation thermique
+          </Link>{' '}
+          détaille les différents types de placo isolant (laine de verre, laine de roche,
+          polystyrène expansé, polyuréthane) et leurs techniques de pose.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-4">
           Au total, un doublage bien isolant représente{' '}
           <strong>130 à 175 mm d&apos;épaisseur totale</strong> par mur traité.
           Pour une maison de 100 m² avec quatre façades exposées (périmètre ≈ 40 m,
