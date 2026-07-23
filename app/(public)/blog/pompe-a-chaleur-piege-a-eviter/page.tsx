@@ -277,6 +277,11 @@ export default function PompeAChaleurPiegeAEviter() {
               pose de pompe à chaleur en Île-de-France
             </Link>{' '}
             — tous nos partenaires sont certifiés QualiPAC RGE avec attestation fluides frigorigènes.
+            Et si l&apos;on vous a promis une installation « à 1 euro », méfiance : notre article sur la{' '}
+            <Link href="/blog/pompe-a-chaleur-a-1-euro-vrai-ou-faux" className="text-emerald-700 font-semibold hover:underline">
+              pompe à chaleur à 1 euro (vrai ou faux)
+            </Link>{' '}
+            explique en détail pourquoi ce type d&apos;offre est presque toujours un signal d&apos;arnaque.
           </p>
         </ArticleImageSection>
 

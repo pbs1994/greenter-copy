@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'pompe-a-chaleur-1-euro-vrai-ou-faux',
+    title: "Pompe à chaleur à 1 euro : vrai ou faux ? Le guide complet 2026",
+    slug: 'pompe-a-chaleur-a-1-euro-vrai-ou-faux',
+    excerpt: "Une pompe à chaleur à 1 euro, ça existe vraiment ? Origine du mythe, vraies aides MaPrimeRénov' 2026, reste à charge réel et signaux d'alerte pour repérer une arnaque à la rénovation énergétique.",
+    published_date: '2026-07-23',
+    image: '/images/blog/pompe-a-chaleur-1-euro-vrai-ou-faux-hero-dossier-unite-exterieure.webp',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'placoplatre-isolation-thermique',
     title: "Placoplâtre isolation thermique : le guide complet du placo isolant en 2026",
     slug: 'placoplatre-isolation-thermique',
