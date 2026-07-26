@@ -102,7 +102,12 @@ export default function PrixIsolationComblesM2() {
             Ce guide vous donne tous les <strong>tarifs d&apos;une isolation des combles</strong>{' '}
             pour 2026, un comparatif complet des isolants, le détail des{' '}
             <strong>aides financières</strong> disponibles et un exemple chiffré de reste à
-            charge réel selon votre profil de revenus.
+            charge réel selon votre profil de revenus. Pour une vision plus globale du{' '}
+            <strong>budget total</strong> à prévoir selon la taille de votre logement et
+            la composition détaillée d&apos;un devis, consultez également notre guide{' '}
+            <Link href="/blog/prix-d-une-isolation-des-combles" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+              prix d&apos;une isolation des combles : budget complet et devis
+            </Link>.
           </p>
         </div>
 
@@ -463,6 +468,18 @@ export default function PrixIsolationComblesM2() {
 
         {/* ---- LIENS INTERNES ---- */}
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link
+            href="/blog/prix-d-une-isolation-des-combles"
+            className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Guide complémentaire</p>
+            <p className="mt-1 font-bold text-slate-900 group-hover:text-emerald-700">
+              Prix d&apos;une isolation des combles — budget et devis
+            </p>
+            <p className="mt-1 inline-flex items-center gap-1 text-sm text-emerald-600">
+              Lire le guide <ArrowRight className="h-3.5 w-3.5" />
+            </p>
+          </Link>
           <Link
             href="/services/isolation"
             className="group block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md"

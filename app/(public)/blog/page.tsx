@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'prix-d-une-isolation-des-combles',
+    title: "Prix d'une isolation des combles en 2026 : budget complet et devis",
+    slug: 'prix-d-une-isolation-des-combles',
+    excerpt: "Combien coûte réellement une isolation des combles, tous postes compris ? Budget total par taille de logement, composition d'un devis, reste à charge après aides et conseils pour comparer les devis.",
+    published_date: '2026-07-26',
+    image: '/images/blog/isolation-combles-prix-pose-artisan-sous-rampants.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-1-euro-vrai-ou-faux',
     title: "Pompe à chaleur à 1 euro : vrai ou faux ? Le guide complet 2026",
     slug: 'pompe-a-chaleur-a-1-euro-vrai-ou-faux',
