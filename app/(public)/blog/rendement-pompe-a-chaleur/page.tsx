@@ -539,7 +539,11 @@ export default function RendementPompeAChaleur() {
               durée de vie d&apos;une pompe à chaleur
             </Link>
             , qui recense tous les facteurs qui prolongent ou raccourcissent la vie
-            de l&apos;appareil.
+            de l&apos;appareil. Le détail complet d&apos;une visite technique et des
+            obligations légales fait l&apos;objet de notre guide sur l&apos;
+            <Link href="/blog/entretien-pompe-a-chaleur-air-eau" className="text-emerald-700 font-semibold hover:underline">
+              entretien d&apos;une pompe à chaleur air-eau
+            </Link>.
           </p>
           <p>
             Attention également à la qualité de l&apos;eau du circuit hydraulique pour

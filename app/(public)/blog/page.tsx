@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'entretien-pompe-a-chaleur-air-eau',
+    title: "Entretien pompe à chaleur air-eau : fréquence, prix et obligations 2026",
+    slug: 'entretien-pompe-a-chaleur-air-eau',
+    excerpt: "L'entretien d'une pompe à chaleur air-eau est-il obligatoire ? Fréquence légale, détail complet d'une visite technique, prix moyen en 2026 et risques d'un défaut d'entretien (garantie, panne, surconsommation).",
+    published_date: '2026-07-26',
+    image: '/images/blog/pompe-a-chaleur-air-eau-entretien-technicien-manometre.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'prix-d-une-isolation-des-combles',
     title: "Prix d'une isolation des combles en 2026 : budget complet et devis",
     slug: 'prix-d-une-isolation-des-combles',

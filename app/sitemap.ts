@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/services/maintenance`, lastModified: new Date('2026-01-15'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/produits`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/blog`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/blog/entretien-pompe-a-chaleur-air-eau`, lastModified: new Date('2026-07-26'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/prix-d-une-isolation-des-combles`, lastModified: new Date('2026-07-26'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/guide-prix-pompe-a-chaleur-2026`, lastModified: new Date('2026-02-01'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026`, lastModified: new Date('2026-02-01'), changeFrequency: 'monthly', priority: 0.75 },

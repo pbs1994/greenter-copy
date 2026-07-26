@@ -454,8 +454,11 @@ export default function DureeDeViePompeAChaleur() {
           chaleur</strong> haut de gamme mal dimensionnée vieillira plus vite qu&apos;un modèle
           intermédiaire correctement posé et entretenu chaque année. Pour <strong>optimiser la
           durée de vie</strong> de votre futur équipement, exigez systématiquement un bilan
-          thermique avant le devis, un installateur certifié RGE QualiPAC, et souscrivez un
-          contrat d&apos;entretien dès la mise en service.
+          thermique avant le devis, un installateur certifié RGE QualiPAC, et souscrivez un{' '}
+          <Link href="/blog/entretien-pompe-a-chaleur-air-eau" className="text-emerald-700 font-semibold hover:underline">
+            contrat d&apos;entretien
+          </Link>{' '}
+          dès la mise en service.
         </p>
 
         <ArticleCTA
