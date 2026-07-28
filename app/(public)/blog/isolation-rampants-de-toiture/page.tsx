@@ -277,7 +277,11 @@ export default function IsolationRampantsDeToiture() {
           A1, incombustible) et une atténuation acoustique supérieure — un
           critère important sous une toiture exposée à la pluie battante ou
           proche d&apos;un axe routier. Son coût (15 à 25 €/m²) est légèrement
-          supérieur à celui de la laine de verre.
+          supérieur à celui de la laine de verre. Notre guide sur l&apos;
+          <Link href="/blog/isolation-par-laine-de-roche" className="text-emerald-700 font-semibold hover:underline">
+            isolation par laine de roche
+          </Link>{' '}
+          détaille en profondeur ce matériau : fabrication, usages, prix et méthode de pose.
         </p>
 
         <h3 className="text-2xl font-bold text-slate-800 mt-12 mb-4">

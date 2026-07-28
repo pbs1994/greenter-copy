@@ -258,7 +258,11 @@ export default function IsolationMurInterieurQuelleEpaisseur() {
           <strong>nuisances sonores</strong> entre pièces. Sa cousine, la{' '}
           <strong>laine de roche</strong>, offre des performances thermiques très proches
           mais avec une meilleure résistance à l&apos;humidité et une incombustibilité totale —
-          avantages décisifs dans les cuisines, salles de bain ou sous-sols.
+          avantages décisifs dans les cuisines, salles de bain ou sous-sols. Notre guide sur l&apos;
+          <Link href="/blog/isolation-par-laine-de-roche" className="text-emerald-700 font-semibold hover:underline">
+            isolation par laine de roche
+          </Link>{' '}
+          détaille sa fabrication, ses usages et un comparatif complet face aux autres isolants.
         </p>
 
         <ArticleFullImage

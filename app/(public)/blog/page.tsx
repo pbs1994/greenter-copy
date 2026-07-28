@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'isolation-par-laine-de-roche',
+    title: "Isolation par laine de roche : guide complet, prix et pose en 2026",
+    slug: 'isolation-par-laine-de-roche',
+    excerpt: "Fabrication, performances, prix au m² et méthode de pose : tout savoir sur l'isolation par laine de roche pour les combles, les murs et les cloisons, avec un comparatif face à la laine de verre et la fibre de bois.",
+    published_date: '2026-07-28',
+    image: '/images/blog/laine-de-roche-installation-rouleau-technicien.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'entretien-pompe-a-chaleur-air-eau',
     title: "Entretien pompe à chaleur air-eau : fréquence, prix et obligations 2026",
     slug: 'entretien-pompe-a-chaleur-air-eau',
