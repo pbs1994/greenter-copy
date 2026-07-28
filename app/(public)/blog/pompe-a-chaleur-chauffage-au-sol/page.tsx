@@ -316,7 +316,11 @@ export default function PompeAChaleurChauffageAuSol() {
           La géothermie se justifie principalement dans les constructions neuves très
           bien isolées (DPE A-B) ou dans les grands logements où l&apos;économie annuelle
           sur les <strong>factures de chauffage</strong> amortit le surcoût d&apos;installation
-          en moins de 12 ans.
+          en moins de 12 ans. Notre comparatif{' '}
+          <Link href="/blog/geothermie-ou-pompe-a-chaleur" className="text-emerald-700 font-semibold hover:underline">
+            géothermie ou pompe à chaleur
+          </Link>{' '}
+          détaille les critères pour trancher entre les deux technologies.
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">

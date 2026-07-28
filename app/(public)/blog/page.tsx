@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'geothermie-ou-pompe-a-chaleur',
+    title: "Géothermie ou pompe à chaleur : quelle différence et laquelle choisir ?",
+    slug: 'geothermie-ou-pompe-a-chaleur',
+    excerpt: "La géothermie est en réalité une pompe à chaleur — mais pas comme les autres. Comparatif complet entre géothermie et pompe à chaleur aérothermique : fonctionnement, rendement, prix, aides et cas d'usage en 2026.",
+    published_date: '2026-07-28',
+    image: '/images/blog/geothermie-local-technique-ballons-tampon.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-par-laine-de-roche',
     title: "Isolation par laine de roche : guide complet, prix et pose en 2026",
     slug: 'isolation-par-laine-de-roche',

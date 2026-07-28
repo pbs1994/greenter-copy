@@ -241,7 +241,11 @@ export default function DureeDeViePompeAChaleur() {
           fonctionner 50 ans, voire toute la durée de vie du bâtiment. C&apos;est cette
           <strong> longévité d&apos;une pompe à chaleur</strong> géothermique qui justifie
           souvent son coût d&apos;installation plus élevé : sur le long terme, le coût ramené à
-          l&apos;année devient très compétitif.
+          l&apos;année devient très compétitif. Notre article{' '}
+          <Link href="/blog/geothermie-ou-pompe-a-chaleur" className="text-emerald-700 font-semibold hover:underline">
+            géothermie ou pompe à chaleur
+          </Link>{' '}
+          compare en détail les deux technologies pour vous aider à choisir.
         </p>
 
         {/* ---- SECTION 3 : FACTEURS ---- */}
