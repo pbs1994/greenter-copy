@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'cout-installation-pompe-a-chaleur',
+    title: "Coût d'installation d'une pompe à chaleur : main-d'œuvre et facteurs de prix",
+    slug: 'cout-installation-pompe-a-chaleur',
+    excerpt: "Main-d'œuvre, étapes du chantier, facteurs qui font varier la facture : ce que représente réellement le coût d'installation d'une pompe à chaleur, indépendamment du prix de l'appareil.",
+    published_date: '2026-07-30',
+    image: '/images/blog/cout-installation-pompe-a-chaleur-hero-budget.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-comble-rampant',
     title: "Isolation comble rampant : diagnostiquer et corriger une isolation défaillante",
     slug: 'isolation-comble-rampant',

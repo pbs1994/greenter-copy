@@ -117,6 +117,17 @@ export default function GuidePrixPAC2026() {
           ))}
         </div>
 
+        <p className="text-slate-700 leading-relaxed mb-8">
+          Ces montants incluent à la fois le prix du matériel et la main-d&apos;œuvre. Pour
+          comprendre précisément ce que représente le{' '}
+          <Link href="/blog/cout-installation-pompe-a-chaleur" className="text-emerald-700 font-semibold hover:underline">
+            coût d&apos;installation d&apos;une pompe à chaleur
+          </Link>{' '}
+          — indépendamment du prix de l&apos;appareil — et pourquoi il peut varier du simple
+          au double selon votre chantier, consultez notre guide dédié à la main-d&apos;œuvre
+          et aux étapes de pose.
+        </p>
+
         {/* ---- SECTION 3 : AIDES ---- */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">Les aides financières en 2026</h2>
 
