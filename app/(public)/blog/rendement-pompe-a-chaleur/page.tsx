@@ -380,7 +380,11 @@ export default function RendementPompeAChaleur() {
 
         <div className="space-y-4 text-slate-700 leading-relaxed mt-6">
           <p>
-            Le compresseur est le cœur d&apos;une pompe à chaleur. C&apos;est lui qui
+            Le compresseur est le cœur d&apos;une pompe à chaleur — nous détaillons son
+            rôle exact dans le{' '}
+            <Link href="/blog/pompe-a-chaleur-air-eau-fonctionnement" className="text-emerald-700 font-semibold hover:underline">
+              cycle de fonctionnement d&apos;une pompe à chaleur air-eau
+            </Link>. C&apos;est lui qui
             consomme la quasi-totalité de l&apos;énergie électrique et qui détermine
             en grande partie le <strong>rendement de la pompe à chaleur</strong>.
             Les PAC à compresseur standard fonctionnent en tout-ou-rien : soit

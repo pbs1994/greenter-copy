@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/services/maintenance`, lastModified: new Date('2026-01-15'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/produits`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/blog`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/blog/pompe-a-chaleur-air-eau-fonctionnement`, lastModified: new Date('2026-07-30'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/geothermie-ou-pompe-a-chaleur`, lastModified: new Date('2026-07-28'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/isolation-par-laine-de-roche`, lastModified: new Date('2026-07-28'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/entretien-pompe-a-chaleur-air-eau`, lastModified: new Date('2026-07-26'), changeFrequency: 'monthly', priority: 0.75 },

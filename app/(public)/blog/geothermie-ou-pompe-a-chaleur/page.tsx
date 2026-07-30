@@ -123,7 +123,11 @@ export default function GeothermieOuPompeAChaleur() {
           les concentre grâce à un compresseur et un fluide frigorigène, puis les restitue à
           une température plus élevée pour chauffer le logement. Ce qui distingue les
           différentes technologies, c&apos;est uniquement la <strong>source de chaleur</strong>{' '}
-          exploitée — pas le principe thermodynamique lui-même.
+          exploitée — pas le principe thermodynamique lui-même. Notre article sur le{' '}
+          <Link href="/blog/pompe-a-chaleur-air-eau-fonctionnement" className="text-emerald-700 font-semibold hover:underline">
+            fonctionnement d&apos;une pompe à chaleur air-eau
+          </Link>{' '}
+          détaille pas à pas ce cycle thermodynamique, commun à toutes les pompes à chaleur.
         </p>
 
         <h3 className="text-xl font-bold text-slate-900 mt-8 mb-3">

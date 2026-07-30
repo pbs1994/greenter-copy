@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'pompe-a-chaleur-air-eau-fonctionnement',
+    title: "Pompe à chaleur air-eau fonctionnement : le cycle expliqué en détail",
+    slug: 'pompe-a-chaleur-air-eau-fonctionnement',
+    excerpt: "Évaporation, compression, condensation, détente : comment fonctionne réellement une pompe à chaleur air-eau, quels sont ses composants, et pourquoi sa performance varie avec la température extérieure.",
+    published_date: '2026-07-30',
+    image: '/images/blog/pompe-a-chaleur-air-eau-unite-exterieure-maison-moderne.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'geothermie-ou-pompe-a-chaleur',
     title: "Géothermie ou pompe à chaleur : quelle différence et laquelle choisir ?",
     slug: 'geothermie-ou-pompe-a-chaleur',
