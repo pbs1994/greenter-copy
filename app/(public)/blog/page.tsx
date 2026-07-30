@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'isolation-comble-rampant',
+    title: "Isolation comble rampant : diagnostiquer et corriger une isolation défaillante",
+    slug: 'isolation-comble-rampant',
+    excerpt: "Paroi froide, condensation, facture de chauffage qui grimpe : comment reconnaître une isolation comble rampant défaillante, comprendre ses points faibles et la reprendre efficacement en 2026.",
+    published_date: '2026-07-30',
+    image: '/images/blog/isolation-comble-rampant-pose-technicien-laine-roche.jpg',
+    readingTime: 13,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'pompe-a-chaleur-air-eau-fonctionnement',
     title: "Pompe à chaleur air-eau fonctionnement : le cycle expliqué en détail",
     slug: 'pompe-a-chaleur-air-eau-fonctionnement',

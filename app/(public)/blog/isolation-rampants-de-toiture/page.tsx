@@ -535,6 +535,18 @@ export default function IsolationRampantsDeToiture() {
           ))}
         </div>
 
+        <p className="text-slate-700 leading-relaxed mb-8">
+          Ces erreurs ne concernent pas seulement les chantiers neufs : elles expliquent
+          aussi pourquoi de nombreuses isolations de rampants posées il y a quinze ou vingt
+          ans montrent aujourd&apos;hui leurs limites. Si vous soupçonnez une isolation déjà en
+          place plutôt que d&apos;en poser une nouvelle, notre guide{' '}
+          <Link href="/blog/isolation-comble-rampant" className="text-emerald-700 font-semibold hover:underline">
+            isolation comble rampant : diagnostiquer et corriger une isolation défaillante
+          </Link>{' '}
+          détaille comment identifier ces défauts et décider entre complément et reprise
+          complète.
+        </p>
+
         {/* ── SECTION 8 : FENETRES DE TOIT ET VENTILATION ─────────────── */}
         <h2 className="text-3xl font-bold text-slate-900 mt-16 mb-6">
           Isolation des rampants, fenêtres de toit et ventilation : une approche globale
