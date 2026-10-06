@@ -302,7 +302,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-[1.02]">
                   <Phone className="w-5 h-5" />
-                  Vérifier mon éligibilité
+                  Vérifier mon éligibilité au {LP_PHONE_DISPLAY}
                 </PhoneCallTracker>
                 <a href="#devis"
                   className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-green-900 text-white font-semibold text-lg px-8 py-4 rounded-2xl transition-all">
@@ -342,7 +342,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" /> Devis détaillé sans avance de trésorerie</p>
                     </div>
                     <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center gap-2 text-green-700 font-semibold text-sm underline">
-                      <Phone className="w-4 h-4" /> Vous préférez appeler directement ?
+                      <Phone className="w-4 h-4" /> Vous préférez appeler ? {LP_PHONE_DISPLAY}
                     </PhoneCallTracker>
                   </div>
                 ) : (
@@ -496,7 +496,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                         {formStatus === "error" && (
                           <p className="text-red-600 text-sm text-center">
                             Une erreur est survenue.{" "}
-                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous.</PhoneCallTracker>
+                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous au {LP_PHONE_DISPLAY}.</PhoneCallTracker>
                           </p>
                         )}
                         <div className="flex items-center justify-between pt-1">
@@ -641,7 +641,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
                             "bg-pink-600 hover:bg-pink-700"
                           } text-white font-bold py-3 px-6 rounded-xl transition-all text-sm`}>
                             <Phone className="w-4 h-4" />
-                            Confirmer avec un expert
+                            Confirmer avec un expert : {LP_PHONE_DISPLAY}
                           </PhoneCallTracker>
                           <a href="#devis" className="inline-flex items-center justify-center gap-2 bg-white hover:bg-neutral-50 text-neutral-900 font-semibold py-3 px-6 rounded-xl border border-neutral-200 transition-all text-sm">
                             Devis détaillé gratuit
@@ -778,7 +778,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
 
             <div className="flex flex-col sm:flex-row gap-3">
               <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl transition-all text-sm">
-                <Phone className="w-4 h-4" /> Appeler un expert
+                <Phone className="w-4 h-4" /> Appeler un expert : {LP_PHONE_DISPLAY}
               </PhoneCallTracker>
               <a href="#devis" className="flex-1 inline-flex items-center justify-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-semibold py-3.5 rounded-xl transition-all text-sm">
                 Devis gratuit <ArrowRight className="w-4 h-4" />
@@ -1071,7 +1071,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center justify-center gap-3 bg-white text-green-900 hover:bg-green-50 font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]">
-              <Phone className="w-5 h-5" /> Appeler maintenant
+              <Phone className="w-5 h-5" /> Appeler le {LP_PHONE_DISPLAY}
             </PhoneCallTracker>
             <a href="#devis" className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all">
               Devis gratuit en ligne <ArrowRight className="w-5 h-5" />
@@ -1089,7 +1089,7 @@ export function IsolationLanding({ rating, reviewCount }: IsolationLandingProps)
       <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-2xl px-4 py-3">
         <div className="flex gap-3 max-w-sm mx-auto">
           <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="flex-1 flex items-center justify-center gap-2 bg-green-700 active:bg-green-800 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
-            <Phone className="w-4 h-4" /> Appeler
+            <Phone className="w-4 h-4" /> {LP_PHONE_DISPLAY}
           </PhoneCallTracker>
           <a href="#devis" className="flex-1 flex items-center justify-center gap-2 bg-teal-600 active:bg-teal-700 text-white font-bold py-3.5 rounded-xl text-sm transition-all">
             Devis gratuit <ArrowRight className="w-4 h-4" />

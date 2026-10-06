@@ -192,7 +192,7 @@ export function SolaireLanding() {
                       <p className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-blue-600 flex-shrink-0" /> Analyse conformité Loi APER / Décret Tertiaire</p>
                     </div>
                     <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="inline-flex items-center gap-2 text-blue-700 font-semibold text-sm underline">
-                      <Phone className="w-4 h-4" /> Appeler directement
+                      <Phone className="w-4 h-4" /> Appeler le {LP_PHONE_DISPLAY}
                     </PhoneCallTracker>
                   </div>
                 ) : (
@@ -345,7 +345,7 @@ export function SolaireLanding() {
                         {formStatus === "error" && (
                           <p className="text-red-600 text-sm text-center">
                             Une erreur est survenue.{" "}
-                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous.</PhoneCallTracker>
+                            <PhoneCallTracker phoneNumber={LP_PHONE_RAW} displayNumber={LP_PHONE_DISPLAY} className="underline font-medium">Appelez-nous au {LP_PHONE_DISPLAY}.</PhoneCallTracker>
                           </p>
                         )}
                         <div className="flex items-center justify-between pt-1">
