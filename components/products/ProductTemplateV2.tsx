@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BuyButton } from '@/components/BuyButton'
+import { PhoneCallTracker } from '@/components/PhoneCallTracker'
+import { COMPANY_PHONES } from '@/lib/local-seo-data'
 import type { GoogleReviewsResponse } from '@/lib/google-places'
 import {
   Star, Check, X, ChevronDown, ChevronRight,
@@ -61,6 +63,7 @@ export interface ProductV2Data {
   hideMonthly?: boolean   // hide 3× instalment line
   benefits?: V2Benefit[]  // overrides the default 5-item strip
   expertCallout?: { title: string; body: string } | null  // null = hidden
+  phoneCta?: boolean  // true = bottom "expert" button is a tel: link showing the number (Google Ads call forwarding)
   quoteTypeLabel?: string     // default "Type de projet"
   quoteTypeOptions?: string[] // default carport options; pass [] to hide the block
   quoteSurfaceOptions?: string[] // default 3 surface brackets; pass [] to hide the block
@@ -896,9 +899,19 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                 {product.ctaLabel ?? 'Commander maintenant →'}
               </Link>
             )}
-            <Link href="/contact" className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors">
-              <Phone className="w-4 h-4" /> {product.productId ? 'Une question ?' : 'Parler à un expert'}
-            </Link>
+            {product.phoneCta ? (
+              <PhoneCallTracker
+                phoneNumber={COMPANY_PHONES.secondary.raw}
+                displayNumber={COMPANY_PHONES.secondary.display}
+                className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors"
+              >
+                <Phone className="w-4 h-4" /> Parler à un expert : {COMPANY_PHONES.secondary.display}
+              </PhoneCallTracker>
+            ) : (
+              <Link href="/contact" className="bg-white/20 hover:bg-white/30 text-white font-medium py-4 px-8 rounded-full inline-flex items-center justify-center gap-2 transition-colors">
+                <Phone className="w-4 h-4" /> {product.productId ? 'Une question ?' : 'Parler à un expert'}
+              </Link>
+            )}
           </div>
           {!product.hideMonthly && (
             <p className="text-green-200 text-sm mt-4">

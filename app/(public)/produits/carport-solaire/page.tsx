@@ -30,6 +30,7 @@ const PRODUCT: ProductV2Data = {
   ctaModal: true,
   hideMonthly: true,
   expertCallout: null,
+  phoneCta: true,
   benefits: [
     { emoji: "📐", title: "Sur mesure", sub: "Dimensions selon votre terrain" },
     { emoji: "🔧", title: "Installation incluse", sub: "Par techniciens RGE QualiPV" },
