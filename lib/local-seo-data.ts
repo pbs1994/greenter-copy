@@ -140,8 +140,8 @@ export const COMPANY_ADDRESS = {
 export const COMPANY_PHONES = {
   // Ligne principale affichée sur le site (CTA, header, hero)
   primary: {
-    raw: "+33766975099",
-    display: "07 66 97 50 99",
+    raw: "+33609455056",
+    display: "06 09 45 50 56",
     contactType: "customer service",
   },
   // Ligne secondaire (commercial / direction)

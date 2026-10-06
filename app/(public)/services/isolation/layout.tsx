@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Isolation à 1€ en 2026 : Combles & Planchers | Greenter",
   description:
-    "Isolation des combles perdus et planchers bas à partir de 1€* partout en France. Profitez des aides MaPrimeRénov' & CEE bonifiés 2026 pour les ménages modestes. Certifié RGE. Devis gratuit ☎ 07 66 97 50 99",
+    "Isolation des combles perdus et planchers bas à partir de 1€* partout en France. Profitez des aides MaPrimeRénov' & CEE bonifiés 2026 pour les ménages modestes. Certifié RGE. Devis gratuit ☎ 06 09 45 50 56",
   keywords: [
     "isolation 1 euro",
     "isolation à 1€",

@@ -118,29 +118,29 @@ describe('SidebarCTA Properties', () => {
 
   it('no aggressive colors in any variant', () => {
     const { container, rerender } = render(
-      <SidebarCTA title="Test" phone="07 66 97 50 99" variant="subtle" />
+      <SidebarCTA title="Test" phone="06 09 45 50 56" variant="subtle" />
     );
     expect(container.innerHTML).not.toMatch(AGGRESSIVE_COLORS);
 
-    rerender(<SidebarCTA title="Test" phone="07 66 97 50 99" variant="editorial" />);
+    rerender(<SidebarCTA title="Test" phone="06 09 45 50 56" variant="editorial" />);
     expect(container.innerHTML).not.toMatch(AGGRESSIVE_COLORS);
   });
 
   it('has tel: link with +33 format', () => {
-    const { container } = render(<SidebarCTA title="Test" phone="07 66 97 50 99" />);
+    const { container } = render(<SidebarCTA title="Test" phone="06 09 45 50 56" />);
     const link = container.querySelector('a[href^="tel:"]');
     expect(link).not.toBeNull();
-    expect(link?.getAttribute('href')).toBe('tel:+33766975099');
+    expect(link?.getAttribute('href')).toBe('tel:+33609455056');
   });
 
   it('has data-testid and renders content', () => {
     render(
-      <SidebarCTA title="Mon titre" phone="07 66 97 50 99" description="Ma description" />
+      <SidebarCTA title="Mon titre" phone="06 09 45 50 56" description="Ma description" />
     );
     expect(screen.getByTestId('sidebar-cta')).toBeInTheDocument();
     expect(screen.getByText('Mon titre')).toBeInTheDocument();
     expect(screen.getByText('Ma description')).toBeInTheDocument();
-    expect(screen.getByText('07 66 97 50 99')).toBeInTheDocument();
+    expect(screen.getByText('06 09 45 50 56')).toBeInTheDocument();
   });
 });
 

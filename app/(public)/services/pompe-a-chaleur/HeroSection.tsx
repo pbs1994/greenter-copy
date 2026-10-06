@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const PHONE = "07 66 97 50 99"
+const PHONE = "06 09 45 50 56"
 const BRANDS = ["Atlantic", "Daikin", "Mitsubishi", "Panasonic", "Toshiba", "LG", "Hitachi"]
 
 function GoogleLogo({ className = "" }: { className?: string }) {

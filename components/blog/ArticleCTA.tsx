@@ -11,7 +11,7 @@ interface ArticleCTAProps {
 export function ArticleCTA({
   title,
   description,
-  phone = '07 66 97 50 99',
+  phone = '06 09 45 50 56',
 }: ArticleCTAProps) {
   return (
     <div className="my-12 bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-600 rounded-2xl p-8 text-center text-white">

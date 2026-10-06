@@ -7,7 +7,7 @@ import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import { CITIES } from "@/lib/local-seo-data"
 import { ISOLATION_FAQS } from "@/lib/isolation-editorial-data"
 
-const PHONE = "07 66 97 50 99"
+const PHONE = "06 09 45 50 56"
 
 const CATEGORIES = [
   {
