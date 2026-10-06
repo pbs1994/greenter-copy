@@ -5,7 +5,6 @@ import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { LocalBusinessSchema } from "@/components/schemas/LocalBusinessSchema"
-import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchema"
 import { ArticleSchema } from "@/components/schemas/ArticleSchema"
 import { PACEditorialContent } from "@/components/editorial"
 import { CITIES, COMPANY_PHONES } from "@/lib/local-seo-data"
@@ -25,8 +24,6 @@ const faqs = [
 
 export default async function PompeAChaleurPage() {
   const googleData = await fetchGoogleReviews()
-  const rating = googleData.rating > 0 ? googleData.rating : 4.9
-  const reviewCount = googleData.reviewCount > 0 ? googleData.reviewCount : 47
 
   const breadcrumbItems = [
     { name: "Accueil", url: "https://www.greenter.fr" },
@@ -39,8 +36,7 @@ export default async function PompeAChaleurPage() {
       <ServiceSchema name="Installation Pompe à Chaleur Seine-et-Marne" description="Installation PAC certifié RGE. Prix transparents." url="https://www.greenter.fr/services/pompe-a-chaleur" image="https://www.greenter.fr/pac.png" />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQPageSchema items={faqs} />
-      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE à Ozoir-la-Ferrière, en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone={COMPANY_PHONES.primary.raw} email="contact@greenter.fr" url="https://www.greenter.fr" image="https://www.greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} aggregateRating={{ ratingValue: rating, reviewCount }} />
-      <AggregateRatingSchema itemReviewed={{ type: "LocalBusiness", name: "Greenter" }} ratingValue={rating} reviewCount={reviewCount} />
+      <LocalBusinessSchema name="Greenter" description="Installation pompe à chaleur certifié RGE à Ozoir-la-Ferrière, en Seine-et-Marne (77) et Île-de-France" address={{ streetAddress: "Ozoir-la-Ferrière", addressLocality: "Ozoir-la-Ferrière", postalCode: "77330", addressCountry: "FR" }} telephone={COMPANY_PHONES.primary.raw} email="contact@greenter.fr" url="https://www.greenter.fr" image="https://www.greenter.fr/logo.png" priceRange="€€" areaServed={CITIES.map(city => city.name)} />
       <ArticleSchema
         headline="Guide complet de la pompe à chaleur en 2026 : types, prix, aides et installation"
         description="Tout savoir sur les pompes à chaleur en 2026 : comparatif des types (air/air, air/eau, géothermique), prix, aides MaPrimeRénov' et processus d'installation par un artisan RGE en Seine-et-Marne."

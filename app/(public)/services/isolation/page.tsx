@@ -4,7 +4,6 @@ import { ServiceSchema } from "@/components/schemas/ServiceSchema"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
 import { LocalBusinessSchema } from "@/components/schemas/LocalBusinessSchema"
-import { AggregateRatingSchema } from "@/components/schemas/AggregateRatingSchema"
 import { ArticleSchema } from "@/components/schemas/ArticleSchema"
 import { CITIES, COMPANY_PHONES } from "@/lib/local-seo-data"
 import { IsolationEditorialContent } from "@/components/editorial"
@@ -14,8 +13,6 @@ import { HeroSection } from "./HeroSection"
 
 export default async function IsolationPage() {
   const googleData = await fetchGoogleReviews()
-  const rating = googleData.rating > 0 ? googleData.rating : 4.9
-  const reviewCount = googleData.reviewCount > 0 ? googleData.reviewCount : 47
 
   const breadcrumbItems = [
     { name: "Accueil", url: "https://www.greenter.fr" },
@@ -48,12 +45,6 @@ export default async function IsolationPage() {
         image="https://www.greenter.fr/logo.png"
         priceRange="€"
         areaServed={CITIES.map((c) => c.name)}
-        aggregateRating={{ ratingValue: rating, reviewCount }}
-      />
-      <AggregateRatingSchema
-        itemReviewed={{ type: "LocalBusiness", name: "Greenter" }}
-        ratingValue={rating}
-        reviewCount={reviewCount}
       />
       <ArticleSchema
         headline="Isolation à 1€ en 2026 : ce qu'il faut savoir sur les aides et le dispositif"
