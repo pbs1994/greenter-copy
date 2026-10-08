@@ -6,7 +6,7 @@ import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import {
   Phone, CheckCircle, ArrowRight, Shield, Clock, Euro, Award, Star,
   AlertTriangle, Wrench, FileCheck, Flame, Droplets, Thermometer,
-  Gauge, Volume2, Search, ShieldCheck, Leaf, ChevronDown, ChevronUp,
+  Gauge, Volume2, Search, ShieldCheck, Leaf, MapPin, ChevronDown, ChevronUp,
 } from "lucide-react"
 
 const LP_PHONE_RAW = "+33609455056"
@@ -71,6 +71,10 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
     {
       q: "Dans quel délai pouvez-vous intervenir ?",
       a: "Nous traitons en priorité les foyers sans chauffage ni eau chaude. Appelez-nous : nous vous proposons immédiatement le premier créneau disponible et, dans la plupart des cas, un pré-diagnostic par téléphone pour vous aider en attendant le passage du technicien.",
+    },
+    {
+      q: "Dans quelles zones intervenez-vous ?",
+      a: "Nous intervenons en Île-de-France, dans la Seine-et-Marne (77), les Yvelines (78) et l'Essonne (91) : Melun, Meaux, Chelles, Pontault-Combault, Versailles, Saint-Germain-en-Laye, Poissy, Mantes-la-Jolie, Évry-Courcouronnes, Corbeil-Essonnes, Massy, Palaiseau et toutes les communes alentour.",
     },
     {
       q: "Intervenez-vous sur toutes les marques de chaudières ?",
@@ -141,7 +145,7 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
               <div className="relative z-10 px-4 sm:px-6 lg:px-0 [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.8))_drop-shadow(0_0_8px_rgba(0,0,0,0.4))] lg:[filter:none]">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
                 <Award className="w-4 h-4 text-blue-300" />
-                Toutes marques · Seine-et-Marne & Île-de-France
+                Toutes marques · Île-de-France · 77 · 78 · 91
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-4 tracking-tight">
@@ -637,6 +641,59 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
         </div>
       </section>
 
+      {/* ── ZONE D'INTERVENTION ────────────────────────────────────────────── */}
+      <section className="py-20 bg-white border-t border-neutral-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+              <MapPin className="w-4 h-4" />
+              Zone d&apos;intervention
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
+              Nous intervenons près de chez vous
+            </h2>
+            <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+              Dépannage de chaudière gaz en Île-de-France, dans trois départements.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { code: "77", name: "Seine-et-Marne", cities: ["Melun", "Meaux", "Chelles", "Pontault-Combault", "Ozoir-la-Ferrière", "Savigny-le-Temple"] },
+              { code: "78", name: "Yvelines", cities: ["Versailles", "Saint-Germain-en-Laye", "Poissy", "Mantes-la-Jolie", "Sartrouville", "Montigny-le-Bretonneux"] },
+              { code: "91", name: "Essonne", cities: ["Évry-Courcouronnes", "Corbeil-Essonnes", "Massy", "Palaiseau", "Savigny-sur-Orge", "Sainte-Geneviève-des-Bois"] },
+            ].map((d) => (
+              <div key={d.code} className="bg-white rounded-3xl p-8 ring-1 ring-neutral-100 hover:ring-blue-200 hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-14 h-14 bg-blue-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-xl font-black text-white">{d.code}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-neutral-900">{d.name}</h3>
+                </div>
+                <ul className="grid grid-cols-2 gap-x-3 gap-y-2">
+                  {d.cities.map((c) => (
+                    <li key={c} className="flex items-start gap-1.5 text-sm text-neutral-600">
+                      <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-neutral-400 mt-4">… et toutes les communes du département</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <PhoneCallTracker
+              phoneNumber={LP_PHONE_RAW}
+              displayNumber={LP_PHONE_DISPLAY}
+              className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-700/20"
+            >
+              <Phone className="w-4 h-4" />
+              Vérifier ma commune au {LP_PHONE_DISPLAY}
+            </PhoneCallTracker>
+          </div>
+        </div>
+      </section>
+
       {/* ── RÉPARER OU REMPLACER + IMAGE ───────────────────────────────────── */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -764,7 +821,7 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
           </div>
           <div className="flex items-center justify-center gap-2 mt-6">
             <div className="flex">{stars("w-4 h-4", "text-white/30")}</div>
-            <p className="text-blue-300 text-sm">{rating}/5 sur {reviewCount} avis Google · Seine-et-Marne & Île-de-France</p>
+            <p className="text-blue-300 text-sm">{rating}/5 sur {reviewCount} avis Google · Seine-et-Marne (77) · Yvelines (78) · Essonne (91)</p>
           </div>
         </div>
       </section>
