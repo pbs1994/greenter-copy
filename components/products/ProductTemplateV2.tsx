@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTurnstile } from '@/components/useTurnstile'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BuyButton } from '@/components/BuyButton'
@@ -147,6 +148,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
   const [submitted, setSubmitted] = useState(false)
   const [showQuoteModal, setShowQuoteModal] = useState(false)
   const [quoteForm, setQuoteForm] = useState({ name: '', phone: '', type: '', surface: '', message: '' })
+  const turnstile = useTurnstile()
   const [quoteState, setQuoteState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [stickyVisible, setStickyVisible] = useState(false)
   const [companyReviews, setCompanyReviews] = useState<GoogleReviewsResponse | null>(null)
@@ -1015,6 +1017,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
+                          turnstileToken: await turnstile.getToken(),
                           name: quoteForm.name,
                           phone: quoteForm.phone,
                           service: product.name,
@@ -1120,6 +1123,7 @@ export function ProductTemplateV2({ product }: { product: ProductV2Data }) {
                     </p>
                   )}
 
+                  {turnstile.widget}
                   <button
                     type="submit"
                     disabled={quoteState === 'sending'}

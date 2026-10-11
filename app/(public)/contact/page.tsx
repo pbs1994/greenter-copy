@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import Image from "next/image"
 import { Phone, Mail, MapPin, Clock, CheckCircle, Send, ArrowRight, ArrowLeft, User, MessageSquare, Home, Thermometer } from "lucide-react"
 import { useObfuscatedEmail } from "@/components/ObfuscatedEmail"
@@ -91,6 +92,7 @@ function ChipGroup({
 /* ── Main page ────────────────────────────────────────────────────────────── */
 
 export default function ContactPage() {
+  const turnstile = useTurnstile()
   const [step, setStep]           = useState<1 | 2 | 3>(1)
   const [formState, setFormState] = useState<"idle" | "loading" | "success">("idle")
   const [formData, setFormData]   = useState({
@@ -129,6 +131,7 @@ export default function ContactPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name:    formData.name,
           email:   formData.email,
           phone:   formData.phone,
@@ -334,6 +337,7 @@ export default function ContactPage() {
                         </div>
                       </div>
 
+                      {turnstile.widget}
                       <div className="flex gap-3">
                         <button type="button" onClick={() => setStep(2)} className="btn-secondary py-3.5 px-5 flex items-center gap-2">
                           <ArrowLeft className="w-4 h-4" />

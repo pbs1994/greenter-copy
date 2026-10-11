@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import Image from "next/image"
 import { Phone, Star, Check, Shield, Clock, Award, Loader2 } from "lucide-react"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
@@ -28,6 +29,7 @@ function GoogleLogo({ className = "" }: { className?: string }) {
 }
 
 function CallbackForm({ compact = false }: { compact?: boolean }) {
+  const turnstile = useTurnstile()
   const [phone, setPhone] = useState("")
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
@@ -48,6 +50,7 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name: "Demande de rappel PAC",
           email: "rappel@greenter.fr",
           phone: phone.trim(),
@@ -110,6 +113,7 @@ function CallbackForm({ compact = false }: { compact?: boolean }) {
             required
           />
         </div>
+        {turnstile.widget}
         <button
           type="submit"
           disabled={status === "loading"}

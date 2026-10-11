@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import Image from "next/image"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 
@@ -176,6 +177,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
   const [statsVisible, setStatsVisible] = useState(false)
   const statsRef = useRef<HTMLDivElement>(null)
 
+  const turnstile = useTurnstile()
   const [step, setStep] = useState<1 | 2>(1)
   const [form, setForm] = useState({ project: "", surface: "", name: "", phone: "", email: "", website: "" })
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
@@ -200,6 +202,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name: form.name,
           phone: form.phone,
           email: form.email,
@@ -502,6 +505,7 @@ export function PACLanding({ rating, reviewCount }: PACLandingProps) {
                           onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
                           className={inputCls}
                         />
+                        {turnstile.widget}
                         <button
                           type="submit"
                           disabled={formStatus === "loading"}

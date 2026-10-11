@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react"
 
 const benefits = [
@@ -11,6 +12,7 @@ const benefits = [
 ]
 
 export function Banner() {
+  const turnstile = useTurnstile()
   const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle")
   const [formData, setFormData] = useState({
     name: "",
@@ -39,6 +41,7 @@ export function Banner() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name: formData.name,
           email: '', // Pas d'email dans ce formulaire simplifié
           phone: formData.phone,
@@ -182,6 +185,7 @@ export function Banner() {
                     <p className="text-red-500 text-sm">Une erreur est survenue. Réessayez ou appelez-nous.</p>
                   )}
                   
+                  {turnstile.widget}
                   <button
                     type="submit"
                     disabled={formState === "loading"}

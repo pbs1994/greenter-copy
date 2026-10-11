@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resend } from '@/lib/resend'
 import { contactRequestTemplate } from '@/lib/email-templates'
-import { isRateLimitedPerMinute } from '@/lib/rate-limit'
+import { getClientIp, isRateLimitedPerMinute } from '@/lib/rate-limit'
+import { isPlausibleName, isPlausiblePhone } from '@/lib/lead-guard'
+import { verifyTurnstile } from '@/lib/turnstile'
 import { REFERRAL_COOKIE, resolveReferralCode } from '@/lib/referral'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@greenter.fr'
@@ -37,7 +39,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Trop de requêtes, veuillez réessayer plus tard' }, { status: 429 })
     }
 
-    const { name, email, phone, service, message } = await request.json()
+    const { name, email, phone, service, message, website, turnstileToken } = await request.json()
+
+    // Honeypot rempli = bot. On répond "succès" pour ne pas lui apprendre
+    // qu'il a été détecté, mais rien n'est envoyé.
+    if (typeof website === 'string' && website.trim() !== '') {
+      return NextResponse.json({ success: true })
+    }
 
     // Validation basique - email optionnel pour le formulaire simplifié
     if (!name || !phone) {
@@ -50,6 +58,17 @@ export async function POST(request: NextRequest) {
     // Validate string types
     if (typeof name !== 'string' || typeof phone !== 'string') {
       return NextResponse.json({ error: 'Format invalide' }, { status: 400 })
+    }
+
+    if (!isPlausiblePhone(phone)) {
+      return NextResponse.json({ error: 'Numéro de téléphone invalide' }, { status: 400 })
+    }
+    if (!isPlausibleName(name)) {
+      return NextResponse.json({ error: 'Nom invalide' }, { status: 400 })
+    }
+
+    if (!(await verifyTurnstile(turnstileToken, getClientIp(request)))) {
+      return NextResponse.json({ error: 'Vérification anti-spam échouée, veuillez réessayer' }, { status: 403 })
     }
 
     // Valider le format email et rejeter les tentatives d'injection d'en-têtes

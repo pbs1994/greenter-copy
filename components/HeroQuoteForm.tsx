@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import { User, Phone, Mail, MapPin, Send, CheckCircle, ArrowRight, Loader2 } from "lucide-react"
 
 interface HeroQuoteFormProps {
@@ -27,6 +28,7 @@ const projectTypes = [
 ] as const;
 
 export default function HeroQuoteForm({ className = '', onSuccess }: HeroQuoteFormProps) {
+  const turnstile = useTurnstile()
   const [formState, setFormState] = useState<FormState>('idle');
   const [formData, setFormData] = useState<QuoteFormData>({
     name: '',
@@ -59,6 +61,7 @@ export default function HeroQuoteForm({ className = '', onSuccess }: HeroQuoteFo
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -281,6 +284,7 @@ export default function HeroQuoteForm({ className = '', onSuccess }: HeroQuoteFo
         </div>
 
         {/* Submit */}
+        {turnstile.widget}
         <button
           type="submit"
           disabled={formState === 'loading'}

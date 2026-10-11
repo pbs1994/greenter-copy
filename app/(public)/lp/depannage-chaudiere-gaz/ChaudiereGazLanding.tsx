@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTurnstile } from "@/components/useTurnstile"
 import Image from "next/image"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 import {
@@ -27,6 +28,7 @@ interface ChaudiereGazLandingProps {
 }
 
 export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLandingProps) {
+  const turnstile = useTurnstile()
   const [step, setStep] = useState<1 | 2>(1)
   const [form, setForm] = useState({ panne: "", delai: "", name: "", phone: "", postalCode: "", brand: "", email: "", website: "" })
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
@@ -41,6 +43,7 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          turnstileToken: await turnstile.getToken(),
           name: form.name,
           phone: form.phone,
           email: form.email,
@@ -380,6 +383,7 @@ export function ChaudiereGazLanding({ rating, reviewCount }: ChaudiereGazLanding
                           onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
                           className={inputCls}
                         />
+                        {turnstile.widget}
                         <button type="submit" disabled={formStatus === "loading"}
                           className="w-full bg-blue-700 hover:bg-blue-600 disabled:opacity-70 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-blue-700/30 hover:shadow-xl hover:-translate-y-0.5"
                         >
