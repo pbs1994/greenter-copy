@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'surconsommation-pompe-a-chaleur',
+    title: "Surconsommation pompe à chaleur : 8 causes et comment y remédier",
+    slug: 'surconsommation-pompe-a-chaleur',
+    excerpt: "Surconsommation pompe à chaleur : comment savoir si votre PAC consomme trop, trouver la cause (appoint, loi d'eau, entretien…) et la corriger. Guide 2026.",
+    published_date: '2026-10-11',
+    image: '/images/blog/surconsommation-pompe-a-chaleur-technicien-controle-unite-exterieure.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-derriere-radiateur',
     title: "Isolation derrière radiateur : panneau réfléchissant, économies réelles et pose",
     slug: 'isolation-derriere-radiateur',

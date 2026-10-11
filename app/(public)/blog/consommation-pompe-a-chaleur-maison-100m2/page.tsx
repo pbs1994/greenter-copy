@@ -460,7 +460,12 @@ export default function ConsommationPACMaison100m2() {
           La bonne nouvelle, c&apos;est que la consommation d&apos;une pompe à chaleur est très
           influençable. À matériel égal, les choix de l&apos;occupant et les conditions du
           logement peuvent faire varier la consommation annuelle de 30 à 50 %. Voici les
-          six leviers les plus efficaces, classés par ordre d&apos;impact.
+          six leviers les plus efficaces, classés par ordre d&apos;impact. Si votre
+          consommation dépasse nettement ces ordres de grandeur, consultez notre guide sur la{' '}
+          <Link href="/blog/surconsommation-pompe-a-chaleur" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            surconsommation de pompe à chaleur
+          </Link>{' '}
+          pour en identifier la cause.
         </p>
 
         <ArticleSteps steps={TIPS_STEPS} />

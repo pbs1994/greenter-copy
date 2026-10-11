@@ -106,7 +106,11 @@ export default function RendementPompeAChaleur() {
             combinaison de facteurs techniques, environnementaux et comportementaux
             que vous pouvez en grande partie maîtriser. Que vous projetiez d&apos;installer
             une PAC, que vous cherchiez à optimiser une installation existante, ou que
-            vous constatiez une surconsommation inattendue, comprendre ces 8 facteurs
+            vous constatiez une{' '}
+            <Link href="/blog/surconsommation-pompe-a-chaleur" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+              surconsommation de pompe à chaleur
+            </Link>{' '}
+            inattendue, comprendre ces 8 facteurs
             clés vous permettra de prendre des décisions éclairées — et potentiellement
             d&apos;économiser plusieurs centaines d&apos;euros par an sur votre facture
             d&apos;électricité.
