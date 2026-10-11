@@ -1,10 +1,10 @@
 /**
  * Server-side plausibility checks for lead forms (/api/contact).
  *
- * Bots post straight to the API, so every check done in the browser
- * (honeypot, required fields) must be repeated here. These rules reject
- * the garbage we actually receive — 20-digit "phone numbers", names made of
- * random letters and digits — without blocking real French prospects.
+ * These rules spot the garbage we actually receive — 20-digit "phone
+ * numbers", names made of random letters and digits. They only FLAG a lead
+ * as probable spam (the email is still sent): a real prospect who mistypes
+ * their number must never be lost.
  */
 
 /** French number (0X XX XX XX XX, +33, 0033) or an international E.164 number. */

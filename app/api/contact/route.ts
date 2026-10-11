@@ -41,12 +41,6 @@ export async function POST(request: NextRequest) {
 
     const { name, email, phone, service, message, website, turnstileToken } = await request.json()
 
-    // Honeypot rempli = bot. On répond "succès" pour ne pas lui apprendre
-    // qu'il a été détecté, mais rien n'est envoyé.
-    if (typeof website === 'string' && website.trim() !== '') {
-      return NextResponse.json({ success: true })
-    }
-
     // Validation basique - email optionnel pour le formulaire simplifié
     if (!name || !phone) {
       return NextResponse.json(
@@ -60,16 +54,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Format invalide' }, { status: 400 })
     }
 
-    if (!isPlausiblePhone(phone)) {
-      return NextResponse.json({ error: 'Numéro de téléphone invalide' }, { status: 400 })
-    }
-    if (!isPlausibleName(name)) {
-      return NextResponse.json({ error: 'Nom invalide' }, { status: 400 })
-    }
-
+    // Seul Turnstile bloque. Les autres signaux ne font que marquer la demande
+    // comme "spam probable" : l'email part quand même, pour ne jamais perdre
+    // un vrai prospect qui aurait mal tapé son numéro.
     if (!(await verifyTurnstile(turnstileToken, getClientIp(request)))) {
       return NextResponse.json({ error: 'Vérification anti-spam échouée, veuillez réessayer' }, { status: 403 })
     }
+
+    const spamReasons: string[] = []
+    if (typeof website === 'string' && website.trim() !== '') spamReasons.push('champ caché rempli')
+    if (!isPlausiblePhone(phone)) spamReasons.push('numéro de téléphone invalide')
+    if (!isPlausibleName(name)) spamReasons.push('nom incohérent')
+    const isSuspect = spamReasons.length > 0
 
     // Valider le format email et rejeter les tentatives d'injection d'en-têtes
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -86,7 +82,8 @@ export async function POST(request: NextRequest) {
 
     const sanitizedName = sanitizeInput(name, 100)
     const sanitizedServiceLabel = sanitizeInput(service || '', 100)
-    const sanitizedMessage = sanitizeInput(message || 'Demande de devis', 2000)
+    const sanitizedMessage = (isSuspect ? `⚠️ SPAM PROBABLE (${spamReasons.join(', ')}). ` : '')
+      + sanitizeInput(message || 'Demande de devis', 2000)
     const sanitizedPhoneValue = sanitizePhone(phone)
 
     // Envoyer l'email au gérant
@@ -94,7 +91,7 @@ export async function POST(request: NextRequest) {
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       replyTo: sanitizedEmail,
-      subject: `Nouvelle demande de contact - ${sanitizedName}`,
+      subject: `${isSuspect ? '⚠️ Spam probable - ' : ''}Nouvelle demande de contact - ${sanitizedName}`,
       html: contactRequestTemplate({
         name: sanitizedName,
         email: sanitizedEmail || 'Non renseigné',
@@ -113,7 +110,7 @@ export async function POST(request: NextRequest) {
     // Si le lead vient d'un agent, créer aussi son dossier dans l'Espace
     // Partenaires (sinon l'admin serait "au courant" par email mais l'agent
     // ne verrait jamais rien apparaître dans son propre pipeline).
-    if (agent) {
+    if (agent && !isSuspect) {
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
