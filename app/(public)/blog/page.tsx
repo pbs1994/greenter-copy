@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'isolation-derriere-radiateur',
+    title: "Isolation derrière radiateur : panneau réfléchissant, économies réelles et pose",
+    slug: 'isolation-derriere-radiateur',
+    excerpt: "Isolation derrière radiateur : quel isolant choisir, combien d'économies espérer vraiment et comment poser un panneau réfléchissant sans erreur. Le guide complet 2026.",
+    published_date: '2026-10-11',
+    image: '/images/blog/isolation-derriere-radiateur-pose-panneau-reflechissant.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'cout-installation-pompe-a-chaleur',
     title: "Coût d'installation d'une pompe à chaleur : main-d'œuvre et facteurs de prix",
     slug: 'cout-installation-pompe-a-chaleur',
