@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'isolation-plafond-des-caves',
+    title: "Isolation plafond des caves : isolants, pose, prix et aides en 2026",
+    slug: 'isolation-plafond-des-caves',
+    excerpt: "Isolation plafond des caves : quel isolant pour atteindre R ≥ 3, quelle pose selon votre plafond, quel prix et quelles aides, en maison ou en copropriété.",
+    published_date: '2026-10-19',
+    image: '/images/blog/isolation-plafond-des-caves-pose-laine-de-roche-dalle-beton.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'schema-installation-pompe-a-chaleur-air-eau',
     title: "Schéma installation pompe à chaleur air-eau : le circuit complet expliqué",
     slug: 'schema-installation-pompe-a-chaleur-air-eau',

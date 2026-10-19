@@ -161,7 +161,12 @@ export default function IsolationPourCave() {
           est le geste le plus efficace. C&apos;est cette paroi horizontale qui sépare directement
           le sous-sol non chauffé des pièces de vie situées au rez-de-chaussée. En isolant le
           plafond de votre cave, vous créez une barrière thermique exactement là où se produit
-          l&apos;essentiel de l&apos;échange de chaleur entre les deux volumes.
+          l&apos;essentiel de l&apos;échange de chaleur entre les deux volumes. Pour le détail des
+          techniques selon votre type de plafond (dalle, hourdis, voûte, solives) et le cas des
+          copropriétés, consultez notre guide dédié à l&apos;{' '}
+          <Link href="/blog/isolation-plafond-des-caves" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            isolation du plafond des caves
+          </Link>.
         </p>
 
         <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-4">
