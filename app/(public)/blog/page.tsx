@@ -9,6 +9,17 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'schema-installation-pompe-a-chaleur-air-eau',
+    title: "Schéma installation pompe à chaleur air-eau : le circuit complet expliqué",
+    slug: 'schema-installation-pompe-a-chaleur-air-eau',
+    excerpt: "Schéma installation pompe à chaleur air-eau : unité extérieure, module hydraulique, ballon, émetteurs et raccordements expliqués pas à pas. Guide 2026.",
+    published_date: '2026-10-19',
+    image: '/images/lp/greenter-technicien-pac.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'surconsommation-pompe-a-chaleur',
     title: "Surconsommation pompe à chaleur : 8 causes et comment y remédier",
     slug: 'surconsommation-pompe-a-chaleur',

@@ -331,7 +331,11 @@ export default function PompeAChaleurAirEauFonctionnement() {
           frigorifiques nécessitant l&apos;intervention d&apos;un frigoriste certifié. Cette
           configuration limite légèrement les pertes thermiques liées au transport de
           l&apos;eau chaude sur de longues distances, un avantage marginal pour la plupart
-          des logements individuels.
+          des logements individuels. Pour voir comment chaque configuration se raccorde
+          concrètement dans la maison, consultez notre{' '}
+          <Link href="/blog/schema-installation-pompe-a-chaleur-air-eau" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            schéma d&apos;installation d&apos;une pompe à chaleur air-eau
+          </Link>.
         </p>
 
         {/* ---- SECTION 7 : AU QUOTIDIEN ---- */}
