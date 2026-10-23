@@ -37,6 +37,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/services/maintenance`, lastModified: new Date('2026-01-15'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/produits`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/blog`, lastModified: new Date('2026-05-01'), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/blog/note-de-dimensionnement-pompe-a-chaleur`, lastModified: new Date('2026-10-23'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/isolation-thermique-du-toit`, lastModified: new Date('2026-10-23'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/isolation-plafond-des-caves`, lastModified: new Date('2026-10-19'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/schema-installation-pompe-a-chaleur-air-eau`, lastModified: new Date('2026-10-19'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/surconsommation-pompe-a-chaleur`, lastModified: new Date('2026-10-11'), changeFrequency: 'monthly', priority: 0.75 },

@@ -9,6 +9,28 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'note-de-dimensionnement-pompe-a-chaleur',
+    title: "Note de dimensionnement pompe à chaleur : contenu, obligation et vérification",
+    slug: 'note-de-dimensionnement-pompe-a-chaleur',
+    excerpt: "Note de dimensionnement pompe à chaleur : ce qu'elle doit contenir, quand elle est obligatoire pour les aides et comment la vérifier avant de signer.",
+    published_date: '2026-10-23',
+    image: '/images/blog/note-de-dimensionnement-pompe-a-chaleur-deux-unites-exterieures.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
+    id: 'isolation-thermique-du-toit',
+    title: "Isolation thermique du toit : quelle solution selon votre toiture ?",
+    slug: 'isolation-thermique-du-toit',
+    excerpt: "Isolation thermique du toit : combles, rampants, sarking, toit plat ou bac acier. Quelle technique choisir, quelle résistance viser, prix et aides 2026.",
+    published_date: '2026-10-23',
+    image: '/images/blog/isolation-thermique-du-toit-isolant-entre-chevrons.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'isolation-plafond-des-caves',
     title: "Isolation plafond des caves : isolants, pose, prix et aides en 2026",
     slug: 'isolation-plafond-des-caves',

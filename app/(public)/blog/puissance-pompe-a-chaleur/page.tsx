@@ -512,6 +512,15 @@ export default function PuissancePompeAChaleur() {
           tassement de l&apos;isolant) peut avoir des besoins supérieurs aux valeurs théoriques.
         </p>
 
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Le résultat de ce calcul vous est remis sous la forme d&apos;une note de dimensionnement,
+          exigée pour les primes CEE. Pour savoir ce qu&apos;elle doit contenir et comment la
+          contrôler avant de signer, consultez notre guide sur la{' '}
+          <Link href="/blog/note-de-dimensionnement-pompe-a-chaleur" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            note de dimensionnement d&apos;une pompe à chaleur
+          </Link>.
+        </p>
+
         <h3 className="text-2xl font-bold text-slate-900 mt-10 mb-4">
           Les 6 étapes pour bien dimensionner votre pompe à chaleur
         </h3>

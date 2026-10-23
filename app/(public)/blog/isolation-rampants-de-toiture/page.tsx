@@ -174,7 +174,12 @@ export default function IsolationRampantsDeToiture() {
           Il existe deux grandes familles de techniques pour isoler des rampants
           de toiture, qui répondent à des contextes de travaux très différents.
           Le choix entre les deux dépend surtout de l&apos;état de votre couverture
-          et de votre budget.
+          et de votre budget. Si votre toit est plat ou si vos combles ne sont pas
+          aménagés, d&apos;autres solutions existent : notre guide de l&apos;
+          <Link href="/blog/isolation-thermique-du-toit" className="text-emerald-700 underline underline-offset-2 hover:text-emerald-900 transition-colors">
+            isolation thermique du toit
+          </Link>{' '}
+          les compare toutes.
         </p>
 
         <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-4">
