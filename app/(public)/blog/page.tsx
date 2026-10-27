@@ -9,6 +9,28 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'avantages-panneaux-solaires',
+    title: "Avantages des panneaux solaires : ce qu'ils rapportent vraiment en 2026",
+    slug: 'avantages-panneaux-solaires',
+    excerpt: "Avantages des panneaux solaires en 2026 : économies sur la facture, rentabilité chiffrée, durée de vie, bilan carbone, DPE. Ce qui a changé et les limites à connaître.",
+    published_date: '2026-10-27',
+    image: '/images/blog/avantages-panneaux-solaires-toiture-tuiles-panneaux-noirs.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
+    id: 'orientation-panneaux-solaires',
+    title: "Orientation des panneaux solaires : sud, est-ouest ou nord, quelle production ?",
+    slug: 'orientation-panneaux-solaires',
+    excerpt: "Orientation des panneaux solaires : production selon l'azimut et l'inclinaison, cas de l'est-ouest, du toit plat et de l'ombrage, et méthode pour mesurer votre toit.",
+    published_date: '2026-10-27',
+    image: '/images/blog/orientation-panneaux-solaires-toit-boussole.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'note-de-dimensionnement-pompe-a-chaleur',
     title: "Note de dimensionnement pompe à chaleur : contenu, obligation et vérification",
     slug: 'note-de-dimensionnement-pompe-a-chaleur',
