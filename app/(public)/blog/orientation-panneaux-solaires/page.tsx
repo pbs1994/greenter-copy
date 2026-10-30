@@ -456,7 +456,12 @@ export default function OrientationPanneauxSolaires() {
           <Link href="/blog/isolation-thermique-du-toit" className={linkCls}>
             isolation thermique du toit
           </Link>{' '}
-          détaille les options.
+          détaille les options. Sur un toit en tuiles, le choix des crochets est expliqué dans
+          notre article sur la{' '}
+          <Link href="/blog/fixation-panneaux-solaires-sur-tuiles" className={linkCls}>
+            fixation des panneaux solaires sur tuiles
+          </Link>
+          .
         </p>
 
         {/* ---- CTA ---- */}
