@@ -9,6 +9,28 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'taille-panneaux-solaires',
+    title: "Taille des panneaux solaires : dimensions, poids et surface à prévoir",
+    slug: 'taille-panneaux-solaires',
+    excerpt: "Taille des panneaux solaires en 2026 : dimensions et poids d'un panneau standard, surface de toit pour 3, 6 ou 9 kWc, nombre de panneaux et charge sur la charpente.",
+    published_date: '2026-10-30',
+    image: '/images/blog/taille-panneaux-solaires-deux-pans-toiture-tuiles.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
+    id: 'fixation-panneaux-solaires-sur-tuiles',
+    title: "Fixation des panneaux solaires sur tuiles : crochets, pose et erreurs à éviter",
+    slug: 'fixation-panneaux-solaires-sur-tuiles',
+    excerpt: "Fixation des panneaux solaires sur tuiles : quel crochet selon votre tuile, surimposition ou intégration, étapes de pose, étanchéité, normes et erreurs à éviter.",
+    published_date: '2026-10-30',
+    image: '/images/blog/fixation-panneaux-solaires-sur-tuiles-rails-crochets.jpg',
+    readingTime: 14,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'avantages-panneaux-solaires',
     title: "Avantages des panneaux solaires : ce qu'ils rapportent vraiment en 2026",
     slug: 'avantages-panneaux-solaires',

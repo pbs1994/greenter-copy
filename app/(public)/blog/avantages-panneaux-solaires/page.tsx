@@ -496,7 +496,12 @@ export default function AvantagesPanneauxSolaires() {
           <Link href="/blog/isolation-thermique-du-toit" className={linkCls}>
             isolation thermique du toit
           </Link>{' '}
-          vous aide à choisir la bonne technique selon votre toiture.
+          vous aide à choisir la bonne technique selon votre toiture. Pour savoir combien de
+          modules votre toit peut accueillir, consultez notre article sur la{' '}
+          <Link href="/blog/taille-panneaux-solaires" className={linkCls}>
+            taille des panneaux solaires
+          </Link>
+          .
         </p>
 
         {/* ---- SECTION 9 : PRIX ET AIDES ---- */}
