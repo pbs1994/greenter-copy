@@ -558,10 +558,10 @@ export default function PompeAChaleurHybridePage() {
               { name: 'Versailles', slug: 'versailles' },
               { name: 'Créteil', slug: 'creteil' },
               { name: 'Meaux', slug: 'meaux' },
-              { name: 'Évry', slug: 'evry' },
+              { name: 'Évry-Courcouronnes', slug: 'evry-courcouronnes' },
               { name: 'Melun', slug: 'melun' },
               { name: 'Massy', slug: 'massy' },
-              { name: 'Saint-Denis', slug: 'saint-denis' },
+              { name: 'Noisy-le-Grand', slug: 'noisy-le-grand' },
             ].map((city) => (
               <Link
                 key={city.slug}

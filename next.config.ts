@@ -20,6 +20,25 @@ const nextConfig: NextConfig = {
     },
   },
 
+  // City pages that no longer exist (removed from CITIES) or never existed
+  // (/services/maintenance/<ville>). Google kept crawling them and Search
+  // Console reported them as 404; send them permanently to the closest
+  // live page instead.
+  async redirects() {
+    const removedCities = [
+      'le-mee-sur-seine', 'villeneuve-saint-georges', 'montfermeil', 'roissy-en-brie',
+      'brie-comte-robert', 'tournan-en-brie', 'chevry-cossigny', 'brunoy', 'villeparisis',
+      'vigneux-sur-seine', 'nogent-sur-marne', 'montgeron', 'boissy-saint-leger',
+      'sucy-en-brie', 'paris-12', 'saint-denis',
+    ].join('|')
+    const services = 'pompe-a-chaleur|isolation|panneaux-solaires|audit'
+    return [
+      { source: `/services/:service(${services})/evry`, destination: '/services/:service/evry-courcouronnes', permanent: true },
+      { source: `/services/:service(${services})/:ville(${removedCities})`, destination: '/services/:service', permanent: true },
+      { source: '/services/maintenance/:ville((?!succes$)[^/]+)', destination: '/services/maintenance', permanent: true },
+    ]
+  },
+
   images: {
     qualities: [75],
     remotePatterns: [

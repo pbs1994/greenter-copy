@@ -73,7 +73,7 @@ function InternalLinksSection({ currentCitySlug, currentCityName }: { currentCit
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">Nos autres services à {currentCityName}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {otherServices.map((service) => (
-              <Link key={service.slug} href={`/services/${service.slug}/${currentCitySlug}`} className="flex items-start gap-3 p-4 bg-white rounded-xl border border-neutral-200 hover:border-green-300 hover:shadow-md transition-all group">
+              <Link key={service.slug} href={service.slug === "maintenance" ? "/services/maintenance" : `/services/${service.slug}/${currentCitySlug}`} className="flex items-start gap-3 p-4 bg-white rounded-xl border border-neutral-200 hover:border-green-300 hover:shadow-md transition-all group">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">{service.name}</p>

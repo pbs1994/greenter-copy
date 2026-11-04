@@ -719,9 +719,9 @@ export default function IsolationPourSolBeton() {
             {[
               { name: "Ozoir-la-Ferrière", slug: "ozoir-la-ferriere" },
               { name: "Pontault-Combault", slug: "pontault-combault" },
-              { name: "Roissy-en-Brie", slug: "roissy-en-brie" },
-              { name: "Brie-Comte-Robert", slug: "brie-comte-robert" },
-              { name: "Tournan-en-Brie", slug: "tournan-en-brie" },
+              { name: "Torcy", slug: "torcy" },
+              { name: "Combs-la-Ville", slug: "combs-la-ville" },
+              { name: "Lagny-sur-Marne", slug: "lagny-sur-marne" },
               { name: "Créteil", slug: "creteil" },
               { name: "Versailles", slug: "versailles" },
               { name: "Meaux", slug: "meaux" },

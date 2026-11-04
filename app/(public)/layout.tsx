@@ -50,9 +50,6 @@ export const metadata: Metadata = {
     description: "Expert certifié RGE : pompe à chaleur, panneaux solaires, isolation et audit énergétique. Économisez jusqu'à 70% sur vos factures avec MaPrimeRénov'. Devis gratuit sous 48h en Île-de-France.",
     images: ["https://www.greenter.fr/twitter_card.jpg"],
   },
-  alternates: {
-    canonical: "https://www.greenter.fr",
-  },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
     yandex: process.env.YANDEX_VERIFICATION,
