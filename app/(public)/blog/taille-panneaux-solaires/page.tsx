@@ -347,7 +347,11 @@ export default function TaillePanneauxSolaires() {
           </li>
           <li>
             <strong>9 kWc, 21 panneaux</strong> : grande maison très électrifiée, avec PAC,
-            véhicule électrique et souvent une batterie pour stocker la production de midi.
+            véhicule électrique et souvent une{' '}
+            <Link href="/blog/installation-panneau-solaire-avec-batterie" className={linkCls}>
+              batterie
+            </Link>{' '}
+            pour stocker la production de midi.
           </li>
         </ul>
 
@@ -356,8 +360,12 @@ export default function TaillePanneauxSolaires() {
           que l&apos;on pourra compléter plus tard si les besoins augmentent. Nos kits{' '}
           <Link href="/produits/kit-autoconsommation-3kwc" className={linkCls}>3 kWc</Link> et{' '}
           <Link href="/produits/kit-autoconsommation-6kwc" className={linkCls}>6 kWc</Link>{' '}
-          correspondent aux deux tailles les plus demandées. Pour la rentabilité détaillée de
-          chaque profil, consultez notre article sur les{' '}
+          correspondent aux deux tailles les plus demandées. Le prix de chaque puissance est
+          détaillé dans notre article sur le{' '}
+          <Link href="/blog/cout-installation-panneaux-solaires" className={linkCls}>
+            coût d&apos;installation des panneaux solaires
+          </Link>
+          , et la rentabilité de chaque profil dans celui sur les{' '}
           <Link href="/blog/avantages-panneaux-solaires" className={linkCls}>
             avantages des panneaux solaires
           </Link>.

@@ -9,6 +9,28 @@ import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 // un nouveau dossier + une entrée ici.
 const STATIC_ARTICLES = [
   {
+    id: 'cout-installation-panneaux-solaires',
+    title: "Coût d'installation des panneaux solaires en 2026 : prix réels et détail du devis",
+    slug: 'cout-installation-panneaux-solaires',
+    excerpt: "Coût d'installation des panneaux solaires en 2026 : prix pour 3, 6 ou 9 kWc, répartition du devis, frais annexes, aides restantes et rentabilité après la baisse du rachat.",
+    published_date: '2026-11-04',
+    image: '/images/blog/cout-installation-panneaux-solaires-pose-modules-toiture-tuiles.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
+    id: 'installation-panneau-solaire-avec-batterie',
+    title: "Installation panneau solaire avec batterie : prix, capacité et rentabilité en 2026",
+    slug: 'installation-panneau-solaire-avec-batterie',
+    excerpt: "Installation panneau solaire avec batterie : fonctionnement, capacité à choisir, prix posé, rentabilité depuis la baisse du rachat, emplacement et fonction secours.",
+    published_date: '2026-11-04',
+    image: '/images/blog/installation-panneau-solaire-avec-batterie-garage-maison.jpg',
+    readingTime: 15,
+    category: 'Guide',
+    featured: false,
+  },
+  {
     id: 'taille-panneaux-solaires',
     title: "Taille des panneaux solaires : dimensions, poids et surface à prévoir",
     slug: 'taille-panneaux-solaires',

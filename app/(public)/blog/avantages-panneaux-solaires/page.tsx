@@ -247,7 +247,11 @@ export default function AvantagesPanneauxSolaires() {
             <Link href="/produits/batterie-solaire-kstar-6kw" className={linkCls}>
               batterie solaire
             </Link>{' '}
-            si la consommation du soir reste élevée.
+            si la consommation du soir reste élevée. Notre article sur l&apos;
+            <Link href="/blog/installation-panneau-solaire-avec-batterie" className={linkCls}>
+              installation d&apos;un panneau solaire avec batterie
+            </Link>{' '}
+            détaille les prix et la capacité à choisir.
           </p>
         </ArticleCallout>
 
@@ -514,7 +518,12 @@ export default function AvantagesPanneauxSolaires() {
           par la chute du coût des modules. En 2026, une installation résidentielle posée sur
           toiture coûte en moyenne 2 000 à 2 800 € TTC par kWc pour 3 kWc, et un peu moins
           par kWc pour 6 à 9 kWc, car les frais fixes (étude, démarches, raccordement) se
-          répartissent sur plus de panneaux.
+          répartissent sur plus de panneaux. Le détail poste par poste figure dans notre
+          article sur le{' '}
+          <Link href="/blog/cout-installation-panneaux-solaires" className={linkCls}>
+            coût d&apos;installation des panneaux solaires
+          </Link>
+          .
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-4">
