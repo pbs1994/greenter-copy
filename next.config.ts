@@ -55,13 +55,12 @@ const nextConfig: NextConfig = {
 
     return [
       { source: '/(.*)', headers: securityHeaders },
-      // Next.js-bundled assets (fonts, JS chunks, split CSS, images)
+      // Next.js-bundled assets (fonts, JS chunks, split CSS)
       { source: '/_next/static/:path*', headers: noIndex },
-      // Next.js on-the-fly image optimizer
-      { source: '/_next/image(.*)', headers: noIndex },
-      // Binary assets from /public that search engines sometimes try to
-      // index as standalone URLs
-      { source: '/:all*(svg|png|jpg|jpeg|webp|gif|ico|avif)', headers: noIndex },
+      // Images (favicon, /public images, /_next/image) are deliberately NOT
+      // noindexed: Google drops a favicon served with X-Robots-Tag noindex
+      // (no site icon in search results), and noindexed images can't rank
+      // in Google Images or serve as article / Discover thumbnails.
       { source: '/:all*(woff|woff2|ttf|otf|eot)', headers: noIndex },
       { source: '/:all*(pdf|zip)', headers: noIndex },
       // IndexNow key file — must be fetchable by search engines but is
