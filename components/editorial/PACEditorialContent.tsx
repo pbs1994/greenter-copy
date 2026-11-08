@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { ChevronDown, Fan, Droplets, Mountain, Zap, Phone, ArrowRight, Check, CheckCircle, Euro, Shield, Leaf, AlertTriangle } from "lucide-react"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
-import { CITIES } from "@/lib/local-seo-data"
+import { PAC_CITIES } from "@/lib/local-seo-data"
 
 const PHONE = "06 09 45 50 56"
 
@@ -426,7 +426,7 @@ export function PACEditorialContent() {
             <strong>77 Seine-et-Marne</strong> et les communes limitrophes d'Île-de-France.
           </p>
           <div className="flex flex-wrap gap-2">
-            {CITIES.map((city) => (
+            {PAC_CITIES.map((city) => (
               <Link
                 key={city.slug}
                 href={`/services/pompe-a-chaleur/${city.slug}`}

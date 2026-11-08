@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { SITEMAP_CITIES } from '@/lib/local-seo-data'
+import { SITEMAP_CITIES, PAC_SITEMAP_CITIES } from '@/lib/local-seo-data'
 import { supabase } from '@/lib/supabase'
 
 const INDEXNOW_KEY = '85e908e620b042a3a0621df9da8a74d7'
@@ -55,7 +55,7 @@ async function getAllUrls(): Promise<string[]> {
   ]
 
   const localUrls = services.flatMap((service) =>
-    SITEMAP_CITIES.map((city) => `${SITE_URL}/services/${service}/${city.slug}`)
+    (service === 'pompe-a-chaleur' ? PAC_SITEMAP_CITIES : SITEMAP_CITIES).map((city) => `${SITE_URL}/services/${service}/${city.slug}`)
   )
 
   // Products + categories from Supabase

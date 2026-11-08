@@ -1,9 +1,12 @@
 import { MetadataRoute } from 'next'
-import { SITEMAP_CITIES } from '@/lib/local-seo-data'
+import { SITEMAP_CITIES, PAC_SITEMAP_CITIES, PAC_EXTRA_CITIES } from '@/lib/local-seo-data'
 import { supabase } from '@/lib/supabase'
 
 // Date de dernière mise à jour significative du contenu des pages locales
 const CITY_PAGES_UPDATED = new Date('2026-05-24')
+// Pages PAC locales : corrections aides 2026 + contenu local (nov. 2026)
+const PAC_PAGES_UPDATED = new Date('2026-11-08')
+const PAC_EXTRA_SLUGS = new Set(PAC_EXTRA_CITIES.map((c) => c.slug))
 
 // Tier 1 : grandes villes / chefs-lieux — fort potentiel de trafic local
 const HIGH_PRIORITY_CITIES = new Set([
@@ -49,6 +52,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/blog/consommation-pompe-a-chaleur-maison-100m2`, lastModified: new Date('2026-05-27'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/blog/puissance-pompe-a-chaleur`, lastModified: new Date('2026-05-27'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/blog/meilleur-isolant-thermique-murs-interieur-2026`, lastModified: new Date('2026-05-22'), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/blog/aide-pompe-a-chaleur-2026`, lastModified: new Date('2026-11-08'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/remplacer-chaudiere-fioul-par-pompe-a-chaleur`, lastModified: new Date('2026-11-08'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/pompe-a-chaleur-haute-temperature`, lastModified: new Date('2026-11-08'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/prix-pompe-a-chaleur-air-air`, lastModified: new Date('2026-11-08'), changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${baseUrl}/blog/chauffe-eau-thermodynamique-prix`, lastModified: new Date('2026-11-08'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/cout-installation-panneaux-solaires`, lastModified: new Date('2026-11-04'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/installation-panneau-solaire-avec-batterie`, lastModified: new Date('2026-11-04'), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/blog/taille-panneaux-solaires`, lastModified: new Date('2026-10-30'), changeFrequency: 'monthly', priority: 0.75 },
@@ -87,11 +95,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages locales SEO (villes × services)
   const localServices = ['pompe-a-chaleur', 'panneaux-solaires', 'isolation', 'audit']
   const localPages: MetadataRoute.Sitemap = localServices.flatMap((service) =>
-    SITEMAP_CITIES.map((city) => ({
+    (service === 'pompe-a-chaleur' ? PAC_SITEMAP_CITIES : SITEMAP_CITIES).map((city) => ({
       url: `${baseUrl}/services/${service}/${city.slug}`,
-      lastModified: CITY_PAGES_UPDATED,
+      lastModified: service === 'pompe-a-chaleur' ? PAC_PAGES_UPDATED : CITY_PAGES_UPDATED,
       changeFrequency: 'monthly' as const,
-      priority: cityPriority(city.slug),
+      priority: PAC_EXTRA_SLUGS.has(city.slug) ? 0.62 : cityPriority(city.slug),
     }))
   )
 

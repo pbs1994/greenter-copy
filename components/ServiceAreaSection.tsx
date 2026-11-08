@@ -5,7 +5,7 @@
 
 import Link from "next/link"
 import { CheckCircle, ArrowRight } from "lucide-react"
-import { CITIES } from "@/lib/local-seo-data"
+import { CITIES, type City } from "@/lib/local-seo-data"
 import { cn } from "@/lib/utils"
 
 // -----------------------------------------------------------------------------
@@ -21,6 +21,8 @@ interface ServiceAreaSectionProps {
   serviceSlug?: string
   /** Classes CSS additionnelles */
   className?: string
+  /** Liste de villes à afficher (défaut : CITIES) */
+  cities?: City[]
 }
 
 // -----------------------------------------------------------------------------
@@ -32,6 +34,7 @@ export default function ServiceAreaSection({
   showCTA = true,
   serviceSlug,
   className,
+  cities = CITIES,
 }: ServiceAreaSectionProps) {
   return (
     <section
@@ -52,7 +55,7 @@ export default function ServiceAreaSection({
 
         {/* Grille des villes */}
         <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
-          {CITIES.map((city) => (
+          {cities.map((city) => (
             <li
               key={city.slug}
               className="flex items-center gap-2 text-neutral-700"

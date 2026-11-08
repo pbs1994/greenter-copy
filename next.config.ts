@@ -26,15 +26,19 @@ const nextConfig: NextConfig = {
   // live page instead.
   async redirects() {
     const removedCities = [
-      'le-mee-sur-seine', 'villeneuve-saint-georges', 'montfermeil', 'roissy-en-brie',
-      'brie-comte-robert', 'tournan-en-brie', 'chevry-cossigny', 'brunoy', 'villeparisis',
+      'le-mee-sur-seine', 'villeneuve-saint-georges', 'montfermeil', 'brunoy', 'villeparisis',
       'vigneux-sur-seine', 'nogent-sur-marne', 'montgeron', 'boissy-saint-leger',
       'sucy-en-brie', 'paris-12', 'saint-denis',
     ].join('|')
+    // Back as PAC-only pages (PAC_EXTRA_CITIES, nov. 2026): still redirected
+    // for the other services, which have no page for these cities.
+    const pacOnlyCities = ['roissy-en-brie', 'brie-comte-robert', 'tournan-en-brie', 'chevry-cossigny'].join('|')
     const services = 'pompe-a-chaleur|isolation|panneaux-solaires|audit'
+    const nonPacServices = 'isolation|panneaux-solaires|audit'
     return [
       { source: `/services/:service(${services})/evry`, destination: '/services/:service/evry-courcouronnes', permanent: true },
       { source: `/services/:service(${services})/:ville(${removedCities})`, destination: '/services/:service', permanent: true },
+      { source: `/services/:service(${nonPacServices})/:ville(${pacOnlyCities})`, destination: '/services/:service', permanent: true },
       { source: '/services/maintenance/:ville((?!succes$)[^/]+)', destination: '/services/maintenance', permanent: true },
     ]
   },

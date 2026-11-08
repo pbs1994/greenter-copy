@@ -7,7 +7,8 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, Shield, Clock, Star, Zap } from "lucide-react"
-import { CITIES, SERVICES, COMPANY_ADDRESS, COMPANY_PHONES } from "@/lib/local-seo-data"
+import { PAC_CITIES, SERVICES, COMPANY_ADDRESS, COMPANY_PHONES, nearestCities, distanceKm, hasAllServicePages } from "@/lib/local-seo-data"
+import { getPacLocalContent } from "@/lib/pac-local-content"
 import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
@@ -16,8 +17,30 @@ import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel"
 import ServiceAreaSection from "@/components/ServiceAreaSection"
 import { PhoneCallTracker } from "@/components/PhoneCallTracker"
 
+// « en Seine-et-Marne », « dans le Val-de-Marne », « dans les Yvelines »…
+function inDept(department: string): string {
+  switch (department) {
+    case "Val-de-Marne": return "dans le Val-de-Marne"
+    case "Yvelines": return "dans les Yvelines"
+    case "Paris": return "à Paris"
+    case "Essonne": return "en Essonne"
+    default: return `en ${department}`
+  }
+}
+
+// « dans toute la Seine-et-Marne », « dans tout le Val-de-Marne »…
+function acrossDept(department: string): string {
+  switch (department) {
+    case "Val-de-Marne": return "dans tout le Val-de-Marne"
+    case "Yvelines": return "dans toutes les Yvelines"
+    case "Paris": return "dans tout Paris"
+    case "Essonne": return "dans toute l'Essonne"
+    default: return `dans toute la ${department}`
+  }
+}
+
 export async function generateStaticParams() {
-  return CITIES.map((city) => ({ ville: city.slug }))
+  return PAC_CITIES.map((city) => ({ ville: city.slug }))
 }
 
 export async function generateMetadata({
@@ -26,14 +49,14 @@ export async function generateMetadata({
   params: Promise<{ ville: string }>
 }): Promise<Metadata> {
   const { ville } = await params
-  const city = CITIES.find((c) => c.slug === ville)
+  const city = PAC_CITIES.find((c) => c.slug === ville)
 
   if (!city) {
     return { title: "Page non trouvée | Greenter" }
   }
 
   const title = `Pompe à Chaleur ${city.name} (${city.postalCode}) | Greenter`
-  const description = `Installation pompe à chaleur à ${city.name} par Greenter, certifié RGE QualiPAC. Jusqu'à 70% d'économies. Devis gratuit sous 48h. Intervention en Seine-et-Marne.`
+  const description = `Installation pompe à chaleur à ${city.name} (${city.postalCode}) par Greenter, certifié RGE QualiPAC. Aides 2026 déduites du devis, devis gratuit sous 48h. Intervention ${inDept(city.department)}.`
 
   return {
     title,
@@ -83,20 +106,31 @@ function LocalServiceSchema({ cityName, citySlug, postalCode }: { cityName: stri
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 }
 
+const PAC_ARTICLES = [
+  { href: "/blog/aide-pompe-a-chaleur-2026", label: "Aides pompe à chaleur 2026" },
+  { href: "/blog/remplacer-chaudiere-fioul-par-pompe-a-chaleur", label: "Remplacer une chaudière fioul par une PAC" },
+  { href: "/blog/remplacer-chaudiere-gaz-pompe-a-chaleur-2026", label: "Remplacer une chaudière gaz par une PAC" },
+  { href: "/blog/pompe-a-chaleur-haute-temperature", label: "PAC haute température et radiateurs fonte" },
+  { href: "/blog/prix-pompe-a-chaleur-air-air", label: "Prix d'une pompe à chaleur air-air" },
+  { href: "/blog/chauffe-eau-thermodynamique-prix", label: "Prix d'un chauffe-eau thermodynamique" },
+]
+
 function InternalLinksSection({ currentCitySlug, currentCityName }: { currentCitySlug: string; currentCityName: string }) {
   const otherServices = SERVICES.filter((s) => s.slug !== "pompe-a-chaleur")
-  const neighboringCities = CITIES.filter((c) => c.slug !== currentCitySlug)
+  const neighboringCities = nearestCities(currentCitySlug, PAC_CITIES, 8)
+  // Les villes PAC-only n'ont pas de page isolation / solaire / audit
+  const hasCityPages = hasAllServicePages(currentCitySlug)
 
   return (
     <section className="py-12 md:py-16 bg-neutral-50">
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mb-12">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
-            Nos autres services à {currentCityName}
+            {hasCityPages ? <>Nos autres services à {currentCityName}</> : <>Nos autres services</>}
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {otherServices.map((service) => (
-              <Link key={service.slug} href={service.slug === "maintenance" ? "/services/maintenance" : `/services/${service.slug}/${currentCitySlug}`} className="flex items-start gap-3 p-4 bg-white rounded-xl border border-neutral-200 hover:border-green-300 hover:shadow-md transition-all group">
+              <Link key={service.slug} href={service.slug === "maintenance" || !hasCityPages ? `/services/${service.slug}` : `/services/${service.slug}/${currentCitySlug}`} className="flex items-start gap-3 p-4 bg-white rounded-xl border border-neutral-200 hover:border-green-300 hover:shadow-md transition-all group">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-neutral-900 group-hover:text-green-700 transition-colors">{service.name}</p>
@@ -119,6 +153,19 @@ function InternalLinksSection({ currentCitySlug, currentCityName }: { currentCit
             ))}
           </div>
         </div>
+        <div className="mt-12">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
+            Nos conseils pour votre projet de pompe à chaleur
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {PAC_ARTICLES.map((a) => (
+              <Link key={a.href} href={a.href} className="flex items-center justify-between gap-2 p-4 bg-white rounded-lg border border-neutral-200 hover:border-green-300 hover:shadow-sm transition-all group">
+                <span className="text-sm font-medium text-neutral-700 group-hover:text-green-700 transition-colors">{a.label}</span>
+                <ArrowRight className="w-4 h-4 text-green-600 flex-shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -126,26 +173,28 @@ function InternalLinksSection({ currentCitySlug, currentCityName }: { currentCit
 
 export default async function LocalPACPage({ params }: { params: Promise<{ ville: string }> }) {
   const { ville } = await params
-  const city = CITIES.find((c) => c.slug === ville)
+  const city = PAC_CITIES.find((c) => c.slug === ville)
 
   if (!city) notFound()
 
   const cityData = getCityData(city.slug)
+  const local = getPacLocalContent(city.slug)
+  const kmFromAgency = distanceKm("ozoir-la-ferriere", city.slug)
 
   const faqs = [
     {
       question: `Combien coûte l'installation d'une pompe à chaleur à ${city.name} ?`,
       answer: cityData
-        ? `À ${city.name}, où ${cityData.pctChauffageGaz}% des logements sont chauffés au gaz et la consommation moyenne atteint ${cityData.consommationMoyenne} kWh/m²/an, le coût d'une PAC varie entre 8 000€ et 18 000€ selon le modèle. Avec MaPrimeRénov' et les CEE, le reste à charge peut être réduit de 50 à 70%, soit une économie de ${cityData.economieChauffage} par an sur votre facture.`
-        : `Le coût d'installation d'une pompe à chaleur à ${city.name} varie entre 8 000€ et 18 000€ selon le modèle (air-eau ou air-air) et la surface de votre logement. Grâce aux aides MaPrimeRénov' et CEE, le reste à charge peut être réduit de 50 à 70%.`,
+        ? `À ${city.name}, où ${cityData.pctChauffageGaz}% des logements sont chauffés au gaz et la consommation moyenne atteint ${cityData.consommationMoyenne} kWh/m²/an, le coût d'une PAC varie entre 8 000€ et 18 000€ selon le modèle. Avec MaPrimeRénov' et les CEE, la facture d'installation baisse de 30 à 60 % selon vos revenus, pour une économie de ${cityData.economieChauffage} par an sur votre facture.`
+        : `Le coût d'installation d'une pompe à chaleur à ${city.name} varie entre 8 000€ et 18 000€ selon le modèle (air-eau ou air-air) et la surface de votre logement. Grâce aux aides MaPrimeRénov' et CEE, la facture d'installation baisse de 30 à 60 % selon vos revenus.`,
     },
     {
       question: `Quelles aides pour une pompe à chaleur à ${city.name} (${city.postalCode}) ?`,
-      answer: `Les habitants de ${city.name} (${city.postalCode}) en ${city.department} peuvent bénéficier de MaPrimeRénov' (jusqu'à 5 000€), des primes CEE, de l'éco-PTZ (jusqu'à 50 000€) et d'une TVA réduite à 5,5%. ${cityData ? `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques dans la commune, de nombreux foyers sont éligibles aux aides les plus élevées.` : ''} Greenter vous accompagne dans toutes les démarches.`,
+      answer: `Les habitants de ${city.name} (${city.postalCode}) ${inDept(city.department)} peuvent bénéficier de MaPrimeRénov' pour une PAC air-eau (3 000 à 5 000 € selon les revenus), de la prime CEE, bonifiée par le Coup de pouce chauffage si la PAC remplace une chaudière fioul ou gaz et figure sur la liste des modèles agréés, de l'éco-PTZ (jusqu'à 15 000 € pour ce seul geste) et d'une TVA réduite à 5,5%. ${cityData ? `Avec ${cityData.pctPassoiresThermiques}% de passoires thermiques dans la commune, de nombreux foyers sont éligibles aux aides les plus élevées.` : ''} Greenter vous accompagne dans toutes les démarches.`,
     },
     {
       question: `Greenter intervient-il à ${city.name} pour installer une PAC ?`,
-      answer: `Oui, Greenter intervient à ${city.name} et dans toute la ${city.department}. ${cityData ? `Nous connaissons bien le parc immobilier local, construit majoritairement ${cityData.anneeConstruction}, avec ${cityData.pctMaisons}% de maisons individuelles.` : ''} Nos techniciens certifiés RGE QualiPAC réalisent l'étude, l'installation et la mise en service. Devis gratuit sous 48h.`,
+      answer: `Oui, Greenter intervient à ${city.name} et ${acrossDept(city.department)}. ${cityData ? `Nous connaissons bien le parc immobilier local, construit majoritairement ${cityData.anneeConstruction}, avec ${cityData.pctMaisons}% de maisons individuelles.` : ''} Nos techniciens certifiés RGE QualiPAC réalisent l'étude, l'installation et la mise en service. Devis gratuit sous 48h.`,
     },
     {
       question: `Quelle pompe à chaleur choisir à ${city.name} ?`,
@@ -155,7 +204,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
     },
     ...(cityData && cityData.pctChauffageFioul >= 10 ? [{
       question: `Peut-on remplacer une chaudière fioul par une PAC à ${city.name} ?`,
-      answer: `Absolument, et c'est même urgent : à ${city.name}, ${cityData.pctChauffageFioul}% des logements sont encore chauffés au fioul. L'interdiction d'installer de nouvelles chaudières fioul est en vigueur depuis 2022, et le remplacement sera obligatoire d'ici 2028. La PAC air-eau remplace directement la chaudière fioul sur le circuit de radiateurs existant. La prime "coup de pouce chauffage" peut atteindre 5 000€ pour ce type de remplacement.`,
+      answer: `Oui. À ${city.name}, ${cityData.pctChauffageFioul}% des logements sont encore chauffés au fioul. Depuis le 1er juillet 2022, il est interdit d'installer une chaudière fioul neuve : votre chaudière actuelle peut continuer à fonctionner, mais elle ne pourra pas être remplacée à l'identique. La PAC air-eau se raccorde au circuit de radiateurs existant. Ce remplacement ouvre droit à MaPrimeRénov' et au Coup de pouce chauffage, réservé depuis le 1er septembre 2026 aux PAC figurant sur la liste des modèles agréés.`,
     }] : []),
   ]
 
@@ -226,8 +275,8 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                   <p className="text-xs text-emerald-300/80 font-medium">votre facture</p>
                 </div>
                 <div className="relative bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
-                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">8 000€</p>
-                  <p className="text-xs text-emerald-300/80 font-medium">d&apos;aides MaPrimeRénov&apos;</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-white mb-1">5 000€</p>
+                  <p className="text-xs text-emerald-300/80 font-medium">MaPrimeRénov&apos; max.</p>
                 </div>
                 <div className="relative bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-1">48h</p>
@@ -253,7 +302,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
               {/* Urgence banner */}
               <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-400/30 rounded-xl px-4 py-2.5">
                 <Zap className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                <p className="text-amber-200/90 text-sm">Aides MaPrimeRénov&apos; 2026 : <strong>jusqu&apos;à 8 000€</strong> — avant la baisse prévue en 2027</p>
+                <p className="text-amber-200/90 text-sm">Aides 2026 : <strong>jusqu&apos;à 5 000 € de MaPrimeRénov&apos;</strong> + prime CEE pour une PAC air-eau</p>
               </div>
             </div>
 
@@ -263,7 +312,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                 {/* Card header */}
                 <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 px-6 py-5">
                   <h2 className="text-lg font-bold text-white">Pompe à chaleur à {city.name}</h2>
-                  <p className="text-emerald-100 text-sm">Prix après aides MaPrimeRénov&apos;</p>
+                  <p className="text-emerald-100 text-sm">Prix indicatifs posés</p>
                 </div>
 
                 <div className="p-6">
@@ -272,12 +321,12 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                     <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
                       <p className="text-slate-500 text-xs font-medium mb-1">PAC Air/Air</p>
                       <p className="text-2xl font-bold text-slate-900">1 500€</p>
-                      <p className="text-slate-400 text-xs">par unité installée</p>
+                      <p className="text-slate-400 text-xs">à partir de, par unité</p>
                     </div>
                     <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200">
                       <p className="text-slate-500 text-xs font-medium mb-1">PAC Air/Eau</p>
                       <p className="text-2xl font-bold text-slate-900">5 000€</p>
-                      <p className="text-slate-400 text-xs">à partir de</p>
+                      <p className="text-slate-400 text-xs">à partir de, après aides</p>
                     </div>
                   </div>
 
@@ -312,7 +361,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                     </div>
                   )}
 
-                  <p className="text-xs text-slate-400 text-center mb-4 italic">Prix indicatifs après aides. Devis personnalisé gratuit.</p>
+                  <p className="text-xs text-slate-400 text-center mb-4 italic">Air-eau : reste à charge après MaPrimeRénov&apos; et CEE pour un ménage modeste. Air-air : non éligible à MaPrimeRénov&apos;. Devis personnalisé gratuit.</p>
 
                   {/* CTA Téléphone */}
                   <PhoneCallTracker
@@ -372,10 +421,10 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
             Pourquoi installer une pompe à chaleur à {city.name} ?
           </h2>
           <p className="text-neutral-600 text-lg leading-relaxed mb-4">
-            À {city.name} ({city.postalCode}), en {city.department}, la pompe à chaleur est la solution idéale pour réduire vos factures de chauffage tout en améliorant votre confort. Greenter, votre installateur certifié RGE, vous accompagne dans votre projet de A à Z.
+            À {city.name} ({city.postalCode}), {inDept(city.department)}, la pompe à chaleur est la solution idéale pour réduire vos factures de chauffage tout en améliorant votre confort. Greenter, votre installateur certifié RGE, vous accompagne dans votre projet de A à Z.
           </p>
           <p className="text-neutral-600 text-lg leading-relaxed mb-4">
-            Nos techniciens interviennent à {city.name} et dans toute la {city.department} pour l&apos;installation de pompes à chaleur air-eau et air-air. Bénéficiez des aides MaPrimeRénov&apos; et des primes CEE pour réduire le coût de votre installation.
+            Nos techniciens interviennent à {city.name} et {acrossDept(city.department)} pour l&apos;installation de pompes à chaleur air-eau et air-air. Bénéficiez des aides MaPrimeRénov&apos; et des primes CEE pour réduire le coût de votre installation.
           </p>
           <div className="grid sm:grid-cols-3 gap-4 mt-8">
             <div className="bg-green-50 rounded-xl p-5 text-center"><p className="text-3xl font-bold text-green-700 mb-1">70%</p><p className="text-sm text-neutral-600">d&apos;économies sur le chauffage</p></div>
@@ -480,6 +529,57 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
         </div>
       </section>
 
+      {/* ===== SECTION : Contenu local (lib/pac-local-content.ts) ===== */}
+      {local && (
+        <section className="py-12 md:py-16 bg-white border-t border-neutral-100">
+          <div className="container mx-auto max-w-4xl px-4">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-3">
+              {local.titre}
+            </h2>
+            {kmFromAgency !== null && (
+              <p className="inline-flex items-center gap-2 text-sm text-green-800 bg-green-50 border border-green-100 rounded-full px-3 py-1 mb-6">
+                <MapPin className="w-4 h-4" />
+                {kmFromAgency < 1
+                  ? "Notre agence est à Ozoir-la-Ferrière"
+                  : `À ${Math.round(kmFromAgency)} km de notre agence d'Ozoir-la-Ferrière`}
+              </p>
+            )}
+            <h3 className="font-heading text-xl font-bold text-neutral-900 mb-3">Le bâti à {city.name}</h3>
+            <p className="text-neutral-600 text-lg leading-relaxed mb-6">{local.habitat}</p>
+            <h3 className="font-heading text-xl font-bold text-neutral-900 mb-3">Urbanisme et voisinage : ce qu&apos;il faut savoir avant la pose</h3>
+            <p className="text-neutral-600 text-lg leading-relaxed mb-8">{local.urbanisme}</p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {local.conseils.map((c) => (
+                <div key={c.titre} className="bg-neutral-50 rounded-xl border border-neutral-200 p-5">
+                  <h3 className="font-semibold text-neutral-900 mb-2">{c.titre}</h3>
+                  <p className="text-sm text-neutral-600 leading-relaxed">{c.texte}</p>
+                </div>
+              ))}
+            </div>
+            {local.realisations.length > 0 && (
+              <div className="mt-10">
+                <h3 className="font-heading text-xl font-bold text-neutral-900 mb-4">Nos installations à {city.name}</h3>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {local.realisations.map((r) => (
+                    <article key={r.titre + r.date} className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+                      {r.image && (
+                        <Image src={r.image} alt={r.imageAlt ?? r.titre} width={640} height={420} className="w-full h-48 object-cover" />
+                      )}
+                      <div className="p-5">
+                        <h4 className="font-semibold text-neutral-900 mb-1">{r.titre}</h4>
+                        <p className="text-xs text-neutral-500 mb-3">{r.lieu} · {r.date}</p>
+                        <p className="text-sm text-neutral-600"><strong>Logement :</strong> {r.logement}</p>
+                        <p className="text-sm text-neutral-600"><strong>Équipement :</strong> {r.equipement}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* ===== SECTION : Quelle PAC choisir ===== */}
       <section className="py-12 md:py-16 bg-neutral-50">
         <div className="container mx-auto max-w-4xl px-4">
@@ -501,7 +601,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
               </p>
               {cityData.pctChauffageFioul >= 10 && (
                 <p className="text-neutral-600 text-lg leading-relaxed mb-5">
-                  Le fioul représente encore {cityData.pctChauffageFioul}% du chauffage à {city.name}. Pour ces foyers, le passage à la PAC est urgent : l&apos;interdiction d&apos;installer de nouvelles chaudières fioul est effective depuis 2022, et leur remplacement sera obligatoire d&apos;ici 2028. La PAC air-eau haute température (65°C) peut fonctionner sur les anciens radiateurs fonte sans modification du circuit. La prime &quot;coup de pouce chauffage&quot; peut atteindre 5 000€ pour ce remplacement.
+                  Le fioul représente encore {cityData.pctChauffageFioul}% du chauffage à {city.name}. Depuis le 1er juillet 2022, une chaudière fioul neuve ne peut plus être installée : quand l&apos;ancienne tombe en panne, il faut changer d&apos;énergie. La PAC air-eau haute température (65°C) peut fonctionner sur les anciens radiateurs fonte sans modification du circuit. Ce remplacement ouvre droit au Coup de pouce chauffage, à condition de choisir une PAC figurant sur la liste des modèles agréés (obligatoire depuis le 1er septembre 2026).
                 </p>
               )}
             </>
@@ -518,7 +618,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Compatible radiateurs et plancher chauffant existants</li>
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Produit aussi l&apos;eau chaude sanitaire</li>
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />COP de 3 à 5 selon température extérieure</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />MaPrimeRénov&apos; jusqu&apos;à 8 000€</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />MaPrimeRénov&apos; de 3 000 à 5 000 € selon revenus</li>
               </ul>
             </div>
             <div className="bg-white rounded-xl border border-neutral-200 p-5">
@@ -527,7 +627,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Chauffe en hiver, rafraîchit en été</li>
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Installation rapide (1 journée)</li>
                 <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />Idéale pour remplacer les convecteurs électriques</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />À partir de 1 500€ posée avec aides</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />À partir de 1 500 € posée (non éligible à MaPrimeRénov&apos;)</li>
               </ul>
             </div>
           </div>
@@ -542,7 +642,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
           </h2>
           {cityData && (
             <p className="text-neutral-600 text-lg leading-relaxed mb-6">
-              À {city.name}, avec un DPE moyen {cityData.dpeMoyen} et {cityData.pctPassoiresThermiques}% de passoires thermiques, la plupart des foyers sont éligibles à MaPrimeRénov&apos;. L&apos;aide est calculée selon vos revenus et la nature des travaux. Pour un ménage à revenus intermédiaires remplaçant une chaudière gaz par une PAC air-eau, l&apos;aide peut atteindre 4 000 à 6 000€, réduisant le reste à charge à 4 000-8 000€ pour un équipement qui durera 15 à 20 ans.
+              À {city.name}, avec un DPE moyen {cityData.dpeMoyen} et {cityData.pctPassoiresThermiques}% de passoires thermiques, la plupart des foyers sont éligibles à MaPrimeRénov&apos;. L&apos;aide est calculée selon vos revenus et la nature des travaux. Pour un ménage à revenus intermédiaires remplaçant une chaudière gaz par une PAC air-eau, MaPrimeRénov&apos; apporte 3 000 €, auxquels s&apos;ajoute la prime CEE dont le montant dépend du fournisseur d&apos;énergie, de la surface chauffée et du modèle. Le reste à charge se situe souvent entre 7 000 et 12 000 € pour un équipement qui durera 15 à 20 ans.
             </p>
           )}
           <div className="grid sm:grid-cols-3 gap-4 mb-8">
@@ -561,10 +661,10 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
           <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 border border-green-100">
             <h3 className="font-semibold text-neutral-900 mb-3">Les aides cumulables à {city.name} en 2026</h3>
             <div className="grid sm:grid-cols-2 gap-3 text-sm">
-              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>MaPrimeRénov&apos;</strong> : jusqu&apos;à 8 000€ pour une PAC air-eau</span></div>
-              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>CEE</strong> : prime versée par les fournisseurs d&apos;énergie</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>MaPrimeRénov&apos;</strong> : 3 000 à 5 000 € pour une PAC air-eau, selon les revenus</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>CEE</strong> : prime des fournisseurs d&apos;énergie, bonifiée si la PAC agréée remplace du fioul ou du gaz</span></div>
               <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>TVA à 5,5%</strong> sur l&apos;équipement et la pose</span></div>
-              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>Éco-PTZ</strong> : prêt sans intérêts jusqu&apos;à 50 000€</span></div>
+              <div className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" /><span className="text-neutral-700"><strong>Éco-PTZ</strong> : prêt sans intérêts jusqu&apos;à 15 000 € pour une PAC seule</span></div>
             </div>
           </div>
         </div>
@@ -592,7 +692,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       </section>
 
       <GoogleReviewsCarousel className="bg-neutral-50" />
-      <ServiceAreaSection className="bg-white" serviceSlug="pompe-a-chaleur" />
+      <ServiceAreaSection className="bg-white" serviceSlug="pompe-a-chaleur" cities={PAC_CITIES} />
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-green-900 via-green-800 to-teal-900">
@@ -601,7 +701,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
             Prêt à installer votre pompe à chaleur à {city.name} ?
           </h2>
           <p className="text-green-100 text-lg mb-8 max-w-2xl mx-auto">
-            Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et dans toute la {city.department}.
+            Obtenez votre devis personnalisé gratuit sous 48h. Nos experts interviennent à {city.name} et {acrossDept(city.department)}.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-base px-8 py-4">Demander mon devis gratuit<ArrowRight className="w-5 h-5" /></Link>
