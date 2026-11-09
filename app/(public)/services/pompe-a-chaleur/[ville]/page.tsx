@@ -9,6 +9,7 @@ import Image from "next/image"
 import { ArrowRight, CheckCircle, Phone, MapPin, Shield, Clock, Star, Zap } from "lucide-react"
 import { PAC_CITIES, SERVICES, COMPANY_ADDRESS, COMPANY_PHONES, nearestCities, distanceKm, hasAllServicePages } from "@/lib/local-seo-data"
 import { getPacLocalContent } from "@/lib/pac-local-content"
+import RichCityContent from "./RichCityContent"
 import { getCityData } from "@/lib/city-data"
 import { BreadcrumbSchema } from "@/components/schemas/BreadcrumbSchema"
 import { FAQPageSchema } from "@/components/schemas/FAQPageSchema"
@@ -55,8 +56,9 @@ export async function generateMetadata({
     return { title: "Page non trouvée | Greenter" }
   }
 
-  const title = `Pompe à Chaleur ${city.name} (${city.postalCode}) | Greenter`
-  const description = `Installation pompe à chaleur à ${city.name} (${city.postalCode}) par Greenter, certifié RGE QualiPAC. Aides 2026 déduites du devis, devis gratuit sous 48h. Intervention ${inDept(city.department)}.`
+  const rich = getPacLocalContent(city.slug)?.rich
+  const title = rich ? `${rich.metaTitle} | Greenter` : `Pompe à Chaleur ${city.name} (${city.postalCode}) | Greenter`
+  const description = rich ? rich.metaDescription : `Installation pompe à chaleur à ${city.name} (${city.postalCode}) par Greenter, certifié RGE QualiPAC. Aides 2026 déduites du devis, devis gratuit sous 48h. Intervention ${inDept(city.department)}.`
 
   return {
     title,
@@ -180,8 +182,9 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
   const cityData = getCityData(city.slug)
   const local = getPacLocalContent(city.slug)
   const kmFromAgency = distanceKm("ozoir-la-ferriere", city.slug)
+  const rich = local?.rich
 
-  const faqs = [
+  const genericFaqs = [
     {
       question: `Combien coûte l'installation d'une pompe à chaleur à ${city.name} ?`,
       answer: cityData
@@ -207,6 +210,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       answer: `Oui. À ${city.name}, ${cityData.pctChauffageFioul}% des logements sont encore chauffés au fioul. Depuis le 1er juillet 2022, il est interdit d'installer une chaudière fioul neuve : votre chaudière actuelle peut continuer à fonctionner, mais elle ne pourra pas être remplacée à l'identique. La PAC air-eau se raccorde au circuit de radiateurs existant. Ce remplacement ouvre droit à MaPrimeRénov' et au Coup de pouce chauffage, réservé depuis le 1er septembre 2026 aux PAC figurant sur la liste des modèles agréés.`,
     }] : []),
   ]
+  const faqs = rich ? rich.faq : genericFaqs
 
   const breadcrumbItems = [
     { name: "Accueil", url: "https://www.greenter.fr" },
@@ -255,14 +259,16 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
 
               {/* H1 — benefit-first */}
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-5">
+                {rich ? rich.h1 : (<>
                 Divisez votre facture de{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">chauffage par 3</span>
                 {' '}à {city.name}
+              </>)}
               </h1>
 
               {/* Sous-titre contextualisé */}
               <p className="text-emerald-100/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
-                {cityData
+                {rich ? rich.heroSubtitle : cityData
                   ? `${cityData.pctChauffageGaz}% des foyers de ${city.name} sont encore au gaz. Passez à la PAC et économisez ${cityData.economieChauffage}/an. Posé en 1 à 2 jours.`
                   : `Installation pompe à chaleur certifiée RGE à ${city.name}. Économisez jusqu'à 70% sur votre chauffage. Posé en 1 à 2 jours.`
                 }
@@ -415,6 +421,10 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
         </div>
       </section>
 
+      {rich && local ? (
+        <RichCityContent cityName={city.name} local={local} rich={rich} kmFromAgency={kmFromAgency} />
+      ) : (
+      <>
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto max-w-4xl px-4">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-6">
@@ -670,6 +680,9 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
         </div>
       </section>
 
+      </>
+      )}
+
       <section className="py-12 md:py-16 bg-neutral-50">
         <div className="container mx-auto max-w-4xl px-4">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-neutral-900 mb-8">
@@ -692,7 +705,7 @@ export default async function LocalPACPage({ params }: { params: Promise<{ ville
       </section>
 
       <GoogleReviewsCarousel className="bg-neutral-50" />
-      <ServiceAreaSection className="bg-white" serviceSlug="pompe-a-chaleur" cities={PAC_CITIES} />
+      {!rich && <ServiceAreaSection className="bg-white" serviceSlug="pompe-a-chaleur" cities={PAC_CITIES} />}
       <InternalLinksSection currentCitySlug={city.slug} currentCityName={city.name} />
 
       <section className="py-16 md:py-20 bg-gradient-to-br from-green-900 via-green-800 to-teal-900">
